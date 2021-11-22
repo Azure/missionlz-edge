@@ -19,3 +19,7 @@ assignees: ''
 
 -  
 -  
+
+## Level of Effort
+
+*Use the T-Shirt sizing "XS, S, M, L, XL, XXL" scale to estimate the level of effort to complete this issue. XS is 1/2 day effort, S is a single day effort, etc.*
