@@ -3,7 +3,6 @@
 
 name: validate-build-bicep
 on:
- push:
  pull_request:
     branches:
       - main
