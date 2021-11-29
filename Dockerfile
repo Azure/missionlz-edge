@@ -40,6 +40,15 @@ RUN pwsh -Command "Install-Module -Name Az -Scope CurrentUser -Repository PSGall
 #Install Azs.Syndication.Admin
 RUN pwsh -Command "Install-Module -Name Azs.Syndication.Admin -RequiredVersion 0.1.140 -Force"
 
+# Add repo source files
+#JJ TO DO NEED to change release code to pull the mlz-edge code base when we have a release
+RUN mkdir /workspaces
+RUN mkdir /workspaces/missionlz-edge
+RUN wget https://github.com/Azure/missionlz/archive/refs/tags/v2021.10.2.zip
+RUN unzip v2021.10.2.zip
+RUN mv missionlz-2021.10.2 /workspaces/missionlz-edge
+RUN rm -rf v2021.10.2.zip
+
 # Add the edge user
 ARG USERNAME=edge
 ARG USER_UID=1000
