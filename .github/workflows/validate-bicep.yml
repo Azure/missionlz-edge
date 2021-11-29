@@ -20,4 +20,4 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - run: |
-          find src/bicep/ -name modules -prune -o -name *.bicep* -print -exec az bicep build --file '{}' \;
+          find src/bicep/ -name modules -prune -o -name '*.bicep' -print -exec az bicep build --file '{}' \;
