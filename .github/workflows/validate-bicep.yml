@@ -15,9 +15,10 @@ jobs:
   validate-bicep:
     runs-on: ubuntu-latest
     continue-on-error: false
-    steps:
-      - uses: actions/checkout@v2
+    steps: 
+      - name: Pass the received secret to an action
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - run: |
+        run: |
           find src/bicep/ -name modules -prune -o -name *.bicep -print -exec az bicep build --file '{}' \;
