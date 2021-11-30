@@ -15,9 +15,9 @@ jobs:
   validate-bicep:
     runs-on: ubuntu-latest
     continue-on-error: false
-    steps:
+    steps: 
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - run: |
-          find src/bicep/ -name modules -prune -o -name *.bicep -print -exec az bicep build --file '{}' \;
+          find src/bicep/ -name modules -prune -o -name '*.bicep' -print -exec az bicep build --file '{}' \;
