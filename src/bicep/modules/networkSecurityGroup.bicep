@@ -14,6 +14,5 @@ resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2018-11-0
   }
 }
 
-
 output id string = networkSecurityGroup.id
 output name string = networkSecurityGroup.name
