@@ -4,24 +4,16 @@ param tags object = {}
 param logStorageAccountName string
 param logStorageSkuName string
 
-param logAnalyticsWorkspaceResourceId string
-
 param firewallPrivateIPAddress string
 
 param virtualNetworkName string
 param virtualNetworkAddressPrefix string
-param virtualNetworkDiagnosticsLogs array
-param virtualNetworkDiagnosticsMetrics array
 
 param networkSecurityGroupName string
 param networkSecurityGroupRules array
 
-param networkSecurityGroupDiagnosticsLogs array
-param networkSecurityGroupDiagnosticsMetrics array
-
 param subnetName string
 param subnetAddressPrefix string
-param subnetServiceEndpoints array
 
 param routeTableName string = '${subnetName}-routetable'
 param routeTableRouteName string = 'default_route'
@@ -46,13 +38,7 @@ module networkSecurityGroup './networkSecurityGroup.bicep' = {
     location: location
     tags: tags
 
-    securityRules: networkSecurityGroupRules
-    
-    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
-    logStorageAccountResourceId: logStorage.outputs.id
-
-    logs: networkSecurityGroupDiagnosticsLogs
-    metrics: networkSecurityGroupDiagnosticsMetrics
+    securityRules: networkSecurityGroupRules    
   }
 }
 
@@ -90,16 +76,11 @@ module virtualNetwork './virtualNetwork.bicep' = {
           routeTable: {
             id: routeTable.outputs.id
           }
-          serviceEndpoints: subnetServiceEndpoints
+          
         }
       }
     ]
-
-    logAnalyticsWorkspaceResourceId: logAnalyticsWorkspaceResourceId
-    logStorageAccountResourceId: logStorage.outputs.id
-
-    logs: virtualNetworkDiagnosticsLogs
-    metrics: virtualNetworkDiagnosticsMetrics
+   
   }
 }
 
