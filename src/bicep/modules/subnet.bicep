@@ -2,7 +2,7 @@ param name string
 
 param addressPrefix string
 
-resource subnet 'Microsoft.Network/virtualNetworks/subnets@2021-02-01' = {
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' = {
   name: name
 
   properties: {
