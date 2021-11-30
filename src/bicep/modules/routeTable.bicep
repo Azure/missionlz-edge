@@ -7,7 +7,7 @@ param routeAddressPrefix string
 param routeNextHopIpAddress string
 param routeNextHopType string
 
-resource routeTable 'Microsoft.Network/routeTables@2021-02-01' = {
+resource routeTable 'Microsoft.Network/routeTables@2018-11-01' = {
   name: name
   location: location
   tags: tags
