@@ -87,6 +87,27 @@ var hubSubnets = [
     }
   }
 ]
+var nics = [
+  {
+    ipConfigurationName: 'f5-int-nic-ip-config'
+    name: '${resourcePrefix}-f501-int-nic'
+    privateIPAddressAllocationMethod: 'Dynamic'
+    subnetName: 'internal'
+  }
+  {
+    ipConfigurationName: 'f5-ext-nic-ip-config'
+    name: '${resourcePrefix}-f501-ext-nic'
+    privateIPAddressAllocationMethod: 'Dynamic'
+    subnetName: 'external'
+  }
+  {
+    ipConfigurationName: 'f5-mgmt-nic-ip-config'
+    name: '${resourcePrefix}-f501-mgmt-nic'
+    privateIPAddressAllocationMethod: 'Dynamic'
+    subnetName: 'mgmt'
+  }
+]
+
 
 module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
   name: 'deploy-vnet-hub-${nowUtc}'
@@ -95,9 +116,7 @@ module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
     name: hubVirtualNetworkName
     location: location
     tags: tags
-
     addressPrefix: hubVirtualNetworkAddressPrefix
-
     subnets: hubSubnets
   }
 }
@@ -111,6 +130,24 @@ module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
     securityRules: hubNetworkSecurityGroupRules
   }
 }
+
+module f5networkInterfaces './modules/networkInterface.bicep' = [for nic in nics: {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'deploy-nic-hub-${nic.name}-${nowUtc}'
+  params: {
+    ipConfigurationName: nic.ipConfigurationName
+    location: location
+    name: nic.name
+    networkSecurityGroupId: hubNetworkSecurityGroup.outputs.id
+    privateIPAddressAllocationMethod: nic.privateIPAddressAllocationMethod
+    existingSubnetName: nic.subnetName
+    existingVirtualNetworkName: hubVirtualNetworkName
+  }
+  dependsOn: [
+    hubVirtualNetwork
+    hubNetworkSecurityGroup
+  ]
+}]
 
 // Parameters
 param hubResourceGroupName string = '${resourcePrefix}-hub'
