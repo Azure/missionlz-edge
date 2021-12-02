@@ -3,16 +3,9 @@ param location string
 param tags object = {}
 
 param ipConfigurationName string
-// param subnetId string
+param subnetId string
 param networkSecurityGroupId string
 param privateIPAddressAllocationMethod string
-
-param existingVirtualNetworkName string
-param existingSubnetName string
-
-resource subnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  name:'${existingVirtualNetworkName}/${existingSubnetName}'
-}
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
   name: name
@@ -25,7 +18,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
         name: ipConfigurationName
         properties: {
           subnet: {
-            id: subnet.id
+            id: subnetId
           }
           privateIPAllocationMethod: privateIPAddressAllocationMethod
         }
