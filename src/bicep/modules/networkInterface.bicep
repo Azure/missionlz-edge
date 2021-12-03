@@ -7,7 +7,7 @@ param subnetId string
 param networkSecurityGroupId string
 param privateIPAddressAllocationMethod string
 
-resource networkInterface 'Microsoft.Network/networkInterfaces@2021-02-01' = {
+resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
   name: name
   location: location
   tags: tags
