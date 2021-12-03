@@ -2,7 +2,7 @@ param name string
 param location string
 param tags object = {}
 
-param networkInterfaceName string
+param networkInterfaces array
 
 param vmSize string
 param osDiskCreateOption string
@@ -21,20 +21,27 @@ param authenticationType string
 @minLength(14)
 param adminPasswordOrKey string
 
-var linuxConfiguration = {
-  disablePasswordAuthentication: true
-  ssh: {
-    publicKeys: [
-      {
-        path: '/home/${adminUsername}/.ssh/authorized_keys'
-        keyData: adminPasswordOrKey
+var osProfile = {
+  sshPublicKey: {
+    computerName: name
+    adminUsername: adminUsername
+    linuxConfiguration: {
+      disablePasswordAuthentication: true
+      ssh: {
+        publicKeys: [
+          {
+            path: '/home/${adminUsername}/.ssh/authorized_keys'
+            keyData: adminPasswordOrKey
+          }
+        ]
       }
-    ]
+    }
   }
-}
-
-resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' existing = {
-  name: networkInterfaceName
+  password: {
+    computerName: name
+    adminUsername: adminUsername
+    adminPassword: adminPasswordOrKey
+  }
 }
 
 resource virtualMachine 'Microsoft.Compute/virtualMachines@2020-06-01' = {
@@ -61,18 +68,9 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2020-06-01' = {
       }
     }
     networkProfile: {
-      networkInterfaces: [
-        {
-          id: networkInterface.id
-        }
-      ]
+      networkInterfaces: networkInterfaces
     }
-    osProfile: {
-      computerName: name
-      adminUsername: adminUsername
-      adminPassword: adminPasswordOrKey
-      linuxConfiguration: ((authenticationType == 'password') ? null : linuxConfiguration)
-    }
+    osProfile: osProfile[authenticationType]
   }
 }
 
