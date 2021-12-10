@@ -1,5 +1,5 @@
 // Parameters
-param nowUtc string
+param deploymentNameSuffix string
 param location string
 param networkSecurityGroupId string
 param virtualNetworkName string
@@ -79,7 +79,7 @@ var nics = [
 
 // Create Public IP
 module fwPublicIp './publicIPAddress.bicep' = {
-  name: 'create-fw-pubip-${nowUtc}'
+  name: 'create-fw-pubip-${deploymentNameSuffix}'
   params: {
     location: location
     name: extPublicIpName
@@ -93,7 +93,7 @@ resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existi
 }
 
 module f5externalNic './networkInterface.bicep' = {
-  name: 'create-ext-nic-${nowUtc}'
+  name: 'create-ext-nic-${deploymentNameSuffix}'
   params: {
     ipConfigurationName: extIpConfigurationName
     location: location
@@ -115,7 +115,7 @@ resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existi
 }
 
 module f5internalNic './networkInterface.bicep' = {
-  name: 'create-int-nic-${nowUtc}'
+  name: 'create-int-nic-${deploymentNameSuffix}'
   params: {
     ipConfigurationName: intIpConfigurationName
     location: location
@@ -133,7 +133,7 @@ resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' exist
 }
 
 module f5managementNic './networkInterface.bicep' = {
-  name: 'create-mgmt-nic-${nowUtc}'
+  name: 'create-mgmt-nic-${deploymentNameSuffix}'
   params: {
     ipConfigurationName: mgmtIpConfigurationName
     location: location
@@ -147,7 +147,7 @@ module f5managementNic './networkInterface.bicep' = {
 
 // Deploy F5 VM
 module f5vm './linuxVirtualMachine.bicep' = {
-  name: 'create-f5vm-${nowUtc}'
+  name: 'create-f5vm-${deploymentNameSuffix}'
   params: {
     adminPasswordOrKey: adminPasswordOrKey
     adminUsername: adminUsername
