@@ -104,6 +104,9 @@ module f5externalNic './networkInterface.bicep' = {
     publicIPAddressId: fwPublicIp.outputs.id
     subnetId: extSubnet.id
   }
+  dependsOn: [
+    fwPublicIp
+  ]
 }
 
 // Create Internal NIC
