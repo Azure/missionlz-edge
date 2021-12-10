@@ -75,9 +75,11 @@ param f5extSubnetName string = 'external'
 param f5intSubnetName string = 'internal' 
 param f5mgmtSubnetName string = 'mgmt' 
 param f5privateIPAddressAllocationMethod string = 'Dynamic'
+param f5publicIPAddressAllocationMethod string = 'Static'
 
 param f5vm01extIpConfigurationName string = 'f5vm01extIpConfiguration'
 param f5vm01extNicName string = '${resourcePrefix}-f5vm01-ext-nic'
+param f5extPublicIpName string = '${resourcePrefix}-f5vm01-ext-pip'
 param f5vm01intIpConfigurationName string = 'f5vm01intIpConfiguration'
 param f5vm01intNicName string = '${resourcePrefix}-f5vm01-int-nic'
 param f5vm01mgmtIpConfigurationName string = 'f5vm01mgmtIpConfiguration'
@@ -235,6 +237,8 @@ module f5Vm01 './modules/firewall.bicep' = {
     extIpConfigurationName: f5vm01extIpConfigurationName
     extNicName: f5vm01extNicName
     extPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
+    extPublicIPAddressAllocationMethod: f5publicIPAddressAllocationMethod
+    extPublicIpName: f5extPublicIpName
     extSubnetName: f5extSubnetName
     intIpConfigurationName: f5vm01intIpConfigurationName
     intNicName: f5vm01intNicName
