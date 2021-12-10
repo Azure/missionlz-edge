@@ -1,25 +1,25 @@
-# TODO: The maintainer of this repo has not yet edited this file
-
-**REPO OWNER**: Do you want Customer Service & Support (CSS) support for this product/project?
-
-- **No CSS support:** Fill out this template with information about how to file issues and get help.
-- **Yes CSS support:** Fill out an intake form at [aka.ms/spot](https://aka.ms/spot). CSS will work with/help you to determine next steps. More details also available at [aka.ms/onboardsupport](https://aka.ms/onboardsupport).
-- **Not sure?** Fill out a SPOT intake as though the answer were "Yes". CSS will help you decide.
-
-*Then remove this first heading from this SUPPORT.MD file before publishing your repo.*
-
-## Support
+# Support and Feedback
 
 ## How to file issues and get help  
 
-This project uses GitHub Issues to track bugs and feature requests. Please search the existing
-issues before filing new issues to avoid duplicates.  For new issues, file your bug or
-feature request as a new Issue.
+We welcome feedback of all types.
 
-For help and questions about using this project, please **REPO MAINTAINER: INSERT INSTRUCTIONS HERE
-FOR HOW TO ENGAGE REPO OWNERS OR COMMUNITY FOR HELP. COULD BE A STACK OVERFLOW TAG OR OTHER
-CHANNEL. WHERE WILL YOU HELP PEOPLE?**.
+This project uses GitHub issues to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates.
+
+For new issues, file your bug or feature request as a new [issue](https://github.com/Azure/missionlz-edge/issues), [bug](https://github.com/Azure/missionlz-edge/issues), or [feature request](https://github.com/Azure/missionlz-edge/issues).
+
+For help and questions about using this project, please submit a [question](https://github.com/Azure/missionlz-edge/issues).
+
+To report a security issue please see our [security guidance](./SECURITY.md).
 
 ## Microsoft Support Policy  
 
-Support for this **PROJECT or PRODUCT** is limited to the resources listed above.
+If issues are encountered when deploying this template users will be able to engage Microsoft support via their usual channels. Please provide correlation IDs where possible when contacting support to enable us to investigate the issue effectively and in a timely fashion. For instruction on how to get deployments and correlation ID, please follow [this link](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/deployment-history?tabs=azure-portal#get-deployments-and-correlation-id).
+
+Any issues that are deemed out of scope by Microsoft support and/or require bugfixes in the Template or Code within the GitHub repo, users will be redirected by Microsoft support to file the issue on GitHub. Instructions for filing an issue are above.
+
+Project maintainers and community aim to resolve issues in a timely fashion per community support policy of this repo. The project team works in Eastern U.S. time zone, Monday through Friday, except for U.S. Federal holidays.
+
+## Community Support Policy
+
+Project maintainers will aim to respond within three business days for any new issues.
