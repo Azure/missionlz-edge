@@ -85,27 +85,6 @@ param f5vm01intNicName string = '${resourcePrefix}-f5vm01-int-nic'
 param f5vm01mgmtIpConfigurationName string = 'f5vm01mgmtIpConfiguration'
 param f5vm01mgmtNicName string = '${resourcePrefix}-f5vm01-mgmt-nic'
 
-// Operations Parameters
-param operationsResourceGroupName string = replace(hubResourceGroupName, 'hub', 'operations')
-param operationsVirtualNetworkName string = replace(hubVirtualNetworkName, 'hub', 'operations')
-param operationsVirtualNetworkAddressPrefix string = '10.91.0.0/16'
-param operationsNetworkSecurityGroupName string = replace(hubNetworkSecurityGroupName, 'hub', 'operations')
-param operationsNetworkSecurityGroupRules array = hubNetworkSecurityGroupRules
-param operationsSubnetName string = replace(hubSubnetName, 'hub', 'operations')
-param operationsSubnetAddressPrefix string = '10.91.0.0/24'
-
-// Identity Parameters
-param identityResourceGroupName string = replace(hubResourceGroupName, 'hub', 'identity')
-param identityVirtualNetworkName string = replace(hubVirtualNetworkName, 'hub', 'identity')
-param identityVirtualNetworkAddressPrefix string = '10.92.0.0/16'
-param identityNetworkSecurityGroupName string = replace(hubNetworkSecurityGroupName, 'hub', 'identity')
-param identityNetworkSecurityGroupRules array = hubNetworkSecurityGroupRules
-param identitySubnetName string = replace(hubSubnetName, 'hub', 'operations')
-param identitySubnetAddressPrefix string = '10.92.0.0/24'
-
-// Share Services Parameters
-
-
 // Global Variables
 var defaultTags = {
   'resourcePrefix': resourcePrefix
@@ -142,41 +121,6 @@ var hubSubnets = [
 ]
 
 var f5vm01VmName = '${resourcePrefix}-f5vm01'
-var spokes = [
-  {
-    name: 'operations'
-    resourceGroupName: operationsResourceGroupName
-    location: location
-    virtualNetworkName: operationsVirtualNetworkName
-    virtualNetworkAddressPrefix: operationsVirtualNetworkAddressPrefix
-    networkSecurityGroupName: operationsNetworkSecurityGroupName
-    networkSecurityGroupRules: operationsNetworkSecurityGroupRules
-    subnetName: operationsSubnetName
-    subnetAddressPrefix: operationsSubnetAddressPrefix
-  }
-  {
-    name: 'identity'
-    resourceGroupName: identityResourceGroupName
-    location: location
-    virtualNetworkName: identityVirtualNetworkName
-    virtualNetworkAddressPrefix: identityVirtualNetworkAddressPrefix
-    networkSecurityGroupName: identityNetworkSecurityGroupName
-    networkSecurityGroupRules: identityNetworkSecurityGroupRules
-    subnetName: identitySubnetName
-    subnetAddressPrefix: identitySubnetAddressPrefix
-  }
-  {
-    name: 'sharedServices'
-    resourceGroupName: sharedServicesResourceGroupName
-    location: location
-    virtualNetworkName: sharedServicesVirtualNetworkName
-    virtualNetworkAddressPrefix: sharedServicesVirtualNetworkAddressPrefix
-    networkSecurityGroupName: sharedServicesNetworkSecurityGroupName
-    networkSecurityGroupRules: sharedServicesNetworkSecurityGroupRules
-    subnetName: sharedServicesSubnetName
-    subnetAddressPrefix: sharedServicesSubnetAddressPrefix
-  }
-]
 
 //// Scaffolding
 
@@ -188,15 +132,6 @@ module hubResourceGroup './modules/resourceGroup.bicep' = {
     tags: calculatedTags
   }
 }
-
-module spokeResourceGroups './modules/resourceGroup.bicep' = [for spoke in spokes: {
-  name: 'deploy-rg-${spoke.name}-${nowUtc}'
-  params: {
-    name: spoke.resourceGroupName
-    location: spoke.location
-    tags: calculatedTags
-  }
-}]
 
 //// Create Hub Resources
 module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
