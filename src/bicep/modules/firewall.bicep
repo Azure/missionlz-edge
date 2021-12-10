@@ -25,17 +25,35 @@ param vmSize string
 param extIpConfigurationName string
 param extNicName string
 param extPrivateIPAddressAllocationMethod string
+param extPublicIPAddressAllocationMethod string
+param extPublicIpName string
 param extSubnetName string
+@allowed([
+  'yes'
+  'no'
+])
+param extPublicIP string = 'yes'
+
 
 param intIpConfigurationName string
 param intNicName string
 param intPrivateIPAddressAllocationMethod string
 param intSubnetName string
+@allowed([
+  'yes'
+  'no'
+])
+param intPublicIP string = 'no'
 
 param mgmtIpConfigurationName string
 param mgmtNicName string
 param mgmtPrivateIPAddressAllocationMethod string
 param mgmtSubnetName string
+@allowed([
+  'yes'
+  'no'
+])
+param mgmtPublicIP string = 'no'
 
 // Variables
 var nics = [
@@ -58,6 +76,17 @@ var nics = [
     }
   }
 ]
+
+// Create Public IP
+module fwPublicIp './publicIPAddress.bicep' = {
+  name: 'create-fw-pubip-${nowUtc}'
+  params: {
+    location: location
+    name: extPublicIpName
+    publicIpAllocationMethod: extPublicIPAddressAllocationMethod
+  }
+}
+
 // Create External NIC
 resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
   name:'${virtualNetworkName}/${extSubnetName}'
@@ -71,8 +100,13 @@ module f5externalNic './networkInterface.bicep' = {
     name: extNicName
     networkSecurityGroupId: networkSecurityGroupId
     privateIPAddressAllocationMethod: extPrivateIPAddressAllocationMethod
+    publicIP: extPublicIP
+    publicIPAddressId: fwPublicIp.outputs.id
     subnetId: extSubnet.id
   }
+  dependsOn: [
+    fwPublicIp
+  ]
 }
 
 // Create Internal NIC
@@ -88,6 +122,7 @@ module f5internalNic './networkInterface.bicep' = {
     name: intNicName
     networkSecurityGroupId: networkSecurityGroupId
     privateIPAddressAllocationMethod: intPrivateIPAddressAllocationMethod
+    publicIP: intPublicIP
     subnetId: intSubnet.id
   }
 }
@@ -105,6 +140,7 @@ module f5managementNic './networkInterface.bicep' = {
     name: mgmtNicName
     networkSecurityGroupId: networkSecurityGroupId
     privateIPAddressAllocationMethod: mgmtPrivateIPAddressAllocationMethod
+    publicIP: mgmtPublicIP
     subnetId: mgmtSubnet.id
   }
 }
