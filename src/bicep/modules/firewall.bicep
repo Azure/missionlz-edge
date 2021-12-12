@@ -169,3 +169,5 @@ module f5vm './linuxVirtualMachine.bicep' = {
     f5managementNic
   ]
 }
+
+output internalIpAddress string = f5internalNic.outputs.ip

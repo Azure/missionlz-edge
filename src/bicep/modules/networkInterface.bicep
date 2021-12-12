@@ -52,3 +52,4 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
 
 output id string = networkInterface.id
 output name string = networkInterface.name
+output ip string = networkInterface.properties.ipConfigurations[0].properties.privateIPAddress
