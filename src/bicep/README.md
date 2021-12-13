@@ -27,14 +27,22 @@ Below is a table of parameters that should be reviewed before deployment. While 
 
 **Parameter Name**          | **Default value** | **Description**
 ------------------------| --------------| -----------
-resourcePrefix | mlz-${uniqueId} | A 1 to 7 character string used to derive resource names from
+resourcePrefix | None | A prefix, 3-10 alphanumeric characters without whitespace, used to prefix resources and generate uniqueness for resources with globally unique naming requirements like Storage Accounts
+resourceSuffix | mlz | A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz"
 hubVirtualNetworkAddressPrefix | 10.90.0.0/16 | Address space used for the Hub virtual network
 mgmtSubnetAddressPrefix | 10.90.0.0/24 | Address space used for the Management subnet
 extSubnetAddressPrefix | 10.90.1.0/24 | Address space used for the External subnet
 intSubnetAddressPrefix | 10.90.2.0/24 | Address space used for the Internal subnet
 vdmsSubnetAddressPrefix | 10.90.3.0/24 | Address space used for the VDMS subnet
+operationsVirtualNetworkAddressPrefix | 10.91.0.0/16 | The CIDR Virtual Network Address Prefix for the Operations Virtual Network
+operationsSubnetAddressPrefix | 10.91.0.0/24 | The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space
+identityVirtualNetworkAddressPrefix | 10.92.0.0/16 | The CIDR Virtual Network Address Prefix for the Identity Virtual Network
+identitySubnetAddressPrefix | 10.92.0.0/24 | The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space
+sharedServicesVirtualNetworkAddressPrefix | 10.93.0.0/16 | The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network
+sharedServicesSubnetAddressPrefix | 10.93.0.0/24 | The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space
 f5VmAuthenticationType | password | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
+f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
 
 ### **Setup Deployment Container**
 
