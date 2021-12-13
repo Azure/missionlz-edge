@@ -1,9 +1,6 @@
 param location string = resourceGroup().location
 param tags object = {}
 
-param logStorageAccountName string
-param logStorageSkuName string
-
 param firewallPrivateIPAddress string
 
 param virtualNetworkName string
@@ -20,16 +17,6 @@ param routeTableRouteName string = 'default_route'
 param routeTableRouteAddressPrefix string = '0.0.0.0/0'
 param routeTableRouteNextHopIpAddress string = firewallPrivateIPAddress
 param routeTableRouteNextHopType string = 'VirtualAppliance'
-
-module logStorage './storageAccount.bicep' = {
-  name: 'logStorage'
-  params: {
-    storageAccountName: logStorageAccountName
-    location: location
-    skuName: logStorageSkuName
-    tags: tags
-  }
-}
 
 module networkSecurityGroup './networkSecurityGroup.bicep' = {
   name: 'networkSecurityGroup'
