@@ -441,3 +441,30 @@ module spokeNetworks './modules/spokeNetwork.bicep' = [for spoke in spokes: {
     f5Vm01
   ]
 }]
+
+// VIRTUAL NETWORK PEERINGS
+
+module hubVirtualNetworkPeerings './modules/hubNetworkPeering.bicep' = {
+  name: 'deploy-vnet-peerings-hub-${deploymentNameSuffix}'
+  scope: resourceGroup(hubResourceGroupName)
+  params: {
+    hubVirtualNetworkName: hubVirtualNetwork.outputs.name
+    spokes: [for (spoke, i) in spokes: {
+      type: spoke.name
+      virtualNetworkName: spokeNetworks[i].outputs.virtualNetworkName
+      virtualNetworkResourceId: spokeNetworks[i].outputs.virtualNetworkResourceId
+    }]
+  }
+}
+
+module spokeVirtualNetworkPeerings './modules/spokeNetworkPeering.bicep' = [for (spoke, i) in spokes: {
+  name: 'deploy-vnet-peerings-${spoke.name}-${deploymentNameSuffix}'
+  scope: subscription(spoke.subscriptionId)
+  params: {
+    spokeName: spoke.name
+    spokeResourceGroupName: spoke.resourceGroupName
+    spokeVirtualNetworkName: spokeNetworks[i].outputs.virtualNetworkName
+    hubVirtualNetworkName: hubVirtualNetwork.outputs.name
+    hubVirtualNetworkResourceId: hubVirtualNetwork.outputs.id
+  }
+}]
