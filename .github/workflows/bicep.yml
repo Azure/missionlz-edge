@@ -1,0 +1,46 @@
+name: Bicep
+
+on:
+  push:
+    paths:
+      - 'src/bicep/**'
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/bicep/**'
+
+# Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+defaults:
+  run:
+    shell: bash
+    working-directory: src/bicep
+
+jobs:
+  validate-bicep:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name:  build bicep modules
+        run: az bicep build -f mlz-ash.yml
+
+  validate-build:
+    needs: [validate-bicep]
+    runs-on: ubuntu-latest
+    steps:
+      - name: cheackout
+        uses: actions/checkout@v2
+      - name: build
+        run: az bicep build -f mlz-ash.yml --output mlz-ash.json
+      - name: DEBUG
+        id: debug
+        run: echo "validate-build"
+      - name: Publich bicep json
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist-without-markdown
+          path: mlz-ash.json
