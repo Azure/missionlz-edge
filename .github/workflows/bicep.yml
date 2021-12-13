@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'src/bicep/**'
+      - '.github/workflows/bicep.yml'
     branches:
       - main
   pull_request:
@@ -11,6 +12,7 @@ on:
       - main
     paths:
       - 'src/bicep/**'
+  workflow_dispatch:
 
 # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
 defaults:
@@ -19,28 +21,24 @@ defaults:
     working-directory: src/bicep
 
 jobs:
-  validate-bicep:
+  bicep:
     runs-on: ubuntu-latest
     continue-on-error: false
     steps: 
       - name: Checkout
         uses: actions/checkout@v2
-      - name:  build bicep modules
-        run: az bicep build -f mlz-ash.yml
+      - name: bicep build
+        id: bicep-build
+        run: az bicep build -f mlz-ash.bicep
 
-  validate-build:
-    needs: [validate-bicep]
-    runs-on: ubuntu-latest
-    steps:
-      - name: cheackout
-        uses: actions/checkout@v2
-      - name: build
-        run: az bicep build -f mlz-ash.yml --output mlz-ash.json
-      - name: DEBUG
-        id: debug
-        run: echo "validate-build"
-      - name: Publich bicep json
-        uses: actions/upload-artifact@v2
+      - name: commit bicep build
+        id: commit-bicep-build
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          name: dist-without-markdown
-          path: mlz-ash.json
+          commit_message: Apply json changes
+      - name: "Run if changes have been detected"
+        if: steps.commit-bicep-build.outputs.changes_detected == 'true'
+        run: echo "Changes!"
+      - name: "Run if no changes have been detected"
+        if: steps.commit-bicep-build.outputs.changes_detected == 'false'
+        run: echo "No Changes!"

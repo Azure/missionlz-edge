@@ -1,3 +1,6 @@
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FChambras%2Fmissionlz-edge%2Fmain%2Fsrc%2Fbicep%2Fmlz-ash.json)
+
 # Mission LZ - Edge
 
 Mission Landing Zone Edge is a highly opinionated template which IT oversight organizations can used to deploy compliant enclaves on Azure Stack Hub stamps. It addresses a narrowly scoped, specific need for an SCCA compliant hub and spoke infrastructure.
