@@ -444,27 +444,22 @@ module spokeNetworks './modules/spokeNetwork.bicep' = [for spoke in spokes: {
 
 // VIRTUAL NETWORK PEERINGS
 
-module hubVirtualNetworkPeerings './modules/hubNetworkPeering.bicep' = {
-  name: 'deploy-vnet-peerings-hub-${deploymentNameSuffix}'
+module hubVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [for spoke in spokes: {
+  name: 'deploy-hub-to-${spoke.name}-vnet-peering'
   scope: resourceGroup(hubResourceGroupName)
   params: {
-    hubVirtualNetworkName: hubVirtualNetwork.outputs.name
-    spokes: [for (spoke, i) in spokes: {
-      type: spoke.name
-      virtualNetworkName: spokeNetworks[i].outputs.virtualNetworkName
-      virtualNetworkResourceId: spokeNetworks[i].outputs.virtualNetworkResourceId
-    }]
+    localVirtualNetworkName: hubVirtualNetworkName
+    remoteVirtualNetworkName: spoke.virtualNetworkName
+    remoteResourceGroupName: spoke.resourceGroupName
   }
-}
+}]
 
-module spokeVirtualNetworkPeerings './modules/spokeNetworkPeering.bicep' = [for (spoke, i) in spokes: {
-  name: 'deploy-vnet-peerings-${spoke.name}-${deploymentNameSuffix}'
-  scope: subscription(spoke.subscriptionId)
+module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [for spoke in spokes: {
+  name: 'deploy-${spoke.name}-to-hub-vnet-peering'
+  scope: resourceGroup(spoke.resourceGroupName)
   params: {
-    spokeName: spoke.name
-    spokeResourceGroupName: spoke.resourceGroupName
-    spokeVirtualNetworkName: spokeNetworks[i].outputs.virtualNetworkName
-    hubVirtualNetworkName: hubVirtualNetwork.outputs.name
-    hubVirtualNetworkResourceId: hubVirtualNetwork.outputs.id
+    localVirtualNetworkName: spoke.virtualNetworkName
+    remoteVirtualNetworkName: hubVirtualNetworkName
+    remoteResourceGroupName: hubResourceGroupName
   }
 }]

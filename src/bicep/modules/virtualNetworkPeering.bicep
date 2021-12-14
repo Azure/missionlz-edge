@@ -1,11 +1,21 @@
-param name string
-param remoteVirtualNetworkResourceId string
+param localVirtualNetworkName string
+param remoteVirtualNetworkName string
+param remoteResourceGroupName string
+
+resource localVirtualNetwork 'Microsoft.Network/virtualNetworks@2018-11-01' existing = {
+  name: localVirtualNetworkName
+}
+
+resource remoteVirtualNetwork 'Microsoft.Network/virtualNetworks@2018-11-01' existing = {
+  scope: resourceGroup(remoteResourceGroupName)
+  name: remoteVirtualNetworkName
+}
 
 resource virtualNetworkPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2018-11-01' = {
-  name: name
+  name: '${localVirtualNetwork.name}/to-${remoteVirtualNetwork.name}'
   properties: {
     remoteVirtualNetwork: {
-      id: remoteVirtualNetworkResourceId
+      id: remoteVirtualNetwork.id
     }
   }
 }
