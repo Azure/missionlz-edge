@@ -30,7 +30,7 @@ Below is a table of parameters that should be reviewed before deployment. While 
 resourcePrefix | None | A prefix, 3-10 alphanumeric characters without whitespace, used to prefix resources and generate uniqueness for resources with globally unique naming requirements like Storage Accounts
 tenantId | None | Required for f5VmAuthenticationType=sshPublicKey. Specifies the tenant ID of the subscription
 keyVaultAccessPolicyObjectId | None | Required for f5VmAuthenticationType=sshPublicKey. Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets.
-f5VmAdminPasswordOrKey | new Guid value | Required for f5VmAuthenticationType=Password. 
+f5VmAdminPasswordOrKey | new Guid value | Required for f5VmAuthenticationType=Password.
 resourceSuffix | mlz | A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz"
 hubVirtualNetworkAddressPrefix | 10.90.0.0/16 | Address space used for the Hub virtual network
 mgmtSubnetAddressPrefix | 10.90.0.0/24 | Address space used for the Management subnet
