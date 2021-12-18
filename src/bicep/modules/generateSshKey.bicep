@@ -16,8 +16,8 @@ param keyVaultSecretPerms array = [
   'all'
   
 ]
-var generateSshKeyScriptContent = loadTextContent('../../scripts/generateSshKey.sh')
-var generateSshKeyScriptName = 'generateSshKey'
+param generatedSshKey object = json(loadTextContent('../sshkeys.json'))
+
 var publicKeySecretName = 'sshPublicKey'
 var privateKeySecretName = 'sshPrivateKey'
 
@@ -51,40 +51,25 @@ module accessPolicy '../modules/keyVaultAccessPolicy.bicep' = {
 resource publicKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
   name: '${keyVaultName}/${publicKeySecretName}'
   properties: {
-    value: generateSshKeyScript.properties.outputs.keyinfo.publicKey
+    value: generatedSshKey.keyinfo.publicKey
   }
   dependsOn: [
     keyVault
-    generateSshKeyScript
+    
   ]
 }
 
 resource privateKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
-  //parent: keyVault
+ 
   name: '${keyVaultName}/${privateKeySecretName}'
   
   properties: {
-    value: generateSshKeyScript.properties.outputs.keyinfo.privateKey
+    value: generatedSshKey.keyinfo.privateKey
   }
   dependsOn: [
     keyVault
-    generateSshKeyScript
+    
   ]
 }
-resource generateSshKeyScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
-  name: generateSshKeyScriptName
-  location: resourceGroup().location
-  kind: 'AzureCLI'
-  properties: {
-    azCliVersion: '2.25.0'
-    cleanupPreference: 'OnSuccess'
-    retentionInterval: 'P1D' // retain script for 1 day
-    scriptContent: generateSshKeyScriptContent
-    timeout: 'PT30M' // timeout after 30 minutes
-  }
-}
 
-
-output privateKey string = generateSshKeyScript.properties.outputs.keyinfo.privateKey
-output publicKey string = generateSshKeyScript.properties.outputs.keyinfo.publicKey
-
+output publicKey string = generatedSshKey.keyinfo.publicKey
