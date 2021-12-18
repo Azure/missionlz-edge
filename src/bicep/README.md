@@ -28,6 +28,9 @@ Below is a table of parameters that should be reviewed before deployment. While 
 **Parameter Name**          | **Default value** | **Description**
 ------------------------| --------------| -----------
 resourcePrefix | None | A prefix, 3-10 alphanumeric characters without whitespace, used to prefix resources and generate uniqueness for resources with globally unique naming requirements like Storage Accounts
+tenantId | None | Required for f5VmAuthenticationType=sshPublicKey. Specifies the tenant ID of the subscription
+keyVaultAccessPolicyObjectId | None | Required for f5VmAuthenticationType=sshPublicKey. Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets.
+f5VmAdminPasswordOrKey | new Guid value | Required for f5VmAuthenticationType=Password. 
 resourceSuffix | mlz | A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz"
 hubVirtualNetworkAddressPrefix | 10.90.0.0/16 | Address space used for the Hub virtual network
 mgmtSubnetAddressPrefix | 10.90.0.0/24 | Address space used for the Management subnet
@@ -40,7 +43,7 @@ identityVirtualNetworkAddressPrefix | 10.92.0.0/16 | The CIDR Virtual Network Ad
 identitySubnetAddressPrefix | 10.92.0.0/24 | The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space
 sharedServicesVirtualNetworkAddressPrefix | 10.93.0.0/16 | The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network
 sharedServicesSubnetAddressPrefix | 10.93.0.0/24 | The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space
-f5VmAuthenticationType | password | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters
+f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
 
@@ -85,6 +88,10 @@ Use `az deployment sub` to deploy MLZ to the subscription set as **isDefault** f
 
 To deploy Mission LZ with all of the parameter defaults, provide values for the --name and --location parameters (by default, location will be "local" unless that stamp has a custom domain name) and specify the `./mlz-ash.bicep` template file:
 
+Step 1: Run the bashscript /scripts/generateSshKey.sh to generate new ssh keypair to configure SSH Key-Based Authentication on a Linux VM
+
+Step 2: Run the deployment script below with defaults
+
 ```plaintext
 az deployment sub create \
   --name myMlzDeployment \
@@ -94,7 +101,7 @@ az deployment sub create \
 
 #### **Custom MLZ Instance deployment**
 
-To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey`:
+To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password`:
 
 ```plaintext
 az deployment sub create \
@@ -102,5 +109,5 @@ az deployment sub create \
   --location <location> \
   --template-file ./mlz-ash.bicep \
   --parameters \
-      f5VmAuthenticationType=sshPublicKey
-```
+      f5VmAuthenticationType=password \
+```   f5VmAdminPasswordOrKey =<minimum length of 14 characters with atleast 1 uppercase, 1 lowercase, 1 alphnumeric, 1 special character>
