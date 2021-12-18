@@ -43,7 +43,7 @@ identityVirtualNetworkAddressPrefix | 10.92.0.0/16 | The CIDR Virtual Network Ad
 identitySubnetAddressPrefix | 10.92.0.0/24 | The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space
 sharedServicesVirtualNetworkAddressPrefix | 10.93.0.0/16 | The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network
 sharedServicesSubnetAddressPrefix | 10.93.0.0/24 | The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space
-f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters
+f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters with atleast 1 uppercase, 1 lowercase, 1 alphnumeric, 1 special character
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
 
@@ -110,4 +110,4 @@ az deployment sub create \
   --template-file ./mlz-ash.bicep \
   --parameters \
       f5VmAuthenticationType=password \
-```   f5VmAdminPasswordOrKey =<minimum length of 14 characters with atleast 1 uppercase, 1 lowercase, 1 alphnumeric, 1 special character>
+```   f5VmAdminPasswordOrKey =<minimum length of 14 characters>
