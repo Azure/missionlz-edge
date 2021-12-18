@@ -88,9 +88,11 @@ Use `az deployment sub` to deploy MLZ to the subscription set as **isDefault** f
 
 To deploy Mission LZ with all of the parameter defaults, provide values for the --name and --location parameters (by default, location will be "local" unless that stamp has a custom domain name) and specify the `./mlz-ash.bicep` template file:
 
-Step 1: Run the bashscript /scripts/generateSshKey.sh to generate new ssh keypair to configure SSH Key-Based Authentication on a Linux VM
+Step 1: cd src/bicep
 
-Step 2: Run the deployment script below with defaults
+Step 2: Run the bashscript /scripts/generateSshKey.sh to generate new ssh keypair to configure SSH Key-Based Authentication on a Linux VM
+
+Step 3: Run the deployment script below with defaults
 
 ```plaintext
 az deployment sub create \
