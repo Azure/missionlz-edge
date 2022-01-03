@@ -28,7 +28,8 @@ param resourceSuffix string = 'mlz'
 param location string = deployment().location
 
 @description('Specifies the tenant ID of a user/subscription')
-param tenantId string
+param tenantId string = subscription().tenantId
+
 @description('Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets.')
 param keyVaultAccessPolicyObjectId string 
 

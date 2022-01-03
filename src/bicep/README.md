@@ -28,7 +28,7 @@ Below is a table of parameters that should be reviewed before deployment. While 
 **Parameter Name**          | **Default value** | **Description**
 ------------------------| --------------| -----------
 resourcePrefix | None | A prefix, 3-10 alphanumeric characters without whitespace, used to prefix resources and generate uniqueness for resources with globally unique naming requirements like Storage Accounts
-tenantId | None | Required for f5VmAuthenticationType=sshPublicKey. Specifies the tenant ID of the subscription
+tenantId | Subscription().tenantId | Required for f5VmAuthenticationType=sshPublicKey. Specifies the tenant ID of the subscription
 keyVaultAccessPolicyObjectId | None | Required for f5VmAuthenticationType=sshPublicKey. Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets.
 f5VmAdminPasswordOrKey | new Guid value | Required for f5VmAuthenticationType=Password.
 resourceSuffix | mlz | A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz"
@@ -92,7 +92,7 @@ Step 1: cd src/bicep
 
 Step 2: Run the bashscript /scripts/generateSshKey.sh to generate new ssh keypair to configure SSH Key-Based Authentication on a Linux VM
 
-Step 3: Run the deployment script below with defaults
+Step 3: Run the deployment script below with defaults by providing required parameter values for resourcePrefix and keyVaultAccessPolicyObjectId
 
 ```plaintext
 az deployment sub create \
