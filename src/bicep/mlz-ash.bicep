@@ -27,6 +27,13 @@ param resourceSuffix string = 'mlz'
 @description('The region to deploy resources into. It defaults to the deployment location.')
 param location string = deployment().location
 
+@description('Specifies the tenant ID of a user/subscription')
+param tenantId string = subscription().tenantId
+
+@description('Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets.')
+param keyVaultAccessPolicyObjectId string 
+
+
 // RESOURCE NAMING PARAMETERS
 
 @description('A suffix to use for naming deployments uniquely. It defaults to the Bicep resolution of the "utcNow()" function.')
@@ -80,12 +87,12 @@ param f5VmAdminUsername string = 'f5admin'
   'password'
 ])
 @description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "password".')
-param f5VmAuthenticationType string = 'password'
+param f5VmAuthenticationType string = 'sshPublicKey'
 
 @description('The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(14)
-param f5VmAdminPasswordOrKey string
+param f5VmAdminPasswordOrKey string =substring(newGuid(), 0,15)
 
 @description('The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2".')
 param f5VmSize string = 'Standard_DS3_v2'
@@ -377,11 +384,26 @@ module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
   ]
 }
 
+module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticationType=='sshPublicKey'){
+  scope: resourceGroup(hubResourceGroupName)
+  name:'deploy-f5vm01Sshkv-hub-${deploymentNameSuffix}'
+  params: {
+    resourcePrefix : resourcePrefix 
+    location: location
+    tenantId: tenantId
+    keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
+  }
+  dependsOn:[
+    hubResourceGroup
+  ]
+
+}
+
 module f5Vm01 './modules/firewall.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-f5vm01-hub-${deploymentNameSuffix}'
   params: {
-    adminPasswordOrKey: f5VmAdminPasswordOrKey
+    adminPasswordOrKey: f5VmAuthenticationType=='password'?f5VmAdminPasswordOrKey: f5Vm01SshKeyVault.outputs.publicKey
     adminUsername: f5VmAdminUsername
     authenticationType: f5VmAuthenticationType
     extIpConfigurationName: f5vm01extIpConfigurationName
@@ -415,6 +437,7 @@ module f5Vm01 './modules/firewall.bicep' = {
     hubResourceGroup
     hubVirtualNetwork
     hubNetworkSecurityGroup
+    f5Vm01SshKeyVault
   ]
 }
 
