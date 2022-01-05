@@ -1,6 +1,6 @@
 param resourcePrefix string 
 param location string
-param tenantId string 
+param tenantId string
 param keyVaultAccessPolicyObjectId string
 //defaults
 param utcValue string = utcNow()
@@ -16,7 +16,7 @@ param keyVaultSecretPerms array = [
   'all'
   
 ]
-param generatedSshKey object = json(loadTextContent('../sshkeys.json'))
+param generatedSshKey object = json(loadTextContent('../sshkeys.json','utf-8'))
 
 var publicKeySecretName = 'sshPublicKey'
 var privateKeySecretName = 'sshPrivateKey'
