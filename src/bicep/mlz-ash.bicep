@@ -33,7 +33,6 @@ param tenantId string = subscription().tenantId
 @description('Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets.')
 param keyVaultAccessPolicyObjectId string 
 
-
 // RESOURCE NAMING PARAMETERS
 
 @description('A suffix to use for naming deployments uniquely. It defaults to the Bicep resolution of the "utcNow()" function.')
@@ -475,6 +474,11 @@ module hubVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [for 
     remoteVirtualNetworkName: spoke.virtualNetworkName
     remoteResourceGroupName: spoke.resourceGroupName
   }
+  dependsOn: [
+    hubResourceGroup
+    hubVirtualNetwork
+    spokeNetworks
+  ]
 }]
 
 module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [for spoke in spokes: {
@@ -485,4 +489,8 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
     remoteVirtualNetworkName: hubVirtualNetworkName
     remoteResourceGroupName: hubResourceGroupName
   }
+  dependsOn: [
+    spokeResourceGroups
+    spokeNetworks
+  ]
 }]

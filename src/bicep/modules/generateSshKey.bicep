@@ -1,6 +1,6 @@
 param resourcePrefix string 
 param location string
-param tenantId string
+param tenantId string 
 param keyVaultAccessPolicyObjectId string
 //defaults
 param utcValue string = utcNow()
