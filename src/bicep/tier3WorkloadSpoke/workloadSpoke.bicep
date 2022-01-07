@@ -19,14 +19,16 @@ param resourceSuffix string = 'mlz'
 param tags object = {}
 
 // Hub Resources
+@description('The Hub Deployment Name.')
+param hubDeploymentName string
 @description('The Hub subscription Id.')
 param hubSubscriptionId string
 @description('Hub Resource Group Name.')
 param hubResourceGroupName string
-@description('Hub Virtual Network Name to peer with.')
-param hubVirtualNetworkName string
-@description('Hub Firewall Private IP Address.')
-param firewallPrivateIPAddress string
+// @description('Hub Virtual Network Name to peer with.')
+// param hubVirtualNetworkName string
+// @description('Hub Firewall Private IP Address.')
+// param firewallPrivateIPAddress string
 //
 
 @description('The region to deploy resources into. It defaults to the deployment location.')
@@ -59,23 +61,25 @@ param workloadVirtualNetworkAddressPrefix string = '10.94.0.0/16'
 @description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space.')
 param workloadSubnetAddressPrefix string = '10.94.0.0/24'
 
-resource workloadResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+resource workloadResourceGroup 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: workloadResourceGroupName
   location: location
   tags: calculatedTags
 }
 
-resource hubResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
-  name: hubResourceGroupName
-  scope: subscription(hubSubscriptionId)
+module hubDeploymentValues './hubDeploymentValues.bicep' = {
+  name: 'HubValues'
+  params: {
+    hubSubscriptionId:hubSubscriptionId
+    mlzHubDeploymentName:hubDeploymentName    
+  }
 }
-
 module workloadSpokeNetwork '../modules/spokeNetwork.bicep' = {
-  name: 'spokeNetwork'
+  name: 'workLoadSpokeNetwork'
   scope: az.resourceGroup(workloadResourceGroupName)
   params: {
     tags: calculatedTags    
-    firewallPrivateIPAddress: firewallPrivateIPAddress
+    firewallPrivateIPAddress: hubDeploymentValues.outputs.firewallPrivateIPAddress
     virtualNetworkName: workloadVirtualNetworkName
     virtualNetworkAddressPrefix: workloadVirtualNetworkAddressPrefix
     networkSecurityGroupName: workloadNetworkSecurityGroupName
@@ -84,17 +88,21 @@ module workloadSpokeNetwork '../modules/spokeNetwork.bicep' = {
     subnetAddressPrefix: workloadSubnetAddressPrefix
     
   }
+  dependsOn:[
+    hubDeploymentValues
+  ]
 }
 
 module hubVirtualNetworkPeerings '../modules/virtualNetworkPeering.bicep' = {
   name: 'deploy-hub-to-${workloadName}-vnet-peering'
   scope: az.resourceGroup(hubResourceGroupName)
   params: {
-    localVirtualNetworkName: hubVirtualNetworkName
+    localVirtualNetworkName: hubDeploymentValues.outputs.hubVirtualNetworkName
     remoteVirtualNetworkName: workloadVirtualNetworkName
     remoteResourceGroupName: workloadResourceGroupName
   }
   dependsOn: [
+    hubDeploymentValues
     workloadSpokeNetwork
   ]
 }
@@ -104,10 +112,11 @@ module workloadVirtualNetworkPeerings '../modules/virtualNetworkPeering.bicep' =
   scope: az.resourceGroup(workloadResourceGroupName)
   params: {
     localVirtualNetworkName: workloadVirtualNetworkName
-    remoteVirtualNetworkName: hubVirtualNetworkName
-    remoteResourceGroupName: hubResourceGroupName
+    remoteVirtualNetworkName: hubDeploymentValues.outputs.hubVirtualNetworkName
+    remoteResourceGroupName: hubDeploymentValues.outputs.hubResourceGroupName
   }
   dependsOn: [
+    hubDeploymentValues
     workloadSpokeNetwork
   ]
 }
