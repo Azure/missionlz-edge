@@ -16,7 +16,7 @@ param keyVaultSecretPerms array = [
   'all'
   
 ]
-param generatedSshKey object = json(loadTextContent('../sshkeys.json','utf-8'))
+param generatedSshKey object = json(loadTextContent('../sshkeys.json'))
 
 var publicKeySecretName = 'sshPublicKey'
 var privateKeySecretName = 'sshPrivateKey'
