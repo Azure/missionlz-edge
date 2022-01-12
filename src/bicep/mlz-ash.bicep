@@ -273,9 +273,11 @@ var sharedServicesSubnetName = replace(subnetNamingConvention, nameToken, shared
 var f5vm01extIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext')
 var f5vm01intIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-int')
 var f5vm01mgmtIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-mgmt')
+var f5vm01vdmcIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-vdms')
 var f5vm01extNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-ext')
 var f5vm01intNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-int')
 var f5vm01mgmtNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-mgmt')
+var f5vm01vdmsNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-vdms')
 var f5vm01VmName = replace(virtualMachineNamingConvention, nameToken, 'f5-01')
 var f5vm01PublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-01')
 var f5publicIPAddressAllocationMethod = 'Static'
@@ -423,6 +425,10 @@ module f5Vm01 './modules/firewall.bicep' = {
     networkSecurityGroupId: hubNetworkSecurityGroup.outputs.id
     deploymentNameSuffix: deploymentNameSuffix
     osDiskCreateOption: f5VmOsDiskCreateOption
+    vdmsIpConfigurationName: f5vm01vdmsIpConfigurationName
+    vdmsNicName: f5vm01vdmsNicName
+    vdmsPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
+    vdmsSubnetName: vdmsSubnetName
     virtualNetworkName: hubVirtualNetworkName
     vmName: f5vm01VmName
     vmOsDiskType: f5VmOsDiskType
