@@ -121,6 +121,9 @@ param f5VmImageVersion string = '14.0.001000'
 @description('[Static/Dynamic] The public IP Address allocation method for the F5 firewall appliance. It defaults to "Dynamic".')
 param f5privateIPAddressAllocationMethod string = 'Dynamic'
 
+@description('[true/false] Enable or Disable IP forwarding on a network interface resource.')
+param f5IpForwarding bool = true
+
 // HUB NETWORK PARAMETERS
 
 @description('An array of Network Security Group Rules to apply to the Hub Virtual Network. Default adds SSH and RDP to default rule set. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
@@ -408,24 +411,28 @@ module f5Vm01 './modules/firewall.bicep' = {
     adminUsername: f5VmAdminUsername
     authenticationType: f5VmAuthenticationType
     extIpConfigurationName: f5vm01extIpConfigurationName
+    extIpForwarding: f5IpForwarding
     extNicName: f5vm01extNicName
     extPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     extPublicIPAddressAllocationMethod: f5publicIPAddressAllocationMethod
     extPublicIpName: f5vm01PublicIPAddressName
     extSubnetName: extSubnetName
     intIpConfigurationName: f5vm01intIpConfigurationName
+    intIpForwarding: f5IpForwarding
     intNicName: f5vm01intNicName
     intPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     intSubnetName: intSubnetName
     location: location
     mgmtIpConfigurationName: f5vm01mgmtIpConfigurationName
+    mgmtIpForwarding: f5IpForwarding
     mgmtNicName: f5vm01mgmtNicName
     mgmtPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     mgmtSubnetName: mgmtSubnetName
     networkSecurityGroupId: hubNetworkSecurityGroup.outputs.id
     deploymentNameSuffix: deploymentNameSuffix
     osDiskCreateOption: f5VmOsDiskCreateOption
-    vdmsIpConfigurationName: f5vm01vdmsIpConfigurationName
+    vdmsIpConfigurationName: f5vm01vdmcIpConfigurationName
+    vdmsIpForwarding: f5IpForwarding
     vdmsNicName: f5vm01vdmsNicName
     vdmsPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     vdmsSubnetName: vdmsSubnetName

@@ -22,7 +22,7 @@ param vmImageSku string
 param vmImageVersion string
 param vmSize string
 
-param extIPForwarding bool
+param extIpForwarding bool
 param extIpConfigurationName string
 param extNicName string
 param extPrivateIPAddressAllocationMethod string
@@ -35,7 +35,7 @@ param extSubnetName string
 ])
 param extPublicIP string = 'yes'
 
-param intIPForwarding bool
+param intIpForwarding bool
 param intIpConfigurationName string
 param intNicName string
 param intPrivateIPAddressAllocationMethod string
@@ -46,7 +46,7 @@ param intSubnetName string
 ])
 param intPublicIP string = 'no'
 
-param mgmtIPForwarding bool
+param mgmtIpForwarding bool
 param mgmtIpConfigurationName string
 param mgmtNicName string
 param mgmtPrivateIPAddressAllocationMethod string
@@ -57,7 +57,7 @@ param mgmtSubnetName string
 ])
 param mgmtPublicIP string = 'no'
 
-param vdmsIPForwarding bool
+param vdmsIpForwarding bool
 param vdmsIpConfigurationName string
 param vdmsNicName string
 param vdmsPrivateIPAddressAllocationMethod string
@@ -108,7 +108,7 @@ resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existi
 module f5externalNic './networkInterface.bicep' = {
   name: 'create-ext-nic-${deploymentNameSuffix}'
   params: {
-    enableIPForwarding: extIPForwarding
+    enableIPForwarding: extIpForwarding
     ipConfigurationName: extIpConfigurationName
     location: location
     name: extNicName
@@ -131,7 +131,7 @@ resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existi
 module f5internalNic './networkInterface.bicep' = {
   name: 'create-int-nic-${deploymentNameSuffix}'
   params: {
-    enableIPForwarding: intIPForwarding
+    enableIPForwarding: intIpForwarding
     ipConfigurationName: intIpConfigurationName
     location: location
     name: intNicName
@@ -150,7 +150,7 @@ resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' exist
 module f5managementNic './networkInterface.bicep' = {
   name: 'create-mgmt-nic-${deploymentNameSuffix}'
   params: {
-    enableIPForwarding: mgmtIPForwarding
+    enableIPForwarding: mgmtIpForwarding
     ipConfigurationName: mgmtIpConfigurationName
     location: location
     name: mgmtNicName
@@ -169,7 +169,7 @@ resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' exist
 module f5vdmsNic './networkInterface.bicep' = {
   name: 'create-vdms-nic-${deploymentNameSuffix}'
   params: {
-    enableIPForwarding: vdmsIPForwarding
+    enableIPForwarding: vdmsIpForwarding
     ipConfigurationName: vdmsIpConfigurationName
     location: location
     name: vdmsNicName
