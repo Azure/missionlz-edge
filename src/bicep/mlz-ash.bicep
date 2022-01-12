@@ -491,6 +491,7 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
   name: 'deploy-${spoke.name}-to-hub-vnet-peering'
   scope: resourceGroup(spoke.resourceGroupName)
   params: {
+    allowForwardedTraffic: true
     localVirtualNetworkName: spoke.virtualNetworkName
     remoteVirtualNetworkName: hubVirtualNetworkName
     remoteResourceGroupName: hubResourceGroupName
