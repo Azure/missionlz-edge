@@ -4,7 +4,10 @@ param tenantId string
 param keyVaultAccessPolicyObjectId string
 //defaults
 param utcValue string = utcNow()
-param keyVaultName string = '${resourcePrefix}-kv'
+var keyVaultNamingConvention = toLower('${resourcePrefix}kv-unique_token')
+param newguid string = newGuid()
+
+var keyVaultUniqueName = replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9)))
 
 @allowed([
   'add'
@@ -23,9 +26,9 @@ var privateKeySecretName = 'sshPrivateKey'
 
 
 module keyVault './keyVault.bicep' = {
-  name: 'create_${keyVaultName}_${utcValue}'
+  name: 'create_${keyVaultUniqueName}_${utcValue}'
   params: {
-    keyVaultName: keyVaultName
+    keyVaultName: keyVaultUniqueName
     location: location
     tenantId: tenantId
     objectId:keyVaultAccessPolicyObjectId
@@ -37,7 +40,7 @@ module accessPolicy '../modules/keyVaultAccessPolicy.bicep' = {
   name: 'create_keyVaultAccessPolicy_${utcValue}'
   params: {
     keyVaultAccessPolicyName: keyVaultAccessPolicyName
-    keyVaultName: keyVaultName
+    keyVaultName: keyVaultUniqueName
     tenantId: tenantId
     keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
     secretPerms: keyVaultSecretPerms
@@ -49,7 +52,7 @@ module accessPolicy '../modules/keyVaultAccessPolicy.bicep' = {
 
 
 resource publicKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
-  name: '${keyVaultName}/${publicKeySecretName}'
+  name: '${keyVaultUniqueName}/${publicKeySecretName}'
   properties: {
     value: generatedSshKey.keyinfo.publicKey
   }
@@ -61,7 +64,7 @@ resource publicKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
 
 resource privateKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
  
-  name: '${keyVaultName}/${privateKeySecretName}'
+  name: '${keyVaultUniqueName}/${privateKeySecretName}'
   
   properties: {
     value: generatedSshKey.keyinfo.privateKey
