@@ -88,6 +88,12 @@ var nics = [
       primary: false
     }
   }
+  {
+    id: f5vdmsNic.outputs.id
+    properties: {
+      primary: false
+    }
+  }
 ]
 
 // Create Public IP
