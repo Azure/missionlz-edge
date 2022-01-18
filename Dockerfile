@@ -16,38 +16,32 @@ RUN apt-get install -y \
     wget \
     unzip \
     git \
-    curl 
+    curl \
+    vim
 
-#Add container requirements
 # Download the Microsoft repository GPG keys
 RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb
 
 # Register the Microsoft repository GPG keys
 RUN dpkg -i packages-microsoft-prod.deb
 
-# Update the list of products
-RUN apt-get update
 
-# Install PowerShell
-RUN apt-get install -y powershell
-
-# Start PowerShell
-RUN pwsh
-
-#Install Powershell
-RUN pwsh -Command "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force"
-
-#Install Azs.Syndication.Admin
-RUN pwsh -Command "Install-Module -Name Azs.Syndication.Admin -RequiredVersion 0.1.140 -Force"
+# Update the list of products and Install PowerShell and AZ CLI
+RUN apt-get update \
+    && apt-get install -y powershell \
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
+    && az bicep install --version v0.4.1008
 
 # Add repo source files
 #JJ TO DO NEED to change release code to pull the mlz-edge code base when we have a release
 RUN mkdir /workspaces
-RUN mkdir /workspaces/missionlz-edge
-RUN wget https://github.com/Azure/missionlz/archive/refs/tags/v2021.10.2.zip
-RUN unzip v2021.10.2.zip
-RUN mv missionlz-2021.10.2 /workspaces/missionlz-edge
-RUN rm -rf v2021.10.2.zip
+
+COPY src /workspaces/src
+
+RUN cd /workspaces \
+    && pwsh ./src/scripts/setup.ps1
+
+WORKDIR /workspaces
 
 # Add the edge user
 ARG USERNAME=edge
@@ -55,6 +49,3 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 RUN adduser $USERNAME \
     && usermod -aG sudo $USERNAME 
-
-# Reset to the default value
-ENV DEBIAN_FRONTEND=dialog
