@@ -160,18 +160,9 @@ param hubNetworkSecurityGroupRules array = [
 
 // IDENTITY PARAMETERS
 
-@description('An array of Network Security Group Rules to apply to the Identity Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
-param identityNetworkSecurityGroupRules array = []
-
 // OPERATIONS PARAMETERS
 
-@description('An array of Network Security Group rules to apply to the Operations Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
-param operationsNetworkSecurityGroupRules array = []
-
 // SHARED SERVICES PARAMETERS
-
-@description('An array of Network Security Group rules to apply to the SharedServices Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
-param sharedServicesNetworkSecurityGroupRules array = []
 
 /*
 
@@ -210,7 +201,7 @@ var subnetNamingConvention = replace(namingConvention, resourceToken, 'snet')
 var virtualMachineNamingConvention = replace(namingConvention, resourceToken, 'vm')
 var virtualNetworkNamingConvention = replace(namingConvention, resourceToken, 'vnet')
 
-// HUB NAMES
+// HUB VARIABLES
 
 var hubName = 'hub'
 var hubResourceGroupName = replace(resourceGroupNamingConvention, nameToken, hubName)
@@ -247,31 +238,88 @@ var hubSubnets = [
   }
 ]
 
-// IDENTITY NAMES
+// IDENTITY VARIABLES
 
 var identityName = 'identity'
 var identityResourceGroupName = replace(resourceGroupNamingConvention, nameToken, identityName)
 var identityVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, identityName)
 var identityNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, identityName)
 var identitySubnetName = replace(subnetNamingConvention, nameToken, identityName)
+var identityNetworkSecurityGroupRules = [
+  {
+    name: 'allow_EAST-WEST_traffic'
+    properties: {
+      description: 'Allows traffic between spokes'
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefixes: [
+        '${operationsVirtualNetworkAddressPrefix}'
+        '${sharedServicesVirtualNetworkAddressPrefix}'
+      ]
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+]
 
-// OPERATIONS NAMES
+// OPERATIONS VARIABLES
 
 var operationsName = 'operations'
 var operationsResourceGroupName = replace(resourceGroupNamingConvention, nameToken, operationsName)
 var operationsVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, operationsName)
 var operationsNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, operationsName)
 var operationsSubnetName = replace(subnetNamingConvention, nameToken, operationsName)
+var operationsNetworkSecurityGroupRules = [
+  {
+    name: 'allow_EAST-WEST_traffic'
+    properties: {
+      description: 'Allows traffic between spokes'
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefixes: [
+        '${identityVirtualNetworkAddressPrefix}'
+        '${sharedServicesVirtualNetworkAddressPrefix}'
+      ]
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+]
 
-// SHARED SERVICES NAMES
+// SHARED SERVICES VARIABLES
 
 var sharedServicesName = 'sharedServices'
 var sharedServicesResourceGroupName = replace(resourceGroupNamingConvention, nameToken, sharedServicesName)
 var sharedServicesVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, sharedServicesName)
 var sharedServicesNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, sharedServicesName)
 var sharedServicesSubnetName = replace(subnetNamingConvention, nameToken, sharedServicesName)
+var sharedServicesNetworkSecurityGroupRules = [
+  {
+    name: 'allow_EAST-WEST_traffic'
+    properties: {
+      description: 'Allows traffic between spokes'
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefixes: [
+        '${identityVirtualNetworkAddressPrefix}'
+        '${operationsVirtualNetworkAddressPrefix}'
+      ]
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+]
 
-// FIREWALL NAMES
+// FIREWALL VARIABLES
 
 var f5vm01extIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext')
 var f5vm01intIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-int')
@@ -428,7 +476,7 @@ module f5Vm01 './modules/firewall.bicep' = {
     mgmtNicName: f5vm01mgmtNicName
     mgmtPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     mgmtSubnetName: mgmtSubnetName
-    networkSecurityGroupId: hubNetworkSecurityGroup.outputs.id
+    // networkSecurityGroupId: hubNetworkSecurityGroup.outputs.id
     deploymentNameSuffix: deploymentNameSuffix
     osDiskCreateOption: f5VmOsDiskCreateOption
     vdmsIpConfigurationName: f5vm01vdmcIpConfigurationName

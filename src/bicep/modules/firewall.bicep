@@ -1,7 +1,7 @@
 // Parameters
 param deploymentNameSuffix string
 param location string
-param networkSecurityGroupId string
+// param networkSecurityGroupId string
 param virtualNetworkName string
 
 @allowed([
@@ -118,7 +118,6 @@ module f5externalNic './networkInterface.bicep' = {
     ipConfigurationName: extIpConfigurationName
     location: location
     name: extNicName
-    networkSecurityGroupId: networkSecurityGroupId
     privateIPAddressAllocationMethod: extPrivateIPAddressAllocationMethod
     publicIP: extPublicIP
     publicIPAddressId: fwPublicIp.outputs.id
@@ -141,7 +140,6 @@ module f5internalNic './networkInterface.bicep' = {
     ipConfigurationName: intIpConfigurationName
     location: location
     name: intNicName
-    networkSecurityGroupId: networkSecurityGroupId
     privateIPAddressAllocationMethod: intPrivateIPAddressAllocationMethod
     publicIP: intPublicIP
     subnetId: intSubnet.id
@@ -160,7 +158,6 @@ module f5managementNic './networkInterface.bicep' = {
     ipConfigurationName: mgmtIpConfigurationName
     location: location
     name: mgmtNicName
-    networkSecurityGroupId: networkSecurityGroupId
     privateIPAddressAllocationMethod: mgmtPrivateIPAddressAllocationMethod
     publicIP: mgmtPublicIP
     subnetId: mgmtSubnet.id
@@ -179,7 +176,6 @@ module f5vdmsNic './networkInterface.bicep' = {
     ipConfigurationName: vdmsIpConfigurationName
     location: location
     name: vdmsNicName
-    networkSecurityGroupId: networkSecurityGroupId
     privateIPAddressAllocationMethod: vdmsPrivateIPAddressAllocationMethod
     publicIP: vdmsPublicIP
     subnetId: vdmsSubnet.id

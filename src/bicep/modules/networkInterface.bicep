@@ -5,7 +5,6 @@ param tags object = {}
 param enableIPForwarding bool = false
 param ipConfigurationName string
 param subnetId string
-param networkSecurityGroupId string
 param privateIPAddressAllocationMethod string
 param publicIP string
 param publicIPAddressId string = ''
@@ -46,9 +45,6 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
   properties: {
     enableIPForwarding: enableIPForwarding
     ipConfigurations: ipConfig[publicIP]
-    networkSecurityGroup: {
-      id: networkSecurityGroupId
-    }
   }
 }
 
