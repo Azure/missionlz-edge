@@ -177,7 +177,6 @@ if($subscriptionId)
 
 foreach($line in [System.IO.File]::ReadLines("$marketPlaceItemsPath"))
 {
-    # Todo: Add test for existing resource
     $product = (($line.replace('<subscription>', $subscription[0].Id)).replace('<registration>', $registrationName)).replace('<resourcegroup>', $resourceGroup)
     $products += $product
 }

@@ -1,5 +1,3 @@
-# Todo: Handle versioning since the Azs is loaded with AzureStack its version / and directory may change
-
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted # removes need to approce untrusted gallery items.
 
 Install-Module -Name Az.BootStrapper -Force

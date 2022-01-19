@@ -80,24 +80,24 @@ At a few different stages in the process it can be modified to download an exter
 
 - The easiest way to accomplish this task would be use the Azure Stack Hub syndication tool which runs on Windows to select items you want to move into ASH and can download then import. This is the same tool, although slightly modified to run on Linux that is used in this container process except it doesn't allow you to run the 'Select items' capability. 
 
-- `./artifacts/defaultMlzMarketPlaceItems.txt` host the required by MLZ list of marrkplace items. Modify this list either in the source repo which then requires a new container to be built or inside the container using `vi ./artifacts/defaultMlzMarketPlaceItems.txt`.
+- `./artifacts/defaultMlzMarketPlaceItems.txt` host the required by MLZ list of marketplace items. Modify this list either in the source repo which then requires a new container to be built or inside the container using `vi ./artifacts/defaultMlzMarketPlaceItems.txt`.
 
-*Note: the items are seperated by new line and are in the resource ID format `/subscriptions/<subscription>/resourceGroups/<resourcegroup>/providers/Microsoft.AzureStack/registrations/<registration>/products/f5-networks.f5-big-ip-bestf5-bigip-virtual-edition-best-byol-13.1.100000`. Leave the variables for \<subscription\> and \<registraion\> as is since the script replaces these based on the credentials you enter.*  
+*Note: the items are separated by new line and are in the resource ID format `/subscriptions/<subscription>/resourceGroups/<resourcegroup>/providers/Microsoft.AzureStack/registrations/<registration>/products/f5-networks.f5-big-ip-bestf5-bigip-virtual-edition-best-byol-13.1.100000`. Leave the variables for \<subscription\> and \<registration\> as is since the script replaces these based on the credentials you enter.*  
 
-- An additional model to undertake would be combine both efforts, the easy method using the windows tooling to create a diretory of items and then move that dorectory into the artifacts folder prior to building the container. At this point the 'download' process would not need to be run since it is already completed so only the 'import' process should run to move into ASH.
+- An additional model to undertake would be combine both efforts, the easy method using the windows tooling to create a directory of items and then move that directory into the artifacts folder prior to building the container. At this point the 'download' process would not need to be run since it is already completed so only the 'import' process should run to move into ASH.
 
 ## Trouble shooting this process
 
 - Error downloading marketplace items due to size limits.
-Run `df -h` in WSL to see  current directory sizes and usage. The docker directory `/mnt/wsl/docker-desktop-data/isocache` can be maxed out either due to caching a failed effort or other cuase. Running `docker system prune` may clear enough resources to download items. 
+Run `df -h` in WSL to see  current directory sizes and usage. The docker directory `/mnt/wsl/docker-desktop-data/isocache` can be maxed out either due to caching a failed effort or other cause. Running `docker system prune` may clear enough resources to download items. 
 
-### Changing default docker size limits may also eleviate the issue. To resize:
+### Changing default docker size limits may also alleviate the issue. To resize:
 - Stop WSL by running `wsl -shutdown`
 - Stop Docker For Windows by right clicking DFW in status bar and selecting quit.
 - Open command prompt and start disk partition by running `diskpart`
 - In diskpart command line select the correct VHD file by running `Select vdisk file=<path to VHD>` - where path to VHD is most likely %LOCALDATA%\Docker\wsl\data\ext4.vhdx
 - Confirm the correct VDisk is selected by running `detail vdisk`
 - Now expand the disk by running  `expand vdisk maximum=<sizeInMegaBytes>` where sizeInMegaBytes is something like 512000. ~Note: 512000 may not be enough since it typically is double the default size, this depends on additions to Market Place items you may have added and the current size of them as of today.
-- Exit diskpart and restart WSL by typeing `wsl` at command prompt.
+- Exit diskpart and restart WSL by typing `wsl` at command prompt.
 - Start Docker For Windows
 - Double check size by running `df -Th` at command prompt and look for /mnt/wsl/docker-desktop-data directory
