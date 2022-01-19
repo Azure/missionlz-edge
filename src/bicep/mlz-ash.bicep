@@ -321,7 +321,8 @@ var sharedServicesNetworkSecurityGroupRules = [
 
 // FIREWALL VARIABLES
 
-var f5vm01extIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext')
+var f5vm01extIpConfiguration1Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext1')
+var f5vm01extIpConfiguration2Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext2')
 var f5vm01intIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-int')
 var f5vm01mgmtIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-mgmt')
 var f5vm01vdmcIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-vdms')
@@ -330,7 +331,8 @@ var f5vm01intNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5v
 var f5vm01mgmtNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-mgmt')
 var f5vm01vdmsNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-vdms')
 var f5vm01VmName = replace(virtualMachineNamingConvention, nameToken, 'f5-01')
-var f5vm01PublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-01')
+var f5vm01OutboundPublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-out')
+var f5vm01InboundPublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-in')
 var f5publicIPAddressAllocationMethod = 'Static'
 
 // SPOKES
@@ -458,12 +460,14 @@ module f5Vm01 './modules/firewall.bicep' = {
     adminPasswordOrKey: f5VmAuthenticationType=='password'?f5VmAdminPasswordOrKey: f5Vm01SshKeyVault.outputs.publicKey
     adminUsername: f5VmAdminUsername
     authenticationType: f5VmAuthenticationType
-    extIpConfigurationName: f5vm01extIpConfigurationName
+    extIpConfiguration1Name: f5vm01extIpConfiguration1Name
+    extIpConfiguration2Name: f5vm01extIpConfiguration2Name
     extIpForwarding: f5IpForwarding
     extNicName: f5vm01extNicName
     extPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     extPublicIPAddressAllocationMethod: f5publicIPAddressAllocationMethod
-    extPublicIpName: f5vm01PublicIPAddressName
+    extOutboundPublicIpName: f5vm01OutboundPublicIPAddressName
+    extInboundPublicIpName: f5vm01InboundPublicIPAddressName
     extSubnetName: extSubnetName
     intIpConfigurationName: f5vm01intIpConfigurationName
     intIpForwarding: f5IpForwarding
@@ -476,7 +480,6 @@ module f5Vm01 './modules/firewall.bicep' = {
     mgmtNicName: f5vm01mgmtNicName
     mgmtPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     mgmtSubnetName: mgmtSubnetName
-    // networkSecurityGroupId: hubNetworkSecurityGroup.outputs.id
     deploymentNameSuffix: deploymentNameSuffix
     osDiskCreateOption: f5VmOsDiskCreateOption
     vdmsIpConfigurationName: f5vm01vdmcIpConfigurationName
