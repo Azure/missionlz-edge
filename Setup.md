@@ -25,13 +25,13 @@ Clone the repo and run the following from a command prompt in which docker clien
 - Create new container from dockerfile: use your own naming in place of shawngib/syndication
 
   ```bash
-  docker build -t shawngib/syndication .
+  docker build -t <image_name> .
   ```
 
 - Run new container in interactive mode
 
   ```bash
-  docker run -it shawngib/syndication
+  docker run -it <image_name>
   ```
 
 ## Inside container \<download\>
@@ -101,7 +101,7 @@ Clone the repo and run the following from a command prompt in which docker clien
 - Now inside the container run:
 
   ```bash
-  pwsh ./src/scripts/import.ps1 – hubDomain <local ASH domain> [-activeDirectoryEndpoint <ADFS Login>]
+  pwsh ./src/scripts/import.ps1 -hubDomain <local ASH domain> [-UseDeviceAuthentication]
   ```
 
   *Note: Import will use the default value of AzureStackAdmin for adding an environment into the containers local Azure environment files. This will be based on the hubDomain value you enter which is basically the same portal domain you use to access the stamp minus the ‘portal’ or ‘adminportal’ part. Example: ‘region.localstamp.com’* . The activeDirectoryEndpoint parameter is defaulted to publicly accessible AAD endpoint of ‘<https://login.microsoftonline.com/>’ for logging into ASH, if this is different add that parameter and value.
@@ -125,10 +125,10 @@ Run `df -h` in WSL to see  current directory sizes and usage. The docker directo
 
 ### Changing default docker size limits may also alleviate the issue. To resize
 
-- Stop WSL by running `wsl -shutdown`
+- Stop WSL by running `wsl --shutdown`
 - Stop Docker For Windows by right clicking DFW in status bar and selecting quit.
 - Open command prompt and start disk partition by running `diskpart`
-- In diskpart command line select the correct VHD file by running `Select vdisk file=<path to VHD>` - where path to VHD is most likely %LOCALDATA%\Docker\wsl\data\ext4.vhdx
+- In diskpart command line select the correct VHD file by running `Select vdisk file=<path to VHD>` - where path to VHD is most likely %LOCALAPPDATA%\Docker\wsl\data\ext4.vhdx
 - Confirm the correct VDisk is selected by running `detail vdisk`
 - Now expand the disk by running  `expand vdisk maximum=<sizeInMegaBytes>` where sizeInMegaBytes is something like 512000. ~Note: 512000 may not be enough since it typically is double the default size, this depends on additions to Market Place items you may have added and the current size of them as of today.
 - Exit diskpart and restart WSL by typing `wsl` at command prompt.

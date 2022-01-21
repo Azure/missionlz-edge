@@ -13,10 +13,13 @@ param
     [string] $journalDir,  # If previously run enter the existing journal to start from
 
     [Parameter(Mandatory = $false)]
-    $modulePath = $HOME + '/.local/share/powershell/Modules/Azs.Syndication.Admin/0.1.157',
+    [string]$modulePath = $HOME + '/.local/share/powershell/Modules/Azs.Syndication.Admin/0.1.157',
 
     [Parameter(Mandatory = $false)]
-    $activeDirectoryEndpoint = 'https://login.microsoftonline.com/'
+    [string]$activeDirectoryEndpoint = 'https://login.microsoftonline.com/',
+
+    [Parameter(Mandatory = $false)]
+    [switch]$UseDeviceAuthentication
 )
 $null = Disable-AzContextAutosave
 
@@ -41,9 +44,16 @@ try {
     $null = Get-AzSubscription -SubscriptionName 'Default Provider Subscription' -WarningAction Ignore -ea stop
 } catch {
     try {
-        $adminSub = Get-Credential -Message "Please enter user name and password for ASH Admin subscription."
-        $null = Connect-AzAccount -Credential $adminSub -Environment $environment -ea Stop # Add Tenant plus Environment for ASH? Also since interactive is not supported will this break for MFA?
-        $null = Get-AzSubscription -SubscriptionName 'Default Provider Subscription' -WarningAction Ignore -ea stop
+        if($UseDeviceAuthentication.ToBool()) {
+            $null = Connect-AzAccount -UseDeviceAuthentication -Environment $environment -ea Stop # Add Tenant plus Environment for ASH? Also since interactive is not supported will this break for MFA?
+            $subscription = Get-AzSubscription -WarningAction Ignore
+            $currentContext = Get-AzContext
+        } else {
+            $registrationSub = Get-Credential -Message "Please enter user name and password for ASH Admin subscription."
+            $null = Connect-AzAccount -Credential $registrationSub -Environment $environment -ea Stop # Add Tenant plus Environment for ASH? Also since interactive is not supported will this break for MFA?
+            $subscription = Get-AzSubscription -WarningAction Ignore
+            $currentContext = Get-AzContext
+        }
     } catch {
         if($PSItem.Exception.InnerException.ErrorCode -eq 'invalid_grant')
         { 

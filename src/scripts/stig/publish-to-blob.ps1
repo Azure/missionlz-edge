@@ -22,7 +22,7 @@ Param(
     
     [string]
     [Parameter(Mandatory = $false)]
-    $osBasePath = '.\scripts\stig\'
+    $osBasePath = '.\src\scripts\stig\'
 )
 
 if(!$uploadStigReq)
