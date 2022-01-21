@@ -9,9 +9,9 @@ Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission
 ### Requirements
 Currently this process is developed running Docker for Windows desktop with WSL enabled. While other setups may/should support running this same process certain commands might be slightly different to what is listed here.
 
-Tested environments:
-- New container built from repo's container file
-- Windows 10 & 11 running WSL with PowerShell core installed (This requires running setup.ps1 in PWSH  which installs modified version of Syndication Tool)
+Tested environments: 2 Options
+- New container built from repo's container file - Following all steps below.
+- Windows 10 & 11 running WSL with PowerShell core installed - Outside a container requires running setup.ps1 in PWSH which installs modified version of Syndication Tool and then following running download and import PowerShell scripts.
 
 ## Container \<create\>: 
 Clone the repo and run the following from a command prompt in which docker client is installed and has access to docker service. Also run from repo's root directory.
