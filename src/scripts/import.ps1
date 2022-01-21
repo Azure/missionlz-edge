@@ -16,9 +16,6 @@ param
     [string]$modulePath = $HOME + '/.local/share/powershell/Modules/Azs.Syndication.Admin/0.1.157',
 
     [Parameter(Mandatory = $false)]
-    [string]$activeDirectoryEndpoint = 'https://login.microsoftonline.com/',
-
-    [Parameter(Mandatory = $false)]
     [switch]$UseDeviceAuthentication
 )
 $null = Disable-AzContextAutosave
@@ -34,8 +31,7 @@ if($azEnvironment.count -ne 1) {
     Write-Host "Didn't find admin environment, adding it now:" -ForegroundColor Cyan
     Add-AzEnvironment -Name $environment -ArmEndpoint "https://adminmanagement.$hubDomain" `
         -AzureKeyVaultDnsSuffix "adminvault.$hubDomain" `
-        -AzureKeyVaultServiceEndpointResourceId "https://adminvault.$hubDomain" #`
-        #-ActiveDirectoryEndpoint $activeDirectoryEndpoint
+        -AzureKeyVaultServiceEndpointResourceId "https://adminvault.$hubDomain" 
 } 
 
 # Check for current azure  and default subscription for ASH admin environment

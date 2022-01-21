@@ -41,10 +41,10 @@ Clone the repo and run the following from a command prompt in which docker clien
 - Run download script as first step of syndication. This will also upload the required resources needed to STIG VMs into a storage account unless you add the parameter `-uploadStigReq $false`. Note: if you wanted to modify marketplace items prior to this download step you can modify the artifacts/defaultMarketPlaceItems.txt file to include those.
 
   ```bash
-  pwsh ./src/scripts/download.ps1 –registrationName <your reg. name> # example: CPEC-37173
+  pwsh ./src/scripts/download.ps1 –registrationName <your reg. name> [-UseDeviceAuthentication] # example: CPEC-37173
   ```
 
-  *Note: You will be prompted for username and password for a user that has access to the subscription where the registration exists.*
+  *Note: You will be prompted for username and password for a user that has access to the subscription where the registration exists. To find your registration name you can log into the Admin portal and on the dashboard select the region inside the 'region management' widget and then select properties. *
 
 ## Save container – commit changes in new container
 
@@ -104,7 +104,7 @@ Clone the repo and run the following from a command prompt in which docker clien
   pwsh ./src/scripts/import.ps1 -hubDomain <local ASH domain> [-UseDeviceAuthentication]
   ```
 
-  *Note: Import will use the default value of AzureStackAdmin for adding an environment into the containers local Azure environment files. This will be based on the hubDomain value you enter which is basically the same portal domain you use to access the stamp minus the ‘portal’ or ‘adminportal’ part. Example: ‘region.localstamp.com’* . The activeDirectoryEndpoint parameter is defaulted to publicly accessible AAD endpoint of ‘<https://login.microsoftonline.com/>’ for logging into ASH, if this is different add that parameter and value.
+  *Note: Import will use the default value of AzureStackAdmin for adding an environment into the containers local Azure environment files. This will be based on the hubDomain value you enter which is basically the same portal domain you use to access the stamp minus the ‘portal’ or ‘adminportal’ part. Example: ‘region.localstamp.com’* .
 
 ## Using this container model to transport other market place items
 
