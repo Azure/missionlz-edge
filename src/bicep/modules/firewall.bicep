@@ -253,7 +253,7 @@ module f5externalNic './networkInterface.bicep' = {
   name: 'create-ext-nic-${deploymentNameSuffix}'
   params: {
     enableIPForwarding: extIpForwarding
-    ipConfigs: ipConfigs['external']
+    ipConfigurations: ipConfigs['external']
     location: location
     name: extNicName
   }
@@ -285,7 +285,7 @@ module f5internalNic './networkInterface.bicep' = {
   name: 'create-int-nic-${deploymentNameSuffix}'
   params: {
     enableIPForwarding: intIpForwarding
-    ipConfigs: ipConfigs['internal']
+    ipConfigurations: ipConfigs['internal']
     location: location
     name: intNicName
   }
@@ -313,7 +313,7 @@ module f5managementNic './networkInterface.bicep' = {
   name: 'create-mgmt-nic-${deploymentNameSuffix}'
   params: {
     enableIPForwarding: mgmtIpForwarding
-    ipConfigs: ipConfigs['mgmt']
+    ipConfigurations: ipConfigs['mgmt']
     location: location
     name: mgmtNicName
   }
@@ -329,7 +329,7 @@ module f5vdmsNic './networkInterface.bicep' = {
   name: 'create-vdms-nic-${deploymentNameSuffix}'
   params: {
     enableIPForwarding: vdmsIpForwarding
-    ipConfigs: ipConfigs['vdms']
+    ipConfigurations: ipConfigs['vdms']
     location: location
     name: vdmsNicName
   }

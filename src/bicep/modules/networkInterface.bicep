@@ -3,7 +3,7 @@ param location string
 param tags object = {}
 
 param enableIPForwarding bool = false
-param ipConfigs array
+param ipConfigurations array
 
 // param ipConfigurationName string
 // param subnetId string
@@ -57,7 +57,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
 
   properties: {
     enableIPForwarding: enableIPForwarding
-    ipConfigurations: ipConfigs
+    ipConfigurations: ipConfigurations
   }
 }
 
