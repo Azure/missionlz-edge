@@ -24,7 +24,7 @@ param vmSize string
 
 param extIpForwarding bool
 param extIpConfiguration1Name string
-param extIpConfiguration2Name string
+// param extIpConfiguration2Name string
 param extNicName string
 param extPrivateIPAddressAllocationMethod string
 param extPublicIPAddressAllocationMethod string
@@ -99,70 +99,63 @@ var nics = [
 ]
 
 var ipConfigs = {
-  external: [
-    {
-      name: extIpConfiguration1Name
-      properties: {
-        subnet: {
-          id: extSubnet.id
-        }
-        primary: true
-        privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
-        publicIPAddress: {
-          id: fwOutboundPublicIp.outputs.id
-        }
+  external: {
+    name: extIpConfiguration1Name
+    properties: {
+      subnet: {
+        id: extSubnet.id
+      }
+      primary: true
+      privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
+      publicIPAddress: {
+        id: fwOutboundPublicIp.outputs.id
       }
     }
-    {
-      name: extIpConfiguration2Name
-      properties: {
-        subnet: {
-          id: extSubnet.id
-        }
-        primary: false
-        privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
-        publicIPAddress: {
-          id: fwInboundPublicIp.outputs.id
-        }
+  }
+  //   {
+  //     name: extIpConfiguration2Name
+  //     properties: {
+  //       subnet: {
+  //         id: extSubnet.id
+  //       }
+  //       primary: false
+  //       privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
+  //       publicIPAddress: {
+  //         id: fwInboundPublicIp.outputs.id
+  //       }
+  //     }
+  //   }
+  // }
+  internal: {
+    name: intIpConfigurationName
+    properties: {
+      subnet: {
+        id: intSubnet.id
       }
+      primary: true
+      privateIPAllocationMethod: intPrivateIPAddressAllocationMethod
     }
-  ]
-  internal: [
-    {
-      name: intIpConfigurationName
-      properties: {
-        subnet: {
-          id: intSubnet.id
-        }
-        primary: true
-        privateIPAllocationMethod: intPrivateIPAddressAllocationMethod
+  }
+  mgmt: {
+    name: mgmtIpConfigurationName
+    properties: {
+      subnet: {
+        id: mgmtSubnet.id
       }
+      primary: true
+      privateIPAllocationMethod: mgmtPrivateIPAddressAllocationMethod
     }
-  ]
-  mgmt: [
-    {
-      name: mgmtIpConfigurationName
-      properties: {
-        subnet: {
-          id: mgmtSubnet.id
-        }
-        primary: true
-        privateIPAllocationMethod: mgmtPrivateIPAddressAllocationMethod
+  }
+  vdms: {
+    name: vdmsIpConfigurationName
+    properties: {
+      subnet: {
+        id: vdmsSubnet.id
       }
+      primary: true
+      privateIPAllocationMethod: vdmsPrivateIPAddressAllocationMethod
     }
-  ]
-  vdms: [
-    {
-      name: vdmsIpConfigurationName
-      properties: {
-        subnet: {
-          id: vdmsSubnet.id
-        }
-        primary: true
-        privateIPAllocationMethod: vdmsPrivateIPAddressAllocationMethod
-      }
-    }
-  ]
+  }
 }
 
 

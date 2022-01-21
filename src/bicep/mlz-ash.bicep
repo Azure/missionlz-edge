@@ -322,7 +322,7 @@ var sharedServicesNetworkSecurityGroupRules = [
 // FIREWALL VARIABLES
 
 var f5vm01extIpConfiguration1Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext1')
-var f5vm01extIpConfiguration2Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext2')
+// var f5vm01extIpConfiguration2Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext2')
 var f5vm01intIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-int')
 var f5vm01mgmtIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-mgmt')
 var f5vm01vdmcIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-vdms')
@@ -461,7 +461,7 @@ module f5Vm01 './modules/firewall.bicep' = {
     adminUsername: f5VmAdminUsername
     authenticationType: f5VmAuthenticationType
     extIpConfiguration1Name: f5vm01extIpConfiguration1Name
-    extIpConfiguration2Name: f5vm01extIpConfiguration2Name
+    // extIpConfiguration2Name: f5vm01extIpConfiguration2Name
     extIpForwarding: f5IpForwarding
     extNicName: f5vm01extNicName
     extPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
