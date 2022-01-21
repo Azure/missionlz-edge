@@ -3,7 +3,7 @@ param location string
 param tags object = {}
 
 param enableIPForwarding bool = false
-param ipConfigurations object
+param ipConfigurations array
 
 // param ipConfigurationName string
 // param subnetId string

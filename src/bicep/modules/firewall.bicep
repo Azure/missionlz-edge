@@ -99,19 +99,21 @@ var nics = [
 ]
 
 var ipConfigs = {
-  external: {
-    name: extIpConfiguration1Name
-    properties: {
-      subnet: {
-        id: extSubnet.id
-      }
-      primary: true
-      privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
-      publicIPAddress: {
-        id: fwOutboundPublicIp.outputs.id
+  external: [
+    {
+      name: extIpConfiguration1Name
+      properties: {
+        subnet: {
+          id: extSubnet.id
+        }
+        primary: true
+        privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
+        publicIPAddress: {
+          id: fwOutboundPublicIp.outputs.id
+        }
       }
     }
-  }
+  ]
   //   {
   //     name: extIpConfiguration2Name
   //     properties: {
@@ -126,36 +128,42 @@ var ipConfigs = {
   //     }
   //   }
   // }
-  internal: {
-    name: intIpConfigurationName
-    properties: {
-      subnet: {
-        id: intSubnet.id
+  internal: [
+    {
+      name: intIpConfigurationName
+      properties: {
+        subnet: {
+          id: intSubnet.id
+        }
+        primary: true
+        privateIPAllocationMethod: intPrivateIPAddressAllocationMethod
       }
-      primary: true
-      privateIPAllocationMethod: intPrivateIPAddressAllocationMethod
     }
-  }
-  mgmt: {
-    name: mgmtIpConfigurationName
-    properties: {
-      subnet: {
-        id: mgmtSubnet.id
+  ]
+  mgmt: [
+    {
+      name: mgmtIpConfigurationName
+      properties: {
+        subnet: {
+          id: mgmtSubnet.id
+        }
+        primary: true
+        privateIPAllocationMethod: mgmtPrivateIPAddressAllocationMethod
       }
-      primary: true
-      privateIPAllocationMethod: mgmtPrivateIPAddressAllocationMethod
     }
-  }
-  vdms: {
-    name: vdmsIpConfigurationName
-    properties: {
-      subnet: {
-        id: vdmsSubnet.id
+  ]
+  vdms: [
+    {
+      name: vdmsIpConfigurationName
+      properties: {
+        subnet: {
+          id: vdmsSubnet.id
+        }
+        primary: true
+        privateIPAllocationMethod: vdmsPrivateIPAddressAllocationMethod
       }
-      primary: true
-      privateIPAllocationMethod: vdmsPrivateIPAddressAllocationMethod
     }
-  }
+  ]
 }
 
 
