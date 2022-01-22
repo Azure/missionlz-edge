@@ -322,7 +322,7 @@ var sharedServicesNetworkSecurityGroupRules = [
 // FIREWALL VARIABLES
 
 var f5vm01extIpConfiguration1Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext1')
-// var f5vm01extIpConfiguration2Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext2')
+var f5vm01extIpConfiguration2Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext2')
 var f5vm01intIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-int')
 var f5vm01mgmtIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-mgmt')
 var f5vm01vdmcIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-vdms')
@@ -410,6 +410,7 @@ module spokeResourceGroups './modules/resourceGroup.bicep' = [for spoke in spoke
 
 // HUB RESOURCES
 
+//Create Hub Virtual Network and Subnets
 module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
   name: 'deploy-vnet-hub-${deploymentNameSuffix}'
   scope: resourceGroup(hubResourceGroupName)
@@ -425,6 +426,7 @@ module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
   ]
 }
 
+// Create Hub NSG
 module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-nsg-hub-${deploymentNameSuffix}'
@@ -438,6 +440,35 @@ module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
   ]
 }
 
+// Create Outbound Public IP
+module fwOutboundPublicIp './modules/publicIPAddress.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'create-fw_out-pubip-${deploymentNameSuffix}'
+  params: {
+    location: location
+    name: f5vm01OutboundPublicIPAddressName
+    publicIpAllocationMethod: f5publicIPAddressAllocationMethod
+  }
+  dependsOn: [
+    hubResourceGroup
+  ]
+}
+
+// Create Inbound Public IP
+module fwInboundPublicIp './modules/publicIPAddress.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'create-fw_in-pubip-${deploymentNameSuffix}'
+  params: {
+    location: location
+    name: f5vm01InboundPublicIPAddressName
+    publicIpAllocationMethod: f5publicIPAddressAllocationMethod
+  }
+  dependsOn: [
+    hubResourceGroup
+  ]
+}
+
+// Create Key Vault to store F5 SSH key pair
 module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticationType=='sshPublicKey'){
   scope: resourceGroup(hubResourceGroupName)
   name:'deploy-f5vm01Sshkv-hub-${deploymentNameSuffix}'
@@ -453,6 +484,29 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
 
 }
 
+// Replace the subnet resources below with output from virtualNetwork module
+resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${extSubnetName}'
+}
+
+resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${intSubnetName}'
+}
+
+resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${mgmtSubnetName}'
+}
+
+resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${vdmsSubnetName}'
+}
+//
+
+// Create F5 firewall
 module f5Vm01 './modules/firewall.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-f5vm01-hub-${deploymentNameSuffix}'
@@ -461,33 +515,31 @@ module f5Vm01 './modules/firewall.bicep' = {
     adminUsername: f5VmAdminUsername
     authenticationType: f5VmAuthenticationType
     extIpConfiguration1Name: f5vm01extIpConfiguration1Name
-    // extIpConfiguration2Name: f5vm01extIpConfiguration2Name
+    extIpConfiguration2Name: f5vm01extIpConfiguration2Name
     extIpForwarding: f5IpForwarding
     extNicName: f5vm01extNicName
     extPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    extPublicIPAddressAllocationMethod: f5publicIPAddressAllocationMethod
-    extOutboundPublicIpName: f5vm01OutboundPublicIPAddressName
-    extInboundPublicIpName: f5vm01InboundPublicIPAddressName
-    extSubnetName: extSubnetName
+    extOutboundPublicIpId: fwOutboundPublicIp.outputs.id
+    extInboundPublicIpId: fwInboundPublicIp.outputs.id
+    extSubnetId: extSubnet.id
     intIpConfigurationName: f5vm01intIpConfigurationName
     intIpForwarding: f5IpForwarding
     intNicName: f5vm01intNicName
     intPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    intSubnetName: intSubnetName
+    intSubnetId: intSubnet.id
     location: location
     mgmtIpConfigurationName: f5vm01mgmtIpConfigurationName
     mgmtIpForwarding: f5IpForwarding
     mgmtNicName: f5vm01mgmtNicName
     mgmtPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    mgmtSubnetName: mgmtSubnetName
+    mgmtSubnetId: mgmtSubnet.id
     deploymentNameSuffix: deploymentNameSuffix
     osDiskCreateOption: f5VmOsDiskCreateOption
     vdmsIpConfigurationName: f5vm01vdmcIpConfigurationName
     vdmsIpForwarding: f5IpForwarding
     vdmsNicName: f5vm01vdmsNicName
     vdmsPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    vdmsSubnetName: vdmsSubnetName
-    virtualNetworkName: hubVirtualNetworkName
+    vdmsSubnetId: vdmsSubnet.id
     vmName: f5vm01VmName
     vmOsDiskType: f5VmOsDiskType
     vmImageOffer: f5VmImageOffer
