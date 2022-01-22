@@ -20,11 +20,13 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2018-11-01' = {
 
 output name string = virtualNetwork.name
 output id string = virtualNetwork.id
+output subnetsArray array = subnets
+output subnetArraySize int = subnets.count
 // output subnets array = virtualNetwork.properties.subnets
-output mgmtSubnetId string = virtualNetwork.properties.subnets[0].id
-output intSubnetId string = virtualNetwork.properties.subnets[1].id
-output extSubnetId string = virtualNetwork.properties.subnets[2].id
-output vdmsSubnetId string = virtualNetwork.properties.subnets[3].id
+// output mgmtSubnetId string = virtualNetwork.properties.subnets[0].id
+// output intSubnetId string = virtualNetwork.properties.subnets[1].id
+// output extSubnetId string = virtualNetwork.properties.subnets[2].id
+// output vdmsSubnetId string = virtualNetwork.properties.subnets[3].id
 
 // output mgmtSubnetId string = resourceId('Microsoft.Network/VirtualNetworks/subnets', name, subnets[0].name)
 // output intSubnetId string = resourceId('Microsoft.Network/VirtualNetworks/subnets', name, subnets[1].name)

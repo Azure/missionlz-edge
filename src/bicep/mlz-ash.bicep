@@ -484,27 +484,27 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
 
 }
 
-// // Replace the subnet resources below with output from virtualNetwork module
-// resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-//   scope: resourceGroup(hubResourceGroupName)
-//   name:'${hubVirtualNetworkName}/${extSubnetName}'
-// }
+// Replace the subnet resources below with output from virtualNetwork module
+resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${extSubnetName}'
+}
 
-// resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-//   scope: resourceGroup(hubResourceGroupName)
-//   name:'${hubVirtualNetworkName}/${intSubnetName}'
-// }
+resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${intSubnetName}'
+}
 
-// resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-//   scope: resourceGroup(hubResourceGroupName)
-//   name:'${hubVirtualNetworkName}/${mgmtSubnetName}'
-// }
+resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${mgmtSubnetName}'
+}
 
-// resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-//   scope: resourceGroup(hubResourceGroupName)
-//   name:'${hubVirtualNetworkName}/${vdmsSubnetName}'
-// }
-// //
+resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${vdmsSubnetName}'
+}
+//
 
 // Create F5 firewall
 module f5Vm01 './modules/firewall.bicep' = {
@@ -521,25 +521,29 @@ module f5Vm01 './modules/firewall.bicep' = {
     extPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
     extOutboundPublicIpId: fwOutboundPublicIp.outputs.id
     extInboundPublicIpId: fwInboundPublicIp.outputs.id
-    extSubnetId: hubVirtualNetwork.outputs.extSubnetId
+    // extSubnetId: hubVirtualNetwork.outputs.extSubnetId
+    extSubnetId: extSubnet.id
     intIpConfigurationName: f5vm01intIpConfigurationName
     intIpForwarding: f5IpForwarding
     intNicName: f5vm01intNicName
     intPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    intSubnetId: hubVirtualNetwork.outputs.intSubnetId
+    // intSubnetId: hubVirtualNetwork.outputs.intSubnetId
+    intSubnetId: intSubnet.id
     location: location
     mgmtIpConfigurationName: f5vm01mgmtIpConfigurationName
     mgmtIpForwarding: f5IpForwarding
     mgmtNicName: f5vm01mgmtNicName
     mgmtPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    mgmtSubnetId: hubVirtualNetwork.outputs.mgmtSubnetId
+    // mgmtSubnetId: hubVirtualNetwork.outputs.mgmtSubnetId
+    mgmtSubnetId: mgmtSubnet.id
     deploymentNameSuffix: deploymentNameSuffix
     osDiskCreateOption: f5VmOsDiskCreateOption
     vdmsIpConfigurationName: f5vm01vdmcIpConfigurationName
     vdmsIpForwarding: f5IpForwarding
     vdmsNicName: f5vm01vdmsNicName
     vdmsPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    vdmsSubnetId: hubVirtualNetwork.outputs.vdmsSubnetId
+    // vdmsSubnetId: hubVirtualNetwork.outputs.vdmsSubnetId
+    vdmsSubnetId: vdmsSubnet.id
     vmName: f5vm01VmName
     vmOsDiskType: f5VmOsDiskType
     vmImageOffer: f5VmImageOffer
