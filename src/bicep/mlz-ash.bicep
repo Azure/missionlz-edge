@@ -495,10 +495,10 @@ resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existi
   name:'${hubVirtualNetworkName}/${intSubnetName}'
 }
 
-resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  scope: resourceGroup(hubResourceGroupName)
-  name:'${hubVirtualNetworkName}/${mgmtSubnetName}'
-}
+// resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+//   scope: resourceGroup(hubResourceGroupName)
+//   name:'${hubVirtualNetworkName}/${mgmtSubnetName}'
+// }
 
 resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
   scope: resourceGroup(hubResourceGroupName)
