@@ -494,3 +494,12 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
     spokeNetworks
   ]
 }]
+
+output hub object = {
+  subscriptionId: subscription().subscriptionId
+  resourceGroupName: hubResourceGroup.outputs.name
+  resourceGroupResourceId: hubResourceGroup.outputs.id
+  virtualNetworkName: hubVirtualNetworkName  
+  firewallPrivateIPAddress:f5Vm01.outputs.internalIpAddress
+}
+
