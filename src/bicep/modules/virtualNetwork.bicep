@@ -21,6 +21,10 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2018-11-01' = {
 output name string = virtualNetwork.name
 output id string = virtualNetwork.id
 output subnets array = virtualNetwork.properties.subnets
+
+// The outputs below do not work on the current version of Azure Stack.
+// Use the outputs below once support by the Azure Stack API
+
 // output mgmtSubnetId string = virtualNetwork.properties.subnets[0].id
 // output intSubnetId string = virtualNetwork.properties.subnets[1].id
 // output extSubnetId string = virtualNetwork.properties.subnets[2].id

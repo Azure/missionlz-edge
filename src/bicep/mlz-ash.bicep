@@ -485,6 +485,7 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
 }
 
 // Replace the subnet resources below with output from virtualNetwork module
+// once supported by the Azure Stack API
 resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
   scope: resourceGroup(hubResourceGroupName)
   name:'${hubVirtualNetworkName}/${extSubnetName}'
