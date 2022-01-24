@@ -174,17 +174,11 @@ param operationsNetworkSecurityGroupRules array = []
 param sharedServicesNetworkSecurityGroupRules array = []
 
 // REMOTE ACCESS PARAMETERS
-//@description('When set to "false", it does NOT provision  Host and virtual machine jumpboxes. It defaults to "true".')
-//param deployRemoteAccess bool = true
 
 param publicIP string = 'yes'
-//param publicIPAddressId string
-//param WindowspublicIPAddressId string
 
 // LINUX VIRTUAL MACHINE PARAMETERS
 
-//param hubSubnetResourceId string
-//param hubNetworkSecurityGroupResourceId string
 param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
 param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
 
@@ -201,7 +195,6 @@ param linuxVmAuthenticationType string = 'password'
 @description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(12)
-//param linuxVmAdminPasswordOrKey string = deployRemoteAccess ? newGuid() : ''
 param linuxVmAdminPasswordOrKey string
 
 @description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_D2".')
@@ -243,7 +236,6 @@ param windowsVmAdminUsername string = 'azureuser'
 @description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(12)
-//param windowsVmAdminPassword string = deployRemoteAccess ? newGuid() : ''
 param windowsVmAdminPassword string
 
 @description('The name of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
