@@ -24,6 +24,9 @@ param resourcePrefix string
 @description('A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz".')
 param resourceSuffix string = 'mlz'
 
+@description('The subscription ID for the Hub Network and resources. It defaults to the deployment subscription.')
+param hubSubscriptionId string = subscription().subscriptionId
+
 @description('The region to deploy resources into. It defaults to the deployment location.')
 param location string = deployment().location
 
@@ -169,6 +172,115 @@ param operationsNetworkSecurityGroupRules array = []
 
 @description('An array of Network Security Group rules to apply to the SharedServices Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
 param sharedServicesNetworkSecurityGroupRules array = []
+
+// REMOTE ACCESS PARAMETERS
+//@description('When set to "false", it does NOT provision  Host and virtual machine jumpboxes. It defaults to "true".')
+//param deployRemoteAccess bool = true
+
+param publicIP string = 'yes'
+//param publicIPAddressId string
+//param WindowspublicIPAddressId string
+
+// LINUX VIRTUAL MACHINE PARAMETERS
+
+//param hubSubnetResourceId string
+//param hubNetworkSecurityGroupResourceId string
+param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
+param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
+
+@description('The administrator username for the Linux Virtual Machine to  remote into. It defaults to "azureuser".')
+param linuxVmAdminUsername string = 'azureuser'
+
+@allowed([
+  'sshPublicKey'
+  'password'
+])
+@description('[sshPublicKey/password] The authentication type for the Linux Virtual Machine to remote into. It defaults to "password".')
+param linuxVmAuthenticationType string = 'password'
+
+@description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
+@secure()
+@minLength(12)
+//param linuxVmAdminPasswordOrKey string = deployRemoteAccess ? newGuid() : ''
+param linuxVmAdminPasswordOrKey string
+
+@description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_D2".')
+param linuxVmSize string = 'Standard_D2'
+
+@description('The name of the Linux Virtual Machine to remote into. It defaults to "Standard_D2".')
+param linuxVmName string = 'linuxVirtualMachine'
+
+@description('The disk creation option of the Linux Virtual Machine to remote into. It defaults to "FromImage".')
+param linuxVmOsDiskCreateOption string = 'FromImage'
+
+@description('The disk type of the Linux Virtual Machine to remote into. It defaults to "Standard_LRS".')
+param linuxVmOsDiskType string = 'Standard_LRS'
+
+@description('The image publisher of the Linux Virtual Machine to remote into. It defaults to "Canonical".')
+param linuxVmImagePublisher string = 'Canonical'
+
+@description('The image offer of the Linux Virtual Machine to remote into. It defaults to "UbuntuServer".')
+param linuxVmImageOffer string = 'UbuntuServer'
+
+@description('The image SKU of the Linux Virtual Machine to remote into. It defaults to "18.04-LTS".')
+param linuxVmImageSku string = '18.04-LTS'
+
+@description('The image version of the Linux Virtual Machine to remote into. It defaults to "latest".')
+param linuxVmImageVersion string = 'latest'
+
+@allowed([
+  'Static'
+  'Dynamic'
+])
+@description('[Static/Dynamic] The public IP Address allocation method for the Linux virtual machine. It defaults to "Dynamic".')
+param linuxNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
+
+// WINDOWS VIRTUAL MACHINE PARAMETERS
+
+@description('The administrator username for the Windows Virtual Machine to   remote into. It defaults to "azureuser".')
+param windowsVmAdminUsername string = 'azureuser'
+
+@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
+@secure()
+@minLength(12)
+//param windowsVmAdminPassword string = deployRemoteAccess ? newGuid() : ''
+param windowsVmAdminPassword string
+
+@description('The name of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
+param windowsVmName string = 'windowsVm'
+
+@description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
+param windowsVmSize string = 'Standard_DS1_v2'
+
+@description('The publisher of the Windows Virtual Machine to remote into. It defaults to "MicrosoftWindowsServer".')
+param windowsVmPublisher string = 'MicrosoftWindowsServer'
+
+@description('The offer of the Windows Virtual Machine to remote into. It defaults to "WindowsServer".')
+param windowsVmOffer string = 'WindowsServer'
+
+@description('The SKU of the Windows Virtual Machine to remote into. It defaults to "2019-datacenter".')
+param windowsVmSku string = '2019-datacenter'
+
+@description('The version of the Windows Virtual Machine to  remote into. It defaults to "latest".')
+param windowsVmVersion string = 'latest'
+
+@description('The disk creation option of the Windows Virtual Machine to  remote into. It defaults to "FromImage".')
+param windowsVmCreateOption string = 'FromImage'
+
+@description('The storage account type of the Windows Virtual Machine to  remote into. It defaults to "Premium_LRS".')
+param windowsVmStorageAccountType string = 'Premium_LRS'
+
+@allowed([
+  'Static'
+  'Dynamic'
+])
+@description('[Static/Dynamic] The public IP Address allocation method for the Windows virtual machine. It defaults to "Dynamic".')
+param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
+@description('The NetworkInterfaceName for the Windows virtual machine.')
+param windowsNetworkInterfaceName string = 'windowsVmNetworkInterface'
+@description('The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine.')
+param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
+
 
 /*
 
@@ -494,6 +606,81 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
     spokeNetworks
   ]
 }]
+
+// Call module to create Linux Public IP address for the linux VM
+module linuxPublicIPAddress 'modules/publicIPAddress.bicep' = {
+  name: 'linuxPublicIPAddress'
+  scope: resourceGroup(hubResourceGroupName)
+  params: {
+    name: 'linuxPubIP'
+    location: location
+    publicIpAllocationMethod: 'Dynamic'
+  }
+}
+
+// Call module to create Windows Public IP address 
+module windowsPublicIPAddress 'modules/publicIPAddress.bicep' = {
+  name: 'windowsPublicIPAddress'
+  scope: resourceGroup(hubResourceGroupName)
+  params: {
+    name: 'windowsPubIP'
+    location: location
+    publicIpAllocationMethod: 'Dynamic'
+  }
+}
+
+// Call remote Access module
+module remoteAccess './modules/remoteAccess.bicep' = {
+  name: 'deploy-remote'
+  scope: resourceGroup(hubResourceGroupName)
+
+  params: {
+    location: location
+    hubVirtualNetworkName: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}'
+    hubSubnetResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${hubVirtualNetworkName}/subnets/${extSubnetName}'
+    hubNetworkSecurityGroupResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/${hubNetworkSecurityGroupName}'
+    linuxNetworkInterfaceName: linuxNetworkInterfaceName
+    linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
+    linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
+
+    publicIP: publicIP 
+    publicIPAddressId: linuxPublicIPAddress.outputs.id
+    //networkInterfaces: networkInterfaces
+
+    linuxVmName: linuxVmName
+    linuxVmSize: linuxVmSize
+    linuxVmOsDiskCreateOption: linuxVmOsDiskCreateOption
+    linuxVmOsDiskType: linuxVmOsDiskType
+    linuxVmImagePublisher: linuxVmImagePublisher
+    linuxVmImageOffer: linuxVmImageOffer
+    linuxVmImageSku: linuxVmImageSku
+    linuxVmImageVersion: linuxVmImageVersion
+    linuxVmAdminUsername: linuxVmAdminUsername
+    linuxVmAuthenticationType: linuxVmAuthenticationType
+    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey
+    
+    windowsNetworkInterfaceName: windowsNetworkInterfaceName
+    windowsNetworkInterfaceIpConfigurationName: windowsNetworkInterfaceIpConfigurationName
+    windowsNetworkInterfacePrivateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
+
+    windowsVmName: windowsVmName
+    windowsVmSize: windowsVmSize
+    windowsVmAdminUsername: windowsVmAdminUsername
+    windowsVmAdminPassword: windowsVmAdminPassword
+    windowsVmPublisher: windowsVmPublisher
+    windowsVmOffer: windowsVmOffer
+    windowsVmSku: windowsVmSku
+    windowsVmVersion: windowsVmVersion
+    windowsVmCreateOption: windowsVmCreateOption
+    windowsVmStorageAccountType: windowsVmStorageAccountType
+    WindowspublicIPAddressId: windowsPublicIPAddress.outputs.id
+
+  }
+  dependsOn: [
+    spokeResourceGroups
+    spokeNetworks  
+  ]
+}
 
 output hub object = {
   subscriptionId: subscription().subscriptionId
