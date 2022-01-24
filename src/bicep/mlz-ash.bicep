@@ -616,6 +616,9 @@ module linuxPublicIPAddress 'modules/publicIPAddress.bicep' = {
     location: location
     publicIpAllocationMethod: 'Dynamic'
   }
+  dependsOn: [
+    hubResourceGroup
+  ]  
 }
 
 // Call module to create Windows Public IP address 
@@ -627,6 +630,9 @@ module windowsPublicIPAddress 'modules/publicIPAddress.bicep' = {
     location: location
     publicIpAllocationMethod: 'Dynamic'
   }
+  dependsOn: [
+    hubResourceGroup
+  ]    
 }
 
 // Call remote Access module
