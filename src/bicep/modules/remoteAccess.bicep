@@ -10,7 +10,7 @@ param linuxNetworkInterfaceIpConfigurationName string
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string
 
 param publicIP string
-param publicIPAddressId string
+//param publicIPAddressId string
 //param networkInterfaces array
 param WindowspublicIPAddressId string
 
@@ -93,8 +93,9 @@ module linuxNetworkInterface './networkInterface.bicep' = {
     networkSecurityGroupId: hubNetworkSecurityGroupResourceId
     privateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
     subnetId: hubSubnetResourceId
-    publicIP: publicIP
-    publicIPAddressId: publicIPAddressId
+    //publicIP: publicIP
+    publicIP: 'no'
+    //publicIPAddressId: publicIPAddressId
   }
 }
 

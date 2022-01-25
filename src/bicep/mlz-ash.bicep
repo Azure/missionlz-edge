@@ -600,6 +600,7 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
 }]
 
 // Call module to create Linux Public IP address for the linux VM
+/* Comment out this resource creation to ensure Linux Vm does not have a Public IP Address
 module linuxPublicIPAddress 'modules/publicIPAddress.bicep' = {
   name: 'linuxPublicIPAddress'
   scope: resourceGroup(hubResourceGroupName)
@@ -612,6 +613,7 @@ module linuxPublicIPAddress 'modules/publicIPAddress.bicep' = {
     hubResourceGroup
   ]  
 }
+*/
 
 // Call module to create Windows Public IP address 
 module windowsPublicIPAddress 'modules/publicIPAddress.bicep' = {
@@ -642,7 +644,8 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
 
     publicIP: publicIP 
-    publicIPAddressId: linuxPublicIPAddress.outputs.id
+    //publicIPAddressId: linuxPublicIPAddress.outputs.id
+    
     //networkInterfaces: networkInterfaces
 
     linuxVmName: linuxVmName
