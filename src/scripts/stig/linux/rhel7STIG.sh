@@ -1,4 +1,3 @@
-#!/bin/bash
 set -e
 
 # only run once during deployment
