@@ -211,35 +211,6 @@ module f5vdmsNic './networkInterface.bicep' = {
   }
 }
 
-// Deploy F5 VM
-// module f5vm './linuxVirtualMachine.bicep' = {
-//   name: 'create-f5vm-${deploymentNameSuffix}'
-//   params: {
-//     adminPasswordOrKey: adminPasswordOrKey
-//     adminUsername: adminUsername
-//     authenticationType: authenticationType
-//     location: location
-//     name: vmName
-//     networkInterfaces: nics
-//     osDiskCreateOption: osDiskCreateOption
-//     osDiskType: vmOsDiskType
-//     vmImageOffer: vmImageOffer
-//     vmImagePublisher: vmImagePublisher
-//     vmImageSku: vmImageSku
-//     vmImageVersion: vmImageVersion
-//     vmPlanName: vmPlanName
-//     vmPlanProduct: vmPlanProduct
-//     vmPlanPublisher: vmPlanPublisher
-//     vmSize: vmSize
-//   }
-//   dependsOn: [
-//     f5externalNic
-//     f5internalNic
-//     f5managementNic
-//     f5vdmsNic
-//   ]
-// }
-
 resource f5vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
   name: vmName
   location: location
