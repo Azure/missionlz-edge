@@ -1,9 +1,12 @@
 # Azure Stack Hub Syndication and setup
 
-Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission landing zone will require certain marketplace items be made available. These marketplace items exist in your ‘registration’ subscription in a publicly available cloud. The following allows for this specific list of required items be downloaded into a container then saved and moved into the environment which has access to ASH. The following process is design for environments where the ASH stamp is in a isolated network without connectivity to public clouds.
-![](./images/workflow.png)
+Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission landing zone will require certain marketplace items be made available. These marketplace items exist in your ‘registration’ subscription in a publicly available cloud.
+The following allows for this specific list of required items be downloaded into a container then saved and moved into the environment which has access to ASH. The following process is design for environments where the ASH stamp is in a isolated network without connectivity to public clouds.
+![Basic process flow of syndication in highly secure scenarios.](./images/workflow.png)
 
-*Note: In the above scenario the container is created in a publicly accessible location, this means access to the Azure portal, either commercial or government where the subscription that hosts the ASH registration is. The container can then be moved to the private location where the ASH stamp lives and connected to a network that has access to its admin portal management API. The only requirement for both environments, the public and private networks will be that docker containers can run and connect to the proper network. For example, a single laptop can run the create and download process in a public network and then be moved to the private network and run import and eventually azure deploy of mission landing zone.*
+*Note: In the above scenario the container is created in a publicly accessible location, this means access to the Azure portal, either commercial or government where the subscription that hosts the ASH registration is. The container can then be moved to the private location where the ASH stamp lives and connected to a network that has access to its admin portal management API.
+The only requirements for both environments, the public and private networks will be that docker containers can run and connect to the proper network and that Docker containers availble space has been expanded using the process documented below in troubleshooting.
+For example, a single laptop can run the create and download process in a public network and then be moved to the private network and run import and eventually azure deploy of mission landing zone.*
 
 *This process will also bring with it, in the container, all files needed to STIG VMs during or after deployment. These will be located in the artifacts folder inside the container as well as a script in the scripts folder to upload them into a storage account of the ASH’s operator portal for access to deployment resources.*
 
@@ -44,7 +47,7 @@ Clone the repo and run the following from a command prompt in which docker clien
   pwsh ./src/scripts/download.ps1 –registrationName <your reg. name> [-UseDeviceAuthentication] # example: CPEC-37173
   ```
 
-  *Note: You will be prompted for username and password for a user that has access to the subscription where the registration exists. To find your registration name you can log into the Admin portal and on the dashboard select the region inside the 'region management' widget and then select properties. *
+*Note: You will be prompted for username and password for a user that has access to the subscription where the registration exists. To find your registration name you can log into the Admin portal and on the dashboard select the region inside the 'region management' widget and then select properties.*
 
 ## Save container – commit changes in new container
 
@@ -114,7 +117,8 @@ At a few different stages in the process it can be modified to download an exter
 
 - `./artifacts/defaultMlzMarketPlaceItems.txt` host the required by MLZ list of marketplace items. Modify this list either in the source repo which then requires a new container to be built or inside the container using `vi ./artifacts/defaultMlzMarketPlaceItems.txt`.
 
-*Note: the items are separated by new line and are in the resource ID format `/subscriptions/<subscription>/resourceGroups/<resourcegroup>/providers/Microsoft.AzureStack/registrations/<registration>/products/f5-networks.f5-big-ip-bestf5-bigip-virtual-edition-best-byol-13.1.100000`. Leave the variables for \<subscription\> and \<registration\> as is since the script replaces these based on the credentials you enter.*  
+*Note: the items are separated by new line and are in the resource ID format `/subscriptions/<subscription>/resourceGroups/<resourcegroup>/providers/Microsoft.AzureStack/registrations/<registration>/products/f5-networks.f5-big-ip-bestf5-bigip-virtual-edition-best-byol-13.1.100000`.
+Leave the variables for \<subscription\> and \<registration\> as is since the script replaces these based on the credentials you enter.*
 
 - An additional model to undertake would be combine both efforts, the easy method using the windows tooling to create a directory of items and then move that directory into the artifacts folder prior to building the container. At this point the 'download' process would not need to be run since it is already completed so only the 'import' process should run to move into ASH.
 

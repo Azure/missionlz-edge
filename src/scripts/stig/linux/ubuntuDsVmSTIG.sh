@@ -1,3 +1,4 @@
+#!/bin/bash
 # only run once during deployment
 if [ -f ./azAutomationComplete ]; then
     echo "STIG Automation completion detected, exiting..."
