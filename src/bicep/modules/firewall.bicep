@@ -1,6 +1,7 @@
 // Parameters
 param deploymentNameSuffix string
 param location string
+param tags object = {}
 
 @allowed([
   'sshPublicKey'
@@ -143,6 +144,29 @@ var nics = [
   }
 ]
 
+var osProfile = {
+  sshPublicKey: {
+    computerName: vmName
+    adminUsername: adminUsername
+    linuxConfiguration: {
+      disablePasswordAuthentication: true
+      ssh: {
+        publicKeys: [
+          {
+            path: '/home/${adminUsername}/.ssh/authorized_keys'
+            keyData: adminPasswordOrKey
+          }
+        ]
+      }
+    }
+  }
+  password: {
+    computerName: vmName
+    adminUsername: adminUsername
+    adminPassword: adminPasswordOrKey
+  }
+}
+
 // Create External NIC
 module f5externalNic './networkInterface.bicep' = {
   name: 'create-ext-nic-${deploymentNameSuffix}'
@@ -188,25 +212,66 @@ module f5vdmsNic './networkInterface.bicep' = {
 }
 
 // Deploy F5 VM
-module f5vm './linuxVirtualMachine.bicep' = {
-  name: 'create-f5vm-${deploymentNameSuffix}'
-  params: {
-    adminPasswordOrKey: adminPasswordOrKey
-    adminUsername: adminUsername
-    authenticationType: authenticationType
-    location: location
-    name: vmName
-    networkInterfaces: nics
-    osDiskCreateOption: osDiskCreateOption
-    osDiskType: vmOsDiskType
-    vmImageOffer: vmImageOffer
-    vmImagePublisher: vmImagePublisher
-    vmImageSku: vmImageSku
-    vmImageVersion: vmImageVersion
-    vmPlanName: vmPlanName
-    vmPlanProduct: vmPlanProduct
-    vmPlanPublisher: vmPlanPublisher
-    vmSize: vmSize
+// module f5vm './linuxVirtualMachine.bicep' = {
+//   name: 'create-f5vm-${deploymentNameSuffix}'
+//   params: {
+//     adminPasswordOrKey: adminPasswordOrKey
+//     adminUsername: adminUsername
+//     authenticationType: authenticationType
+//     location: location
+//     name: vmName
+//     networkInterfaces: nics
+//     osDiskCreateOption: osDiskCreateOption
+//     osDiskType: vmOsDiskType
+//     vmImageOffer: vmImageOffer
+//     vmImagePublisher: vmImagePublisher
+//     vmImageSku: vmImageSku
+//     vmImageVersion: vmImageVersion
+//     vmPlanName: vmPlanName
+//     vmPlanProduct: vmPlanProduct
+//     vmPlanPublisher: vmPlanPublisher
+//     vmSize: vmSize
+//   }
+//   dependsOn: [
+//     f5externalNic
+//     f5internalNic
+//     f5managementNic
+//     f5vdmsNic
+//   ]
+// }
+
+resource f5vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
+  name: vmName
+  location: location
+  tags: tags
+
+  plan: {
+    name: vmPlanName
+    product: vmPlanProduct
+    publisher: vmPlanPublisher
+    }
+  properties: {
+    hardwareProfile: {
+      vmSize: vmSize
+    }
+    storageProfile: {
+      osDisk: {
+        createOption: osDiskCreateOption
+        managedDisk: {
+          storageAccountType: vmOsDiskType
+        }
+      }
+      imageReference: {
+        publisher: vmImagePublisher
+        offer: vmImageOffer
+        sku: vmImageSku
+        version: vmImageVersion
+      }
+    }
+    networkProfile: {
+      networkInterfaces: nics
+    }
+    osProfile: osProfile[authenticationType]
   }
   dependsOn: [
     f5externalNic
@@ -216,4 +281,5 @@ module f5vm './linuxVirtualMachine.bicep' = {
   ]
 }
 
+output adminUsername string = adminUsername
 output internalIpAddress string = f5internalNic.outputs.ip
