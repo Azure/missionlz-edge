@@ -179,7 +179,7 @@ param publicIP string = 'yes'
 
 // LINUX VIRTUAL MACHINE PARAMETERS
 
-param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
+//param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
 param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
 
 @description('The administrator username for the Linux Virtual Machine to  remote into. It defaults to "azureuser".')
@@ -199,9 +199,6 @@ param linuxVmAdminPasswordOrKey string
 
 @description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_D2".')
 param linuxVmSize string = 'Standard_D2'
-
-@description('The name of the Linux Virtual Machine to remote into. It defaults to "Standard_D2".')
-param linuxVmName string = 'linuxVirtualMachine'
 
 @description('The disk creation option of the Linux Virtual Machine to remote into. It defaults to "FromImage".')
 param linuxVmOsDiskCreateOption string = 'FromImage'
@@ -238,9 +235,6 @@ param windowsVmAdminUsername string = 'azureuser'
 @minLength(12)
 param windowsVmAdminPassword string
 
-@description('The name of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
-param windowsVmName string = 'windowsVm'
-
 @description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param windowsVmSize string = 'Standard_DS1_v2'
 
@@ -268,8 +262,8 @@ param windowsVmStorageAccountType string = 'Premium_LRS'
 ])
 @description('[Static/Dynamic] The public IP Address allocation method for the Windows virtual machine. It defaults to "Dynamic".')
 param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
-@description('The NetworkInterfaceName for the Windows virtual machine.')
-param windowsNetworkInterfaceName string = 'windowsVmNetworkInterface'
+//@description('The NetworkInterfaceName for the Windows virtual machine.')
+//param windowsNetworkInterfaceName string = 'windowsVmNetworkInterface'
 @description('The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine.')
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
 
@@ -383,6 +377,16 @@ var f5vm01mgmtNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5
 var f5vm01VmName = replace(virtualMachineNamingConvention, nameToken, 'f5-01')
 var f5vm01PublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-01')
 var f5publicIPAddressAllocationMethod = 'Static'
+
+// VM names and VMNIC names
+@description('The name of the Linux Virtual Machine to remote into. It defaults to "virtualMachineNamingConvention".')
+var linuxVmName = replace(virtualMachineNamingConvention, nameToken, 'lin')
+
+@description('The name of the Linux Virtual Machine to remote into. It defaults to "virtualMachineNamingConvention".')
+var windowsVmName = replace(virtualMachineNamingConvention, nameToken, 'win')
+
+var linuxNetworkInterfaceName = replace(networkInterfaceNamingConvention, nameToken, 'lin')
+var windowsNetworkInterfaceName = replace(networkInterfaceNamingConvention, nameToken, 'win')
 
 // SPOKES
 
