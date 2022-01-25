@@ -105,14 +105,14 @@ param f5VmOsDiskType string = 'Premium_LRS'
 @description('The image publisher of the F5 firewall appliance. It defaults to "f5-networks".')
 param f5VmImagePublisher string = 'f5-networks'
 
-@description('The image offer of the F5 firewall appliance. It defaults to "f5-big-ip-best".')
-param f5VmImageOffer string = 'f5-big-ip-best'
+@description('The image offer of the F5 firewall appliance. It defaults to "f5-big-ip-byol".')
+param f5VmImageOffer string = 'f5-big-ip-byol'
 
-@description('The image SKU of the F5 firewall appliance. It defaults to "f5-bigip-virtual-edition-best-byol".')
-param f5VmImageSku string = 'f5-bigip-virtual-edition-best-byol'
+@description('The image SKU of the F5 firewall appliance. It defaults to "f5-big-all-2slot-byol".')
+param f5VmImageSku string = 'f5-big-all-2slot-byol'
 
-@description('The image version of the F5 firewall appliance. It defaults to "14.0.001000".')
-param f5VmImageVersion string = '14.0.001000'
+@description('The image version of the F5 firewall appliance. It defaults to "16.0.101000".')
+param f5VmImageVersion string = '16.0.101000'
 
 @allowed([
   'Static'
@@ -551,6 +551,9 @@ module f5Vm01 './modules/firewall.bicep' = {
     vmImagePublisher: f5VmImagePublisher
     vmImageSku: f5VmImageSku
     vmImageVersion: f5VmImageVersion
+    vmPlanName: f5VmImageSku
+    vmPlanProduct: f5VmImageOffer
+    vmPlanPublisher: f5VmImagePublisher
     vmSize: f5VmSize
   }
   dependsOn: [

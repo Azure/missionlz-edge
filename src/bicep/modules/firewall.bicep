@@ -18,6 +18,9 @@ param vmImageOffer string
 param vmImagePublisher string
 param vmImageSku string
 param vmImageVersion string
+param vmPlanName string
+param vmPlanProduct string
+param vmPlanPublisher string
 param vmSize string
 
 param extIpForwarding bool
@@ -200,6 +203,9 @@ module f5vm './linuxVirtualMachine.bicep' = {
     vmImagePublisher: vmImagePublisher
     vmImageSku: vmImageSku
     vmImageVersion: vmImageVersion
+    vmPlanName: vmPlanName
+    vmPlanProduct: vmPlanProduct
+    vmPlanPublisher: vmPlanPublisher
     vmSize: vmSize
   }
   dependsOn: [

@@ -11,6 +11,9 @@ param vmImagePublisher string
 param vmImageOffer string
 param vmImageSku string
 param vmImageVersion string
+param vmPlanName string = ''
+param vmPlanProduct string = ''
+param vmPlanPublisher string = ''
 param adminUsername string
 @allowed([
   'sshPublicKey'
@@ -49,6 +52,11 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2020-06-01' = {
   location: location
   tags: tags
 
+  plan: {
+    name: vmPlanName
+    product: vmPlanProduct
+    publisher: vmPlanPublisher
+    }
   properties: {
     hardwareProfile: {
       vmSize: vmSize
