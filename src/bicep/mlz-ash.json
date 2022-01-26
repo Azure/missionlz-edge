@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.4.613.9944",
-      "templateHash": "6573173561559113742"
+      "version": "0.4.1124.51302",
+      "templateHash": "6712271208349017853"
     }
   },
   "parameters": {
@@ -26,6 +26,13 @@
       "maxLength": 6,
       "minLength": 3
     },
+    "hubSubscriptionId": {
+      "type": "string",
+      "defaultValue": "[subscription().subscriptionId]",
+      "metadata": {
+        "description": "The subscription ID for the Hub Network and resources. It defaults to the deployment subscription."
+      }
+    },
     "location": {
       "type": "string",
       "defaultValue": "[deployment().location]",
@@ -35,6 +42,7 @@
     },
     "tenantId": {
       "type": "string",
+      "defaultValue": "[subscription().tenantId]",
       "metadata": {
         "description": "Specifies the tenant ID of a user/subscription"
       }
@@ -278,9 +286,182 @@
       "metadata": {
         "description": "An array of Network Security Group rules to apply to the SharedServices Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings."
       }
+    },
+    "publicIP": {
+      "type": "string",
+      "defaultValue": "yes"
+    },
+    "linuxNetworkInterfaceIpConfigurationName": {
+      "type": "string",
+      "defaultValue": "linuxVmIpConfiguration"
+    },
+    "linuxVmAdminUsername": {
+      "type": "string",
+      "defaultValue": "azureuser",
+      "metadata": {
+        "description": "The administrator username for the Linux Virtual Machine to  remote into. It defaults to \"azureuser\"."
+      }
+    },
+    "linuxVmAuthenticationType": {
+      "type": "string",
+      "defaultValue": "password",
+      "metadata": {
+        "description": "[sshPublicKey/password] The authentication type for the Linux Virtual Machine to remote into. It defaults to \"password\"."
+      },
+      "allowedValues": [
+        "sshPublicKey",
+        "password"
+      ]
+    },
+    "linuxVmAdminPasswordOrKey": {
+      "type": "secureString",
+      "minLength": 12,
+      "metadata": {
+        "description": "The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements."
+      }
+    },
+    "linuxVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D2",
+      "metadata": {
+        "description": "The size of the Linux Virtual Machine to remote into. It defaults to \"Standard_D2\"."
+      }
+    },
+    "linuxVmOsDiskCreateOption": {
+      "type": "string",
+      "defaultValue": "FromImage",
+      "metadata": {
+        "description": "The disk creation option of the Linux Virtual Machine to remote into. It defaults to \"FromImage\"."
+      }
+    },
+    "linuxVmOsDiskType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "metadata": {
+        "description": "The disk type of the Linux Virtual Machine to remote into. It defaults to \"Standard_LRS\"."
+      }
+    },
+    "linuxVmImagePublisher": {
+      "type": "string",
+      "defaultValue": "Canonical",
+      "metadata": {
+        "description": "The image publisher of the Linux Virtual Machine to remote into. It defaults to \"Canonical\"."
+      }
+    },
+    "linuxVmImageOffer": {
+      "type": "string",
+      "defaultValue": "UbuntuServer",
+      "metadata": {
+        "description": "The image offer of the Linux Virtual Machine to remote into. It defaults to \"UbuntuServer\"."
+      }
+    },
+    "linuxVmImageSku": {
+      "type": "string",
+      "defaultValue": "18.04-LTS",
+      "metadata": {
+        "description": "The image SKU of the Linux Virtual Machine to remote into. It defaults to \"18.04-LTS\"."
+      }
+    },
+    "linuxVmImageVersion": {
+      "type": "string",
+      "defaultValue": "latest",
+      "metadata": {
+        "description": "The image version of the Linux Virtual Machine to remote into. It defaults to \"latest\"."
+      }
+    },
+    "linuxNetworkInterfacePrivateIPAddressAllocationMethod": {
+      "type": "string",
+      "defaultValue": "Dynamic",
+      "metadata": {
+        "description": "[Static/Dynamic] The public IP Address allocation method for the Linux virtual machine. It defaults to \"Dynamic\"."
+      },
+      "allowedValues": [
+        "Static",
+        "Dynamic"
+      ]
+    },
+    "windowsVmAdminUsername": {
+      "type": "string",
+      "defaultValue": "azureuser",
+      "metadata": {
+        "description": "The administrator username for the Windows Virtual Machine to   remote into. It defaults to \"azureuser\"."
+      }
+    },
+    "windowsVmAdminPassword": {
+      "type": "secureString",
+      "minLength": 12,
+      "metadata": {
+        "description": "The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements."
+      }
+    },
+    "windowsVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_DS1_v2",
+      "metadata": {
+        "description": "The size of the Windows Virtual Machine to remote into. It defaults to \"Standard_DS1_v2\"."
+      }
+    },
+    "windowsVmPublisher": {
+      "type": "string",
+      "defaultValue": "MicrosoftWindowsServer",
+      "metadata": {
+        "description": "The publisher of the Windows Virtual Machine to remote into. It defaults to \"MicrosoftWindowsServer\"."
+      }
+    },
+    "windowsVmOffer": {
+      "type": "string",
+      "defaultValue": "WindowsServer",
+      "metadata": {
+        "description": "The offer of the Windows Virtual Machine to remote into. It defaults to \"WindowsServer\"."
+      }
+    },
+    "windowsVmSku": {
+      "type": "string",
+      "defaultValue": "2019-datacenter",
+      "metadata": {
+        "description": "The SKU of the Windows Virtual Machine to remote into. It defaults to \"2019-datacenter\"."
+      }
+    },
+    "windowsVmVersion": {
+      "type": "string",
+      "defaultValue": "latest",
+      "metadata": {
+        "description": "The version of the Windows Virtual Machine to  remote into. It defaults to \"latest\"."
+      }
+    },
+    "windowsVmCreateOption": {
+      "type": "string",
+      "defaultValue": "FromImage",
+      "metadata": {
+        "description": "The disk creation option of the Windows Virtual Machine to  remote into. It defaults to \"FromImage\"."
+      }
+    },
+    "windowsVmStorageAccountType": {
+      "type": "string",
+      "defaultValue": "Premium_LRS",
+      "metadata": {
+        "description": "The storage account type of the Windows Virtual Machine to  remote into. It defaults to \"Premium_LRS\"."
+      }
+    },
+    "windowsNetworkInterfacePrivateIPAddressAllocationMethod": {
+      "type": "string",
+      "defaultValue": "Dynamic",
+      "metadata": {
+        "description": "[Static/Dynamic] The public IP Address allocation method for the Windows virtual machine. It defaults to \"Dynamic\"."
+      },
+      "allowedValues": [
+        "Static",
+        "Dynamic"
+      ]
+    },
+    "windowsNetworkInterfaceIpConfigurationName": {
+      "type": "string",
+      "defaultValue": "windowsVmIpConfiguration",
+      "metadata": {
+        "description": "The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine."
+      }
     }
   },
-  "functions": [],
   "variables": {
     "resourceToken": "resource_token",
     "nameToken": "name_token",
@@ -351,6 +532,10 @@
     "f5vm01VmName": "[replace(variables('virtualMachineNamingConvention'), variables('nameToken'), 'f5-01')]",
     "f5vm01PublicIPAddressName": "[replace(variables('publicIpAddressNamingConvention'), variables('nameToken'), 'f5-01')]",
     "f5publicIPAddressAllocationMethod": "Static",
+    "linuxVmName": "[replace(variables('virtualMachineNamingConvention'), variables('nameToken'), 'lin')]",
+    "windowsVmName": "[replace(variables('virtualMachineNamingConvention'), variables('nameToken'), 'win')]",
+    "linuxNetworkInterfaceName": "[replace(variables('networkInterfaceNamingConvention'), variables('nameToken'), 'lin')]",
+    "windowsNetworkInterfaceName": "[replace(variables('networkInterfaceNamingConvention'), variables('nameToken'), 'win')]",
     "spokes": [
       {
         "name": "[variables('operationsName')]",
@@ -393,7 +578,7 @@
   "resources": [
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-10-01",
       "name": "[format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix'))]",
       "location": "[deployment().location]",
       "properties": {
@@ -418,8 +603,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.613.9944",
-              "templateHash": "16903825927909860381"
+              "version": "0.4.1124.51302",
+              "templateHash": "2358208423733104980"
             }
           },
           "parameters": {
@@ -434,7 +619,6 @@
               "defaultValue": {}
             }
           },
-          "functions": [],
           "resources": [
             {
               "type": "Microsoft.Resources/resourceGroups",
@@ -467,7 +651,7 @@
         "count": "[length(variables('spokes'))]"
       },
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-10-01",
       "name": "[format('deploy-rg-{0}-{1}', variables('spokes')[copyIndex()].name, parameters('deploymentNameSuffix'))]",
       "location": "[deployment().location]",
       "properties": {
@@ -492,8 +676,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.613.9944",
-              "templateHash": "16903825927909860381"
+              "version": "0.4.1124.51302",
+              "templateHash": "2358208423733104980"
             }
           },
           "parameters": {
@@ -508,7 +692,6 @@
               "defaultValue": {}
             }
           },
-          "functions": [],
           "resources": [
             {
               "type": "Microsoft.Resources/resourceGroups",
@@ -537,7 +720,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-10-01",
       "name": "[format('deploy-vnet-hub-{0}', parameters('deploymentNameSuffix'))]",
       "resourceGroup": "[variables('hubResourceGroupName')]",
       "properties": {
@@ -568,8 +751,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.613.9944",
-              "templateHash": "5037285071021447400"
+              "version": "0.4.1124.51302",
+              "templateHash": "12295433544052634507"
             }
           },
           "parameters": {
@@ -590,7 +773,6 @@
               "type": "array"
             }
           },
-          "functions": [],
           "resources": [
             {
               "type": "Microsoft.Network/virtualNetworks",
@@ -630,7 +812,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-10-01",
       "name": "[format('deploy-nsg-hub-{0}', parameters('deploymentNameSuffix'))]",
       "resourceGroup": "[variables('hubResourceGroupName')]",
       "properties": {
@@ -655,8 +837,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.613.9944",
-              "templateHash": "2936571795199835323"
+              "version": "0.4.1124.51302",
+              "templateHash": "9572547246709395904"
             }
           },
           "parameters": {
@@ -674,7 +856,6 @@
               "type": "array"
             }
           },
-          "functions": [],
           "resources": [
             {
               "type": "Microsoft.Network/networkSecurityGroups",
@@ -706,7 +887,7 @@
     {
       "condition": "[equals(parameters('f5VmAuthenticationType'), 'sshPublicKey')]",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-10-01",
       "name": "[format('deploy-f5vm01Sshkv-hub-{0}', parameters('deploymentNameSuffix'))]",
       "resourceGroup": "[variables('hubResourceGroupName')]",
       "properties": {
@@ -734,8 +915,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.613.9944",
-              "templateHash": "6230722465258008271"
+              "version": "0.4.1124.51302",
+              "templateHash": "12042437454188739111"
             }
           },
           "parameters": {
@@ -755,9 +936,9 @@
               "type": "string",
               "defaultValue": "[utcNow()]"
             },
-            "keyVaultName": {
+            "newguid": {
               "type": "string",
-              "defaultValue": "[format('{0}-kv', parameters('resourcePrefix'))]"
+              "defaultValue": "[newGuid()]"
             },
             "keyVaultAccessPolicyName": {
               "type": "string",
@@ -776,11 +957,12 @@
             },
             "generatedSshKey": {
               "type": "object",
-              "defaultValue": "[json('{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}\r\n')]"
+              "defaultValue": "[json('{\"keyinfo\":{\"privateKey\":\"\"}}\n')]"
             }
           },
-          "functions": [],
           "variables": {
+            "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
+            "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]",
             "publicKeySecretName": "sshPublicKey",
             "privateKeySecretName": "sshPrivateKey"
           },
@@ -788,29 +970,29 @@
             {
               "type": "Microsoft.KeyVault/vaults/secrets",
               "apiVersion": "2019-09-01",
-              "name": "[format('{0}/{1}', parameters('keyVaultName'), variables('publicKeySecretName'))]",
+              "name": "[format('{0}/{1}', variables('keyVaultUniqueName'), variables('publicKeySecretName'))]",
               "properties": {
                 "value": "[parameters('generatedSshKey').keyinfo.publicKey]"
               },
               "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', parameters('keyVaultName'), parameters('utcValue')))]"
+                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
               ]
             },
             {
               "type": "Microsoft.KeyVault/vaults/secrets",
               "apiVersion": "2019-09-01",
-              "name": "[format('{0}/{1}', parameters('keyVaultName'), variables('privateKeySecretName'))]",
+              "name": "[format('{0}/{1}', variables('keyVaultUniqueName'), variables('privateKeySecretName'))]",
               "properties": {
                 "value": "[parameters('generatedSshKey').keyinfo.privateKey]"
               },
               "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', parameters('keyVaultName'), parameters('utcValue')))]"
+                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
               ]
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
-              "name": "[format('create_{0}_{1}', parameters('keyVaultName'), parameters('utcValue'))]",
+              "apiVersion": "2020-10-01",
+              "name": "[format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue'))]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
@@ -818,7 +1000,7 @@
                 "mode": "Incremental",
                 "parameters": {
                   "keyVaultName": {
-                    "value": "[parameters('keyVaultName')]"
+                    "value": "[variables('keyVaultUniqueName')]"
                   },
                   "location": {
                     "value": "[parameters('location')]"
@@ -836,8 +1018,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "11850367119633852651"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "11161459979242425913"
                     }
                   },
                   "parameters": {
@@ -895,7 +1077,6 @@
                       }
                     }
                   },
-                  "functions": [],
                   "variables": {
                     "accessPolicies": [
                       {
@@ -939,7 +1120,7 @@
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "[format('create_keyVaultAccessPolicy_{0}', parameters('utcValue'))]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -951,7 +1132,7 @@
                     "value": "[parameters('keyVaultAccessPolicyName')]"
                   },
                   "keyVaultName": {
-                    "value": "[parameters('keyVaultName')]"
+                    "value": "[variables('keyVaultUniqueName')]"
                   },
                   "tenantId": {
                     "value": "[parameters('tenantId')]"
@@ -969,8 +1150,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "17975882920158647454"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "1427844638164346916"
                     }
                   },
                   "parameters": {
@@ -1007,7 +1188,6 @@
                       "defaultValue": []
                     }
                   },
-                  "functions": [],
                   "resources": [
                     {
                       "type": "Microsoft.KeyVault/vaults/accessPolicies",
@@ -1033,7 +1213,7 @@
                 }
               },
               "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', parameters('keyVaultName'), parameters('utcValue')))]"
+                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
               ]
             }
           ],
@@ -1051,7 +1231,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-10-01",
       "name": "[format('deploy-f5vm01-hub-{0}', parameters('deploymentNameSuffix'))]",
       "resourceGroup": "[variables('hubResourceGroupName')]",
       "properties": {
@@ -1061,7 +1241,7 @@
         "mode": "Incremental",
         "parameters": {
           "adminPasswordOrKey": {
-            "value": "[if(equals(parameters('f5VmAuthenticationType'), 'password'), parameters('f5VmAdminPasswordOrKey'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Sshkv-hub-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.publicKey.value)]"
+            "value": "[if(equals(parameters('f5VmAuthenticationType'), 'password'), parameters('f5VmAdminPasswordOrKey'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Sshkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.publicKey.value)]"
           },
           "adminUsername": {
             "value": "[parameters('f5VmAdminUsername')]"
@@ -1115,7 +1295,7 @@
             "value": "[variables('mgmtSubnetName')]"
           },
           "networkSecurityGroupId": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-nsg-hub-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.id.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-nsg-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]"
           },
           "deploymentNameSuffix": {
             "value": "[parameters('deploymentNameSuffix')]"
@@ -1154,8 +1334,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.613.9944",
-              "templateHash": "5307466268951845068"
+              "version": "0.4.1124.51302",
+              "templateHash": "4456517546494531401"
             }
           },
           "parameters": {
@@ -1277,11 +1457,10 @@
               ]
             }
           },
-          "functions": [],
           "resources": [
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "[format('create-fw-pubip-{0}', parameters('deploymentNameSuffix'))]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -1305,8 +1484,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "17442717648676936167"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "9808792873606958506"
                     }
                   },
                   "parameters": {
@@ -1332,7 +1511,6 @@
                       "defaultValue": []
                     }
                   },
-                  "functions": [],
                   "resources": [
                     {
                       "type": "Microsoft.Network/publicIPAddresses",
@@ -1360,7 +1538,7 @@
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "[format('create-ext-nic-{0}', parameters('deploymentNameSuffix'))]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -1387,7 +1565,7 @@
                     "value": "[parameters('extPublicIP')]"
                   },
                   "publicIPAddressId": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', format('create-fw-pubip-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.id.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', format('create-fw-pubip-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]"
                   },
                   "subnetId": {
                     "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', split(format('{0}/{1}', parameters('virtualNetworkName'), parameters('extSubnetName')), '/')[0], split(format('{0}/{1}', parameters('virtualNetworkName'), parameters('extSubnetName')), '/')[1])]"
@@ -1399,8 +1577,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "4484141551395522240"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "8625249705113110955"
                     }
                   },
                   "parameters": {
@@ -1434,7 +1612,6 @@
                       "defaultValue": ""
                     }
                   },
-                  "functions": [],
                   "variables": {
                     "ipConfig": {
                       "yes": [
@@ -1501,7 +1678,7 @@
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "[format('create-int-nic-{0}', parameters('deploymentNameSuffix'))]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -1537,8 +1714,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "4484141551395522240"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "8625249705113110955"
                     }
                   },
                   "parameters": {
@@ -1572,7 +1749,6 @@
                       "defaultValue": ""
                     }
                   },
-                  "functions": [],
                   "variables": {
                     "ipConfig": {
                       "yes": [
@@ -1636,7 +1812,7 @@
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "[format('create-mgmt-nic-{0}', parameters('deploymentNameSuffix'))]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -1672,8 +1848,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "4484141551395522240"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "8625249705113110955"
                     }
                   },
                   "parameters": {
@@ -1707,7 +1883,6 @@
                       "defaultValue": ""
                     }
                   },
-                  "functions": [],
                   "variables": {
                     "ipConfig": {
                       "yes": [
@@ -1771,7 +1946,7 @@
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "[format('create-f5vm-{0}', parameters('deploymentNameSuffix'))]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -1797,19 +1972,19 @@
                   "networkInterfaces": {
                     "value": [
                       {
-                        "id": "[reference(resourceId('Microsoft.Resources/deployments', format('create-mgmt-nic-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.id.value]",
+                        "id": "[reference(resourceId('Microsoft.Resources/deployments', format('create-mgmt-nic-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]",
                         "properties": {
                           "primary": true
                         }
                       },
                       {
-                        "id": "[reference(resourceId('Microsoft.Resources/deployments', format('create-ext-nic-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.id.value]",
+                        "id": "[reference(resourceId('Microsoft.Resources/deployments', format('create-ext-nic-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]",
                         "properties": {
                           "primary": false
                         }
                       },
                       {
-                        "id": "[reference(resourceId('Microsoft.Resources/deployments', format('create-int-nic-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.id.value]",
+                        "id": "[reference(resourceId('Microsoft.Resources/deployments', format('create-int-nic-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]",
                         "properties": {
                           "primary": false
                         }
@@ -1844,8 +2019,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "8149879062234729869"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "15461396377124024507"
                     }
                   },
                   "parameters": {
@@ -1898,7 +2073,6 @@
                       "minLength": 14
                     }
                   },
-                  "functions": [],
                   "variables": {
                     "osProfile": {
                       "sshPublicKey": {
@@ -1977,7 +2151,7 @@
           "outputs": {
             "internalIpAddress": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', format('create-int-nic-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.ip.value]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', format('create-int-nic-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.ip.value]"
             }
           }
         }
@@ -1995,7 +2169,7 @@
         "count": "[length(variables('spokes'))]"
       },
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
+      "apiVersion": "2020-10-01",
       "name": "[format('deploy-vnet-{0}-{1}', variables('spokes')[copyIndex()].name, parameters('deploymentNameSuffix'))]",
       "resourceGroup": "[variables('spokes')[copyIndex()].resourceGroupName]",
       "properties": {
@@ -2011,7 +2185,7 @@
             "value": "[variables('calculatedTags')]"
           },
           "firewallPrivateIPAddress": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01-hub-{0}', parameters('deploymentNameSuffix'))), '2019-10-01').outputs.internalIpAddress.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.internalIpAddress.value]"
           },
           "virtualNetworkName": {
             "value": "[variables('spokes')[copyIndex()].virtualNetworkName]"
@@ -2038,8 +2212,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.613.9944",
-              "templateHash": "10121303593397484767"
+              "version": "0.4.1124.51302",
+              "templateHash": "6947080925942825339"
             }
           },
           "parameters": {
@@ -2093,11 +2267,10 @@
               "defaultValue": "VirtualAppliance"
             }
           },
-          "functions": [],
           "resources": [
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "networkSecurityGroup",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -2124,8 +2297,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "2936571795199835323"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "9572547246709395904"
                     }
                   },
                   "parameters": {
@@ -2143,7 +2316,6 @@
                       "type": "array"
                     }
                   },
-                  "functions": [],
                   "resources": [
                     {
                       "type": "Microsoft.Network/networkSecurityGroups",
@@ -2171,7 +2343,7 @@
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "routeTable",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -2207,8 +2379,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "12798828318033328023"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "11233354331149576321"
                     }
                   },
                   "parameters": {
@@ -2235,7 +2407,6 @@
                       "type": "string"
                     }
                   },
-                  "functions": [],
                   "resources": [
                     {
                       "type": "Microsoft.Network/routeTables",
@@ -2272,7 +2443,7 @@
             },
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2019-10-01",
+              "apiVersion": "2020-10-01",
               "name": "virtualNetwork",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -2299,10 +2470,10 @@
                         "properties": {
                           "addressPrefix": "[parameters('subnetAddressPrefix')]",
                           "networkSecurityGroup": {
-                            "id": "[reference(resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup'), '2019-10-01').outputs.id.value]"
+                            "id": "[reference(resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup'), '2020-10-01').outputs.id.value]"
                           },
                           "routeTable": {
-                            "id": "[reference(resourceId('Microsoft.Resources/deployments', 'routeTable'), '2019-10-01').outputs.id.value]"
+                            "id": "[reference(resourceId('Microsoft.Resources/deployments', 'routeTable'), '2020-10-01').outputs.id.value]"
                           }
                         }
                       }
@@ -2315,8 +2486,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.613.9944",
-                      "templateHash": "5037285071021447400"
+                      "version": "0.4.1124.51302",
+                      "templateHash": "12295433544052634507"
                     }
                   },
                   "parameters": {
@@ -2337,7 +2508,6 @@
                       "type": "array"
                     }
                   },
-                  "functions": [],
                   "resources": [
                     {
                       "type": "Microsoft.Network/virtualNetworks",
@@ -2380,31 +2550,31 @@
           "outputs": {
             "virtualNetworkName": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2019-10-01').outputs.name.value]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.name.value]"
             },
             "virtualNetworkResourceId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2019-10-01').outputs.id.value]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.id.value]"
             },
             "subnetName": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2019-10-01').outputs.subnets.value[0].name]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.subnets.value[0].name]"
             },
             "subnetAddressPrefix": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2019-10-01').outputs.subnets.value[0].properties.addressPrefix]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.subnets.value[0].properties.addressPrefix]"
             },
             "subnetResourceId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2019-10-01').outputs.subnets.value[0].id]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.subnets.value[0].id]"
             },
             "networkSecurityGroupName": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup'), '2019-10-01').outputs.name.value]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup'), '2020-10-01').outputs.name.value]"
             },
             "networkSecurityGroupResourceId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup'), '2019-10-01').outputs.id.value]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup'), '2020-10-01').outputs.id.value]"
             }
           }
         }
@@ -2413,6 +2583,1169 @@
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01-hub-{0}', parameters('deploymentNameSuffix')))]",
         "spokeResourceGroups"
       ]
+    },
+    {
+      "copy": {
+        "name": "hubVirtualNetworkPeerings",
+        "count": "[length(variables('spokes'))]"
+      },
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('deploy-hub-to-{0}-vnet-peering', variables('spokes')[copyIndex()].name)]",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "localVirtualNetworkName": {
+            "value": "[variables('hubVirtualNetworkName')]"
+          },
+          "remoteVirtualNetworkName": {
+            "value": "[variables('spokes')[copyIndex()].virtualNetworkName]"
+          },
+          "remoteResourceGroupName": {
+            "value": "[variables('spokes')[copyIndex()].resourceGroupName]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "9827120397709146160"
+            }
+          },
+          "parameters": {
+            "localVirtualNetworkName": {
+              "type": "string"
+            },
+            "remoteVirtualNetworkName": {
+              "type": "string"
+            },
+            "remoteResourceGroupName": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2018-11-01",
+              "name": "[format('{0}/to-{1}', parameters('localVirtualNetworkName'), parameters('remoteVirtualNetworkName'))]",
+              "properties": {
+                "remoteVirtualNetwork": {
+                  "id": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('remoteResourceGroupName')), 'Microsoft.Network/virtualNetworks', parameters('remoteVirtualNetworkName'))]"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-vnet-hub-{0}', parameters('deploymentNameSuffix')))]",
+        "spokeNetworks"
+      ]
+    },
+    {
+      "copy": {
+        "name": "spokeVirtualNetworkPeerings",
+        "count": "[length(variables('spokes'))]"
+      },
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('deploy-{0}-to-hub-vnet-peering', variables('spokes')[copyIndex()].name)]",
+      "resourceGroup": "[variables('spokes')[copyIndex()].resourceGroupName]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "localVirtualNetworkName": {
+            "value": "[variables('spokes')[copyIndex()].virtualNetworkName]"
+          },
+          "remoteVirtualNetworkName": {
+            "value": "[variables('hubVirtualNetworkName')]"
+          },
+          "remoteResourceGroupName": {
+            "value": "[variables('hubResourceGroupName')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "9827120397709146160"
+            }
+          },
+          "parameters": {
+            "localVirtualNetworkName": {
+              "type": "string"
+            },
+            "remoteVirtualNetworkName": {
+              "type": "string"
+            },
+            "remoteResourceGroupName": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "apiVersion": "2018-11-01",
+              "name": "[format('{0}/to-{1}', parameters('localVirtualNetworkName'), parameters('remoteVirtualNetworkName'))]",
+              "properties": {
+                "remoteVirtualNetwork": {
+                  "id": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('remoteResourceGroupName')), 'Microsoft.Network/virtualNetworks', parameters('remoteVirtualNetworkName'))]"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "spokeNetworks",
+        "spokeResourceGroups"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "windowsPublicIPAddress",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "name": {
+            "value": "windowsPubIP"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "publicIpAllocationMethod": {
+            "value": "Dynamic"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "9808792873606958506"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {}
+            },
+            "skuName": {
+              "type": "string",
+              "defaultValue": "Basic"
+            },
+            "publicIpAllocationMethod": {
+              "type": "string"
+            },
+            "availabilityZones": {
+              "type": "array",
+              "defaultValue": []
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/publicIPAddresses",
+              "apiVersion": "2018-11-01",
+              "name": "[parameters('name')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "sku": {
+                "name": "[parameters('skuName')]"
+              },
+              "properties": {
+                "publicIPAllocationMethod": "[parameters('publicIpAllocationMethod')]"
+              },
+              "zones": "[parameters('availabilityZones')]"
+            }
+          ],
+          "outputs": {
+            "id": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('name'))]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "deploy-remote",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "hubVirtualNetworkName": {
+            "value": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('hubSubscriptionId'), variables('hubResourceGroupName'))]"
+          },
+          "hubSubnetResourceId": {
+            "value": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Network/virtualNetworks/{2}/subnets/{3}', parameters('hubSubscriptionId'), variables('hubResourceGroupName'), variables('hubVirtualNetworkName'), variables('extSubnetName'))]"
+          },
+          "hubNetworkSecurityGroupResourceId": {
+            "value": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Network/networkSecurityGroups/{2}', parameters('hubSubscriptionId'), variables('hubResourceGroupName'), variables('hubNetworkSecurityGroupName'))]"
+          },
+          "linuxNetworkInterfaceName": {
+            "value": "[variables('linuxNetworkInterfaceName')]"
+          },
+          "linuxNetworkInterfaceIpConfigurationName": {
+            "value": "[parameters('linuxNetworkInterfaceIpConfigurationName')]"
+          },
+          "linuxNetworkInterfacePrivateIPAddressAllocationMethod": {
+            "value": "[parameters('linuxNetworkInterfacePrivateIPAddressAllocationMethod')]"
+          },
+          "publicIP": {
+            "value": "[parameters('publicIP')]"
+          },
+          "linuxVmName": {
+            "value": "[variables('linuxVmName')]"
+          },
+          "linuxVmSize": {
+            "value": "[parameters('linuxVmSize')]"
+          },
+          "linuxVmOsDiskCreateOption": {
+            "value": "[parameters('linuxVmOsDiskCreateOption')]"
+          },
+          "linuxVmOsDiskType": {
+            "value": "[parameters('linuxVmOsDiskType')]"
+          },
+          "linuxVmImagePublisher": {
+            "value": "[parameters('linuxVmImagePublisher')]"
+          },
+          "linuxVmImageOffer": {
+            "value": "[parameters('linuxVmImageOffer')]"
+          },
+          "linuxVmImageSku": {
+            "value": "[parameters('linuxVmImageSku')]"
+          },
+          "linuxVmImageVersion": {
+            "value": "[parameters('linuxVmImageVersion')]"
+          },
+          "linuxVmAdminUsername": {
+            "value": "[parameters('linuxVmAdminUsername')]"
+          },
+          "linuxVmAuthenticationType": {
+            "value": "[parameters('linuxVmAuthenticationType')]"
+          },
+          "linuxVmAdminPasswordOrKey": {
+            "value": "[parameters('linuxVmAdminPasswordOrKey')]"
+          },
+          "windowsNetworkInterfaceName": {
+            "value": "[variables('windowsNetworkInterfaceName')]"
+          },
+          "windowsNetworkInterfaceIpConfigurationName": {
+            "value": "[parameters('windowsNetworkInterfaceIpConfigurationName')]"
+          },
+          "windowsNetworkInterfacePrivateIPAddressAllocationMethod": {
+            "value": "[parameters('windowsNetworkInterfacePrivateIPAddressAllocationMethod')]"
+          },
+          "windowsVmName": {
+            "value": "[variables('windowsVmName')]"
+          },
+          "windowsVmSize": {
+            "value": "[parameters('windowsVmSize')]"
+          },
+          "windowsVmAdminUsername": {
+            "value": "[parameters('windowsVmAdminUsername')]"
+          },
+          "windowsVmAdminPassword": {
+            "value": "[parameters('windowsVmAdminPassword')]"
+          },
+          "windowsVmPublisher": {
+            "value": "[parameters('windowsVmPublisher')]"
+          },
+          "windowsVmOffer": {
+            "value": "[parameters('windowsVmOffer')]"
+          },
+          "windowsVmSku": {
+            "value": "[parameters('windowsVmSku')]"
+          },
+          "windowsVmVersion": {
+            "value": "[parameters('windowsVmVersion')]"
+          },
+          "windowsVmCreateOption": {
+            "value": "[parameters('windowsVmCreateOption')]"
+          },
+          "windowsVmStorageAccountType": {
+            "value": "[parameters('windowsVmStorageAccountType')]"
+          },
+          "WindowspublicIPAddressId": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', 'windowsPublicIPAddress'), '2020-10-01').outputs.id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "5623100845140884417"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {}
+            },
+            "hubVirtualNetworkName": {
+              "type": "string"
+            },
+            "hubSubnetResourceId": {
+              "type": "string"
+            },
+            "hubNetworkSecurityGroupResourceId": {
+              "type": "string"
+            },
+            "linuxNetworkInterfaceName": {
+              "type": "string"
+            },
+            "linuxNetworkInterfaceIpConfigurationName": {
+              "type": "string"
+            },
+            "linuxNetworkInterfacePrivateIPAddressAllocationMethod": {
+              "type": "string"
+            },
+            "publicIP": {
+              "type": "string"
+            },
+            "WindowspublicIPAddressId": {
+              "type": "string"
+            },
+            "linuxVmName": {
+              "type": "string"
+            },
+            "linuxVmSize": {
+              "type": "string"
+            },
+            "linuxVmOsDiskCreateOption": {
+              "type": "string"
+            },
+            "linuxVmOsDiskType": {
+              "type": "string"
+            },
+            "linuxVmImagePublisher": {
+              "type": "string"
+            },
+            "linuxVmImageOffer": {
+              "type": "string"
+            },
+            "linuxVmImageSku": {
+              "type": "string"
+            },
+            "linuxVmImageVersion": {
+              "type": "string"
+            },
+            "linuxVmAdminUsername": {
+              "type": "string"
+            },
+            "linuxVmAuthenticationType": {
+              "type": "string",
+              "allowedValues": [
+                "sshPublicKey",
+                "password"
+              ]
+            },
+            "linuxVmAdminPasswordOrKey": {
+              "type": "secureString",
+              "minLength": 14
+            },
+            "windowsNetworkInterfaceName": {
+              "type": "string"
+            },
+            "windowsNetworkInterfaceIpConfigurationName": {
+              "type": "string"
+            },
+            "windowsNetworkInterfacePrivateIPAddressAllocationMethod": {
+              "type": "string"
+            },
+            "windowsVmName": {
+              "type": "string"
+            },
+            "windowsVmSize": {
+              "type": "string"
+            },
+            "windowsVmAdminUsername": {
+              "type": "string"
+            },
+            "windowsVmAdminPassword": {
+              "type": "secureString",
+              "minLength": 14
+            },
+            "windowsVmPublisher": {
+              "type": "string"
+            },
+            "windowsVmOffer": {
+              "type": "string"
+            },
+            "windowsVmSku": {
+              "type": "string"
+            },
+            "windowsVmVersion": {
+              "type": "string"
+            },
+            "windowsVmCreateOption": {
+              "type": "string"
+            },
+            "windowsVmStorageAccountType": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "create-pubip",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "name": {
+                    "value": "extPublicIpName"
+                  },
+                  "publicIpAllocationMethod": {
+                    "value": "Dynamic"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "9808792873606958506"
+                    }
+                  },
+                  "parameters": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "defaultValue": {}
+                    },
+                    "skuName": {
+                      "type": "string",
+                      "defaultValue": "Basic"
+                    },
+                    "publicIpAllocationMethod": {
+                      "type": "string"
+                    },
+                    "availabilityZones": {
+                      "type": "array",
+                      "defaultValue": []
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Network/publicIPAddresses",
+                      "apiVersion": "2018-11-01",
+                      "name": "[parameters('name')]",
+                      "location": "[parameters('location')]",
+                      "tags": "[parameters('tags')]",
+                      "sku": {
+                        "name": "[parameters('skuName')]"
+                      },
+                      "properties": {
+                        "publicIPAllocationMethod": "[parameters('publicIpAllocationMethod')]"
+                      },
+                      "zones": "[parameters('availabilityZones')]"
+                    }
+                  ],
+                  "outputs": {
+                    "id": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('name'))]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "remoteAccess-linuxNetworkInterface",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "name": {
+                    "value": "[parameters('linuxNetworkInterfaceName')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tags": {
+                    "value": "[parameters('tags')]"
+                  },
+                  "ipConfigurationName": {
+                    "value": "[parameters('linuxNetworkInterfaceIpConfigurationName')]"
+                  },
+                  "networkSecurityGroupId": {
+                    "value": "[parameters('hubNetworkSecurityGroupResourceId')]"
+                  },
+                  "privateIPAddressAllocationMethod": {
+                    "value": "[parameters('linuxNetworkInterfacePrivateIPAddressAllocationMethod')]"
+                  },
+                  "subnetId": {
+                    "value": "[parameters('hubSubnetResourceId')]"
+                  },
+                  "publicIP": {
+                    "value": "no"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "8625249705113110955"
+                    }
+                  },
+                  "parameters": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "defaultValue": {}
+                    },
+                    "ipConfigurationName": {
+                      "type": "string"
+                    },
+                    "subnetId": {
+                      "type": "string"
+                    },
+                    "networkSecurityGroupId": {
+                      "type": "string"
+                    },
+                    "privateIPAddressAllocationMethod": {
+                      "type": "string"
+                    },
+                    "publicIP": {
+                      "type": "string"
+                    },
+                    "publicIPAddressId": {
+                      "type": "string",
+                      "defaultValue": ""
+                    }
+                  },
+                  "variables": {
+                    "ipConfig": {
+                      "yes": [
+                        {
+                          "name": "[parameters('ipConfigurationName')]",
+                          "properties": {
+                            "subnet": {
+                              "id": "[parameters('subnetId')]"
+                            },
+                            "privateIPAllocationMethod": "[parameters('privateIPAddressAllocationMethod')]",
+                            "publicIPAddress": {
+                              "id": "[parameters('publicIPAddressId')]"
+                            }
+                          }
+                        }
+                      ],
+                      "no": [
+                        {
+                          "name": "[parameters('ipConfigurationName')]",
+                          "properties": {
+                            "subnet": {
+                              "id": "[parameters('subnetId')]"
+                            },
+                            "privateIPAllocationMethod": "[parameters('privateIPAddressAllocationMethod')]"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Network/networkInterfaces",
+                      "apiVersion": "2018-11-01",
+                      "name": "[parameters('name')]",
+                      "location": "[parameters('location')]",
+                      "tags": "[parameters('tags')]",
+                      "properties": {
+                        "ipConfigurations": "[variables('ipConfig')[parameters('publicIP')]]",
+                        "networkSecurityGroup": {
+                          "id": "[parameters('networkSecurityGroupId')]"
+                        }
+                      }
+                    }
+                  ],
+                  "outputs": {
+                    "id": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.Network/networkInterfaces', parameters('name'))]"
+                    },
+                    "name": {
+                      "type": "string",
+                      "value": "[parameters('name')]"
+                    },
+                    "ip": {
+                      "type": "string",
+                      "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('name'))).ipConfigurations[0].properties.privateIPAddress]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "remoteAccess-linuxVirtualMachine",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "name": {
+                    "value": "[parameters('linuxVmName')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tags": {
+                    "value": "[parameters('tags')]"
+                  },
+                  "vmSize": {
+                    "value": "[parameters('linuxVmSize')]"
+                  },
+                  "osDiskCreateOption": {
+                    "value": "[parameters('linuxVmOsDiskCreateOption')]"
+                  },
+                  "osDiskType": {
+                    "value": "[parameters('linuxVmOsDiskType')]"
+                  },
+                  "vmImagePublisher": {
+                    "value": "[parameters('linuxVmImagePublisher')]"
+                  },
+                  "vmImageOffer": {
+                    "value": "[parameters('linuxVmImageOffer')]"
+                  },
+                  "vmImageSku": {
+                    "value": "[parameters('linuxVmImageSku')]"
+                  },
+                  "vmImageVersion": {
+                    "value": "[parameters('linuxVmImageVersion')]"
+                  },
+                  "adminUsername": {
+                    "value": "[parameters('linuxVmAdminUsername')]"
+                  },
+                  "authenticationType": {
+                    "value": "[parameters('linuxVmAuthenticationType')]"
+                  },
+                  "adminPasswordOrKey": {
+                    "value": "[parameters('linuxVmAdminPasswordOrKey')]"
+                  },
+                  "networkInterfaces": {
+                    "value": [
+                      {
+                        "id": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-linuxNetworkInterface'), '2020-10-01').outputs.id.value]",
+                        "properties": {
+                          "primary": true
+                        }
+                      }
+                    ]
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "15461396377124024507"
+                    }
+                  },
+                  "parameters": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "defaultValue": {}
+                    },
+                    "networkInterfaces": {
+                      "type": "array"
+                    },
+                    "vmSize": {
+                      "type": "string"
+                    },
+                    "osDiskCreateOption": {
+                      "type": "string"
+                    },
+                    "osDiskType": {
+                      "type": "string"
+                    },
+                    "vmImagePublisher": {
+                      "type": "string"
+                    },
+                    "vmImageOffer": {
+                      "type": "string"
+                    },
+                    "vmImageSku": {
+                      "type": "string"
+                    },
+                    "vmImageVersion": {
+                      "type": "string"
+                    },
+                    "adminUsername": {
+                      "type": "string"
+                    },
+                    "authenticationType": {
+                      "type": "string",
+                      "allowedValues": [
+                        "sshPublicKey",
+                        "password"
+                      ]
+                    },
+                    "adminPasswordOrKey": {
+                      "type": "secureString",
+                      "minLength": 14
+                    }
+                  },
+                  "variables": {
+                    "osProfile": {
+                      "sshPublicKey": {
+                        "computerName": "[parameters('name')]",
+                        "adminUsername": "[parameters('adminUsername')]",
+                        "linuxConfiguration": {
+                          "disablePasswordAuthentication": true,
+                          "ssh": {
+                            "publicKeys": [
+                              {
+                                "path": "[format('/home/{0}/.ssh/authorized_keys', parameters('adminUsername'))]",
+                                "keyData": "[parameters('adminPasswordOrKey')]"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "password": {
+                        "computerName": "[parameters('name')]",
+                        "adminUsername": "[parameters('adminUsername')]",
+                        "adminPassword": "[parameters('adminPasswordOrKey')]"
+                      }
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Compute/virtualMachines",
+                      "apiVersion": "2020-06-01",
+                      "name": "[parameters('name')]",
+                      "location": "[parameters('location')]",
+                      "tags": "[parameters('tags')]",
+                      "properties": {
+                        "hardwareProfile": {
+                          "vmSize": "[parameters('vmSize')]"
+                        },
+                        "storageProfile": {
+                          "osDisk": {
+                            "createOption": "[parameters('osDiskCreateOption')]",
+                            "managedDisk": {
+                              "storageAccountType": "[parameters('osDiskType')]"
+                            }
+                          },
+                          "imageReference": {
+                            "publisher": "[parameters('vmImagePublisher')]",
+                            "offer": "[parameters('vmImageOffer')]",
+                            "sku": "[parameters('vmImageSku')]",
+                            "version": "[parameters('vmImageVersion')]"
+                          }
+                        },
+                        "networkProfile": {
+                          "networkInterfaces": "[parameters('networkInterfaces')]"
+                        },
+                        "osProfile": "[variables('osProfile')[parameters('authenticationType')]]"
+                      }
+                    }
+                  ],
+                  "outputs": {
+                    "adminUsername": {
+                      "type": "string",
+                      "value": "[parameters('adminUsername')]"
+                    },
+                    "authenticationType": {
+                      "type": "string",
+                      "value": "[parameters('authenticationType')]"
+                    }
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'remoteAccess-linuxNetworkInterface')]"
+              ]
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "remoteAccess-windowsNetworkInterface",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "name": {
+                    "value": "[parameters('windowsNetworkInterfaceName')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tags": {
+                    "value": "[parameters('tags')]"
+                  },
+                  "ipConfigurationName": {
+                    "value": "[parameters('windowsNetworkInterfaceIpConfigurationName')]"
+                  },
+                  "networkSecurityGroupId": {
+                    "value": "[parameters('hubNetworkSecurityGroupResourceId')]"
+                  },
+                  "privateIPAddressAllocationMethod": {
+                    "value": "[parameters('windowsNetworkInterfacePrivateIPAddressAllocationMethod')]"
+                  },
+                  "subnetId": {
+                    "value": "[parameters('hubSubnetResourceId')]"
+                  },
+                  "publicIP": {
+                    "value": "[parameters('publicIP')]"
+                  },
+                  "publicIPAddressId": {
+                    "value": "[parameters('WindowspublicIPAddressId')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "8625249705113110955"
+                    }
+                  },
+                  "parameters": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "defaultValue": {}
+                    },
+                    "ipConfigurationName": {
+                      "type": "string"
+                    },
+                    "subnetId": {
+                      "type": "string"
+                    },
+                    "networkSecurityGroupId": {
+                      "type": "string"
+                    },
+                    "privateIPAddressAllocationMethod": {
+                      "type": "string"
+                    },
+                    "publicIP": {
+                      "type": "string"
+                    },
+                    "publicIPAddressId": {
+                      "type": "string",
+                      "defaultValue": ""
+                    }
+                  },
+                  "variables": {
+                    "ipConfig": {
+                      "yes": [
+                        {
+                          "name": "[parameters('ipConfigurationName')]",
+                          "properties": {
+                            "subnet": {
+                              "id": "[parameters('subnetId')]"
+                            },
+                            "privateIPAllocationMethod": "[parameters('privateIPAddressAllocationMethod')]",
+                            "publicIPAddress": {
+                              "id": "[parameters('publicIPAddressId')]"
+                            }
+                          }
+                        }
+                      ],
+                      "no": [
+                        {
+                          "name": "[parameters('ipConfigurationName')]",
+                          "properties": {
+                            "subnet": {
+                              "id": "[parameters('subnetId')]"
+                            },
+                            "privateIPAllocationMethod": "[parameters('privateIPAddressAllocationMethod')]"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Network/networkInterfaces",
+                      "apiVersion": "2018-11-01",
+                      "name": "[parameters('name')]",
+                      "location": "[parameters('location')]",
+                      "tags": "[parameters('tags')]",
+                      "properties": {
+                        "ipConfigurations": "[variables('ipConfig')[parameters('publicIP')]]",
+                        "networkSecurityGroup": {
+                          "id": "[parameters('networkSecurityGroupId')]"
+                        }
+                      }
+                    }
+                  ],
+                  "outputs": {
+                    "id": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.Network/networkInterfaces', parameters('name'))]"
+                    },
+                    "name": {
+                      "type": "string",
+                      "value": "[parameters('name')]"
+                    },
+                    "ip": {
+                      "type": "string",
+                      "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('name'))).ipConfigurations[0].properties.privateIPAddress]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "remoteAccess-windowsVirtualMachine",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "name": {
+                    "value": "[parameters('windowsVmName')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tags": {
+                    "value": "[parameters('tags')]"
+                  },
+                  "size": {
+                    "value": "[parameters('windowsVmSize')]"
+                  },
+                  "adminUsername": {
+                    "value": "[parameters('windowsVmAdminUsername')]"
+                  },
+                  "adminPassword": {
+                    "value": "[parameters('windowsVmAdminPassword')]"
+                  },
+                  "publisher": {
+                    "value": "[parameters('windowsVmPublisher')]"
+                  },
+                  "offer": {
+                    "value": "[parameters('windowsVmOffer')]"
+                  },
+                  "sku": {
+                    "value": "[parameters('windowsVmSku')]"
+                  },
+                  "version": {
+                    "value": "[parameters('windowsVmVersion')]"
+                  },
+                  "createOption": {
+                    "value": "[parameters('windowsVmCreateOption')]"
+                  },
+                  "storageAccountType": {
+                    "value": "[parameters('windowsVmStorageAccountType')]"
+                  },
+                  "networkInterfaceName": {
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsNetworkInterface'), '2020-10-01').outputs.name.value]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "15454486844078430295"
+                    }
+                  },
+                  "parameters": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "defaultValue": {}
+                    },
+                    "networkInterfaceName": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "string"
+                    },
+                    "adminUsername": {
+                      "type": "string"
+                    },
+                    "adminPassword": {
+                      "type": "secureString",
+                      "minLength": 14
+                    },
+                    "publisher": {
+                      "type": "string"
+                    },
+                    "offer": {
+                      "type": "string"
+                    },
+                    "sku": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "createOption": {
+                      "type": "string"
+                    },
+                    "storageAccountType": {
+                      "type": "string"
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Compute/virtualMachines",
+                      "apiVersion": "2017-03-30",
+                      "name": "[parameters('name')]",
+                      "location": "[parameters('location')]",
+                      "tags": "[parameters('tags')]",
+                      "properties": {
+                        "hardwareProfile": {
+                          "vmSize": "[parameters('size')]"
+                        },
+                        "osProfile": {
+                          "computerName": "[take(parameters('name'), 15)]",
+                          "adminUsername": "[parameters('adminUsername')]",
+                          "adminPassword": "[parameters('adminPassword')]"
+                        },
+                        "storageProfile": {
+                          "imageReference": {
+                            "publisher": "[parameters('publisher')]",
+                            "offer": "[parameters('offer')]",
+                            "sku": "[parameters('sku')]",
+                            "version": "[parameters('version')]"
+                          },
+                          "osDisk": {
+                            "createOption": "[parameters('createOption')]",
+                            "managedDisk": {
+                              "storageAccountType": "[parameters('storageAccountType')]"
+                            }
+                          }
+                        },
+                        "networkProfile": {
+                          "networkInterfaces": [
+                            {
+                              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsNetworkInterface')]"
+              ]
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "spokeNetworks",
+        "spokeResourceGroups",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', 'windowsPublicIPAddress')]"
+      ]
     }
-  ]
+  ],
+  "outputs": {
+    "hub": {
+      "type": "object",
+      "value": {
+        "subscriptionId": "[subscription().subscriptionId]",
+        "resourceGroupName": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.name.value]",
+        "resourceGroupResourceId": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]",
+        "virtualNetworkName": "[variables('hubVirtualNetworkName')]",
+        "firewallPrivateIPAddress": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.internalIpAddress.value]"
+      }
+    }
+  }
 }
