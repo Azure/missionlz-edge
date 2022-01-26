@@ -19,11 +19,13 @@ RUN apt-get update \
     vim
 
 # Download the Microsoft repository GPG keys
-RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb \
+RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb
+
 # Register the Microsoft repository GPG keys
-    dpkg -i packages-microsoft-prod.deb \
+RUN dpkg -i packages-microsoft-prod.deb
+
 # Update the list of products and Install PowerShell and AZ CLI
-    apt-get update \
+RUN apt-get update \
     && apt-get install -y powershell \
     && curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
     && az bicep install --version v0.4.1008
