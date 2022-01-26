@@ -164,6 +164,95 @@ param hubNetworkSecurityGroupRules array = [
 
 // SHARED SERVICES PARAMETERS
 
+// REMOTE ACCESS PARAMETERS
+
+@description('The name of the IP configuration for the Linux remotea Access VM. It defaults to "linuxVmIpConfiguration".')
+param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
+
+@description('The administrator username for the Linux Virtual Machine to  remote into. It defaults to "azureuser".')
+param linuxVmAdminUsername string = 'azureuser'
+
+@allowed([
+  'sshPublicKey'
+  'password'
+])
+@description('[sshPublicKey/password] The authentication type for the Linux Virtual Machine to remote into. It defaults to "password".')
+param linuxVmAuthenticationType string = 'password'
+
+@description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
+@secure()
+@minLength(12)
+param linuxVmAdminPasswordOrKey string
+
+@description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
+param linuxVmSize string = 'Standard_DS1_v2'
+
+@description('The disk creation option of the Linux Virtual Machine to remote into. It defaults to "FromImage".')
+param linuxVmOsDiskCreateOption string = 'FromImage'
+
+@description('The disk type of the Linux Virtual Machine to remote into. It defaults to "Standard_LRS".')
+param linuxVmOsDiskType string = 'Standard_LRS'
+
+@description('The image publisher of the Linux Virtual Machine to remote into. It defaults to "Canonical".')
+param linuxVmImagePublisher string = 'Canonical'
+
+@description('The image offer of the Linux Virtual Machine to remote into. It defaults to "UbuntuServer".')
+param linuxVmImageOffer string = 'UbuntuServer'
+
+@description('The image SKU of the Linux Virtual Machine to remote into. It defaults to "18.04-LTS".')
+param linuxVmImageSku string = '18.04-LTS'
+
+@description('The image version of the Linux Virtual Machine to remote into. It defaults to "latest".')
+param linuxVmImageVersion string = 'latest'
+
+@allowed([
+  'Static'
+  'Dynamic'
+])
+@description('[Static/Dynamic] The public IP Address allocation method for the Linux virtual machine. It defaults to "Dynamic".')
+param linuxNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
+
+// WINDOWS VIRTUAL MACHINE PARAMETERS
+
+@description('The administrator username for the Windows Virtual Machine to   remote into. It defaults to "azureuser".')
+param windowsVmAdminUsername string = 'azureuser'
+
+@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
+@secure()
+@minLength(12)
+param windowsVmAdminPassword string
+
+@description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
+param windowsVmSize string = 'Standard_DS1_v2'
+
+@description('The publisher of the Windows Virtual Machine to remote into. It defaults to "MicrosoftWindowsServer".')
+param windowsVmPublisher string = 'MicrosoftWindowsServer'
+
+@description('The offer of the Windows Virtual Machine to remote into. It defaults to "WindowsServer".')
+param windowsVmOffer string = 'WindowsServer'
+
+@description('The SKU of the Windows Virtual Machine to remote into. It defaults to "2019-datacenter".')
+param windowsVmSku string = '2019-datacenter'
+
+@description('The version of the Windows Virtual Machine to  remote into. It defaults to "latest".')
+param windowsVmVersion string = 'latest'
+
+@description('The disk creation option of the Windows Virtual Machine to  remote into. It defaults to "FromImage".')
+param windowsVmCreateOption string = 'FromImage'
+
+@description('The storage account type of the Windows Virtual Machine to  remote into. It defaults to "Premium_LRS".')
+param windowsVmStorageAccountType string = 'Premium_LRS'
+
+@allowed([
+  'Static'
+  'Dynamic'
+])
+@description('[Static/Dynamic] The public IP Address allocation method for the Windows virtual machine. It defaults to "Dynamic".')
+param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
+
+@description('The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine.')
+param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
+
 /*
 
   NAMING CONVENTION
@@ -335,6 +424,17 @@ var f5vm01OutboundPublicIPAddressName = replace(publicIpAddressNamingConvention,
 var f5vm01InboundPublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-in')
 var f5publicIPAddressAllocationMethod = 'Static'
 
+// REMOTE ACCESS VARIABLES
+
+var windowsPublicIpAddressName = replace(publicIpAddressNamingConvention, nameToken, 'winVM')
+var windowsPublicIpAddressAllocationMethod = 'Dynamic'
+
+// VM names and VMNIC names
+var linuxVmName = replace(virtualMachineNamingConvention, nameToken, 'lnx')
+var windowsVmName = replace(virtualMachineNamingConvention, nameToken, 'win')
+var linuxNetworkInterfaceName = replace(networkInterfaceNamingConvention, nameToken, 'lnx')
+var windowsNetworkInterfaceName = replace(networkInterfaceNamingConvention, nameToken, 'win')
+
 // SPOKES
 
 var spokes = [
@@ -388,7 +488,7 @@ var calculatedTags = union(tags, defaultTags)
 
 */
 
-// RESOURCE GROUPS
+// CREATE RESOURCE GROUPS
 
 module hubResourceGroup './modules/resourceGroup.bicep' = {
   name: 'deploy-rg-hub-${deploymentNameSuffix}'
@@ -408,9 +508,8 @@ module spokeResourceGroups './modules/resourceGroup.bicep' = [for spoke in spoke
   }
 }]
 
-// HUB RESOURCES
+//CREATE HUB VIRTUAL NETWORK AND SUBNETS
 
-//Create Hub Virtual Network and Subnets
 module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
   name: 'deploy-vnet-hub-${deploymentNameSuffix}'
   scope: resourceGroup(hubResourceGroupName)
@@ -426,7 +525,8 @@ module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
   ]
 }
 
-// Create Hub NSG
+// CREATE HUB NSG
+
 module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-nsg-hub-${deploymentNameSuffix}'
@@ -440,7 +540,8 @@ module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
   ]
 }
 
-// Create Outbound Public IP
+// CREATE FIREWALL OUTBOUND PUBLIC IP
+
 module fwOutboundPublicIp './modules/publicIPAddress.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'create-fw_out-pubip-${deploymentNameSuffix}'
@@ -454,7 +555,8 @@ module fwOutboundPublicIp './modules/publicIPAddress.bicep' = {
   ]
 }
 
-// Create Inbound Public IP
+// CREATE FIREWALL INBOUND PUBLIC IP
+
 module fwInboundPublicIp './modules/publicIPAddress.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'create-fw_in-pubip-${deploymentNameSuffix}'
@@ -468,7 +570,24 @@ module fwInboundPublicIp './modules/publicIPAddress.bicep' = {
   ]
 }
 
-// Create Key Vault to store F5 SSH key pair
+// CREATE PUBLIC IP FOR REMOTE ACCESS WINDOWS VM
+
+module windowsPublicIPAddress './modules/publicIPAddress.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'create-ra-windows-pubip-${deploymentNameSuffix}'
+  params: {
+    location: location
+    name: windowsPublicIpAddressName
+    publicIpAllocationMethod: windowsPublicIpAddressAllocationMethod
+  }
+  dependsOn: [
+    hubResourceGroup
+    f5Vm01
+  ]    
+}
+
+// CREATE KEY VAULT TO STORE F5 SSH KEY PAIR
+
 module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticationType=='sshPublicKey'){
   scope: resourceGroup(hubResourceGroupName)
   name:'deploy-f5vm01Sshkv-hub-${deploymentNameSuffix}'
@@ -507,7 +626,8 @@ resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' exist
 }
 //
 
-// Create F5 firewall
+// CREATE F5 FIREWALL
+
 module f5Vm01 './modules/firewall.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-f5vm01-hub-${deploymentNameSuffix}'
@@ -563,6 +683,8 @@ module f5Vm01 './modules/firewall.bicep' = {
     f5Vm01SshKeyVault
   ]
 }
+
+// CREATE SPOKE VIRTUAL NETWORKS
 
 module spokeNetworks './modules/spokeNetwork.bicep' = [for spoke in spokes: {
   name: 'deploy-vnet-${spoke.name}-${deploymentNameSuffix}'
@@ -620,6 +742,54 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
   ]
 }]
 
+// CREATE REMOTE ACCESS VIRTUAL MACHINES
+
+module remoteAccess './modules/remoteAccess.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'deploy-remoteAccess-hub-${deploymentNameSuffix}'
+  params: {
+    location: location
+    mgmtSubnetId: mgmtSubnet.id
+    deploymentNameSuffix: deploymentNameSuffix
+    hubVirtualNetworkName: hubVirtualNetwork.outputs.name
+    linuxNetworkInterfaceName: linuxNetworkInterfaceName
+    linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
+    linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
+    linuxVmName: linuxVmName
+    linuxVmSize: linuxVmSize
+    linuxVmOsDiskCreateOption: linuxVmOsDiskCreateOption
+    linuxVmOsDiskType: linuxVmOsDiskType
+    linuxVmImagePublisher: linuxVmImagePublisher
+    linuxVmImageOffer: linuxVmImageOffer
+    linuxVmImageSku: linuxVmImageSku
+    linuxVmImageVersion: linuxVmImageVersion
+    linuxVmAdminUsername: linuxVmAdminUsername
+    linuxVmAuthenticationType: linuxVmAuthenticationType
+    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey
+    windowsNetworkInterfaceName: windowsNetworkInterfaceName
+    windowsNetworkInterfaceIpConfigurationName: windowsNetworkInterfaceIpConfigurationName
+    windowsNetworkInterfacePrivateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
+    windowsVmName: windowsVmName
+    windowsVmSize: windowsVmSize
+    windowsVmAdminUsername: windowsVmAdminUsername
+    windowsVmAdminPassword: windowsVmAdminPassword
+    windowsVmPublisher: windowsVmPublisher
+    windowsVmOffer: windowsVmOffer
+    windowsVmSku: windowsVmSku
+    windowsVmVersion: windowsVmVersion
+    windowsVmCreateOption: windowsVmCreateOption
+    windowsVmStorageAccountType: windowsVmStorageAccountType
+    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id
+  }
+  dependsOn: [
+    f5Vm01
+    hubResourceGroup
+    hubVirtualNetwork
+  ]
+}
+
+// OUTPUTS
+
 output hub object = {
   subscriptionId: subscription().subscriptionId
   resourceGroupName: hubResourceGroup.outputs.name
@@ -627,4 +797,3 @@ output hub object = {
   virtualNetworkName: hubVirtualNetworkName  
   firewallPrivateIPAddress:f5Vm01.outputs.internalIpAddress
 }
-
