@@ -10,7 +10,7 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils software-properties-common 2>&1 \
     && apt-get dist-upgrade -y \
 # Install prerequisites
-    apt-get install -y \
+    && apt-get install -y \
     apt-transport-https \
     wget \
     unzip \
