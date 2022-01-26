@@ -18,7 +18,7 @@ Currently this process is developed running Docker for Windows desktop with WSL 
 
 Tested environments: 2 Options
 
-- New container built from repo's container file - Following all steps below.
+- New container built from repo's container file - Following all steps below. **Please expand your virtual disk size for Docker by following the trouble shooting guide below**
 - Windows 10 & 11 running WSL with PowerShell core installed - Outside a container requires running setup.ps1 in PWSH which installs modified version of Syndication Tool and then following running download and import PowerShell scripts.
 
 ## Container \<create\>
@@ -137,4 +137,6 @@ Run `df -h` in WSL to see  current directory sizes and usage. The docker directo
 - Now expand the disk by running  `expand vdisk maximum=<sizeInMegaBytes>` where sizeInMegaBytes is something like 512000. ~Note: 512000 may not be enough since it typically is double the default size, this depends on additions to Market Place items you may have added and the current size of them as of today.
 - Exit diskpart and restart WSL by typing `wsl` at command prompt.
 - Start Docker For Windows
-- Double check size by running `df -Th` at command prompt and look for /mnt/wsl/docker-desktop-data directory
+- Double check size by running `df -Th` at command prompt and look for `/mnt/wsl/docker-desktop-data/isocache` "Mounted on" and copy the Filesytem, ie: /dev/sde
+- If not already installed in WSL, install resize2fs by running with sudo apt install resize2fs
+- Expand the corresponding docker desktop iso cache mount with `sudo resize2fs /dev/<mount> <sizeInMegabytes>M` where \<mount\> is the filesystem from the earlier `df -Th` command.
