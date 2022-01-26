@@ -15,12 +15,32 @@ RUN apt-get update \
     wget \
     unzip \
     git \
-    curl 
+    curl \
+    vim
 
-#Add container requirements
 # Download the Microsoft repository GPG keys
 RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb \
 # Register the Microsoft repository GPG keys
+
+RUN dpkg -i packages-microsoft-prod.deb
+
+
+# Update the list of products and Install PowerShell and AZ CLI
+RUN apt-get update \
+    && apt-get install -y powershell \
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
+    && az bicep install --version v0.4.1008
+
+# Add repo source files
+#JJ TO DO NEED to change release code to pull the mlz-edge code base when we have a release
+RUN mkdir /workspaces
+
+COPY src /workspaces/src
+
+RUN cd /workspaces \
+    && pwsh ./src/scripts/setup.ps1
+
+WORKDIR /workspaces
     && dpkg -i packages-microsoft-prod.deb \
 # Update the list of products
     && apt-get update \
@@ -47,6 +67,7 @@ ARG USERNAME=edge
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 RUN adduser $USERNAME \
+    && usermod -aG sudo $USERNAME 
     && usermod -aG sudo $USERNAME \
   # Clean up
   && apt-get autoremove -y \
