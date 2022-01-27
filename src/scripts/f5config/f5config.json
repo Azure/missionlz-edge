@@ -1,0 +1,2131 @@
+{
+    "auth": {
+        "basic": [
+            {
+                "key": "password",
+                "type": "string",
+                "value": "{{password}}"
+            },
+            {
+                "key": "username",
+                "type": "string",
+                "value": "{{username}}"
+            }
+        ],
+        "type": "basic"
+    },
+    "info": {
+        "_postman_id": "1",
+        "name": "DOExampleDeclarations",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "applicationDataSize",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.14.0\",\n    \"class\": \"Device\",\n    \"async\": \"true\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"disk\": {\n            \"class\": \"Disk\",\n            \"applicationData\": \"130985984\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "auditLogging",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.13.0\",\n    \"class\": \"Device\",\n    \"async\": false,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"mySys\": {\n            \"class\": \"System\",\n            \"tmshAuditLog\": true,\n            \"guiAuditLog\": true,\n            \"mcpAuditLog\": \"enable\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "authMethods",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.7.0\",\n    \"async\": true,\n    \"class\": \"Device\",\n    \"label\": \"LDAP, RADIUS, and TACACS auth\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"myAuth\": {\n            \"class\": \"Authentication\",\n            \"enabledSourceType\": \"radius\",\n            \"fallback\": true,\n            \"remoteUsersDefaults\": {\n                \"partitionAccess\": \"all\",\n                \"terminalAccess\": \"tmsh\",\n                \"role\": \"resource-admin\"\n            },\n            \"radius\": {\n                \"serviceType\": \"call-check\",\n                \"servers\": {\n                    \"primary\": {\n                        \"server\": \"1.2.3.4\",\n                        \"port\": 1811,\n                        \"secret\": \"mySecret\"\n                    },\n                    \"secondary\": {\n                        \"server\": \"my.second.server\",\n                        \"secret\": \"anotherSecret\",\n                        \"port\": 1888\n                    }\n                }\n            },\n            \"ldap\": {\n                \"bindDn\": \"searchingName\",\n                \"bindPassword\": \"pass1w0rd\",\n                \"bindTimeout\": 40,\n                \"checkBindPassword\": true,\n                \"checkRemoteRole\": true,\n                \"filter\": \"filter\",\n                \"groupDn\": \"groupName\",\n                \"groupMemberAttribute\": \"attribute\",\n                \"idleTimeout\": 20,\n                \"ignoreAuthInfoUnavailable\": true,\n                \"ignoreUnknownUser\": true,\n                \"loginAttribute\": \"attributeToLogin\",\n                \"port\": 654,\n                \"referrals\": true,\n                \"searchScope\": \"base\",\n                \"searchBaseDn\": \"searchName\",\n                \"searchTimeout\": 687,\n                \"servers\": [\n                    \"my.host.com\",\n                    \"1.2.3.4\",\n                    \"FE80:0000:0000:0000:0202:B3FF:FE1E:8329\"\n                ],\n                \"ssl\": \"enabled\",\n                \"sslCaCert\": {\n                    \"certificate\": {\n                        \"base64\": \"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkY1IEZBS0UgQ0VSVElGSUNBVEUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQ==\"\n                    }\n                },\n                \"sslCheckPeer\": true,\n                \"sslCiphers\": [\n                    \"ECDHE-RSA-AES128-GCM-SHA256\",\n                    \"ECDHE-RSA-AES128-CBC-SHA\",\n                    \"ECDHE-RSA-AES128-SHA256\"\n                ],\n                \"userTemplate\": \"uid=%s,ou=people,dc=siterequest,dc=com\",\n                \"version\": 2\n            },\n            \"tacacs\": {\n                \"accounting\": \"send-to-first-server\",\n                \"authentication\": \"use-first-server\",\n                \"debug\": false,\n                \"encryption\": true,\n                \"protocol\": \"ip\",\n                \"secret\": \"aSecret1\",\n                \"servers\": [\n                    \"my.host.com\",\n                    \"1.2.3.4\",\n                    \"FE80:0000:0000:0000:0202:B3FF:FE1E:8329\"\n                ],\n                \"service\": \"ppp\"\n            }\n        }\n    }\n}"
+                },
+                "description": "LDAP, RADIUS, and TACACS auth",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "avrStreamingSupport",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.5.0\",\n    \"class\": \"Device\",\n    \"label\": \"Adding support for AVR streaming\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"avr.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"regKey\",\n            \"regKey\": \"AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE\"\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\",\n            \"avr\": \"nominal\"\n        },\n        \"analytics\": {\n            \"class\": \"Analytics\",\n            \"debugEnabled\": true,\n            \"interval\": 60,\n            \"offboxProtocol\": \"tcp\",\n            \"offboxTcpAddresses\": [\n                \"192.0.2.1\"\n            ],\n            \"offboxTcpPort\": 80,\n            \"offboxEnabled\": true\n        }\n    }\n}"
+                },
+                "description": "Adding support for AVR streaming",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "banner",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"class\": \"DO\",\n    \"declaration\": {\n        \"schemaVersion\": \"1.11.0\",\n        \"class\": \"Device\",\n        \"async\": true,\n        \"Common\": {\n            \"class\": \"Tenant\",\n            \"myDbVariables\": {\n                \"class\": \"DbVariables\",\n                \"ui.advisory.enabled\": \"true\",\n                \"ui.advisory.color\": \"red\",\n                \"ui.advisory.text\": \"Configuration deployed with AS3. Do not make any change directly on the BIG-IP or those changes may be lost.\"\n            }\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "bgp",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.20.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"exampleRoutingAsPath1\": {\n            \"class\": \"RoutingAsPath\",\n            \"entries\": [\n                {\n                    \"name\": 10,\n                    \"regex\": \"^165001 *\"\n                }\n            ]\n        },\n        \"exampleRoutingAsPath2\": {\n            \"class\": \"RoutingAsPath\",\n            \"entries\": [\n                {\n                    \"name\": 20,\n                    \"regex\": \"^165005$\"\n                }\n            ]\n        },\n        \"exampleRoutingPrefixList1\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 20,\n                    \"action\": \"permit\",\n                    \"prefix\": \"10.3.3.0/24\",\n                    \"prefixLengthRange\": 32\n                }\n            ]\n        },\n        \"exampleRoutingPrefixList2\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 30,\n                    \"action\": \"deny\",\n                    \"prefix\": \"10.4.4.0/23\",\n                    \"prefixLengthRange\": 24\n                }\n            ]\n        },\n        \"exampleRouteMap1\": {\n            \"class\": \"RouteMap\",\n            \"entries\": [\n                {\n                    \"name\": \"33\",\n                    \"action\": \"permit\",\n                    \"match\": {\n                        \"asPath\": \"exampleRoutingAsPath1\",\n                        \"ipv4\": {\n                            \"address\": {\n                                \"prefixList\": \"exampleRoutingPrefixList1\"\n                            }\n                        }\n                    }\n                }\n            ]\n        },\n        \"exampleRouteMap2\": {\n            \"class\": \"RouteMap\",\n            \"entries\": [\n                {\n                    \"name\": \"44\",\n                    \"action\": \"deny\",\n                    \"match\": {\n                        \"asPath\": \"exampleRoutingAsPath2\",\n                        \"ipv4\": {\n                            \"address\": {\n                                \"prefixList\": \"exampleRoutingPrefixList2\"\n                            }\n                        }\n                    }\n                }\n            ]\n        },\n        \"exampleRoutingBGP\": {\n            \"class\": \"RoutingBGP\",\n            \"localAS\": 65010,\n            \"addressFamilies\": [\n                {\n                    \"internetProtocol\": \"ipv4\",\n                    \"redistributionList\": [\n                        {\n                            \"routingProtocol\": \"kernel\",\n                            \"routeMap\": \"exampleRouteMap1\"\n                        },\n                        {\n                            \"routingProtocol\": \"static\",\n                            \"routeMap\": \"exampleRouteMap2\"\n                        }\n                    ]\n                }\n            ],\n            \"gracefulRestart\": {\n                \"gracefulResetEnabled\": true,\n                \"restartTime\": 120,\n                \"stalePathTime\": 60\n            },\n            \"holdTime\": 35,\n            \"keepAlive\": 10,\n            \"neighbors\": [\n                {\n                    \"address\": \"10.1.1.2\",\n                    \"ebgpMultihop\": 2,\n                    \"peerGroup\": \"Neighbor\"\n                },\n                {\n                    \"address\": \"10.1.1.3\",\n                    \"ebgpMultihop\": 3,\n                    \"peerGroup\": \"Neighbor\"\n                }\n            ],\n            \"peerGroups\": [\n                {\n                    \"name\": \"Neighbor\",\n                    \"addressFamilies\": [\n                        {\n                            \"internetProtocol\": \"ipv4\",\n                            \"routeMap\": {\n                                \"in\": \"exampleRouteMap1\",\n                                \"out\": \"exampleRouteMap2\"\n                            },\n                            \"softReconfigurationInboundEnabled\": true\n                        }\n                    ],\n                    \"remoteAS\": 65020\n                }\n            ],\n            \"routerId\": \"10.1.1.1\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "clusterWithIpAddresses",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"class\": \"Device\",\n    \"schemaVersion\": \"1.0.0\",\n    \"async\": true,\n    \"label\": \"BIG-IP declaration for declarative onboarding\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"do.example.1\",\n        \"configSync\": {\n            \"class\": \"ConfigSync\",\n            \"configsyncIp\": \"10.0.0.1\"\n        },\n        \"failoverAddress\": {\n            \"class\": \"FailoverUnicast\",\n            \"address\": \"10.0.0.1\"\n        },\n        \"trust\": {\n            \"class\": \"DeviceTrust\",\n            \"localUsername\": \"exampleUsername\",\n            \"localPassword\": \"examplePassword\",\n            \"remoteHost\": \"10.0.0.1\",\n            \"remoteUsername\": \"exampleUsername\",\n            \"remotePassword\": \"examplePassword\"\n        },\n        \"failoverGroup\": {\n            \"class\": \"DeviceGroup\",\n            \"type\": \"sync-failover\",\n            \"members\": [\n                \"10.0.0.1\",\n                \"10.0.0.2\"\n            ],\n            \"owner\": \"/Common/failoverGroup/members/0\",\n            \"autoSync\": true,\n            \"saveOnAutoSync\": false,\n            \"networkFailover\": false,\n            \"fullLoadOnSync\": false,\n            \"asmSync\": false\n        }\n    }\n}"
+                },
+                "description": "BIG-IP declaration for declarative onboarding",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "dagGlobals",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": false,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"dagGlobals\": {\n            \"class\": \"DagGlobals\",\n            \"icmpHash\": \"ipicmp\",\n            \"ipv6PrefixLength\": 101,\n            \"roundRobinMode\": \"local\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "debugTrace",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.15.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"webhook\": \"https://example.com/myHook\",\n    \"label\": \"my BIG-IP declaration for declarative onboarding\",\n    \"controls\": {\n        \"trace\": true,\n        \"traceResponse\": true\n    },\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"mySystem\": {\n            \"class\": \"System\",\n            \"hostname\": \"bigip.example.com\",\n            \"cliInactivityTimeout\": 1200,\n            \"consoleInactivityTimeout\": 1200,\n            \"autoPhonehome\": false\n        }\n    }\n}"
+                },
+                "description": "my BIG-IP declaration for declarative onboarding",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "deviceCertificate",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"deviceCertificate\": {\n            \"class\": \"DeviceCertificate\",\n            \"certificate\": {\n                \"base64\": \"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkY1IEZBS0UgQ0VSVElGSUNBVEUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQ==\"\n            },\n            \"privateKey\": {\n                \"base64\": \"LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpGNSBGQUtFIFBSSVZBVEUgS0VZCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0t\"\n            }\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "dnsResolver",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": false,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"myResolver\": {\n            \"class\": \"DNS_Resolver\",\n            \"answerDefaultZones\": false,\n            \"cacheSize\": 5767168,\n            \"randomizeQueryNameCase\": true,\n            \"routeDomain\": \"0\",\n            \"forwardZones\": [\n                {\n                    \"name\": \"forward.net\",\n                    \"nameservers\": [\n                        \"10.10.10.10:53\",\n                        \"10.10.10.11:53\"\n                    ]\n                }\n            ],\n            \"useIpv4\": true,\n            \"useIpv6\": true,\n            \"useTcp\": true,\n            \"useUdp\": true\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "dryRun",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.23.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"my BIG-IP declaration for declarative onboarding\",\n    \"controls\": {\n        \"trace\": true,\n        \"traceResponse\": true,\n        \"dryRun\": true\n    },\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"mySystem\": {\n            \"class\": \"System\",\n            \"hostname\": \"bigip.example.com\",\n            \"cliInactivityTimeout\": 1200,\n            \"consoleInactivityTimeout\": 1200,\n            \"autoPhonehome\": false\n        }\n    }\n}"
+                },
+                "description": "my BIG-IP declaration for declarative onboarding",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "failoverMulticast",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.17.0\",\n    \"class\": \"Device\",\n    \"controls\": {\n        \"traceResponse\": true\n    },\n    \"label\": \"Configuring System\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"failoverMulticastTest\": {\n            \"class\": \"FailoverMulticast\",\n            \"interface\": \"eth0\",\n            \"address\": \"10.2.3.4\",\n            \"port\": 1029\n        }\n    }\n}"
+                },
+                "description": "Configuring System",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "firewallPolicy",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.20.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"provisioning\": {\n            \"class\": \"Provision\",\n            \"afm\": \"nominal\"\n        },\n        \"newVlan\": {\n            \"class\": \"VLAN\",\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\"\n                }\n            ]\n        },\n        \"selfOne\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"192.0.2.10/24\",\n            \"vlan\": \"/Common/newVlan\",\n            \"enforcedFirewallPolicy\": \"/Common/firewallPolicy\"\n        },\n        \"selfTwo\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"192.0.3.20/24\",\n            \"vlan\": \"/Common/newVlan\",\n            \"stagedFirewallPolicy\": \"/Common/firewallPolicy\"\n        },\n        \"firewallAddressList1\": {\n            \"class\": \"FirewallAddressList\",\n            \"addresses\": [\n                \"192.0.2.10\",\n                \"192.1.2.0/24\"\n            ]\n        },\n        \"firewallPortList1\": {\n            \"class\": \"FirewallPortList\",\n            \"ports\": [\n                8080,\n                8888\n            ]\n        },\n        \"firewallPortList2\": {\n            \"class\": \"FirewallPortList\",\n            \"ports\": [\n                \"8123\",\n                \"8234\",\n                \"8300-8350\"\n            ]\n        },\n        \"firewallPolicy\": {\n            \"class\": \"FirewallPolicy\",\n            \"label\": \"Example of all firewall policy properties\",\n            \"remark\": \"firewall policy description\",\n            \"rules\": [\n                {\n                    \"name\": \"firewallPolicyRule\",\n                    \"label\": \"Example of all firewall policy rule properties\",\n                    \"remark\": \"firewall policy rule description\",\n                    \"action\": \"reject\",\n                    \"protocol\": \"tcp\",\n                    \"loggingEnabled\": true,\n                    \"source\": {\n                        \"addressLists\": [\n                            \"/Common/firewallAddressList1\"\n                        ],\n                        \"portLists\": [\n                            \"/Common/firewallPortList1\",\n                            \"/Common/firewallPortList2\"\n                        ],\n                        \"vlans\": [\n                            \"/Common/newVlan\"\n                        ]\n                    },\n                    \"destination\": {\n                        \"addressLists\": [\n                            \"/Common/firewallAddressList1\"\n                        ],\n                        \"portLists\": [\n                            \"/Common/firewallPortList1\",\n                            \"/Common/firewallPortList2\"\n                        ]\n                    }\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "gslbDataCenter",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.17.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"provisioning\": {\n            \"class\": \"Provision\",\n            \"gtm\": \"nominal\"\n        },\n        \"newDataCenter\": {\n            \"class\": \"GSLBDataCenter\",\n            \"enabled\": true,\n            \"contact\": \"dataCenterContact\",\n            \"location\": \"dataCenterLocation\",\n            \"proberFallback\": \"outside-datacenter\",\n            \"proberPreferred\": \"pool\",\n            \"proberPool\": \"/Common/proberPool\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "gslbGlobals",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"provisioning\": {\n            \"class\": \"Provision\",\n            \"gtm\": \"nominal\"\n        },\n        \"gslbGlobals\": {\n            \"class\": \"GSLBGlobals\",\n            \"general\": {\n                \"synchronizationEnabled\": true,\n                \"synchronizationGroupName\": \"newGroup\",\n                \"synchronizationTimeTolerance\": 123,\n                \"synchronizationTimeout\": 1234\n            }\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "gslbMonitor",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.19.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"controls\": {\n        \"traceResponse\": true\n    },\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\",\n            \"gtm\": \"nominal\"\n        },\n        \"gslbDataCenter\": {\n            \"class\": \"GSLBDataCenter\"\n        },\n        \"gslbServer\": {\n            \"class\": \"GSLBServer\",\n            \"devices\": [\n                {\n                    \"address\": \"10.10.10.10\",\n                    \"addressTranslation\": \"192.0.2.12\",\n                    \"remark\": \"GSLB server device description\"\n                }\n            ],\n            \"dataCenter\": \"/Common/gslbDataCenter\",\n            \"monitors\": [\n                \"/Common/gslbMonitorHTTP\",\n                \"/Common/gslbMonitorHTTPS\",\n                \"/Common/gslbMonitorICMP\",\n                \"/Common/gslbMonitorTCP\",\n                \"/Common/gslbMonitorUDP\"\n            ]\n        },\n        \"gslbMonitorHTTP\": {\n            \"class\": \"GSLBMonitor\",\n            \"remark\": \"description\",\n            \"monitorType\": \"http\",\n            \"target\": \"1.1.1.1:80\",\n            \"interval\": 100,\n            \"timeout\": 1000,\n            \"probeTimeout\": 110,\n            \"ignoreDownResponseEnabled\": true,\n            \"transparent\": true,\n            \"reverseEnabled\": true,\n            \"send\": \"HEAD / HTTP/1.0\\\\r\\\\n\",\n            \"receive\": \"HTTP\"\n        },\n        \"gslbMonitorHTTPS\": {\n            \"class\": \"GSLBMonitor\",\n            \"remark\": \"description\",\n            \"monitorType\": \"https\",\n            \"target\": \"2.2.2.2:80\",\n            \"interval\": 100,\n            \"timeout\": 1000,\n            \"probeTimeout\": 110,\n            \"ignoreDownResponseEnabled\": true,\n            \"transparent\": true,\n            \"reverseEnabled\": true,\n            \"send\": \"HEAD / HTTP/1.0\\\\r\\\\n\",\n            \"receive\": \"HTTP\",\n            \"ciphers\": \"DEFAULT\",\n            \"clientCertificate\": \"/Common/default.crt\"\n        },\n        \"gslbMonitorICMP\": {\n            \"class\": \"GSLBMonitor\",\n            \"remark\": \"description\",\n            \"monitorType\": \"gateway-icmp\",\n            \"target\": \"3.3.3.3:80\",\n            \"interval\": 100,\n            \"timeout\": 1000,\n            \"probeTimeout\": 110,\n            \"ignoreDownResponseEnabled\": true,\n            \"transparent\": true,\n            \"probeInterval\": 1,\n            \"probeAttempts\": 3\n        },\n        \"gslbMonitorTCP\": {\n            \"class\": \"GSLBMonitor\",\n            \"remark\": \"description\",\n            \"monitorType\": \"tcp\",\n            \"target\": \"4.4.4.4:80\",\n            \"interval\": 100,\n            \"timeout\": 1000,\n            \"probeTimeout\": 110,\n            \"ignoreDownResponseEnabled\": true,\n            \"transparent\": true,\n            \"reverseEnabled\": true,\n            \"send\": \"example send\",\n            \"receive\": \"example receive\"\n        },\n        \"gslbMonitorUDP\": {\n            \"class\": \"GSLBMonitor\",\n            \"remark\": \"description\",\n            \"monitorType\": \"udp\",\n            \"target\": \"5.5.5.5:80\",\n            \"interval\": 100,\n            \"timeout\": 1000,\n            \"probeTimeout\": 110,\n            \"ignoreDownResponseEnabled\": true,\n            \"transparent\": true,\n            \"reverseEnabled\": true,\n            \"send\": \"default send string\",\n            \"receive\": \"udp receive\",\n            \"debug\": true,\n            \"probeInterval\": 1,\n            \"probeAttempts\": 3\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "gslbProberPool",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.19.0\",\n    \"class\": \"Device\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"gslbDataCenter\": {\n            \"class\": \"GSLBDataCenter\"\n        },\n        \"gslbServer\": {\n            \"class\": \"GSLBServer\",\n            \"label\": \"Example of all GSLB server properties\",\n            \"remark\": \"GSLB server description\",\n            \"devices\": [\n                {\n                    \"address\": \"10.10.10.10\",\n                    \"addressTranslation\": \"192.0.2.12\",\n                    \"remark\": \"GSLB server device description\"\n                }\n            ],\n            \"dataCenter\": \"/Common/gslbDataCenter\",\n            \"serverType\": \"bigip\",\n            \"enabled\": false,\n            \"proberPreferred\": \"inside-datacenter\",\n            \"proberFallback\": \"any-available\",\n            \"bpsLimit\": 10,\n            \"bpsLimitEnabled\": true,\n            \"ppsLimit\": 10,\n            \"ppsLimitEnabled\": true,\n            \"connectionsLimit\": 10,\n            \"connectionsLimitEnabled\": true,\n            \"serviceCheckProbeEnabled\": false,\n            \"pathProbeEnabled\": false,\n            \"snmpProbeEnabled\": false,\n            \"virtualServerDiscoveryMode\": \"enabled\",\n            \"exposeRouteDomainsEnabled\": true,\n            \"cpuUsageLimit\": 10,\n            \"cpuUsageLimitEnabled\": true,\n            \"memoryLimit\": 10,\n            \"memoryLimitEnabled\": true\n        },\n        \"gslbProberPool\": {\n            \"class\": \"GSLBProberPool\",\n            \"label\": \"Example of all GSLB prober pool properties\",\n            \"remark\": \"GSLB prober pool description\",\n            \"enabled\": false,\n            \"lbMode\": \"round-robin\",\n            \"members\": [\n                {\n                    \"server\": \"/Common/gslbServer\",\n                    \"label\": \"Example of all GSLB prober pool member properties\",\n                    \"remark\": \"GSLB prober pool member description\",\n                    \"enabled\": false\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "gslbServer",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.19.0\",\n    \"class\": \"Device\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"gslbDataCenter\": {\n            \"class\": \"GSLBDataCenter\"\n        },\n        \"gslbProberPool\": {\n            \"class\": \"GSLBProberPool\"\n        },\n        \"gslbServer\": {\n            \"class\": \"GSLBServer\",\n            \"label\": \"Example of all GSLB server properties\",\n            \"remark\": \"GSLB server description\",\n            \"devices\": [\n                {\n                    \"address\": \"10.10.10.10\",\n                    \"addressTranslation\": \"192.0.2.12\",\n                    \"remark\": \"GSLB server device description\"\n                }\n            ],\n            \"dataCenter\": \"/Common/gslbDataCenter\",\n            \"serverType\": \"generic-host\",\n            \"enabled\": false,\n            \"proberPreferred\": \"pool\",\n            \"proberFallback\": \"any-available\",\n            \"proberPool\": \"/Common/gslbProberPool\",\n            \"bpsLimit\": 10,\n            \"bpsLimitEnabled\": true,\n            \"ppsLimit\": 10,\n            \"ppsLimitEnabled\": true,\n            \"connectionsLimit\": 10,\n            \"connectionsLimitEnabled\": true,\n            \"serviceCheckProbeEnabled\": false,\n            \"pathProbeEnabled\": false,\n            \"snmpProbeEnabled\": false,\n            \"virtualServerDiscoveryMode\": \"enabled\",\n            \"exposeRouteDomainsEnabled\": true,\n            \"cpuUsageLimit\": 10,\n            \"cpuUsageLimitEnabled\": true,\n            \"memoryLimit\": 10,\n            \"memoryLimitEnabled\": true,\n            \"virtualServers\": [\n                {\n                    \"address\": \"10.0.20.1\"\n                },\n                {\n                    \"name\": \"virtualServer\",\n                    \"label\": \"Example of all GSLB server virtual server properties\",\n                    \"remark\": \"GSLB server virtual server description\",\n                    \"enabled\": false,\n                    \"address\": \"a989:1c34:009c:0000:0000:b099:c1c7:8bfe\",\n                    \"port\": 8080,\n                    \"addressTranslation\": \"1:0:1:0:0:0:0:0\",\n                    \"addressTranslationPort\": 80,\n                    \"monitors\": [\n                        \"/Common/tcp\",\n                        \"/Common/http\"\n                    ]\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "httpd",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.8.0\",\n    \"class\": \"Device\",\n    \"async\": false,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"httpdSettings\": {\n            \"class\": \"HTTPD\",\n            \"allow\": [\n                \"10.10.0.0/24\",\n                \"10.11.1.2\"\n            ],\n            \"authPamIdleTimeout\": 86400,\n            \"maxClients\": 10,\n            \"sslCiphersuite\": [\n                \"ECDHE-RSA-AES128-GCM-SHA256\",\n                \"ECDHE-RSA-AES256-GCM-SHA384\",\n                \"ECDHE-RSA-AES128-SHA\",\n                \"ECDHE-RSA-AES256-SHA\",\n                \"ECDHE-RSA-AES128-SHA256\",\n                \"ECDHE-RSA-AES256-SHA384\",\n                \"ECDHE-ECDSA-AES128-GCM-SHA256\",\n                \"ECDHE-ECDSA-AES256-GCM-SHA384\",\n                \"ECDHE-ECDSA-AES128-SHA\",\n                \"ECDHE-ECDSA-AES256-SHA\",\n                \"ECDHE-ECDSA-AES128-SHA256\",\n                \"ECDHE-ECDSA-AES256-SHA384\",\n                \"AES128-GCM-SHA256\",\n                \"AES256-GCM-SHA384\",\n                \"AES128-SHA\",\n                \"AES256-SHA\",\n                \"AES128-SHA256\",\n                \"!ADH\",\n                \"!MEDIUM\",\n                \"!EXPORT\",\n                \"!eNULL\"\n            ],\n            \"sslProtocol\": \"all -SSLv2 -SSLv3 -TLSv1\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqPoolAuthProvider",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.18.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"License BIG-IP via BIG-IQ using an external auth provider\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"myLdapUser\",\n            \"bigIqPassword\": \"myLdapPassword\",\n            \"bigIqAuthProvider\": \"myLdapAuthProvider\",\n            \"licensePool\": \"myUtilityLicense\",\n            \"skuKeyword1\": \"key1\",\n            \"skuKeyword2\": \"key2\",\n            \"unitOfMeasure\": \"hourly\",\n            \"reachable\": true,\n            \"bigIpUsername\": \"admin\",\n            \"bigIpPassword\": \"asdfjkl\"\n        }\n    }\n}"
+                },
+                "description": "License BIG-IP via BIG-IQ using an external auth provider",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqPoolUnreachableHEXHypervisor",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.22.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"License BIG-IP via BIG-IQ purchased pool license when BIG-IP is not reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"myPassword1\",\n            \"licensePool\": \"myPurchasedPool\",\n            \"regKey\": \"ABCDE-FGHIJ-KLMNO-PQRST-UVWXYZZ\",\n            \"reachable\": false,\n            \"hypervisor\": \"0x01000013\",\n            \"tenant\": \"Optional custom descriptor\"\n        }\n    }\n}"
+                },
+                "description": "License BIG-IP via BIG-IQ purchased pool license when BIG-IP is not reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqPurchasedPoolReachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"License BIG-IP via BIG-IQ purchased pool license when BIG-IP is reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"myPassword1\",\n            \"licensePool\": \"myPurchasedPool\",\n            \"reachable\": true,\n            \"bigIpUsername\": \"admin\",\n            \"bigIpPassword\": \"asdfjkl\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "License BIG-IP via BIG-IQ purchased pool license when BIG-IP is reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqPurchasedPoolUnreachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"License BIG-IP via BIG-IQ purchased pool license when BIG-IP is not reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"myPassword1\",\n            \"licensePool\": \"myPurchasedPool\",\n            \"reachable\": false,\n            \"hypervisor\": \"vmware\",\n            \"tenant\": \"Optional custom descriptor\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "License BIG-IP via BIG-IQ purchased pool license when BIG-IP is not reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqReachableASG",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"class\": \"DO\",\n    \"targetHost\": \"1.2.3.4\",\n    \"targetUsername\": \"/declaration/Credentials/1/username\",\n    \"targetPassphrase\": \"/declaration/Credentials/1/password\",\n    \"declaration\": {\n        \"schemaVersion\": \"1.0.0\",\n        \"class\": \"Device\",\n        \"label\": \"Use App Services Gateway to license BIG-IP via BIG-IQ when BIG-IP is reachable from BIG-IQ\",\n        \"Credentials\": [\n            {\n                \"username\": \"bigIqAdmin\",\n                \"password\": \"foofoo\"\n            },\n            {\n                \"username\": \"admin\",\n                \"password\": \"asdfjkl\"\n            }\n        ],\n        \"Common\": {\n            \"class\": \"Tenant\",\n            \"hostname\": \"bigip.example.com\",\n            \"myLicense\": {\n                \"class\": \"License\",\n                \"licenseType\": \"licensePool\",\n                \"bigIqHost\": \"10.0.1.200\",\n                \"bigIqUsername\": \"/Credentials/0/username\",\n                \"bigIqPassword\": \"/Credentials/0/password\",\n                \"licensePool\": \"myUtilityLicense\",\n                \"skuKeyword1\": \"key1\",\n                \"skuKeyword2\": \"key2\",\n                \"unitOfMeasure\": \"hourly\",\n                \"reachable\": true,\n                \"bigIpUsername\": \"/Credentials/1/username\",\n                \"bigIpPassword\": \"/Credentials/1/password\"\n            },\n            \"myDns\": {\n                \"class\": \"DNS\",\n                \"nameServers\": [\n                    \"8.8.8.8\",\n                    \"2001:4860:4860::8844\"\n                ],\n                \"search\": [\n                    \"f5.com\"\n                ]\n            },\n            \"myNtp\": {\n                \"class\": \"NTP\",\n                \"servers\": [\n                    \"0.pool.ntp.org\",\n                    \"1.pool.ntp.org\",\n                    \"2.pool.ntp.org\"\n                ],\n                \"timezone\": \"UTC\"\n            },\n            \"root\": {\n                \"class\": \"User\",\n                \"userType\": \"root\",\n                \"oldPassword\": \"foo\",\n                \"newPassword\": \"bar\"\n            },\n            \"admin\": {\n                \"class\": \"User\",\n                \"userType\": \"regular\",\n                \"password\": \"asdfjkl\",\n                \"shell\": \"bash\"\n            },\n            \"anotherUser\": {\n                \"class\": \"User\",\n                \"userType\": \"regular\",\n                \"password\": \"foobar\",\n                \"partitionAccess\": {\n                    \"Common\": {\n                        \"role\": \"guest\"\n                    }\n                }\n            },\n            \"myProvisioning\": {\n                \"class\": \"Provision\",\n                \"ltm\": \"nominal\"\n            },\n            \"internal\": {\n                \"class\": \"VLAN\",\n                \"tag\": 4093,\n                \"mtu\": 1500,\n                \"interfaces\": [\n                    {\n                        \"name\": \"1.2\",\n                        \"tagged\": true\n                    }\n                ]\n            },\n            \"internal-self\": {\n                \"class\": \"SelfIp\",\n                \"address\": \"10.10.0.100/24\",\n                \"vlan\": \"internal\",\n                \"allowService\": \"default\",\n                \"trafficGroup\": \"traffic-group-local-only\"\n            },\n            \"external\": {\n                \"class\": \"VLAN\",\n                \"tag\": 4094,\n                \"mtu\": 1500,\n                \"interfaces\": [\n                    {\n                        \"name\": \"1.1\",\n                        \"tagged\": true\n                    }\n                ]\n            },\n            \"external-self\": {\n                \"class\": \"SelfIp\",\n                \"address\": \"10.20.0.100/24\",\n                \"vlan\": \"external\",\n                \"allowService\": \"none\",\n                \"trafficGroup\": \"traffic-group-local-only\"\n            },\n            \"default\": {\n                \"class\": \"Route\",\n                \"gw\": \"10.10.0.1\",\n                \"network\": \"default\",\n                \"mtu\": 1500\n            }\n        }\n    }\n}"
+                },
+                "description": "Use App Services Gateway to license BIG-IP via BIG-IQ when BIG-IP is reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqRegKeyPool",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"License BIG-IP via BIG-IQ RegKey pool when BIG-IP is reachable from BIG-IQ (unreachable is not supported)\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"foofoo\",\n            \"licensePool\": \"myRegKeyPool\",\n            \"bigIpUsername\": \"admin\",\n            \"bigIpPassword\": \"asdfjkl\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "License BIG-IP via BIG-IQ RegKey pool when BIG-IP is reachable from BIG-IQ (unreachable is not supported)",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqUtilityReachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"License BIG-IP via BIG-IQ utility license when BIG-IP is reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"myPassword1\",\n            \"licensePool\": \"myUtilityLicense\",\n            \"skuKeyword1\": \"key1\",\n            \"skuKeyword2\": \"key2\",\n            \"unitOfMeasure\": \"hourly\",\n            \"reachable\": true,\n            \"bigIpUsername\": \"admin\",\n            \"bigIpPassword\": \"asdfjkl\",\n            \"chargebackTag\": \"foo-bar\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "License BIG-IP via BIG-IQ utility license when BIG-IP is reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "licenseViaBigIqUtilityUnreachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"License BIG-IP via BIG-IQ utility license when BIG-IP is not reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"myPassword1\",\n            \"licensePool\": \"myUtilityLicense\",\n            \"skuKeyword1\": \"key1\",\n            \"skuKeyword2\": \"key2\",\n            \"unitOfMeasure\": \"hourly\",\n            \"reachable\": false,\n            \"hypervisor\": \"vmware\",\n            \"tenant\": \"Optional custom descriptor\",\n            \"chargebackTag\": \"foo-bar\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "License BIG-IP via BIG-IQ utility license when BIG-IP is not reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "localOnlyRoutes",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.15.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"newVlan\": {\n            \"class\": \"VLAN\",\n            \"tag\": 100,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"localRoute\": {\n            \"class\": \"Route\",\n            \"target\": \"newVlan\",\n            \"network\": \"10.1.0.244/32\",\n            \"localOnly\": true\n        },\n        \"newSelfIp\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.1.0.20/32\",\n            \"vlan\": \"newVlan\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "macMasquerade",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.13.0\",\n    \"class\": \"Device\",\n    \"async\": false,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"myMac\": {\n            \"class\": \"MAC_Masquerade\",\n            \"source\": {\n                \"interface\": \"1.1\"\n            },\n            \"trafficGroup\": \"traffic-group-1\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "managementIp",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.23.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myManagementIp\": {\n            \"class\": \"ManagementIp\",\n            \"address\": \"10.10.10.1/18\",\n            \"remark\": \"this is my management ip\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "managementIpFirewall",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.24.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"firewallAddressList1\": {\n            \"class\": \"FirewallAddressList\",\n            \"addresses\": [\n                \"192.0.2.10\",\n                \"192.1.2.0/24\"\n            ]\n        },\n        \"firewallPortList1\": {\n            \"class\": \"FirewallPortList\",\n            \"ports\": [\n                8080,\n                8888\n            ]\n        },\n        \"firewallPortList2\": {\n            \"class\": \"FirewallPortList\",\n            \"ports\": [\n                \"8123\",\n                \"8234\",\n                \"8300-8350\"\n            ]\n        },\n        \"managementIpFirewall\": {\n            \"class\": \"ManagementIpFirewall\",\n            \"label\": \"Example of all management IP firewall properties\",\n            \"remark\": \"management IP firewall description\",\n            \"rules\": [\n                {\n                    \"name\": \"firewallRule\",\n                    \"label\": \"Example of all firewall rule properties\",\n                    \"remark\": \"firewall rule description\",\n                    \"action\": \"reject\",\n                    \"protocol\": \"tcp\",\n                    \"loggingEnabled\": true,\n                    \"source\": {\n                        \"addressLists\": [\n                            \"/Common/firewallAddressList1\"\n                        ],\n                        \"portLists\": [\n                            \"/Common/firewallPortList1\",\n                            \"/Common/firewallPortList2\"\n                        ]\n                    },\n                    \"destination\": {\n                        \"addressLists\": [\n                            \"/Common/firewallAddressList1\"\n                        ],\n                        \"portLists\": [\n                            \"/Common/firewallPortList1\",\n                            \"/Common/firewallPortList2\"\n                        ]\n                    }\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "managementRouteInterface",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.23.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myManagementRoute\": {\n            \"class\": \"ManagementRoute\",\n            \"network\": \"10.10.10.1/32\",\n            \"type\": \"interface\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "mirrorIp",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.16.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"newVlan\": {\n            \"class\": \"VLAN\",\n            \"tag\": 100,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"newSelfIp\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.1.0.20/0\",\n            \"vlan\": \"newVlan\"\n        },\n        \"myMirror\": {\n            \"class\": \"MirrorIp\",\n            \"primaryIp\": \"10.1.0.20\",\n            \"secondaryIp\": \"any6\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "multipleFailoverUnicasts",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.15.0\",\n    \"class\": \"Device\",\n    \"label\": \"Configuring System\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"failoverUnicastMgmt\": {\n            \"class\": \"FailoverUnicast\",\n            \"addressPorts\": [\n                {\n                    \"address\": \"10.0.0.0\",\n                    \"port\": 356\n                },\n                {\n                    \"address\": \"10.1.1.0\"\n                }\n            ]\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ],\n            \"cmpHash\": \"src-ip\"\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.0.0.0/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external-self2\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.1.1.0/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        }\n    }\n}"
+                },
+                "description": "Configuring System",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "onboard",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"webhook\": \"https://example.com/myHook\",\n    \"label\": \"my BIG-IP declaration for declarative onboarding\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"mySystem\": {\n            \"class\": \"System\",\n            \"hostname\": \"bigip.example.com\",\n            \"cliInactivityTimeout\": 1200,\n            \"consoleInactivityTimeout\": 1200,\n            \"autoPhonehome\": false\n        },\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"regKey\",\n            \"regKey\": \"AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"default\",\n            \"newPassword\": \"myNewPass1word\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"guestUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"guestNewPass1\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"myPass1word\",\n            \"shell\": \"none\",\n            \"partitionAccess\": {\n                \"all-partitions\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\",\n            \"gtm\": \"minimum\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ],\n            \"cmpHash\": \"dst-ip\"\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ],\n            \"cmpHash\": \"src-ip\"\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        },\n        \"managementRoute\": {\n            \"class\": \"ManagementRoute\",\n            \"gw\": \"1.2.3.4\",\n            \"network\": \"4.3.2.1\",\n            \"mtu\": 1500\n        },\n        \"myRouteDomain\": {\n            \"class\": \"RouteDomain\",\n            \"id\": 100,\n            \"bandWidthControllerPolicy\": \"bwcPol\",\n            \"connectionLimit\": 5432991,\n            \"flowEvictionPolicy\": \"default-eviction-policy\",\n            \"ipIntelligencePolicy\": \"ip-intelligence\",\n            \"enforcedFirewallPolicy\": \"enforcedPolicy\",\n            \"stagedFirewallPolicy\": \"stagedPolicy\",\n            \"securityNatPolicy\": \"securityPolicy\",\n            \"servicePolicy\": \"servicePolicy\",\n            \"strict\": false,\n            \"routingProtocols\": [\n                \"RIP\"\n            ],\n            \"vlans\": [\n                \"external\"\n            ]\n        },\n        \"dbvars\": {\n            \"class\": \"DbVariables\",\n            \"ui.advisory.enabled\": true,\n            \"ui.advisory.color\": \"green\",\n            \"ui.advisory.text\": \"/Common/hostname\"\n        }\n    }\n}"
+                },
+                "description": "my BIG-IP declaration for declarative onboarding",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "onboardFailover",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"Onboard BIG-IP into an HA Pair\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip1.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"regKey\",\n            \"regKey\": \"AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": false\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": false\n                }\n            ]\n        },\n        \"external-localself\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.200/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-1\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        },\n        \"configsync\": {\n            \"class\": \"ConfigSync\",\n            \"configsyncIp\": \"/Common/internal-self/address\"\n        },\n        \"failoverAddress\": {\n            \"class\": \"FailoverUnicast\",\n            \"address\": \"/Common/internal-self/address\"\n        },\n        \"failoverGroup\": {\n            \"class\": \"DeviceGroup\",\n            \"type\": \"sync-failover\",\n            \"members\": [\n                \"bigip1.example.com\",\n                \"bigip2.example.com\"\n            ],\n            \"owner\": \"/Common/failoverGroup/members/0\",\n            \"autoSync\": true,\n            \"saveOnAutoSync\": false,\n            \"networkFailover\": true,\n            \"fullLoadOnSync\": false,\n            \"asmSync\": false\n        },\n        \"trust\": {\n            \"class\": \"DeviceTrust\",\n            \"localUsername\": \"admin\",\n            \"localPassword\": \"pass1word\",\n            \"remoteHost\": \"/Common/failoverGroup/members/0\",\n            \"remoteUsername\": \"admin\",\n            \"remotePassword\": \"pass2word\"\n        }\n    }\n}"
+                },
+                "description": "Onboard BIG-IP into an HA Pair",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "onboardViaBigIqAws",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"class\": \"DO\",\n    \"declaration\": {\n        \"schemaVersion\": \"1.5.0\",\n        \"class\": \"Device\",\n        \"async\": true,\n        \"Common\": {\n            \"class\": \"Tenant\",\n            \"myLicense\": {\n                \"class\": \"License\",\n                \"licenseType\": \"regKey\",\n                \"regKey\": \"AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE\"\n            },\n            \"myProvision\": {\n                \"class\": \"Provision\",\n                \"ltm\": \"nominal\"\n            },\n            \"myNtp\": {\n                \"class\": \"NTP\",\n                \"servers\": [\n                    \"time.nist.gov\"\n                ],\n                \"timezone\": \"UTC\"\n            },\n            \"admin\": {\n                \"class\": \"User\",\n                \"userType\": \"regular\",\n                \"partitionAccess\": {\n                    \"all-partitions\": {\n                        \"role\": \"admin\"\n                    }\n                },\n                \"shell\": \"tmsh\",\n                \"password\": \"adminpassword\"\n            },\n            \"root\": {\n                \"class\": \"User\",\n                \"userType\": \"root\",\n                \"newPassword\": \"rootpassword\",\n                \"oldPassword\": \"adminpassword\"\n            }\n        }\n    },\n    \"targetHost\": \"54.10.10.10\",\n    \"targetUsername\": \"admin\",\n    \"targetSshKey\": {\n        \"path\": \"/var/ssh/restnoded/privatessh.key\"\n    },\n    \"bigIqSettings\": {\n        \"failImportOnConflict\": false,\n        \"conflictPolicy\": \"USE_BIGIQ\",\n        \"deviceConflictPolicy\": \"USE_BIGIP\",\n        \"versionedConflictPolicy\": \"KEEP_VERSION\",\n        \"statsConfig\": {\n            \"enabled\": true,\n            \"zone\": \"default\"\n        },\n        \"snapshotWorkingConfig\": false\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "preserveOrigDhcpRoutes",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"class\": \"Device\",\n    \"async\": true,\n    \"schemaVersion\": \"1.23.0\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"system\": {\n            \"class\": \"System\",\n            \"preserveOrigDhcpRoutes\": true\n        },\n        \"newManagementRoute\": {\n            \"class\": \"ManagementRoute\",\n            \"network\": \"1.2.3.4\",\n            \"gw\": \"4.3.2.1\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "publicKeys",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"examplePass\",\n            \"newPassword\": \"examplePass\",\n            \"keys\": [\n                \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwHJLJY+/U/ioAAAADAQABAAACAQCwHJLJY+z0Rb85in7Ean6JS2J9dzo1nSssm7ZyQvGgc1e7EVtztbVpHThsvw92+1hx9wlSogXN6Co5zrtqlN8/mvlQkRRQ+sp2To8PcSMeEVI+TqBOg6BWbwwNQLz9/eUJq2o4vBfSpsn7GSDIf6C3F9EahRPGCR/z0kw5GZob3Q== test2\",\n                \"ssh-rsa AAAAB3NzaC1yc2EAu2Gr14xRiVLnG8KxNp2fO1/U/ioAz0Rb85in7Ean6JS2J9dzo1nSssm7ZyQvGgc1e7EVtztbVpHThsvw92+/mvlQkRRQ+sp2To8PcSMeEVI+TqBOg6BWbwwNQLzu2Gr14xRiVLnG8KxNp2fO19/eUJq2o4vBfSpsn7GSDIf6C3F9EahRPGCR/z0kw5GZob3Q== test\"\n            ]\n        },\n        \"guestUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"guestNewPass1\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            },\n            \"keys\": [\n                \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwHJLJY+/U/ioAAAADAQABAAACAQCwHJLJY+z0Rb85in7Ean6JS2J9dzo1nSssm7ZyQvGgc1e7EVtztbVpHThsvw92+1hx9wlSogXN6Co5zrtqlN8/mvlQkRRQ+sp2To8PcSMeEVI+TqBOg6BWbwwNQLz9/eUJq2o4vBfSpsn7GSDIf6C3F9EahRPGCR/z0kw5GZob3Q== test2\",\n                \"ssh-rsa AAAAB3NzaC1yc2EAu2Gr14xRiVLnG8KxNp2fO1/U/ioAz0Rb85in7Ean6JS2J9dzo1nSssm7ZyQvGgc1e7EVtztbVpHThsvw92+/mvlQkRRQ+sp2To8PcSMeEVI+TqBOg6BWbwwNQLzu2Gr14xRiVLnG8KxNp2fO19/eUJq2o4vBfSpsn7GSDIf6C3F9EahRPGCR/z0kw5GZob3Q== test\"\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "reLicenseViaBigIqReachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"label\": \"Re-license BIG-IP from a different pool when BIG-IP is reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"foofoo\",\n            \"licensePool\": \"myOtherPool\",\n            \"revokeFrom\": \"myPool\",\n            \"skuKeyword1\": \"key1\",\n            \"skuKeyword2\": \"key2\",\n            \"unitOfMeasure\": \"hourly\",\n            \"reachable\": true,\n            \"bigIpUsername\": \"admin\",\n            \"bigIpPassword\": \"asdfjkl\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "Re-license BIG-IP from a different pool when BIG-IP is reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "reLicenseViaBigIqUnreachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"label\": \"Re-license BIG-IP from a different pool when BIG-IP is not reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"foofoo\",\n            \"licensePool\": \"myOtherPool\",\n            \"revokeFrom\": \"myPool\",\n            \"skuKeyword1\": \"key1\",\n            \"skuKeyword2\": \"key2\",\n            \"unitOfMeasure\": \"hourly\",\n            \"reachable\": false,\n            \"hypervisor\": \"vmware\",\n            \"overwrite\": true,\n            \"tenant\": \"Optional custom descriptor\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "Re-license BIG-IP from a different pool when BIG-IP is not reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "reLicenseViaNewBigIqUnreachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"label\": \"Re-license BIG-IP from a different BIG-IQ when BIG-IP is not reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"foofoo\",\n            \"licensePool\": \"myPool\",\n            \"revokeFrom\": {\n                \"bigIqHost\": \"10.0.2.200\",\n                \"bigIqUsername\": \"admin\",\n                \"bigIqPassword\": \"barbar\",\n                \"licensePool\": \"myPool\",\n                \"reachable\": false\n            },\n            \"skuKeyword1\": \"key1\",\n            \"skuKeyword2\": \"key2\",\n            \"unitOfMeasure\": \"hourly\",\n            \"reachable\": false,\n            \"hypervisor\": \"vmware\",\n            \"overwrite\": true,\n            \"tenant\": \"Optional custom descriptor\"\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "Re-license BIG-IP from a different BIG-IQ when BIG-IP is not reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "remoteRoleVariableFields",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.17.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"remoteAuthRole\": {\n            \"class\": \"RemoteAuthRole\",\n            \"attribute\": \"F5-LTM-User-Info-1=rad-admins\",\n            \"console\": \"%F5-LTM-User-Shell\",\n            \"lineOrder\": 1001,\n            \"remoteAccess\": true,\n            \"role\": \"%F5-LTM-User-Role\",\n            \"userPartition\": \"%F5-LTM-User-Partition\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "remoteRoles",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.7.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"TEAM1\": {\n            \"class\": \"RemoteAuthRole\",\n            \"attribute\": \"memberOF=CN=Team-1,add-ldap-path\",\n            \"console\": \"tmsh\",\n            \"lineOrder\": 925,\n            \"role\": \"admin\",\n            \"remoteAccess\": false,\n            \"userPartition\": \"all\"\n        },\n        \"TEAM2\": {\n            \"class\": \"RemoteAuthRole\",\n            \"attribute\": \"memberOF=CN=Team-2,add-ldap-path\",\n            \"console\": \"tmsh\",\n            \"lineOrder\": 940,\n            \"role\": \"guest\",\n            \"remoteAccess\": true,\n            \"userPartition\": \"all\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "restjavad",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": \"true\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"dbvars\": {\n            \"class\": \"DbVariables\",\n            \"provision.extramb\": 1000,\n            \"restjavad.useextramb\": true\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "revokeViaBigIqUnreachable",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"label\": \"Revoke BIG-IP license via BIG-IQ when BIG-IP is not reachable from BIG-IQ\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myLicense\": {\n            \"class\": \"License\",\n            \"licenseType\": \"licensePool\",\n            \"bigIqHost\": \"10.0.1.200\",\n            \"bigIqUsername\": \"admin\",\n            \"bigIqPassword\": \"foofoo\",\n            \"revokeFrom\": \"myPool\",\n            \"reachable\": false\n        },\n        \"myDns\": {\n            \"class\": \"DNS\",\n            \"nameServers\": [\n                \"8.8.8.8\",\n                \"2001:4860:4860::8844\"\n            ],\n            \"search\": [\n                \"f5.com\"\n            ]\n        },\n        \"myNtp\": {\n            \"class\": \"NTP\",\n            \"servers\": [\n                \"0.pool.ntp.org\",\n                \"1.pool.ntp.org\",\n                \"2.pool.ntp.org\"\n            ],\n            \"timezone\": \"UTC\"\n        },\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"myProvisioning\": {\n            \"class\": \"Provision\",\n            \"ltm\": \"nominal\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"internal-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.10.0.100/24\",\n            \"vlan\": \"internal\",\n            \"allowService\": \"default\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"external-self\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.20.0.100/24\",\n            \"vlan\": \"external\",\n            \"allowService\": \"none\",\n            \"trafficGroup\": \"traffic-group-local-only\"\n        },\n        \"default\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.10.0.1\",\n            \"network\": \"default\",\n            \"mtu\": 1500\n        }\n    }\n}"
+                },
+                "description": "Revoke BIG-IP license via BIG-IQ when BIG-IP is not reachable from BIG-IQ",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "routeDomains",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"newVlan\": {\n            \"class\": \"VLAN\",\n            \"tag\": 100,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ]\n        },\n        \"Route\": {\n            \"class\": \"Route\",\n            \"gw\": \"10.1.0.1%100\",\n            \"network\": \"192.168.0.0%100/16\"\n        },\n        \"newSelfIp\": {\n            \"class\": \"SelfIp\",\n            \"address\": \"10.1.0.20%100/0\",\n            \"vlan\": \"newVlan\"\n        },\n        \"theRouteDomain\": {\n            \"class\": \"RouteDomain\",\n            \"id\": 100,\n            \"connectionLimit\": 5432991,\n            \"flowEvictionPolicy\": \"default-eviction-policy\",\n            \"ipIntelligencePolicy\": \"ip-intelligence\",\n            \"strict\": false,\n            \"routingProtocols\": [\n                \"BGP\"\n            ],\n            \"vlans\": [\n                \"newVlan\"\n            ]\n        },\n        \"AnotherRouteDomain\": {\n            \"class\": \"RouteDomain\",\n            \"id\": 101,\n            \"parent\": \"theRouteDomain\",\n            \"strict\": false\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "routeInterface",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.14.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"myRoute\": {\n            \"class\": \"Route\",\n            \"network\": \"default\",\n            \"target\": \"external\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "routeMap",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.19.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"exampleRoutingAsPath\": {\n            \"class\": \"RoutingAsPath\",\n            \"entries\": [\n                {\n                    \"name\": 10,\n                    \"regex\": \"^165001 *\"\n                }\n            ]\n        },\n        \"exampleRoutingPrefixList1\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 10,\n                    \"action\": \"permit\",\n                    \"prefix\": \"1111:2222::/127\",\n                    \"prefixLengthRange\": 128\n                }\n            ]\n        },\n        \"exampleRoutingPrefixList2\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 15,\n                    \"action\": \"permit\",\n                    \"prefix\": \"f5f5:f5f5::/64\",\n                    \"prefixLengthRange\": 80\n                }\n            ]\n        },\n        \"exampleRoutingPrefixList3\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 20,\n                    \"action\": \"permit\",\n                    \"prefix\": \"10.3.3.0/24\",\n                    \"prefixLengthRange\": 32\n                }\n            ]\n        },\n        \"exampleRoutingPrefixList4\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 30,\n                    \"action\": \"permit\",\n                    \"prefix\": \"10.4.4.0/23\",\n                    \"prefixLengthRange\": 24\n                }\n            ]\n        },\n        \"exampleRouteMap\": {\n            \"class\": \"RouteMap\",\n            \"entries\": [\n                {\n                    \"name\": \"33\",\n                    \"action\": \"permit\",\n                    \"match\": {\n                        \"asPath\": \"exampleRoutingAsPath\",\n                        \"ipv6\": {\n                            \"address\": {\n                                \"prefixList\": \"exampleRoutingPrefixList1\"\n                            },\n                            \"nextHop\": {\n                                \"prefixList\": \"exampleRoutingPrefixList2\"\n                            }\n                        },\n                        \"ipv4\": {\n                            \"address\": {\n                                \"prefixList\": \"exampleRoutingPrefixList3\"\n                            },\n                            \"nextHop\": {\n                                \"prefixList\": \"exampleRoutingPrefixList4\"\n                            }\n                        }\n                    }\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "routingAccessList",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.24.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"exampleRoutingAccessList1\": {\n            \"class\": \"RoutingAccessList\",\n            \"entries\": [\n                {\n                    \"name\": \"11\",\n                    \"action\": \"permit\",\n                    \"destination\": \"10.10.0.0/16\",\n                    \"exactMatchEnabled\": false,\n                    \"source\": \"10.11.0.0/16\"\n                },\n                {\n                    \"name\": \"22\",\n                    \"action\": \"deny\",\n                    \"destination\": \"10.12.13.14\",\n                    \"exactMatchEnabled\": false,\n                    \"source\": \"10.13.14.15\"\n                }\n            ]\n        },\n        \"exampleRoutingAccessList2\": {\n            \"class\": \"RoutingAccessList\",\n            \"entries\": [\n                {\n                    \"name\": \"33\",\n                    \"action\": \"permit\",\n                    \"exactMatchEnabled\": true,\n                    \"source\": \"1111:2222::/64\"\n                },\n                {\n                    \"name\": 44,\n                    \"action\": \"permit\",\n                    \"source\": \"1111:3333::/64\"\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "routingAsPath",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.16.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"exampleRoutingAsPath\": {\n            \"class\": \"RoutingAsPath\",\n            \"entries\": [\n                {\n                    \"name\": 10,\n                    \"regex\": \"^165001 *\"\n                }\n            ]\n        },\n        \"exampleMultipleRoutingAsPath\": {\n            \"class\": \"RoutingAsPath\",\n            \"entries\": [\n                {\n                    \"name\": 10,\n                    \"regex\": \"^1$\"\n                },\n                {\n                    \"name\": 20,\n                    \"regex\": \"^165005$\"\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "routingPrefixList",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.23.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"bigip.example.com\",\n        \"exampleRoutingPrefixList1\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 10,\n                    \"action\": \"permit\",\n                    \"prefix\": \"1111:2222::/127\",\n                    \"prefixLengthRange\": \"128\"\n                },\n                {\n                    \"name\": 15,\n                    \"action\": \"deny\",\n                    \"prefix\": \"f5f5:f5f5::/64\",\n                    \"prefixLengthRange\": \"80:\"\n                }\n            ]\n        },\n        \"exampleRoutingPrefixList2\": {\n            \"class\": \"RoutingPrefixList\",\n            \"entries\": [\n                {\n                    \"name\": 20,\n                    \"action\": \"permit\",\n                    \"prefix\": \"10.3.3.0/24\",\n                    \"prefixLengthRange\": \":30\"\n                },\n                {\n                    \"name\": 30,\n                    \"action\": \"deny\",\n                    \"prefix\": \"10.4.4.0/22\",\n                    \"prefixLengthRange\": \"23:25\"\n                }\n            ]\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "snmp",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.7.0\",\n    \"class\": \"Device\",\n    \"label\": \"Configuring SNMP\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"mySnmpAgent\": {\n            \"class\": \"SnmpAgent\",\n            \"contact\": \"Op Center <ops@example.com>\",\n            \"location\": \"Seattle, WA\",\n            \"allowList\": [\n                \"10.30.100.0/23\",\n                \"10.40.100.0/23\",\n                \"10.8.100.0/32\",\n                \"10.30.10.100\",\n                \"10.30.10.200\"\n            ]\n        },\n        \"snmpUser1\": {\n            \"class\": \"SnmpUser\",\n            \"authentication\": {\n                \"protocol\": \"sha\",\n                \"password\": \"pass1W0rd!\"\n            },\n            \"privacy\": {\n                \"protocol\": \"aes\",\n                \"password\": \"P@ssW0rd\"\n            },\n            \"oid\": \".1\",\n            \"access\": \"rw\"\n        },\n        \"public\": {\n            \"class\": \"SnmpCommunity\",\n            \"ipv6\": false,\n            \"source\": \"all\",\n            \"oid\": \".1\",\n            \"access\": \"ro\"\n        },\n        \"snmpCommunityWithSpecialChar\": {\n            \"class\": \"SnmpCommunity\",\n            \"name\": \"special!community\",\n            \"ipv6\": false,\n            \"source\": \"all\",\n            \"oid\": \".1\",\n            \"access\": \"ro\"\n        },\n        \"myTraps\": {\n            \"class\": \"SnmpTrapEvents\",\n            \"agentStartStop\": true,\n            \"authentication\": true,\n            \"device\": true\n        },\n        \"myV2SnmpDestination\": {\n            \"class\": \"SnmpTrapDestination\",\n            \"version\": \"2c\",\n            \"community\": \"my_snmp_community\",\n            \"destination\": \"10.0.10.100\",\n            \"port\": 80,\n            \"network\": \"other\"\n        },\n        \"myV3SnmpDestination\": {\n            \"class\": \"SnmpTrapDestination\",\n            \"version\": \"3\",\n            \"destination\": \"10.0.10.1\",\n            \"port\": 80,\n            \"network\": \"other\",\n            \"securityName\": \"someSnmpUser\",\n            \"authentication\": {\n                \"protocol\": \"sha\",\n                \"password\": \"P@ssW0rd\"\n            },\n            \"privacy\": {\n                \"protocol\": \"aes\",\n                \"password\": \"P@ssW0rd\"\n            },\n            \"engineId\": \"0x80001f8880c6b6067fdacfb558\"\n        }\n    }\n}"
+                },
+                "description": "Configuring SNMP",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "sshd",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.8.0\",\n    \"class\": \"Device\",\n    \"async\": false,\n    \"label\": \"Configuring SSHD settings\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"sshSettings\": {\n            \"class\": \"SSHD\",\n            \"allow\": [\n                \"10.0.0.1\",\n                \"10.0.1.0/28\",\n                \"192.168.1.*\"\n            ],\n            \"banner\": \"Banner to display\",\n            \"inactivityTimeout\": 123,\n            \"ciphers\": [\n                \"aes128-ctr\",\n                \"aes192-ctr\",\n                \"aes256-ctr\"\n            ],\n            \"loginGraceTime\": 100,\n            \"MACS\": [\n                \"hmac-sha1\",\n                \"hmac-ripemd160\",\n                \"hmac-md5\"\n            ],\n            \"maxAuthTries\": 10,\n            \"maxStartups\": \"5\",\n            \"protocol\": 1\n        }\n    }\n}"
+                },
+                "description": "Configuring SSHD settings",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "syslogDestination",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.7.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"LocalDCSyslog\": {\n            \"class\": \"SyslogRemoteServer\",\n            \"host\": \"local-ip\",\n            \"localIp\": \"172.28.68.42\",\n            \"remotePort\": 514\n        },\n        \"DRDCSyslog\": {\n            \"class\": \"SyslogRemoteServer\",\n            \"host\": \"dr-ip\",\n            \"localIp\": \"172.28.68.42\",\n            \"remotePort\": 514\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "system",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.13.0\",\n    \"class\": \"Device\",\n    \"label\": \"Configuring System\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"mySystem\": {\n            \"class\": \"System\",\n            \"hostname\": \"my.bigip.com\",\n            \"cliInactivityTimeout\": 1200,\n            \"consoleInactivityTimeout\": 1200,\n            \"autoCheck\": false,\n            \"autoPhonehome\": true\n        }\n    }\n}"
+                },
+                "description": "Configuring System",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "tcpForwardTunnel",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"class\": \"Device\",\n    \"schemaVersion\": \"1.14.0\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"newTcpForwardTunnel\": {\n            \"class\": \"Tunnel\",\n            \"tunnelType\": \"tcp-forward\",\n            \"mtu\": 2000,\n            \"usePmtu\": false,\n            \"typeOfService\": 123,\n            \"autoLastHop\": \"default\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "trafficControl",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.7.0\",\n    \"class\": \"Device\",\n    \"label\": \"Configuring traffic control\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"myglobals\": {\n            \"class\": \"TrafficControl\",\n            \"acceptIpOptions\": true,\n            \"acceptIpSourceRoute\": true,\n            \"allowIpSourceRoute\": true,\n            \"continueMatching\": true,\n            \"maxIcmpRate\": 867,\n            \"maxPortFindLinear\": 867,\n            \"maxPortFindRandom\": 867,\n            \"maxRejectRate\": 867,\n            \"maxRejectRateTimeout\": 200,\n            \"minPathMtu\": 867,\n            \"pathMtuDiscovery\": false,\n            \"portFindThresholdWarning\": false,\n            \"portFindThresholdTrigger\": 10,\n            \"portFindThresholdTimeout\": 200,\n            \"rejectUnmatched\": false\n        }\n    }\n}"
+                },
+                "description": "Configuring traffic control",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "trafficGroups",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.14.0\",\n    \"class\": \"Device\",\n    \"label\": \"Configuring System\",\n    \"async\": false,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"hostname\": \"do.example.com\",\n        \"failoverGroup\": {\n            \"class\": \"DeviceGroup\",\n            \"type\": \"sync-failover\",\n            \"members\": [\n                \"do.example.com\"\n            ],\n            \"owner\": \"do.example.com\",\n            \"autoSync\": true,\n            \"saveOnAutoSync\": false,\n            \"networkFailover\": true,\n            \"fullLoadOnSync\": false,\n            \"asmSync\": false\n        },\n        \"testTrafficGroup\": {\n            \"class\": \"TrafficGroup\",\n            \"autoFailbackEnabled\": false,\n            \"autoFailbackTime\": 50,\n            \"failoverMethod\": \"ha-order\",\n            \"haLoadFactor\": 1,\n            \"haOrder\": [\n                \"do.example.com\"\n            ]\n        }\n    }\n}"
+                },
+                "description": "Configuring System",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "user",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.0.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"webhook\": \"https://example.com/myHook\",\n    \"label\": \"user class\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"root\": {\n            \"class\": \"User\",\n            \"userType\": \"root\",\n            \"oldPassword\": \"foo\",\n            \"newPassword\": \"bar\"\n        },\n        \"admin\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"asdfjkl\",\n            \"shell\": \"bash\"\n        },\n        \"guestUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"partitionAccess\": {\n                \"Common\": {\n                    \"role\": \"guest\"\n                }\n            }\n        },\n        \"anotherUser\": {\n            \"class\": \"User\",\n            \"userType\": \"regular\",\n            \"password\": \"foobar\",\n            \"shell\": \"none\",\n            \"partitionAccess\": {\n                \"all-partitions\": {\n                    \"role\": \"guest\"\n                }\n            }\n        }\n    }\n}"
+                },
+                "description": "user class",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "userAgent",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.12.0\",\n    \"class\": \"Device\",\n    \"label\": \"Configuring System\",\n    \"async\": true,\n    \"controls\": {\n        \"class\": \"Controls\",\n        \"userAgent\": \"BIG-IQ/7.1 Configured by API\"\n    },\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"mySystem\": {\n            \"class\": \"System\",\n            \"hostname\": \"my.bigip.com\",\n            \"cliInactivityTimeout\": 1200,\n            \"consoleInactivityTimeout\": 1200,\n            \"autoPhonehome\": true\n        }\n    }\n}"
+                },
+                "description": "Configuring System",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "viaASG",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"class\": \"DO\",\n    \"targetHost\": \"1.2.3.4\",\n    \"targetUsername\": \"admin\",\n    \"targetPassphrase\": \"myAdminPassword\",\n    \"declaration\": {\n        \"schemaVersion\": \"1.0.0\",\n        \"class\": \"Device\",\n        \"label\": \"Use App Services Gateway to onboard a BIG-IP\",\n        \"Common\": {\n            \"class\": \"Tenant\",\n            \"hostname\": \"bigip.example.com\",\n            \"dbvars\": {\n                \"class\": \"DbVariables\",\n                \"ui.advisory.enabled\": true,\n                \"ui.advisory.color\": \"green\",\n                \"ui.advisory.text\": \"/Common/hostname\"\n            },\n            \"myLicense\": {\n                \"class\": \"License\",\n                \"licenseType\": \"regKey\",\n                \"regKey\": \"MMKGX-UPVPI-YIEMK-OAZIS-KQHSNAZ\"\n            },\n            \"myDns\": {\n                \"class\": \"DNS\",\n                \"nameServers\": [\n                    \"8.8.8.8\",\n                    \"2001:4860:4860::8844\"\n                ],\n                \"search\": [\n                    \"f5.com\"\n                ]\n            },\n            \"myNtp\": {\n                \"class\": \"NTP\",\n                \"servers\": [\n                    \"0.pool.ntp.org\",\n                    \"1.pool.ntp.org\",\n                    \"2.pool.ntp.org\"\n                ],\n                \"timezone\": \"UTC\"\n            },\n            \"root\": {\n                \"class\": \"User\",\n                \"userType\": \"root\",\n                \"oldPassword\": \"foo\",\n                \"newPassword\": \"bar\"\n            },\n            \"admin\": {\n                \"class\": \"User\",\n                \"userType\": \"regular\",\n                \"password\": \"asdfjkl\",\n                \"shell\": \"bash\"\n            },\n            \"guestUser\": {\n                \"class\": \"User\",\n                \"userType\": \"regular\",\n                \"password\": \"foobar\",\n                \"partitionAccess\": {\n                    \"Common\": {\n                        \"role\": \"guest\"\n                    }\n                }\n            },\n            \"anotherUser\": {\n                \"class\": \"User\",\n                \"userType\": \"regular\",\n                \"password\": \"foobar\",\n                \"shell\": \"none\",\n                \"partitionAccess\": {\n                    \"all-partitions\": {\n                        \"role\": \"guest\"\n                    }\n                }\n            },\n            \"myProvisioning\": {\n                \"class\": \"Provision\",\n                \"ltm\": \"nominal\"\n            },\n            \"internal\": {\n                \"class\": \"VLAN\",\n                \"tag\": 4093,\n                \"mtu\": 1500,\n                \"interfaces\": [\n                    {\n                        \"name\": \"1.2\",\n                        \"tagged\": true\n                    }\n                ]\n            },\n            \"internal-self\": {\n                \"class\": \"SelfIp\",\n                \"address\": \"10.10.0.100/24\",\n                \"vlan\": \"internal\",\n                \"allowService\": \"default\",\n                \"trafficGroup\": \"traffic-group-local-only\"\n            },\n            \"external\": {\n                \"class\": \"VLAN\",\n                \"tag\": 4094,\n                \"mtu\": 1500,\n                \"interfaces\": [\n                    {\n                        \"name\": \"1.1\",\n                        \"tagged\": true\n                    }\n                ]\n            },\n            \"external-self\": {\n                \"class\": \"SelfIp\",\n                \"address\": \"10.20.0.100/24\",\n                \"vlan\": \"external\",\n                \"allowService\": \"none\",\n                \"trafficGroup\": \"traffic-group-local-only\"\n            },\n            \"default\": {\n                \"class\": \"Route\",\n                \"gw\": \"10.10.0.1\",\n                \"network\": \"default\",\n                \"mtu\": 1500\n            }\n        }\n    }\n}"
+                },
+                "description": "Use App Services Gateway to onboard a BIG-IP",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "vlanAutoLastHop",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.22.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ],\n            \"autoLastHop\": \"disabled\"\n        },\n        \"internal\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4093,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.2\",\n                    \"tagged\": true\n                }\n            ],\n            \"autoLastHop\": \"default\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "vlanCmpHash",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.7.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"webhook\": \"https://example.com/myHook\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ],\n            \"cmpHash\": \"src-ip\"\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "vlanFailsafe",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.14.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"external\": {\n            \"class\": \"VLAN\",\n            \"tag\": 4094,\n            \"mtu\": 1500,\n            \"interfaces\": [\n                {\n                    \"name\": \"1.1\",\n                    \"tagged\": true\n                }\n            ],\n            \"failsafeEnabled\": true,\n            \"failsafeAction\": \"reboot\",\n            \"failsafeTimeout\": 300\n        }\n    }\n}"
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "vxlanTunnel",
+            "request": {
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaVersion\": \"1.25.0\",\n    \"class\": \"Device\",\n    \"async\": true,\n    \"label\": \"Configuring System\",\n    \"Common\": {\n        \"class\": \"Tenant\",\n        \"testTunnel\": {\n            \"class\": \"Tunnel\",\n            \"description\": \"none\",\n            \"autoLasthop\": \"default\",\n            \"mtu\": 0,\n            \"tunnelType\": \"vxlan\",\n            \"tos\": \"preserve\",\n            \"usePmtu\": true,\n            \"localAddress\": \"10.145.0.1\",\n            \"remoteAddress\": \"239.250.0.2\",\n            \"secondaryAddress\": \"any6\",\n            \"key\": 0,\n            \"mode\": \"bidirectional\",\n            \"transparent\": false,\n            \"trafficGroup\": \"none\",\n            \"defaultsFrom\": \"vxlan\",\n            \"port\": 4789,\n            \"floodingType\": \"multicast\",\n            \"encapsulationType\": \"vxlan\"\n        }\n    }\n}"
+                },
+                "description": "Configuring System",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "POST",
+                "url": {
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "mgmt",
+                        "shared",
+                        "declarative-onboarding"
+                    ],
+                    "protocol": "https",
+                    "raw": "https://{{host}}/mgmt/shared/declarative-onboarding"
+                }
+            },
+            "response": []
+        }
+    ]
+}

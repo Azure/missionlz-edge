@@ -24,9 +24,6 @@ param resourcePrefix string
 @description('A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz".')
 param resourceSuffix string = 'mlz'
 
-@description('The subscription ID for the Hub Network and resources. It defaults to the deployment subscription.')
-param hubSubscriptionId string = subscription().subscriptionId
-
 @description('The region to deploy resources into. It defaults to the deployment location.')
 param location string = deployment().location
 
@@ -108,14 +105,14 @@ param f5VmOsDiskType string = 'Premium_LRS'
 @description('The image publisher of the F5 firewall appliance. It defaults to "f5-networks".')
 param f5VmImagePublisher string = 'f5-networks'
 
-@description('The image offer of the F5 firewall appliance. It defaults to "f5-big-ip-best".')
-param f5VmImageOffer string = 'f5-big-ip-best'
+@description('The image offer of the F5 firewall appliance. It defaults to "f5-big-ip-byol".')
+param f5VmImageOffer string = 'f5-big-ip-byol'
 
-@description('The image SKU of the F5 firewall appliance. It defaults to "f5-bigip-virtual-edition-best-byol".')
-param f5VmImageSku string = 'f5-bigip-virtual-edition-best-byol'
+@description('The image SKU of the F5 firewall appliance. It defaults to "f5-big-all-2slot-byol".')
+param f5VmImageSku string = 'f5-big-all-2slot-byol'
 
-@description('The image version of the F5 firewall appliance. It defaults to "14.0.001000".')
-param f5VmImageVersion string = '14.0.001000'
+@description('The image version of the F5 firewall appliance. It defaults to "16.0.101000".')
+param f5VmImageVersion string = '16.0.101000'
 
 @allowed([
   'Static'
@@ -123,6 +120,9 @@ param f5VmImageVersion string = '14.0.001000'
 ])
 @description('[Static/Dynamic] The public IP Address allocation method for the F5 firewall appliance. It defaults to "Dynamic".')
 param f5privateIPAddressAllocationMethod string = 'Dynamic'
+
+@description('[true/false] Enable or Disable IP forwarding on a network interface resource.')
+param f5IpForwarding bool = true
 
 // HUB NETWORK PARAMETERS
 
@@ -160,26 +160,13 @@ param hubNetworkSecurityGroupRules array = [
 
 // IDENTITY PARAMETERS
 
-@description('An array of Network Security Group Rules to apply to the Identity Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
-param identityNetworkSecurityGroupRules array = []
-
 // OPERATIONS PARAMETERS
-
-@description('An array of Network Security Group rules to apply to the Operations Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
-param operationsNetworkSecurityGroupRules array = []
 
 // SHARED SERVICES PARAMETERS
 
-@description('An array of Network Security Group rules to apply to the SharedServices Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
-param sharedServicesNetworkSecurityGroupRules array = []
-
 // REMOTE ACCESS PARAMETERS
 
-param publicIP string = 'yes'
-
-// LINUX VIRTUAL MACHINE PARAMETERS
-
-//param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
+@description('The name of the IP configuration for the Linux remotea Access VM. It defaults to "linuxVmIpConfiguration".')
 param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
 
 @description('The administrator username for the Linux Virtual Machine to  remote into. It defaults to "azureuser".')
@@ -197,8 +184,8 @@ param linuxVmAuthenticationType string = 'password'
 @minLength(12)
 param linuxVmAdminPasswordOrKey string
 
-@description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_D2".')
-param linuxVmSize string = 'Standard_D2'
+@description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
+param linuxVmSize string = 'Standard_DS1_v2'
 
 @description('The disk creation option of the Linux Virtual Machine to remote into. It defaults to "FromImage".')
 param linuxVmOsDiskCreateOption string = 'FromImage'
@@ -262,11 +249,9 @@ param windowsVmStorageAccountType string = 'Premium_LRS'
 ])
 @description('[Static/Dynamic] The public IP Address allocation method for the Windows virtual machine. It defaults to "Dynamic".')
 param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
-//@description('The NetworkInterfaceName for the Windows virtual machine.')
-//param windowsNetworkInterfaceName string = 'windowsVmNetworkInterface'
+
 @description('The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine.')
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
-
 
 /*
 
@@ -305,7 +290,7 @@ var subnetNamingConvention = replace(namingConvention, resourceToken, 'snet')
 var virtualMachineNamingConvention = replace(namingConvention, resourceToken, 'vm')
 var virtualNetworkNamingConvention = replace(namingConvention, resourceToken, 'vnet')
 
-// HUB NAMES
+// HUB VARIABLES
 
 var hubName = 'hub'
 var hubResourceGroupName = replace(resourceGroupNamingConvention, nameToken, hubName)
@@ -342,50 +327,112 @@ var hubSubnets = [
   }
 ]
 
-// IDENTITY NAMES
+// IDENTITY VARIABLES
 
 var identityName = 'identity'
 var identityResourceGroupName = replace(resourceGroupNamingConvention, nameToken, identityName)
 var identityVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, identityName)
 var identityNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, identityName)
 var identitySubnetName = replace(subnetNamingConvention, nameToken, identityName)
+var identityNetworkSecurityGroupRules = [
+  {
+    name: 'allow_EAST-WEST_traffic'
+    properties: {
+      description: 'Allows traffic between spokes'
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefixes: [
+        '${operationsVirtualNetworkAddressPrefix}'
+        '${sharedServicesVirtualNetworkAddressPrefix}'
+      ]
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+]
 
-// OPERATIONS NAMES
+// OPERATIONS VARIABLES
 
 var operationsName = 'operations'
 var operationsResourceGroupName = replace(resourceGroupNamingConvention, nameToken, operationsName)
 var operationsVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, operationsName)
 var operationsNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, operationsName)
 var operationsSubnetName = replace(subnetNamingConvention, nameToken, operationsName)
+var operationsNetworkSecurityGroupRules = [
+  {
+    name: 'allow_EAST-WEST_traffic'
+    properties: {
+      description: 'Allows traffic between spokes'
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefixes: [
+        '${identityVirtualNetworkAddressPrefix}'
+        '${sharedServicesVirtualNetworkAddressPrefix}'
+      ]
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+]
 
-// SHARED SERVICES NAMES
+// SHARED SERVICES VARIABLES
 
 var sharedServicesName = 'sharedServices'
 var sharedServicesResourceGroupName = replace(resourceGroupNamingConvention, nameToken, sharedServicesName)
 var sharedServicesVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, sharedServicesName)
 var sharedServicesNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, sharedServicesName)
 var sharedServicesSubnetName = replace(subnetNamingConvention, nameToken, sharedServicesName)
+var sharedServicesNetworkSecurityGroupRules = [
+  {
+    name: 'allow_EAST-WEST_traffic'
+    properties: {
+      description: 'Allows traffic between spokes'
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefixes: [
+        '${identityVirtualNetworkAddressPrefix}'
+        '${operationsVirtualNetworkAddressPrefix}'
+      ]
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+]
 
-// FIREWALL NAMES
+// FIREWALL VARIABLES
 
-var f5vm01extIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext')
+var f5vm01extIpConfiguration1Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext1')
+var f5vm01extIpConfiguration2Name = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-ext2')
 var f5vm01intIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-int')
 var f5vm01mgmtIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-mgmt')
+var f5vm01vdmcIpConfigurationName = replace(ipConfigurationNamingConvention, nameToken, 'f5vm01-vdms')
 var f5vm01extNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-ext')
 var f5vm01intNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-int')
 var f5vm01mgmtNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-mgmt')
+var f5vm01vdmsNicName = replace(networkInterfaceNamingConvention, nameToken, 'f5vm01-vdms')
 var f5vm01VmName = replace(virtualMachineNamingConvention, nameToken, 'f5-01')
-var f5vm01PublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-01')
+var f5vm01OutboundPublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-out')
+var f5vm01InboundPublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'f5-in')
 var f5publicIPAddressAllocationMethod = 'Static'
 
+// REMOTE ACCESS VARIABLES
+
+var windowsPublicIpAddressName = replace(publicIpAddressNamingConvention, nameToken, 'winVM')
+var windowsPublicIpAddressAllocationMethod = 'Dynamic'
+
 // VM names and VMNIC names
-@description('The name of the Linux Virtual Machine to remote into. It defaults to "virtualMachineNamingConvention".')
-var linuxVmName = replace(virtualMachineNamingConvention, nameToken, 'lin')
-
-@description('The name of the Linux Virtual Machine to remote into. It defaults to "virtualMachineNamingConvention".')
+var linuxVmName = replace(virtualMachineNamingConvention, nameToken, 'lnx')
 var windowsVmName = replace(virtualMachineNamingConvention, nameToken, 'win')
-
-var linuxNetworkInterfaceName = replace(networkInterfaceNamingConvention, nameToken, 'lin')
+var linuxNetworkInterfaceName = replace(networkInterfaceNamingConvention, nameToken, 'lnx')
 var windowsNetworkInterfaceName = replace(networkInterfaceNamingConvention, nameToken, 'win')
 
 // SPOKES
@@ -441,7 +488,7 @@ var calculatedTags = union(tags, defaultTags)
 
 */
 
-// RESOURCE GROUPS
+// CREATE RESOURCE GROUPS
 
 module hubResourceGroup './modules/resourceGroup.bicep' = {
   name: 'deploy-rg-hub-${deploymentNameSuffix}'
@@ -461,7 +508,7 @@ module spokeResourceGroups './modules/resourceGroup.bicep' = [for spoke in spoke
   }
 }]
 
-// HUB RESOURCES
+//CREATE HUB VIRTUAL NETWORK AND SUBNETS
 
 module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
   name: 'deploy-vnet-hub-${deploymentNameSuffix}'
@@ -478,6 +525,8 @@ module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
   ]
 }
 
+// CREATE HUB NSG
+
 module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-nsg-hub-${deploymentNameSuffix}'
@@ -490,6 +539,54 @@ module hubNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = {
     hubResourceGroup
   ]
 }
+
+// CREATE FIREWALL OUTBOUND PUBLIC IP
+
+module fwOutboundPublicIp './modules/publicIPAddress.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'create-fw_out-pubip-${deploymentNameSuffix}'
+  params: {
+    location: location
+    name: f5vm01OutboundPublicIPAddressName
+    publicIpAllocationMethod: f5publicIPAddressAllocationMethod
+  }
+  dependsOn: [
+    hubResourceGroup
+  ]
+}
+
+// CREATE FIREWALL INBOUND PUBLIC IP
+
+module fwInboundPublicIp './modules/publicIPAddress.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'create-fw_in-pubip-${deploymentNameSuffix}'
+  params: {
+    location: location
+    name: f5vm01InboundPublicIPAddressName
+    publicIpAllocationMethod: f5publicIPAddressAllocationMethod
+  }
+  dependsOn: [
+    hubResourceGroup
+  ]
+}
+
+// CREATE PUBLIC IP FOR REMOTE ACCESS WINDOWS VM
+
+module windowsPublicIPAddress './modules/publicIPAddress.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'create-ra-windows-pubip-${deploymentNameSuffix}'
+  params: {
+    location: location
+    name: windowsPublicIpAddressName
+    publicIpAllocationMethod: windowsPublicIpAddressAllocationMethod
+  }
+  dependsOn: [
+    hubResourceGroup
+    f5Vm01
+  ]    
+}
+
+// CREATE KEY VAULT TO STORE F5 SSH KEY PAIR
 
 module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticationType=='sshPublicKey'){
   scope: resourceGroup(hubResourceGroupName)
@@ -506,6 +603,31 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
 
 }
 
+// Replace the subnet resources below with output from virtualNetwork module
+// once supported by the Azure Stack API
+resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${extSubnetName}'
+}
+
+resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${intSubnetName}'
+}
+
+resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${mgmtSubnetName}'
+}
+
+resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'${hubVirtualNetworkName}/${vdmsSubnetName}'
+}
+//
+
+// CREATE F5 FIREWALL
+
 module f5Vm01 './modules/firewall.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-f5vm01-hub-${deploymentNameSuffix}'
@@ -513,31 +635,45 @@ module f5Vm01 './modules/firewall.bicep' = {
     adminPasswordOrKey: f5VmAuthenticationType=='password'?f5VmAdminPasswordOrKey: f5Vm01SshKeyVault.outputs.publicKey
     adminUsername: f5VmAdminUsername
     authenticationType: f5VmAuthenticationType
-    extIpConfigurationName: f5vm01extIpConfigurationName
+    extIpConfiguration1Name: f5vm01extIpConfiguration1Name
+    extIpConfiguration2Name: f5vm01extIpConfiguration2Name
+    extIpForwarding: f5IpForwarding
     extNicName: f5vm01extNicName
     extPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    extPublicIPAddressAllocationMethod: f5publicIPAddressAllocationMethod
-    extPublicIpName: f5vm01PublicIPAddressName
-    extSubnetName: extSubnetName
+    extOutboundPublicIpId: fwOutboundPublicIp.outputs.id
+    extInboundPublicIpId: fwInboundPublicIp.outputs.id
+    // extSubnetId: hubVirtualNetwork.outputs.extSubnetId
+    extSubnetId: extSubnet.id
     intIpConfigurationName: f5vm01intIpConfigurationName
+    intIpForwarding: f5IpForwarding
     intNicName: f5vm01intNicName
     intPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    intSubnetName: intSubnetName
+    // intSubnetId: hubVirtualNetwork.outputs.intSubnetId
+    intSubnetId: intSubnet.id
     location: location
     mgmtIpConfigurationName: f5vm01mgmtIpConfigurationName
+    mgmtIpForwarding: f5IpForwarding
     mgmtNicName: f5vm01mgmtNicName
     mgmtPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
-    mgmtSubnetName: mgmtSubnetName
-    networkSecurityGroupId: hubNetworkSecurityGroup.outputs.id
+    // mgmtSubnetId: hubVirtualNetwork.outputs.mgmtSubnetId
+    mgmtSubnetId: mgmtSubnet.id
     deploymentNameSuffix: deploymentNameSuffix
     osDiskCreateOption: f5VmOsDiskCreateOption
-    virtualNetworkName: hubVirtualNetworkName
+    vdmsIpConfigurationName: f5vm01vdmcIpConfigurationName
+    vdmsIpForwarding: f5IpForwarding
+    vdmsNicName: f5vm01vdmsNicName
+    vdmsPrivateIPAddressAllocationMethod: f5privateIPAddressAllocationMethod
+    // vdmsSubnetId: hubVirtualNetwork.outputs.vdmsSubnetId
+    vdmsSubnetId: vdmsSubnet.id
     vmName: f5vm01VmName
     vmOsDiskType: f5VmOsDiskType
     vmImageOffer: f5VmImageOffer
     vmImagePublisher: f5VmImagePublisher
     vmImageSku: f5VmImageSku
     vmImageVersion: f5VmImageVersion
+    vmPlanName: f5VmImageSku
+    vmPlanProduct: f5VmImageOffer
+    vmPlanPublisher: f5VmImagePublisher
     vmSize: f5VmSize
   }
   dependsOn: [
@@ -547,6 +683,8 @@ module f5Vm01 './modules/firewall.bicep' = {
     f5Vm01SshKeyVault
   ]
 }
+
+// CREATE SPOKE VIRTUAL NETWORKS
 
 module spokeNetworks './modules/spokeNetwork.bicep' = [for spoke in spokes: {
   name: 'deploy-vnet-${spoke.name}-${deploymentNameSuffix}'
@@ -593,6 +731,7 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
   name: 'deploy-${spoke.name}-to-hub-vnet-peering'
   scope: resourceGroup(spoke.resourceGroupName)
   params: {
+    allowForwardedTraffic: true
     localVirtualNetworkName: spoke.virtualNetworkName
     remoteVirtualNetworkName: hubVirtualNetworkName
     remoteResourceGroupName: hubResourceGroupName
@@ -603,55 +742,19 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
   ]
 }]
 
-// Call module to create Linux Public IP address for the linux VM
-/* Comment out this resource creation to ensure Linux Vm does not have a Public IP Address
-module linuxPublicIPAddress 'modules/publicIPAddress.bicep' = {
-  name: 'linuxPublicIPAddress'
-  scope: resourceGroup(hubResourceGroupName)
-  params: {
-    name: 'linuxPubIP'
-    location: location
-    publicIpAllocationMethod: 'Dynamic'
-  }
-  dependsOn: [
-    hubResourceGroup
-  ]  
-}
-*/
+// CREATE REMOTE ACCESS VIRTUAL MACHINES
 
-// Call module to create Windows Public IP address 
-module windowsPublicIPAddress 'modules/publicIPAddress.bicep' = {
-  name: 'windowsPublicIPAddress'
-  scope: resourceGroup(hubResourceGroupName)
-  params: {
-    name: 'windowsPubIP'
-    location: location
-    publicIpAllocationMethod: 'Dynamic'
-  }
-  dependsOn: [
-    hubResourceGroup
-  ]    
-}
-
-// Call remote Access module
 module remoteAccess './modules/remoteAccess.bicep' = {
-  name: 'deploy-remote'
   scope: resourceGroup(hubResourceGroupName)
-
+  name: 'deploy-remoteAccess-hub-${deploymentNameSuffix}'
   params: {
     location: location
-    hubVirtualNetworkName: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}'
-    hubSubnetResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${hubVirtualNetworkName}/subnets/${extSubnetName}'
-    hubNetworkSecurityGroupResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/${hubNetworkSecurityGroupName}'
+    mgmtSubnetId: mgmtSubnet.id
+    deploymentNameSuffix: deploymentNameSuffix
+    hubVirtualNetworkName: hubVirtualNetwork.outputs.name
     linuxNetworkInterfaceName: linuxNetworkInterfaceName
     linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
     linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
-
-    publicIP: publicIP 
-    //publicIPAddressId: linuxPublicIPAddress.outputs.id
-    
-    //networkInterfaces: networkInterfaces
-
     linuxVmName: linuxVmName
     linuxVmSize: linuxVmSize
     linuxVmOsDiskCreateOption: linuxVmOsDiskCreateOption
@@ -663,11 +766,9 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     linuxVmAdminUsername: linuxVmAdminUsername
     linuxVmAuthenticationType: linuxVmAuthenticationType
     linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey
-    
     windowsNetworkInterfaceName: windowsNetworkInterfaceName
     windowsNetworkInterfaceIpConfigurationName: windowsNetworkInterfaceIpConfigurationName
     windowsNetworkInterfacePrivateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
-
     windowsVmName: windowsVmName
     windowsVmSize: windowsVmSize
     windowsVmAdminUsername: windowsVmAdminUsername
@@ -678,14 +779,16 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     windowsVmVersion: windowsVmVersion
     windowsVmCreateOption: windowsVmCreateOption
     windowsVmStorageAccountType: windowsVmStorageAccountType
-    WindowspublicIPAddressId: windowsPublicIPAddress.outputs.id
-
+    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id
   }
   dependsOn: [
-    spokeResourceGroups
-    spokeNetworks  
+    f5Vm01
+    hubResourceGroup
+    hubVirtualNetwork
   ]
 }
+
+// OUTPUTS
 
 output hub object = {
   subscriptionId: subscription().subscriptionId
@@ -694,4 +797,3 @@ output hub object = {
   virtualNetworkName: hubVirtualNetworkName  
   firewallPrivateIPAddress:f5Vm01.outputs.internalIpAddress
 }
-

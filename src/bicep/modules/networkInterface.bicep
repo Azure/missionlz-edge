@@ -2,40 +2,8 @@ param name string
 param location string
 param tags object = {}
 
-param ipConfigurationName string
-param subnetId string
-param networkSecurityGroupId string
-param privateIPAddressAllocationMethod string
-param publicIP string
-param publicIPAddressId string = ''
-
-var ipConfig = {
-  yes: [
-    {
-      name: ipConfigurationName
-      properties: {
-        subnet: {
-          id: subnetId
-        }
-        privateIPAllocationMethod: privateIPAddressAllocationMethod
-        publicIPAddress: {
-          id: publicIPAddressId
-        }
-      }
-    }
-  ]
-  no: [
-    {
-      name: ipConfigurationName
-      properties: {
-        subnet: {
-          id: subnetId
-        }
-        privateIPAllocationMethod: privateIPAddressAllocationMethod
-      }
-    }
-  ]
-}
+param enableIPForwarding bool = false
+param ipConfigurations array
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
   name: name
@@ -43,10 +11,8 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2018-11-01' = {
   tags: tags
 
   properties: {
-    ipConfigurations: ipConfig[publicIP]
-    networkSecurityGroup: {
-      id: networkSecurityGroupId
-    }
+    enableIPForwarding: enableIPForwarding
+    ipConfigurations: ipConfigurations
   }
 }
 

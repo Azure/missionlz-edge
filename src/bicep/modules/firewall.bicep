@@ -1,8 +1,7 @@
 // Parameters
 param deploymentNameSuffix string
 param location string
-param networkSecurityGroupId string
-param virtualNetworkName string
+param tags object = {}
 
 @allowed([
   'sshPublicKey'
@@ -20,40 +19,102 @@ param vmImageOffer string
 param vmImagePublisher string
 param vmImageSku string
 param vmImageVersion string
+param vmPlanName string
+param vmPlanProduct string
+param vmPlanPublisher string
 param vmSize string
 
-param extIpConfigurationName string
+param extIpForwarding bool
+param extIpConfiguration1Name string
+param extIpConfiguration2Name string
 param extNicName string
 param extPrivateIPAddressAllocationMethod string
-param extPublicIPAddressAllocationMethod string
-param extPublicIpName string
-param extSubnetName string
-@allowed([
-  'yes'
-  'no'
-])
-param extPublicIP string = 'yes'
+param extInboundPublicIpId string
+param extOutboundPublicIpId string
+param extSubnetId string
+param extIpConfigurations array = [
+  {
+    name: extIpConfiguration1Name
+    properties: {
+      subnet: {
+        id: extSubnetId
+      }
+      primary: true
+      privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
+      publicIPAddress: {
+        id: extOutboundPublicIpId
+      }
+    }
+  }
+  {
+    name: extIpConfiguration2Name
+    properties: {
+      subnet: {
+        id: extSubnetId
+      }
+      primary: false
+      privateIPAllocationMethod: extPrivateIPAddressAllocationMethod
+      publicIPAddress: {
+        id: extInboundPublicIpId
+      }
+    }
+  }
 
+]
 
+param intIpForwarding bool
 param intIpConfigurationName string
 param intNicName string
 param intPrivateIPAddressAllocationMethod string
-param intSubnetName string
-@allowed([
-  'yes'
-  'no'
-])
-param intPublicIP string = 'no'
+param intSubnetId string
+param intIpConfigurations array = [
+  {
+    name: intIpConfigurationName
+    properties: {
+      subnet: {
+        id: intSubnetId
+      }
+      primary: true
+      privateIPAllocationMethod: intPrivateIPAddressAllocationMethod
+    }
+  }
+]
 
+param mgmtIpForwarding bool
 param mgmtIpConfigurationName string
 param mgmtNicName string
 param mgmtPrivateIPAddressAllocationMethod string
-param mgmtSubnetName string
-@allowed([
-  'yes'
-  'no'
-])
-param mgmtPublicIP string = 'no'
+param mgmtSubnetId string
+param mgmtIpConfigurations array = [
+  {
+    name: mgmtIpConfigurationName
+    properties: {
+      subnet: {
+        id: mgmtSubnetId
+      }
+      primary: true
+      privateIPAllocationMethod: mgmtPrivateIPAddressAllocationMethod
+    }
+  }
+]
+
+param vdmsIpForwarding bool
+param vdmsIpConfigurationName string
+param vdmsNicName string
+param vdmsPrivateIPAddressAllocationMethod string
+param vdmsSubnetId string
+param vdmsIpConfigurations array = [
+  {
+    name: vdmsIpConfigurationName
+    properties: {
+      subnet: {
+        id: vdmsSubnetId
+      }
+      primary: true
+      privateIPAllocationMethod: vdmsPrivateIPAddressAllocationMethod
+    }
+  }
+]
 
 // Variables
 var nics = [
@@ -75,99 +136,121 @@ var nics = [
       primary: false
     }
   }
+  {
+    id: f5vdmsNic.outputs.id
+    properties: {
+      primary: false
+    }
+  }
 ]
 
-// Create Public IP
-module fwPublicIp './publicIPAddress.bicep' = {
-  name: 'create-fw-pubip-${deploymentNameSuffix}'
-  params: {
-    location: location
-    name: extPublicIpName
-    publicIpAllocationMethod: extPublicIPAddressAllocationMethod
+var osProfile = {
+  sshPublicKey: {
+    computerName: vmName
+    adminUsername: adminUsername
+    linuxConfiguration: {
+      disablePasswordAuthentication: true
+      ssh: {
+        publicKeys: [
+          {
+            path: '/home/${adminUsername}/.ssh/authorized_keys'
+            keyData: adminPasswordOrKey
+          }
+        ]
+      }
+    }
+  }
+  password: {
+    computerName: vmName
+    adminUsername: adminUsername
+    adminPassword: adminPasswordOrKey
   }
 }
 
 // Create External NIC
-resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  name:'${virtualNetworkName}/${extSubnetName}'
-}
-
 module f5externalNic './networkInterface.bicep' = {
   name: 'create-ext-nic-${deploymentNameSuffix}'
   params: {
-    ipConfigurationName: extIpConfigurationName
+    enableIPForwarding: extIpForwarding
+    ipConfigurations: extIpConfigurations
     location: location
     name: extNicName
-    networkSecurityGroupId: networkSecurityGroupId
-    privateIPAddressAllocationMethod: extPrivateIPAddressAllocationMethod
-    publicIP: extPublicIP
-    publicIPAddressId: fwPublicIp.outputs.id
-    subnetId: extSubnet.id
   }
-  dependsOn: [
-    fwPublicIp
-  ]
 }
 
 // Create Internal NIC
-resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  name:'${virtualNetworkName}/${intSubnetName}'
-}
-
 module f5internalNic './networkInterface.bicep' = {
   name: 'create-int-nic-${deploymentNameSuffix}'
   params: {
-    ipConfigurationName: intIpConfigurationName
+    enableIPForwarding: intIpForwarding
+    ipConfigurations: intIpConfigurations
     location: location
     name: intNicName
-    networkSecurityGroupId: networkSecurityGroupId
-    privateIPAddressAllocationMethod: intPrivateIPAddressAllocationMethod
-    publicIP: intPublicIP
-    subnetId: intSubnet.id
   }
 }
 
 // Create Management NIC
-resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  name:'${virtualNetworkName}/${mgmtSubnetName}'
-}
-
 module f5managementNic './networkInterface.bicep' = {
   name: 'create-mgmt-nic-${deploymentNameSuffix}'
   params: {
-    ipConfigurationName: mgmtIpConfigurationName
+    enableIPForwarding: mgmtIpForwarding
+    ipConfigurations: mgmtIpConfigurations
     location: location
     name: mgmtNicName
-    networkSecurityGroupId: networkSecurityGroupId
-    privateIPAddressAllocationMethod: mgmtPrivateIPAddressAllocationMethod
-    publicIP: mgmtPublicIP
-    subnetId: mgmtSubnet.id
   }
 }
 
-// Deploy F5 VM
-module f5vm './linuxVirtualMachine.bicep' = {
-  name: 'create-f5vm-${deploymentNameSuffix}'
+// Create VDMS NIC
+module f5vdmsNic './networkInterface.bicep' = {
+  name: 'create-vdms-nic-${deploymentNameSuffix}'
   params: {
-    adminPasswordOrKey: adminPasswordOrKey
-    adminUsername: adminUsername
-    authenticationType: authenticationType
+    enableIPForwarding: vdmsIpForwarding
+    ipConfigurations: vdmsIpConfigurations
     location: location
-    name: vmName
-    networkInterfaces: nics
-    osDiskCreateOption: osDiskCreateOption
-    osDiskType: vmOsDiskType
-    vmImageOffer: vmImageOffer
-    vmImagePublisher: vmImagePublisher
-    vmImageSku: vmImageSku
-    vmImageVersion: vmImageVersion
-    vmSize: vmSize
+    name: vdmsNicName
+  }
+}
+
+resource f5vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
+  name: vmName
+  location: location
+  tags: tags
+
+  plan: {
+    name: vmPlanName
+    product: vmPlanProduct
+    publisher: vmPlanPublisher
+    }
+  properties: {
+    hardwareProfile: {
+      vmSize: vmSize
+    }
+    storageProfile: {
+      osDisk: {
+        createOption: osDiskCreateOption
+        managedDisk: {
+          storageAccountType: vmOsDiskType
+        }
+      }
+      imageReference: {
+        publisher: vmImagePublisher
+        offer: vmImageOffer
+        sku: vmImageSku
+        version: vmImageVersion
+      }
+    }
+    networkProfile: {
+      networkInterfaces: nics
+    }
+    osProfile: osProfile[authenticationType]
   }
   dependsOn: [
     f5externalNic
     f5internalNic
     f5managementNic
+    f5vdmsNic
   ]
 }
 
+output adminUsername string = adminUsername
 output internalIpAddress string = f5internalNic.outputs.ip

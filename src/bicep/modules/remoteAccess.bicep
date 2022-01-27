@@ -1,19 +1,24 @@
 param location string
 param tags object = {}
-
+param deploymentNameSuffix string
+param mgmtSubnetId string
 param hubVirtualNetworkName string
-param hubSubnetResourceId string
-param hubNetworkSecurityGroupResourceId string
 
 param linuxNetworkInterfaceName string
 param linuxNetworkInterfaceIpConfigurationName string
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string
-
-param publicIP string
-//param publicIPAddressId string
-//param networkInterfaces array
-param WindowspublicIPAddressId string
-
+param linuxNetworkInterfaceIpConfigurations array = [
+  {
+    name: linuxNetworkInterfaceIpConfigurationName
+    properties: {
+      subnet: {
+        id: mgmtSubnetId
+      }
+      primary: true
+      privateIPAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
+    }
+  }
+]
 param linuxVmName string
 param linuxVmSize string
 param linuxVmOsDiskCreateOption string
@@ -35,7 +40,23 @@ param linuxVmAdminPasswordOrKey string
 param windowsNetworkInterfaceName string
 param windowsNetworkInterfaceIpConfigurationName string
 param windowsNetworkInterfacePrivateIPAddressAllocationMethod string
+param windowspublicIPAddressId string
+param windowsNetworkInterfaceIpConfigurations array = [
+  {
+    name: windowsNetworkInterfaceIpConfigurationName
+    properties: {
+      subnet: {
+        id: mgmtSubnetId
+      }
+      primary: true
+      privateIPAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
+      publicIpAddress: {
+        id: windowspublicIPAddressId
 
+      }
+    }
+  }
+]
 param windowsVmName string
 param windowsVmSize string
 param windowsVmAdminUsername string
@@ -59,48 +80,26 @@ var nics = [
   }
 ]
 
-
-//param nowUtc string = utcNow()
-
 resource hubVirtualNetwork 'Microsoft.Network/virtualNetworks@2021-02-01' existing = {
   name: hubVirtualNetworkName
 }
 
-// Create External NIC
 resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
   name:'${hubVirtualNetworkName}/test'
 }
 
-// Create Public IP
-module PublicIp './publicIPAddress.bicep' = {
-  name: 'create-pubip'
-  params: {
-    location: location
-    name: 'extPublicIpName'
-    publicIpAllocationMethod: 'Dynamic'
-  }
-}
-
-
 module linuxNetworkInterface './networkInterface.bicep' = {
-  name: 'remoteAccess-linuxNetworkInterface'
+  name: 'deploy-ra-linux-nic-${deploymentNameSuffix}'
   params: {
     name: linuxNetworkInterfaceName
     location: location
     tags: tags
-    
-    ipConfigurationName: linuxNetworkInterfaceIpConfigurationName
-    networkSecurityGroupId: hubNetworkSecurityGroupResourceId
-    privateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
-    subnetId: hubSubnetResourceId
-    //publicIP: publicIP
-    publicIP: 'no'
-    //publicIPAddressId: publicIPAddressId
+    ipConfigurations: linuxNetworkInterfaceIpConfigurations
   }
 }
 
 module linuxVirtualMachine './linuxVirtualMachine.bicep' = {
-  name: 'remoteAccess-linuxVirtualMachine'
+  name: 'deploy-ra-linux-vm-${deploymentNameSuffix}'
   params: {
     name: linuxVmName
     location: location
@@ -121,18 +120,12 @@ module linuxVirtualMachine './linuxVirtualMachine.bicep' = {
 }
 
 module windowsNetworkInterface './networkInterface.bicep' = {
-  name: 'remoteAccess-windowsNetworkInterface'
+  name: 'deploy-ra-windows-nic-${deploymentNameSuffix}'
   params: {
     name: windowsNetworkInterfaceName
     location: location
     tags: tags
-    
-    ipConfigurationName: windowsNetworkInterfaceIpConfigurationName
-    networkSecurityGroupId: hubNetworkSecurityGroupResourceId
-    privateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
-    subnetId: hubSubnetResourceId
-    publicIP: publicIP
-    publicIPAddressId: WindowspublicIPAddressId
+    ipConfigurations: windowsNetworkInterfaceIpConfigurations
   }
 }
 
