@@ -43,37 +43,37 @@ param tags object = {}
 
 // NETWORK ADDRESS SPACE PARAMETERS
 
-@description('The CIDR Virtual Network Address Prefix for the Hub Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Hub Virtual Network. Default value = 10.90.0.0/16')
 param hubVirtualNetworkAddressPrefix string = '10.90.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space. Default value = 10.90.0.0/24')
 param mgmtSubnetAddressPrefix string = '10.90.0.0/24'
 
-@description('The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space. Default value = 10.90.1.0/24')
 param extSubnetAddressPrefix string = '10.90.1.0/24'
 
-@description('The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space. Default value = 10.90.2.0/24')
 param intSubnetAddressPrefix string = '10.90.2.0/24'
 
-@description('The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space. Default value = 10.90.3.0/24')
 param vdmsSubnetAddressPrefix string = '10.90.3.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Identity Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Identity Virtual Network. Default value = 10.92.0.0/16')
 param identityVirtualNetworkAddressPrefix string = '10.92.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space. Default value = 10.92.0.0/24')
 param identitySubnetAddressPrefix string = '10.92.0.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Operations Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Operations Virtual Network. Default value = 10.91.0.0/16')
 param operationsVirtualNetworkAddressPrefix string = '10.91.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space. Default value = 10.91.0.0/24')
 param operationsSubnetAddressPrefix string = '10.91.0.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network. Default value = 10.93.0.0/16')
 param sharedServicesVirtualNetworkAddressPrefix string = '10.93.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space. Default value = 10.93.0.0/24')
 param sharedServicesSubnetAddressPrefix string = '10.93.0.0/24'
 
 // FIREWALL PARAMETERS
@@ -85,7 +85,7 @@ param f5VmAdminUsername string = 'f5admin'
   'sshPublicKey'
   'password'
 ])
-@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "password".')
+@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "sshPublicKey".')
 param f5VmAuthenticationType string = 'sshPublicKey'
 
 @description('The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
