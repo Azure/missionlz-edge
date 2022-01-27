@@ -5,7 +5,6 @@ param tags object = {}
 param properties object
 param protectedSettings object = {}
 
-
 resource symbolicname 'Microsoft.Compute/virtualMachines/extensions@2020-06-01' = {
   name: '${vmName}/${name}'
   location: location
