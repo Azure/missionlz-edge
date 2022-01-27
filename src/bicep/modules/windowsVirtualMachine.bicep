@@ -55,3 +55,6 @@ resource windowsVirtualMachine 'Microsoft.Compute/virtualMachines@2017-03-30' = 
     }
   }
 }
+
+output windowsVm object = windowsVirtualMachine
+output windowsVmName string = windowsVirtualMachine.name

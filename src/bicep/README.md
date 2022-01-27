@@ -98,12 +98,14 @@ Step 3: Run the deployment script below with defaults by providing required para
 az deployment sub create \
   --name myMlzDeployment \
   --location <location> \
-  --template-file ./mlz-ash.bicep
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      resourcePrefix=<resource prefix>
 ```
 
 #### **Custom MLZ Instance deployment**
 
-To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password`:
+To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password` and allows setting `stig` controls on the Windows machine:
 
 ```plaintext
 az deployment sub create \
@@ -111,5 +113,8 @@ az deployment sub create \
   --location <location> \
   --template-file ./mlz-ash.bicep \
   --parameters \
+      resourcePrefix=<resource prefix> \
       f5VmAuthenticationType=password \
-```   f5VmAdminPasswordOrKey =<minimum length of 14 characters>
+      f5VmAdminPasswordOrKey =<minimum length of 14 characters> \
+      stig=true
+```
