@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "9612515675709828608"
+      "templateHash": "4594486116797770133"
     }
   },
   "parameters": {
@@ -64,77 +64,77 @@
       "type": "string",
       "defaultValue": "10.90.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Hub Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Hub Virtual Network. Default value = 10.90.0.0/16"
       }
     },
     "mgmtSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space. Default value = 10.90.0.0/24"
       }
     },
     "extSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.1.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space. Default value = 10.90.1.0/24"
       }
     },
     "intSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.2.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space. Default value = 10.90.2.0/24"
       }
     },
     "vdmsSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.3.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space. Default value = 10.90.3.0/24"
       }
     },
     "identityVirtualNetworkAddressPrefix": {
       "type": "string",
       "defaultValue": "10.92.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Identity Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Identity Virtual Network. Default value = 10.92.0.0/16"
       }
     },
     "identitySubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.92.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space. Default value = 10.92.0.0/24"
       }
     },
     "operationsVirtualNetworkAddressPrefix": {
       "type": "string",
       "defaultValue": "10.91.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Operations Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Operations Virtual Network. Default value = 10.91.0.0/16"
       }
     },
     "operationsSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.91.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space. Default value = 10.91.0.0/24"
       }
     },
     "sharedServicesVirtualNetworkAddressPrefix": {
       "type": "string",
       "defaultValue": "10.93.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network. Default value = 10.93.0.0/16"
       }
     },
     "sharedServicesSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.93.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space. Default value = 10.93.0.0/24"
       }
     },
     "f5VmAdminUsername": {
@@ -148,7 +148,7 @@
       "type": "string",
       "defaultValue": "sshPublicKey",
       "metadata": {
-        "description": "[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to \"password\"."
+        "description": "[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to \"sshPublicKey\"."
       },
       "allowedValues": [
         "sshPublicKey",
@@ -207,9 +207,9 @@
     },
     "f5VmImageVersion": {
       "type": "string",
-      "defaultValue": "16.0.101000",
+      "defaultValue": "15.0.100000",
       "metadata": {
-        "description": "The image version of the F5 firewall appliance. It defaults to \"16.0.101000\"."
+        "description": "The image version of the F5 firewall appliance. It defaults to \"15.0.100000\"."
       }
     },
     "f5privateIPAddressAllocationMethod": {
@@ -438,9 +438,59 @@
       "metadata": {
         "description": "The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine."
       }
+    },
+    "stig": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Set to tru to set STIG controls on Windows VM"
+      }
+    },
+    "artifactsUrl": {
+      "type": "string",
+      "defaultValue": "3173r03b.azcatcpec.com",
+      "metadata": {
+        "description": "Url for . Example: local.azurestack.external"
+      }
     }
   },
   "variables": {
+    "stigComputeExtProperties": {
+      "publisher": "Microsoft.Compute",
+      "type": "CustomScriptExtension",
+      "typeHandlerVersion": "1.10",
+      "autoUpgradeMinorVersion": true,
+      "protectedSettings": "[variables('stigComputeprotectedSettings')]",
+      "settings": {
+        "commandToExecute": "[format('PowerShell -ExecutionPolicy Unrestricted -File {0} -autoInstallDependencies true', variables('installPSModulesFile'))]"
+      }
+    },
+    "stigComputeprotectedSettings": {
+      "fileUris": [
+        "[format('{0}{1}', variables('artifactsLocation'), variables('requiredModulesFile'))]",
+        "[format('{0}{1}', variables('artifactsLocation'), variables('installPSModulesFile'))]",
+        "[format('{0}{1}', variables('artifactsLocation'), variables('generateStigChecklist'))]"
+      ],
+      "ignoreRelativePathForFileDownloads": true
+    },
+    "stigDscExtProperties": {
+      "publisher": "Microsoft.Powershell",
+      "type": "DSC",
+      "typeHandlerVersion": "2.77",
+      "autoUpgradeMinorVersion": true,
+      "settings": {
+        "wmfVersion": "latest",
+        "configuration": {
+          "url": "[format('{0}Windows.ps1.zip', variables('artifactsLocation'))]",
+          "script": "Windows.ps1",
+          "function": "Windows"
+        }
+      }
+    },
+    "artifactsLocation": "[format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), parameters('artifactsUrl'))]",
+    "requiredModulesFile": "RequiredModules.ps1",
+    "installPSModulesFile": "InstallModules.ps1",
+    "generateStigChecklist": "GenerateStigChecklist.ps1",
     "resourceToken": "resource_token",
     "nameToken": "name_token",
     "namingConvention": "[format('{0}-{1}-{2}-{3}', toLower(parameters('resourcePrefix')), variables('resourceToken'), variables('nameToken'), toLower(parameters('resourceSuffix')))]",
@@ -2970,7 +3020,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "15185097913843473950"
+              "templateHash": "2877272165607763616"
             }
           },
           "parameters": {
@@ -3528,7 +3578,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "15454486844078430295"
+                      "templateHash": "7145770803317543370"
                     }
                   },
                   "parameters": {
@@ -3613,14 +3663,34 @@
                         }
                       }
                     }
-                  ]
+                  ],
+                  "outputs": {
+                    "windowsVm": {
+                      "type": "object",
+                      "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('name')), '2017-03-30', 'full')]"
+                    },
+                    "windowsVmName": {
+                      "type": "string",
+                      "value": "[parameters('name')]"
+                    }
+                  }
                 }
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', format('deploy-ra-windows-nic-{0}', parameters('deploymentNameSuffix')))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "windowsVm": {
+              "type": "object",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsVirtualMachine'), '2020-10-01').outputs.windowsVm.value]"
+            },
+            "windowsVmName": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsVirtualMachine'), '2020-10-01').outputs.windowsVmName.value]"
+            }
+          }
         }
       },
       "dependsOn": [
@@ -3628,6 +3698,176 @@
         "[subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-vnet-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('create-ra-windows-pubip-{0}', parameters('deploymentNameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[parameters('stig')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "deploy-remoteAccess-stig-compute",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "name": {
+            "value": "install-powershell-modules"
+          },
+          "vmName": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVmName.value]"
+          },
+          "location": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.location]"
+          },
+          "tags": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.tags]"
+          },
+          "properties": {
+            "value": "[variables('stigComputeExtProperties')]"
+          },
+          "protectedSettings": {
+            "value": "[variables('stigComputeprotectedSettings')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "15636724239156014662"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "vmName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {}
+            },
+            "properties": {
+              "type": "object"
+            },
+            "protectedSettings": {
+              "type": "object",
+              "defaultValue": {}
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}/{1}', parameters('vmName'), parameters('name'))]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "publisher": "[parameters('properties').publisher]",
+                "type": "[parameters('properties').type]",
+                "typeHandlerVersion": "[parameters('properties').typeHandlerVersion]",
+                "autoUpgradeMinorVersion": true,
+                "protectedSettings": "[parameters('protectedSettings')]",
+                "settings": "[parameters('properties').settings]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[parameters('stig')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "deploy-remoteAccess-stig-dsc",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "name": {
+            "value": "setup-win-dsc-stig"
+          },
+          "vmName": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVmName.value]"
+          },
+          "location": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.location]"
+          },
+          "tags": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.tags]"
+          },
+          "properties": {
+            "value": "[variables('stigDscExtProperties')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "15636724239156014662"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "vmName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {}
+            },
+            "properties": {
+              "type": "object"
+            },
+            "protectedSettings": {
+              "type": "object",
+              "defaultValue": {}
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}/{1}', parameters('vmName'), parameters('name'))]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "publisher": "[parameters('properties').publisher]",
+                "type": "[parameters('properties').type]",
+                "typeHandlerVersion": "[parameters('properties').typeHandlerVersion]",
+                "autoUpgradeMinorVersion": true,
+                "protectedSettings": "[parameters('protectedSettings')]",
+                "settings": "[parameters('properties').settings]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', 'deploy-remoteAccess-stig-compute')]"
       ]
     }
   ],
