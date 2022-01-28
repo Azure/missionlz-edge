@@ -148,3 +148,6 @@ module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
     networkInterfaceName: windowsNetworkInterface.outputs.name
     }
 }
+
+output windowsVm object = windowsVirtualMachine.outputs.windowsVm
+output windowsVmName string = windowsVirtualMachine.outputs.windowsVmName

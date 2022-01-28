@@ -43,37 +43,37 @@ param tags object = {}
 
 // NETWORK ADDRESS SPACE PARAMETERS
 
-@description('The CIDR Virtual Network Address Prefix for the Hub Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Hub Virtual Network. Default value = 10.90.0.0/16')
 param hubVirtualNetworkAddressPrefix string = '10.90.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space. Default value = 10.90.0.0/24')
 param mgmtSubnetAddressPrefix string = '10.90.0.0/24'
 
-@description('The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space. Default value = 10.90.1.0/24')
 param extSubnetAddressPrefix string = '10.90.1.0/24'
 
-@description('The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space. Default value = 10.90.2.0/24')
 param intSubnetAddressPrefix string = '10.90.2.0/24'
 
-@description('The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space. Default value = 10.90.3.0/24')
 param vdmsSubnetAddressPrefix string = '10.90.3.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Identity Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Identity Virtual Network. Default value = 10.92.0.0/16')
 param identityVirtualNetworkAddressPrefix string = '10.92.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space. Default value = 10.92.0.0/24')
 param identitySubnetAddressPrefix string = '10.92.0.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Operations Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Operations Virtual Network. Default value = 10.91.0.0/16')
 param operationsVirtualNetworkAddressPrefix string = '10.91.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space. Default value = 10.91.0.0/24')
 param operationsSubnetAddressPrefix string = '10.91.0.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network.')
+@description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network. Default value = 10.93.0.0/16')
 param sharedServicesVirtualNetworkAddressPrefix string = '10.93.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space.')
+@description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space. Default value = 10.93.0.0/24')
 param sharedServicesSubnetAddressPrefix string = '10.93.0.0/24'
 
 // FIREWALL PARAMETERS
@@ -85,7 +85,7 @@ param f5VmAdminUsername string = 'f5admin'
   'sshPublicKey'
   'password'
 ])
-@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "password".')
+@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "sshPublicKey".')
 param f5VmAuthenticationType string = 'sshPublicKey'
 
 @description('The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
@@ -111,8 +111,8 @@ param f5VmImageOffer string = 'f5-big-ip-byol'
 @description('The image SKU of the F5 firewall appliance. It defaults to "f5-big-all-2slot-byol".')
 param f5VmImageSku string = 'f5-big-all-2slot-byol'
 
-@description('The image version of the F5 firewall appliance. It defaults to "16.0.101000".')
-param f5VmImageVersion string = '16.0.101000'
+@description('The image version of the F5 firewall appliance. It defaults to "15.0.100000".')
+param f5VmImageVersion string = '15.0.100000'
 
 @allowed([
   'Static'
@@ -252,6 +252,53 @@ param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 
 @description('The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine.')
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
+
+// Parameters required for STIG resources - Currently only supports  Windows VM
+@description('Set to tru to set STIG controls on Windows VM')
+param stig bool = false
+
+@description('Url for . Example: local.azurestack.external')
+param artifactsUrl string = '3173r03b.azcatcpec.com'
+
+var stigComputeExtProperties = {
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.10'
+    autoUpgradeMinorVersion: true
+    protectedSettings: stigComputeprotectedSettings
+    settings: {
+      commandToExecute: 'PowerShell -ExecutionPolicy Unrestricted -File ${installPSModulesFile} -autoInstallDependencies true'
+    }
+  }
+
+var stigComputeprotectedSettings = {
+      fileUris: [
+        '${artifactsLocation}${requiredModulesFile}'
+        '${artifactsLocation}${installPSModulesFile}'
+        '${artifactsLocation}${generateStigChecklist}'
+      ]
+      ignoreRelativePathForFileDownloads: true
+  }
+
+var stigDscExtProperties = {
+    publisher: 'Microsoft.Powershell'
+    type: 'DSC'
+    typeHandlerVersion: '2.77'
+    autoUpgradeMinorVersion: true
+    settings: {
+      wmfVersion: 'latest'
+      configuration: {
+        url: '${artifactsLocation}Windows.ps1.zip'
+        script: 'Windows.ps1'
+        function: 'Windows'
+      }
+    }
+  }
+
+var artifactsLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/windows/'
+var requiredModulesFile = 'RequiredModules.ps1'
+var installPSModulesFile = 'InstallModules.ps1'
+var generateStigChecklist = 'GenerateStigChecklist.ps1'
 
 /*
 
@@ -801,6 +848,35 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     f5Vm01
     hubResourceGroup
     hubVirtualNetwork
+  ]
+}
+
+// Enable extensions for Windows VM in HUB RG for STIG requirements
+module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'deploy-remoteAccess-stig-compute'
+  params: {
+    name: 'install-powershell-modules'
+    vmName: remoteAccess.outputs.windowsVmName
+    location: remoteAccess.outputs.windowsVm.location
+    tags: remoteAccess.outputs.windowsVm.tags
+    properties: stigComputeExtProperties
+    protectedSettings: stigComputeprotectedSettings
+  }
+}
+
+module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'deploy-remoteAccess-stig-dsc'
+  params: {
+    name: 'setup-win-dsc-stig'
+    vmName: remoteAccess.outputs.windowsVmName
+    location: remoteAccess.outputs.windowsVm.location
+    tags: remoteAccess.outputs.windowsVm.tags
+    properties: stigDscExtProperties
+  }
+  dependsOn: [
+    stigComputeExtWindowsVm
   ]
 }
 
