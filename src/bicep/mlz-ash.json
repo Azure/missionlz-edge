@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "3688076750934661995"
+      "templateHash": "8792069617028888443"
     }
   },
   "parameters": {
@@ -64,77 +64,77 @@
       "type": "string",
       "defaultValue": "10.90.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Hub Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Hub Virtual Network. Default value = 10.90.0.0/16"
       }
     },
     "mgmtSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space. Default value = 10.90.0.0/24"
       }
     },
     "extSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.1.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space. Default value = 10.90.1.0/24"
       }
     },
     "intSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.2.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space. Default value = 10.90.2.0/24"
       }
     },
     "vdmsSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.90.3.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space. Default value = 10.90.3.0/24"
       }
     },
     "identityVirtualNetworkAddressPrefix": {
       "type": "string",
       "defaultValue": "10.92.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Identity Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Identity Virtual Network. Default value = 10.92.0.0/16"
       }
     },
     "identitySubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.92.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space. Default value = 10.92.0.0/24"
       }
     },
     "operationsVirtualNetworkAddressPrefix": {
       "type": "string",
       "defaultValue": "10.91.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Operations Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Operations Virtual Network. Default value = 10.91.0.0/16"
       }
     },
     "operationsSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.91.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space. Default value = 10.91.0.0/24"
       }
     },
     "sharedServicesVirtualNetworkAddressPrefix": {
       "type": "string",
       "defaultValue": "10.93.0.0/16",
       "metadata": {
-        "description": "The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network."
+        "description": "The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network. Default value = 10.93.0.0/16"
       }
     },
     "sharedServicesSubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.93.0.0/24",
       "metadata": {
-        "description": "The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space."
+        "description": "The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space. Default value = 10.93.0.0/24"
       }
     },
     "f5VmAdminUsername": {
@@ -148,7 +148,7 @@
       "type": "string",
       "defaultValue": "sshPublicKey",
       "metadata": {
-        "description": "[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to \"password\"."
+        "description": "[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to \"sshPublicKey\"."
       },
       "allowedValues": [
         "sshPublicKey",
@@ -207,9 +207,9 @@
     },
     "f5VmImageVersion": {
       "type": "string",
-      "defaultValue": "16.0.101000",
+      "defaultValue": "15.0.100000",
       "metadata": {
-        "description": "The image version of the F5 firewall appliance. It defaults to \"16.0.101000\"."
+        "description": "The image version of the F5 firewall appliance. It defaults to \"15.0.100000\"."
       }
     },
     "f5privateIPAddressAllocationMethod": {
