@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "8792069617028888443"
+      "templateHash": "4594486116797770133"
     }
   },
   "parameters": {
@@ -438,9 +438,59 @@
       "metadata": {
         "description": "The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine."
       }
+    },
+    "stig": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Set to tru to set STIG controls on Windows VM"
+      }
+    },
+    "artifactsUrl": {
+      "type": "string",
+      "defaultValue": "3173r03b.azcatcpec.com",
+      "metadata": {
+        "description": "Url for . Example: local.azurestack.external"
+      }
     }
   },
   "variables": {
+    "stigComputeExtProperties": {
+      "publisher": "Microsoft.Compute",
+      "type": "CustomScriptExtension",
+      "typeHandlerVersion": "1.10",
+      "autoUpgradeMinorVersion": true,
+      "protectedSettings": "[variables('stigComputeprotectedSettings')]",
+      "settings": {
+        "commandToExecute": "[format('PowerShell -ExecutionPolicy Unrestricted -File {0} -autoInstallDependencies true', variables('installPSModulesFile'))]"
+      }
+    },
+    "stigComputeprotectedSettings": {
+      "fileUris": [
+        "[format('{0}{1}', variables('artifactsLocation'), variables('requiredModulesFile'))]",
+        "[format('{0}{1}', variables('artifactsLocation'), variables('installPSModulesFile'))]",
+        "[format('{0}{1}', variables('artifactsLocation'), variables('generateStigChecklist'))]"
+      ],
+      "ignoreRelativePathForFileDownloads": true
+    },
+    "stigDscExtProperties": {
+      "publisher": "Microsoft.Powershell",
+      "type": "DSC",
+      "typeHandlerVersion": "2.77",
+      "autoUpgradeMinorVersion": true,
+      "settings": {
+        "wmfVersion": "latest",
+        "configuration": {
+          "url": "[format('{0}Windows.ps1.zip', variables('artifactsLocation'))]",
+          "script": "Windows.ps1",
+          "function": "Windows"
+        }
+      }
+    },
+    "artifactsLocation": "[format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), parameters('artifactsUrl'))]",
+    "requiredModulesFile": "RequiredModules.ps1",
+    "installPSModulesFile": "InstallModules.ps1",
+    "generateStigChecklist": "GenerateStigChecklist.ps1",
     "resourceToken": "resource_token",
     "nameToken": "name_token",
     "namingConvention": "[format('{0}-{1}-{2}-{3}', toLower(parameters('resourcePrefix')), variables('resourceToken'), variables('nameToken'), toLower(parameters('resourceSuffix')))]",
@@ -2970,7 +3020,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "15185097913843473950"
+              "templateHash": "2877272165607763616"
             }
           },
           "parameters": {
@@ -3528,7 +3578,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "15454486844078430295"
+                      "templateHash": "7145770803317543370"
                     }
                   },
                   "parameters": {
@@ -3613,14 +3663,34 @@
                         }
                       }
                     }
-                  ]
+                  ],
+                  "outputs": {
+                    "windowsVm": {
+                      "type": "object",
+                      "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('name')), '2017-03-30', 'full')]"
+                    },
+                    "windowsVmName": {
+                      "type": "string",
+                      "value": "[parameters('name')]"
+                    }
+                  }
                 }
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', format('deploy-ra-windows-nic-{0}', parameters('deploymentNameSuffix')))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "windowsVm": {
+              "type": "object",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsVirtualMachine'), '2020-10-01').outputs.windowsVm.value]"
+            },
+            "windowsVmName": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsVirtualMachine'), '2020-10-01').outputs.windowsVmName.value]"
+            }
+          }
         }
       },
       "dependsOn": [
@@ -3628,6 +3698,176 @@
         "[subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-vnet-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('create-ra-windows-pubip-{0}', parameters('deploymentNameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[parameters('stig')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "deploy-remoteAccess-stig-compute",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "name": {
+            "value": "install-powershell-modules"
+          },
+          "vmName": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVmName.value]"
+          },
+          "location": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.location]"
+          },
+          "tags": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.tags]"
+          },
+          "properties": {
+            "value": "[variables('stigComputeExtProperties')]"
+          },
+          "protectedSettings": {
+            "value": "[variables('stigComputeprotectedSettings')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "15636724239156014662"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "vmName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {}
+            },
+            "properties": {
+              "type": "object"
+            },
+            "protectedSettings": {
+              "type": "object",
+              "defaultValue": {}
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}/{1}', parameters('vmName'), parameters('name'))]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "publisher": "[parameters('properties').publisher]",
+                "type": "[parameters('properties').type]",
+                "typeHandlerVersion": "[parameters('properties').typeHandlerVersion]",
+                "autoUpgradeMinorVersion": true,
+                "protectedSettings": "[parameters('protectedSettings')]",
+                "settings": "[parameters('properties').settings]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[parameters('stig')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "deploy-remoteAccess-stig-dsc",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "name": {
+            "value": "setup-win-dsc-stig"
+          },
+          "vmName": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVmName.value]"
+          },
+          "location": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.location]"
+          },
+          "tags": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value.tags]"
+          },
+          "properties": {
+            "value": "[variables('stigDscExtProperties')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "15636724239156014662"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "vmName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {}
+            },
+            "properties": {
+              "type": "object"
+            },
+            "protectedSettings": {
+              "type": "object",
+              "defaultValue": {}
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}/{1}', parameters('vmName'), parameters('name'))]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "publisher": "[parameters('properties').publisher]",
+                "type": "[parameters('properties').type]",
+                "typeHandlerVersion": "[parameters('properties').typeHandlerVersion]",
+                "autoUpgradeMinorVersion": true,
+                "protectedSettings": "[parameters('protectedSettings')]",
+                "settings": "[parameters('properties').settings]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', 'deploy-remoteAccess-stig-compute')]"
       ]
     }
   ],

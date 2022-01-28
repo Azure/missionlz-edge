@@ -253,6 +253,53 @@ param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 @description('The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine.')
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
 
+// Parameters required for STIG resources - Currently only supports  Windows VM
+@description('Set to tru to set STIG controls on Windows VM')
+param stig bool = false
+
+@description('Url for . Example: local.azurestack.external')
+param artifactsUrl string = '3173r03b.azcatcpec.com'
+
+var stigComputeExtProperties = {
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.10'
+    autoUpgradeMinorVersion: true
+    protectedSettings: stigComputeprotectedSettings
+    settings: {
+      commandToExecute: 'PowerShell -ExecutionPolicy Unrestricted -File ${installPSModulesFile} -autoInstallDependencies true'
+    }
+  }
+
+var stigComputeprotectedSettings = {
+      fileUris: [
+        '${artifactsLocation}${requiredModulesFile}'
+        '${artifactsLocation}${installPSModulesFile}'
+        '${artifactsLocation}${generateStigChecklist}'
+      ]
+      ignoreRelativePathForFileDownloads: true
+  }
+
+var stigDscExtProperties = {
+    publisher: 'Microsoft.Powershell'
+    type: 'DSC'
+    typeHandlerVersion: '2.77'
+    autoUpgradeMinorVersion: true
+    settings: {
+      wmfVersion: 'latest'
+      configuration: {
+        url: '${artifactsLocation}Windows.ps1.zip'
+        script: 'Windows.ps1'
+        function: 'Windows'
+      }
+    }
+  }
+
+var artifactsLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/windows/'
+var requiredModulesFile = 'RequiredModules.ps1'
+var installPSModulesFile = 'InstallModules.ps1'
+var generateStigChecklist = 'GenerateStigChecklist.ps1'
+
 /*
 
   NAMING CONVENTION
@@ -785,6 +832,35 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     f5Vm01
     hubResourceGroup
     hubVirtualNetwork
+  ]
+}
+
+// Enable extensions for Windows VM in HUB RG for STIG requirements
+module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'deploy-remoteAccess-stig-compute'
+  params: {
+    name: 'install-powershell-modules'
+    vmName: remoteAccess.outputs.windowsVmName
+    location: remoteAccess.outputs.windowsVm.location
+    tags: remoteAccess.outputs.windowsVm.tags
+    properties: stigComputeExtProperties
+    protectedSettings: stigComputeprotectedSettings
+  }
+}
+
+module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+  scope: resourceGroup(hubResourceGroupName)
+  name: 'deploy-remoteAccess-stig-dsc'
+  params: {
+    name: 'setup-win-dsc-stig'
+    vmName: remoteAccess.outputs.windowsVmName
+    location: remoteAccess.outputs.windowsVm.location
+    tags: remoteAccess.outputs.windowsVm.tags
+    properties: stigDscExtProperties
+  }
+  dependsOn: [
+    stigComputeExtWindowsVm
   ]
 }
 

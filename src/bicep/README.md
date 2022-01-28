@@ -47,6 +47,7 @@ f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicK
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
 f5VmImageVersion | 15.0.100000 | Version of F5 BIG-IP sku being deployed
+stig | flase | Setting to true will allow Desired State Configuration on Windows remote access host to set STIG related controls.
 
 ### **Setup Deployment Container**
 
@@ -115,6 +116,8 @@ az deployment sub create \
 
 The example below is for "sshPublicKey" auth in Azure Government (or Azure Stack Hub registered in Azure Government):
 
+To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password` and allows setting `stig` controls on the Windows machine:
+
 ```plaintext
 resourcePrefix="<value>"
 keyVaultAccessPolicyObjectId="<value>"
@@ -125,11 +128,12 @@ az deployment sub create \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
+      stig=true
       resourcePrefix=${resourcePrefix} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
-The example below is for "password" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial):
+The example below is for "password" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial Note: Setting STIG to true not available in commercial):
 
 ```plaintext
 resourcePrefix="<value>"
@@ -149,7 +153,7 @@ az deployment sub create \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
-The example below is for "sshPublicKey" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial):
+The example below is for "sshPublicKey" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial Note: Setting STIG to true not available in commercial):
 
 ```plaintext
 resourcePrefix="<value>"
@@ -170,3 +174,4 @@ az deployment sub create \
 #### **Custom MLZ Instance deployment**
 
 Using the examples in the previous section, other default values can be overriden with custom values by adding the paramter and value to the `parameters` argument
+
