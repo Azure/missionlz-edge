@@ -604,7 +604,7 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
 }
 module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthenticationType=='password'){
   scope: resourceGroup(hubResourceGroupName)
-  name:'deploy-f5vm01Sshkv-hub-${deploymentNameSuffix}'
+  name:'deploy-f5vm01Pwdkv-hub-${deploymentNameSuffix}'
   params: {
     resourcePrefix : resourcePrefix 
     location: location
