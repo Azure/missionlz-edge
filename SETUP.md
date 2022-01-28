@@ -47,6 +47,16 @@ Clone the repo and run the following from a command prompt in which docker clien
   pwsh ./src/scripts/download.ps1 –registrationName <your reg. name> [-UseDeviceAuthentication] # example: CPEC-37173
   ```
 
+`download.ps1` Availalbe Parameters:
+**Parameter Name**          | **Default value** | **Description**
+------------------------| --------------| -----------
+registrationName  | None  | Required. The name of registration in which the Azure Stack Hub is added.
+environment | AzureCloud  | Environment defines what cloud you are useing for registration subscription, use AzureUSGovernment for Government cloud.
+UseDeviceAuthentication | not set | Switch used to have Azure Login use device authentication capabilities. This is ussually needed when using ADFS.
+skipprecheck  | False | Set to true if you do not want script to run chaeck against products in registration versus whats in default text file.
+
+A few other parameters exist in the script file but do not require changing.
+
 *Note: You will be prompted for username and password for a user that has access to the subscription where the registration exists. To find your registration name you can log into the Admin portal and on the dashboard select the region inside the 'region management' widget and then select properties.*
 
 ## Save container – commit changes in new container
