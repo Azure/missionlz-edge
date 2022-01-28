@@ -176,6 +176,7 @@ param sharedServicesNetworkSecurityGroupRules array = []
 // REMOTE ACCESS PARAMETERS
 
 param publicIP string = 'yes'
+param deployLinux bool = false
 
 // LINUX VIRTUAL MACHINE PARAMETERS
 
@@ -195,7 +196,8 @@ param linuxVmAuthenticationType string = 'password'
 @description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(12)
-param linuxVmAdminPasswordOrKey string
+param VmAdminPassword string
+var linuxVmAdminPasswordOrKey = VmAdminPassword
 
 @description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_D2".')
 param linuxVmSize string = 'Standard_D2'
@@ -230,10 +232,10 @@ param linuxNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 @description('The administrator username for the Windows Virtual Machine to   remote into. It defaults to "azureuser".')
 param windowsVmAdminUsername string = 'azureuser'
 
-@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
-@secure()
-@minLength(12)
-param windowsVmAdminPassword string
+//@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
+//@secure()
+//@minLength(12)
+var windowsVmAdminPassword = VmAdminPassword
 
 @description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param windowsVmSize string = 'Standard_DS1_v2'
@@ -640,6 +642,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
 
   params: {
     location: location
+    deployLinux: deployLinux
     hubVirtualNetworkName: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}'
     hubSubnetResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${hubVirtualNetworkName}/subnets/${extSubnetName}'
     hubNetworkSecurityGroupResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/${hubNetworkSecurityGroupName}'

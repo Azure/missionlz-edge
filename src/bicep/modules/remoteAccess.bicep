@@ -8,6 +8,7 @@ param hubNetworkSecurityGroupResourceId string
 param linuxNetworkInterfaceName string
 param linuxNetworkInterfaceIpConfigurationName string
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string
+param deployLinux bool
 
 param publicIP string
 //param publicIPAddressId string
@@ -82,7 +83,7 @@ module PublicIp './publicIPAddress.bicep' = {
 }
 
 
-module linuxNetworkInterface './networkInterface.bicep' = {
+module linuxNetworkInterface './networkInterface.bicep' = if(deployLinux) {
   name: 'remoteAccess-linuxNetworkInterface'
   params: {
     name: linuxNetworkInterfaceName
@@ -99,7 +100,7 @@ module linuxNetworkInterface './networkInterface.bicep' = {
   }
 }
 
-module linuxVirtualMachine './linuxVirtualMachine.bicep' = {
+module linuxVirtualMachine './linuxVirtualMachine.bicep' = if(deployLinux) {
   name: 'remoteAccess-linuxVirtualMachine'
   params: {
     name: linuxVmName
