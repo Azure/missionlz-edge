@@ -649,12 +649,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     linuxNetworkInterfaceName: linuxNetworkInterfaceName
     linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
     linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
-
     publicIP: publicIP 
-    //publicIPAddressId: linuxPublicIPAddress.outputs.id
-    
-    //networkInterfaces: networkInterfaces
-
     linuxVmName: linuxVmName
     linuxVmSize: linuxVmSize
     linuxVmOsDiskCreateOption: linuxVmOsDiskCreateOption
@@ -665,12 +660,10 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     linuxVmImageVersion: linuxVmImageVersion
     linuxVmAdminUsername: linuxVmAdminUsername
     linuxVmAuthenticationType: linuxVmAuthenticationType
-    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey
-    
+    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey    
     windowsNetworkInterfaceName: windowsNetworkInterfaceName
     windowsNetworkInterfaceIpConfigurationName: windowsNetworkInterfaceIpConfigurationName
     windowsNetworkInterfacePrivateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
-
     windowsVmName: windowsVmName
     windowsVmSize: windowsVmSize
     windowsVmAdminUsername: windowsVmAdminUsername

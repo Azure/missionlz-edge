@@ -50,15 +50,6 @@ param windowsVmVersion string
 param windowsVmCreateOption string
 param windowsVmStorageAccountType string
 
-var nics = [
-  {
-    id: linuxNetworkInterface.outputs.id
-    properties: {
-      primary: true
-
-    }
-  }
-]
 
 
 //param nowUtc string = utcNow()
@@ -80,45 +71,6 @@ module PublicIp './publicIPAddress.bicep' = {
     name: 'extPublicIpName'
     publicIpAllocationMethod: 'Dynamic'
   }
-}
-
-
-module linuxNetworkInterface './networkInterface.bicep' = if(deployLinux) {
-  name: 'remoteAccess-linuxNetworkInterface'
-  params: {
-    name: linuxNetworkInterfaceName
-    location: location
-    tags: tags
-    
-    ipConfigurationName: linuxNetworkInterfaceIpConfigurationName
-    networkSecurityGroupId: hubNetworkSecurityGroupResourceId
-    privateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
-    subnetId: hubSubnetResourceId
-    //publicIP: publicIP
-    publicIP: 'no'
-    //publicIPAddressId: publicIPAddressId
-  }
-}
-
-module linuxVirtualMachine './linuxVirtualMachine.bicep' = if(deployLinux) {
-  name: 'remoteAccess-linuxVirtualMachine'
-  params: {
-    name: linuxVmName
-    location: location
-    tags: tags
-
-    vmSize: linuxVmSize
-    osDiskCreateOption: linuxVmOsDiskCreateOption
-    osDiskType: linuxVmOsDiskType
-    vmImagePublisher: linuxVmImagePublisher
-    vmImageOffer: linuxVmImageOffer
-    vmImageSku: linuxVmImageSku
-    vmImageVersion: linuxVmImageVersion
-    adminUsername: linuxVmAdminUsername
-    authenticationType: linuxVmAuthenticationType
-    adminPasswordOrKey: linuxVmAdminPasswordOrKey
-    networkInterfaces: nics
-    }
 }
 
 module windowsNetworkInterface './networkInterface.bicep' = {
@@ -154,5 +106,30 @@ module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
     createOption: windowsVmCreateOption
     storageAccountType: windowsVmStorageAccountType
     networkInterfaceName: windowsNetworkInterface.outputs.name
+    }
+   
+}
+
+module linuxVirtualMachine './remoteAccessLinuxVM.bicep' = if(deployLinux) {
+  name: 'remoteAccess-linuxVirtualMachine'
+  params: {    
+    location: location
+    tags: tags
+    hubNetworkSecurityGroupResourceId:hubNetworkSecurityGroupResourceId
+    hubSubnetResourceId:hubSubnetResourceId
+    linuxNetworkInterfaceIpConfigurationName:linuxNetworkInterfaceIpConfigurationName
+    linuxNetworkInterfaceName:linuxNetworkInterfaceName
+    linuxVmAdminPasswordOrKey:linuxVmAdminPasswordOrKey
+    linuxVmAdminUsername:linuxVmAdminUsername
+    linuxVmAuthenticationType:linuxVmAuthenticationType
+    linuxVmImageSku:linuxVmImageSku
+    linuxVmImageVersion:linuxVmImageVersion
+    linuxNetworkInterfacePrivateIPAddressAllocationMethod:linuxNetworkInterfacePrivateIPAddressAllocationMethod
+    linuxVmImagePublisher:linuxVmImagePublisher
+    linuxVmSize:linuxVmSize
+    linuxVmName:linuxVmName
+    linuxVmOsDiskCreateOption:linuxVmOsDiskCreateOption
+    linuxVmImageOffer:linuxVmImageOffer
+    linuxVmOsDiskType:linuxVmOsDiskType   
     }
 }
