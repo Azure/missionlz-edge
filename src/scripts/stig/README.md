@@ -3,7 +3,7 @@ When setting [STIG controls](https://public.cyber.mil/stigs/) is a requirement f
 
 First a quick explanation of the underlying technologies. This solution is based on the work down in the [Azure ato-toolkit](https://github.com/Azure/ato-toolkit) Git?Hub repo. This toolkit takes advantage of a number of technologies in and out of Azure. There are slight modifications to the toolkit to work within a hub disconnected environment.
 
-1. [Azure Desired State Configuration](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/dsc-overview) - managing vm guest configrations at scale. *Note: currently this only supports Windows machines in Azure Stack Hub*
+1. [Azure Desired State Configuration](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/dsc-overview) - managing vm guest configurations at scale. *Note: currently this only supports Windows machines in Azure Stack Hub*
 2. [PowerSTIG](https://github.com/Microsoft/PowerStig) - Tooling based on DSC tied into DISA STIG controls to allow DSC to manage setting these controls.
 
 Optional:
@@ -35,7 +35,6 @@ $installPSModulesFileUrl = "https://$storageAccountName.blob.$storageEndpointSuf
 $generateStigChecklistUrl = "https://$storageAccountName.blob.$storageEndpointSuffix/artifacts/windows/$generateStigChecklist"
 
 $fileUriGroup = @($requiredModulesFileUrl,$installPSModulesFileUrl,$generateStigChecklistUrl)
-
 
 # CustomScript Extension install modules
 $fileUriGroup = @($requiredModulesFileUrl,$installPSModulesFileUrl,$generateStigChecklistUrl)

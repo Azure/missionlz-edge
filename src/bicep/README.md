@@ -4,7 +4,7 @@
 
 ### **Prerequisistes**
 
-The Mission LZ - Edge solution was designed to be deployed utilizing a deployment container built from an image defined in this repo.
+The Mission LZ - Edge solution was designed to be deployed utilizing a deployment container built from an image defined in this repo. *Note: Prior to deploying Mission LZ - Edge you will be required to ensure that market place items are available which can be accomplished running the container setup found [here](../../setup.md). These required market place items and specific versions can be found in the text file used by the container to download. The file is located [here](../artifacts/defaultMlzMarketPlaceItems.txt).*
 
 1. An Azure Stack Hub (ASH) stamp where you or an identity you manage has `Owner` [RBAC permissions](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner)
 1. A workload subscription on the ASH stamp provisioned using an offering/plan that contains the following providers:
@@ -47,7 +47,7 @@ f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicK
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
 f5VmImageVersion | 15.0.100000 | Version of F5 BIG-IP sku being deployed
-stig | false | Setting to true will allow Desired State Configuration on Windows remote access host to set STIG related controls.
+[stig](../scripts/stig/README.md) | false | Setting to true will allow Desired State Configuration on Windows remote access host to set STIG related controls.
 
 ### **Setup Deployment Container**
 
@@ -116,7 +116,7 @@ az deployment sub create \
 
 The example below is for "sshPublicKey" auth in Azure Government (or Azure Stack Hub registered in Azure Government):
 
-To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password` and allows setting `stig` controls on the Windows machine:
+To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password` and [allows setting `stig` controls on the Windows machine](../scripts/stig/README.md):
 
 ```plaintext
 resourcePrefix="<value>"
