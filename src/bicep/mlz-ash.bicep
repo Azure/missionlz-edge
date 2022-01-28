@@ -649,6 +649,22 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
   ]
 
 }
+module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthenticationType=='password'){
+  scope: resourceGroup(hubResourceGroupName)
+  name:'deploy-f5vm01Pwdkv-hub-${deploymentNameSuffix}'
+  params: {
+    resourcePrefix : resourcePrefix 
+    location: location
+    tenantId: tenantId
+    keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
+    securePassword:linuxVmAdminPasswordOrKey
+    keySecretName:'f5Vm01Password'
+  }
+  dependsOn:[
+    hubResourceGroup
+  ]
+
+}
 
 // Replace the subnet resources below with output from virtualNetwork module
 // once supported by the Azure Stack API
