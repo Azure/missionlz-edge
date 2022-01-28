@@ -113,3 +113,18 @@ az deployment sub create \
   --parameters \
       f5VmAuthenticationType=password \
 ```   f5VmAdminPasswordOrKey =<minimum length of 14 characters>
+
+The mlz-ash.bicep deployment deploys a windows VM that has a public IP address. This VM is used to remote into the subnet.
+The code has a deployLinux option to allow for the deployment of an Ubuntu Linux box. This flag is defaulted to false, so it does not automatically deploy the Linux VM.
+When the parameter deployLinux=true is provided at deployment time, the Linux Vm will be created. See example below:
+
+```plaintext
+az deployment sub create \
+  --name myMlzDeployment \
+  --location <location> \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      f5VmAuthenticationType=password \
+      f5VmAdminPasswordOrKey =<minimum length of 14 characters> \
+      deployLinux=true
+```

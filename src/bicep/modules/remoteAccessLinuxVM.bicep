@@ -50,7 +50,7 @@ module linuxNetworkInterface './networkInterface.bicep' = {
 }
 
 module linuxVirtualMachine './linuxVirtualMachine.bicep' = {
-  name: 'remoteAccess-linuxVirtualMachine'
+  name: 'linuxVirtualMachine'
   params: {
     name: linuxVmName
     location: location
