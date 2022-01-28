@@ -46,6 +46,7 @@ sharedServicesSubnetAddressPrefix | 10.93.0.0/24 | The CIDR Subnet Address Prefi
 f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters with atleast 1 uppercase, 1 lowercase, 1 alphnumeric, 1 special character
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
+f5VmImageVersion | 15.0.100000 | Version of F5 BIG-IP sku being deployed
 
 ### **Setup Deployment Container**
 
@@ -92,24 +93,80 @@ Step 1: cd src/bicep
 
 Step 2: Run the bashscript /scripts/generateSshKey.sh to generate new ssh keypair to configure SSH Key-Based Authentication on a Linux VM
 
-Step 3: Run the deployment script below with defaults by providing required parameter values for resourcePrefix and keyVaultAccessPolicyObjectId
+Step 3: Below are examples of deployment scripts that can be run based on environment and authentication type for the F5:
+
+The example below is for "password" auth in Azure Government (or Azure Stack Hub registered in Azure Government):
 
 ```plaintext
+resourcePrefix="<value>"
+f5AuthType="password"
+keyVaultAccessPolicyObjectId="<value>"
+region=<value>
+
 az deployment sub create \
-  --name myMlzDeployment \
-  --location <location> \
-  --template-file ./mlz-ash.bicep
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      resourcePrefix=${resourcePrefix} \
+      f5VmAuthenticationType=${f5AuthType} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+```
+
+The example below is for "sshPublicKey" auth in Azure Government (or Azure Stack Hub registered in Azure Government):
+
+```plaintext
+resourcePrefix="<value>"
+keyVaultAccessPolicyObjectId="<value>"
+region=<value>
+
+az deployment sub create \
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      resourcePrefix=${resourcePrefix} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+```
+
+The example below is for "password" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial):
+
+```plaintext
+resourcePrefix="<value>"
+f5AuthType="password"
+keyVaultAccessPolicyObjectId="<value>"
+region=<value>
+f5VmImageVersion="16.0.101000"
+
+az deployment sub create \
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      resourcePrefix=${resourcePrefix} \
+      f5VmAuthenticationType=${f5AuthType} \
+      f5VmImageVersion=${f5VmImageVersion} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+```
+
+The example below is for "sshPublicKey" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial):
+
+```plaintext
+resourcePrefix="<value>"
+keyVaultAccessPolicyObjectId="<value>"
+region=<value>
+f5VmImageVersion="16.0.101000"
+
+az deployment sub create \
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      resourcePrefix=${resourcePrefix} \
+      f5VmImageVersion=${f5VmImageVersion} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
 #### **Custom MLZ Instance deployment**
 
-To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password`:
-
-```plaintext
-az deployment sub create \
-  --name myMlzDeployment \
-  --location <location> \
-  --template-file ./mlz-ash.bicep \
-  --parameters \
-      f5VmAuthenticationType=password \
-```   f5VmAdminPasswordOrKey =<minimum length of 14 characters>
+Using the examples in the previous section, other default values can be overriden with custom values by adding the paramter and value to the `parameters` argument
