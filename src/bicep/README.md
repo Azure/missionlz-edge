@@ -4,7 +4,8 @@
 
 ### **Prerequisistes**
 
-The Mission LZ - Edge solution was designed to be deployed utilizing a deployment container built from an image defined in this repo. *Note: Prior to deploying Mission LZ - Edge you will be required to ensure that market place items are available which can be accomplished running the container setup found [here](../../setup.md). These required market place items and specific versions can be found in the text file used by the container to download. The file is located [here](../artifacts/defaultMlzMarketPlaceItems.txt).*
+The Mission LZ - Edge solution was designed to be deployed utilizing a deployment container built from an image defined in this repo. *Note: Prior to deploying Mission LZ - Edge you will be required to ensure that market place items are available which can be accomplished running the container setup found [here](../../setup.md).
+These required market place items and specific versions can be found in the text file used by the container to download. The file is located [here](../artifacts/defaultMlzMarketPlaceItems.txt).*
 
 1. An Azure Stack Hub (ASH) stamp where you or an identity you manage has `Owner` [RBAC permissions](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner)
 1. A workload subscription on the ASH stamp provisioned using an offering/plan that contains the following providers:
