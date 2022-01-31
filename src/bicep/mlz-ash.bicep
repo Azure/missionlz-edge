@@ -85,8 +85,8 @@ param f5VmAdminUsername string = 'f5admin'
   'sshPublicKey'
   'password'
 ])
-@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "sshPublicKey".')
-param f5VmAuthenticationType string = 'sshPublicKey'
+@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "password".')
+param f5VmAuthenticationType string = 'password'
 
 @description('The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
@@ -635,7 +635,8 @@ module windowsPublicIPAddress './modules/publicIPAddress.bicep' = {
 
 // CREATE KEY VAULT TO STORE F5 SSH KEY PAIR
 
-module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticationType=='sshPublicKey'){
+
+module remoteAccessSshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticationType=='sshPublicKey'){
   scope: resourceGroup(hubResourceGroupName)
   name:'deploy-f5vm01Sshkv-hub-${deploymentNameSuffix}'
   params: {
@@ -649,7 +650,7 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
   ]
 
 }
-module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthenticationType=='password'){
+module remoteAccessPasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthenticationType=='password'){
   scope: resourceGroup(hubResourceGroupName)
   name:'deploy-f5vm01Pwdkv-hub-${deploymentNameSuffix}'
   params: {
@@ -657,7 +658,7 @@ module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthent
     location: location
     tenantId: tenantId
     keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
-    securePassword:linuxVmAdminPasswordOrKey
+    securePassword:f5VmAdminPasswordOrKey
     keySecretName:'f5Vm01Password'
   }
   dependsOn:[
