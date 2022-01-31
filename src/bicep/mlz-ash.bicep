@@ -232,9 +232,7 @@ param linuxNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 @description('The administrator username for the Windows Virtual Machine to   remote into. It defaults to "azureuser".')
 param windowsVmAdminUsername string = 'azureuser'
 
-//@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
-//@secure()
-//@minLength(12)
+@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 var windowsVmAdminPassword = VmAdminPassword
 
 @description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
@@ -264,8 +262,7 @@ param windowsVmStorageAccountType string = 'Premium_LRS'
 ])
 @description('[Static/Dynamic] The public IP Address allocation method for the Windows virtual machine. It defaults to "Dynamic".')
 param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
-//@description('The NetworkInterfaceName for the Windows virtual machine.')
-//param windowsNetworkInterfaceName string = 'windowsVmNetworkInterface'
+
 @description('The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine.')
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
 
@@ -604,22 +601,6 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
     spokeNetworks
   ]
 }]
-
-// Call module to create Linux Public IP address for the linux VM
-/* Comment out this resource creation to ensure Linux Vm does not have a Public IP Address
-module linuxPublicIPAddress 'modules/publicIPAddress.bicep' = {
-  name: 'linuxPublicIPAddress'
-  scope: resourceGroup(hubResourceGroupName)
-  params: {
-    name: 'linuxPubIP'
-    location: location
-    publicIpAllocationMethod: 'Dynamic'
-  }
-  dependsOn: [
-    hubResourceGroup
-  ]  
-}
-*/
 
 // Call module to create Windows Public IP address 
 module windowsPublicIPAddress 'modules/publicIPAddress.bicep' = {

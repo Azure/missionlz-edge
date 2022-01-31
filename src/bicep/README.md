@@ -114,8 +114,9 @@ az deployment sub create \
       f5VmAuthenticationType=password \
 ```   f5VmAdminPasswordOrKey =<minimum length of 14 characters>
 
-The mlz-ash.bicep deployment deploys a windows VM that has a public IP address. This VM is used to remote into the subnet.
-The code has a deployLinux option to allow for the deployment of an Ubuntu Linux box. This flag is defaulted to false, so it does not automatically deploy the Linux VM.
+The mlz-ash.bicep deployment deploys a windows VM that has a public IP address. This VM is used to remote into the f5 VM and to configure it.
+The code has a deployLinux option to allow for the deployment of an Ubuntu Linux VM. This option (deployLinux) is defaulted to false, it does not automatically deploy the Linux VM. It is important to note that, when a linux VM is deployed with the initial deployment, that the admin password is the same for both the Windows and Linux VM.
+Should the Linux VM be deployed after the initial deployment, the user has the option to use the password as before or to use a different password.
 When the parameter deployLinux=true is provided at deployment time, the Linux Vm will be created. See example below:
 
 ```plaintext
