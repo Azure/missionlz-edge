@@ -166,8 +166,6 @@ param hubNetworkSecurityGroupRules array = [
 
 // REMOTE ACCESS PARAMETERS
 
-
-param publicIP string = 'yes'
 param deployLinux bool = false
 
 // LINUX VIRTUAL MACHINE PARAMETERS
@@ -175,7 +173,6 @@ param deployLinux bool = false
 //param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
 
 @description('The name of the IP configuration for the Linux remotea Access VM. It defaults to "linuxVmIpConfiguration".')
-
 param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
 
 @description('The administrator username for the Linux Virtual Machine to  remote into. It defaults to "azureuser".')
@@ -814,37 +811,19 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
 }]
 
 
-// Call module to create Windows Public IP address 
-module windowsPublicIPAddress 'modules/publicIPAddress.bicep' = {
-  name: 'windowsPublicIPAddress'
-  scope: resourceGroup(hubResourceGroupName)
-  params: {
-    name: 'windowsPubIP'
-    location: location
-    publicIpAllocationMethod: 'Dynamic'
-  }
-  dependsOn: [
-    hubResourceGroup
-  ]    
-}
-
 // CREATE REMOTE ACCESS VIRTUAL MACHINES
 
 
 module remoteAccess './modules/remoteAccess.bicep' = {
-  scope: resourceGroup(hubResourceGroupName)
+  scope:resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-hub-${deploymentNameSuffix}'
   params: {
     location: location
-
     deployLinux: deployLinux
-    hubVirtualNetworkName: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}'
-    hubSubnetResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/virtualNetworks/${hubVirtualNetworkName}/subnets/${extSubnetName}'
-    hubNetworkSecurityGroupResourceId: '/subscriptions/${hubSubscriptionId}/resourceGroups/${hubResourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/${hubNetworkSecurityGroupName}'
+    hubVirtualNetworkName: hubVirtualNetwork.outputs.name
     linuxNetworkInterfaceName: linuxNetworkInterfaceName
     linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
     linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
-    publicIP: publicIP 
     mgmtSubnetId: mgmtSubnet.id
     deploymentNameSuffix: deploymentNameSuffix
     linuxVmName: linuxVmName

@@ -3,17 +3,10 @@ param tags object = {}
 param deploymentNameSuffix string
 param mgmtSubnetId string
 param hubVirtualNetworkName string
-
 param linuxNetworkInterfaceName string
 param linuxNetworkInterfaceIpConfigurationName string
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string
-
 param deployLinux bool
-
-param publicIP string
-//param publicIPAddressId string
-//param networkInterfaces array
-param WindowspublicIPAddressId string
 param linuxVmName string
 param linuxVmSize string
 param linuxVmOsDiskCreateOption string
@@ -97,12 +90,11 @@ module windowsNetworkInterface './networkInterface.bicep' = {
 }
 
 module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
-  name: 'remoteAccess-windowsVirtualMachine'
+  name: 'deploy-ra-windows-vm-${deploymentNameSuffix}'
   params: {
     name: windowsVmName
     location: location
     tags: tags
-
     size: windowsVmSize
     adminUsername: windowsVmAdminUsername
     adminPassword: windowsVmAdminPassword
@@ -118,12 +110,12 @@ module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
 }
 
 module linuxVirtualMachine './remoteAccessLinuxVM.bicep' = if(deployLinux) {
-  name: 'remoteAccess-linuxVirtualMachine'
+  name: 'deploy-ra-linux-module-${deploymentNameSuffix}'
   params: {    
     location: location
     tags: tags
-    hubNetworkSecurityGroupResourceId:hubNetworkSecurityGroupResourceId
-    hubSubnetResourceId:hubSubnetResourceId
+    deploymentNameSuffix:deploymentNameSuffix
+    hubSubnetResourceId:mgmtSubnetId
     linuxNetworkInterfaceIpConfigurationName:linuxNetworkInterfaceIpConfigurationName
     linuxNetworkInterfaceName:linuxNetworkInterfaceName
     linuxVmAdminPasswordOrKey:linuxVmAdminPasswordOrKey

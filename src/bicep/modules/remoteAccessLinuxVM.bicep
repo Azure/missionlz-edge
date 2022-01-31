@@ -1,7 +1,7 @@
 param location string
 param tags object = {}
+param deploymentNameSuffix string
 param hubSubnetResourceId string
-param hubNetworkSecurityGroupResourceId string
 param linuxNetworkInterfaceName string
 param linuxNetworkInterfaceIpConfigurationName string
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string
@@ -33,29 +33,36 @@ var nics = [
   }
 ]
 
+param linuxNetworkInterfaceIpConfigurations array = [
+  {
+    name: linuxNetworkInterfaceIpConfigurationName
+    properties: {
+      subnet: {
+        id: hubSubnetResourceId
+      }
+      primary: true
+      privateIPAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
+    }
+  }
+]
+
 module linuxNetworkInterface './networkInterface.bicep' = {
-  name: 'remoteAccess-linuxNetworkInterface'
+  name: 'deploy-ra-linux-nic-${deploymentNameSuffix}'
   params: {
     name: linuxNetworkInterfaceName
     location: location
-    tags: tags
-    
-    ipConfigurationName: linuxNetworkInterfaceIpConfigurationName
-    networkSecurityGroupId: hubNetworkSecurityGroupResourceId
-    privateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
-    subnetId: hubSubnetResourceId
-    publicIP: 'no'
-    
+    tags: tags    
+    ipConfigurations:linuxNetworkInterfaceIpConfigurations
+   
   }
 }
 
 module linuxVirtualMachine './linuxVirtualMachine.bicep' = {
-  name: 'linuxVirtualMachine'
+  name: 'deploy-ra-linux-vm-${deploymentNameSuffix}'
   params: {
     name: linuxVmName
     location: location
     tags: tags
-
     vmSize: linuxVmSize
     osDiskCreateOption: linuxVmOsDiskCreateOption
     osDiskType: linuxVmOsDiskType
