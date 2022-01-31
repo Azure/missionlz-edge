@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "9184165637963637897"
+      "templateHash": "3109497841805615938"
     }
   },
   "parameters": {
@@ -1253,7 +1253,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "5830834654168766894"
+              "templateHash": "1450637448727839872"
             }
           },
           "parameters": {
@@ -1294,7 +1294,7 @@
             },
             "generatedSshKey": {
               "type": "object",
-              "defaultValue": "[json('\r\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
+              "defaultValue": "[json('\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
             }
           },
           "variables": {
