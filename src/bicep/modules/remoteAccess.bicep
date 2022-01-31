@@ -1,20 +1,19 @@
 param location string
 param tags object = {}
-
+param deploymentNameSuffix string
+param mgmtSubnetId string
 param hubVirtualNetworkName string
-param hubSubnetResourceId string
-param hubNetworkSecurityGroupResourceId string
 
 param linuxNetworkInterfaceName string
 param linuxNetworkInterfaceIpConfigurationName string
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string
+
 param deployLinux bool
 
 param publicIP string
 //param publicIPAddressId string
 //param networkInterfaces array
 param WindowspublicIPAddressId string
-
 param linuxVmName string
 param linuxVmSize string
 param linuxVmOsDiskCreateOption string
@@ -36,7 +35,23 @@ param linuxVmAdminPasswordOrKey string
 param windowsNetworkInterfaceName string
 param windowsNetworkInterfaceIpConfigurationName string
 param windowsNetworkInterfacePrivateIPAddressAllocationMethod string
+param windowspublicIPAddressId string
+param windowsNetworkInterfaceIpConfigurations array = [
+  {
+    name: windowsNetworkInterfaceIpConfigurationName
+    properties: {
+      subnet: {
+        id: mgmtSubnetId
+      }
+      primary: true
+      privateIPAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
+      publicIpAddress: {
+        id: windowspublicIPAddressId
 
+      }
+    }
+  }
+]
 param windowsVmName string
 param windowsVmSize string
 param windowsVmAdminUsername string
@@ -51,17 +66,14 @@ param windowsVmCreateOption string
 param windowsVmStorageAccountType string
 
 
-
-//param nowUtc string = utcNow()
-
 resource hubVirtualNetwork 'Microsoft.Network/virtualNetworks@2021-02-01' existing = {
   name: hubVirtualNetworkName
 }
 
-// Create External NIC
 resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
   name:'${hubVirtualNetworkName}/test'
 }
+
 
 // Create Public IP
 module PublicIp './publicIPAddress.bicep' = {
@@ -73,19 +85,14 @@ module PublicIp './publicIPAddress.bicep' = {
   }
 }
 
+
 module windowsNetworkInterface './networkInterface.bicep' = {
-  name: 'remoteAccess-windowsNetworkInterface'
+  name: 'deploy-ra-windows-nic-${deploymentNameSuffix}'
   params: {
     name: windowsNetworkInterfaceName
     location: location
     tags: tags
-    
-    ipConfigurationName: windowsNetworkInterfaceIpConfigurationName
-    networkSecurityGroupId: hubNetworkSecurityGroupResourceId
-    privateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
-    subnetId: hubSubnetResourceId
-    publicIP: publicIP
-    publicIPAddressId: WindowspublicIPAddressId
+    ipConfigurations: windowsNetworkInterfaceIpConfigurations
   }
 }
 
@@ -133,3 +140,6 @@ module linuxVirtualMachine './remoteAccessLinuxVM.bicep' = if(deployLinux) {
     linuxVmOsDiskType:linuxVmOsDiskType   
     }
 }
+
+output windowsVm object = windowsVirtualMachine.outputs.windowsVm
+output windowsVmName string = windowsVirtualMachine.outputs.windowsVmName

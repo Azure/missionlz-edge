@@ -32,5 +32,5 @@ jobs:
           VALIDATE_TERRAFORM_TFLINT: true
           VALIDATE_YAML: true
           DEFAULT_BRANCH: main
-          FILTER_REGEX_EXCLUDE: ".github/dependabot.yml"
+          FILTER_REGEX_EXCLUDE: "(.github/dependabot.yml|src/scripts/stig/)"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -73,8 +73,8 @@ module virtualNetwork './virtualNetwork.bicep' = {
 
 output virtualNetworkName string = virtualNetwork.outputs.name
 output virtualNetworkResourceId string = virtualNetwork.outputs.id
-output subnetName string = virtualNetwork.outputs.subnets[0].name
-output subnetAddressPrefix string = virtualNetwork.outputs.subnets[0].properties.addressPrefix
-output subnetResourceId string = virtualNetwork.outputs.subnets[0].id
+// output subnetName string = virtualNetwork.outputs.subnets[0].name
+// output subnetAddressPrefix string = virtualNetwork.outputs.subnets[0].properties.addressPrefix
+// output subnetResourceId string = virtualNetwork.outputs.subnets[0].id
 output networkSecurityGroupName string = networkSecurityGroup.outputs.name
 output networkSecurityGroupResourceId string =  networkSecurityGroup.outputs.id

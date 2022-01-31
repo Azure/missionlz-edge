@@ -4,7 +4,8 @@
 
 ### **Prerequisistes**
 
-The Mission LZ - Edge solution was designed to be deployed utilizing a deployment container built from an image defined in this repo.
+The Mission LZ - Edge solution was designed to be deployed utilizing a deployment container built from an image defined in this repo. *Note: Prior to deploying Mission LZ - Edge you will be required to ensure that market place items are available which can be accomplished running the container setup found [here](../../setup.md).
+These required market place items and specific versions can be found in the text file used by the container to download. The file is located [here](../artifacts/defaultMlzMarketPlaceItems.txt).*
 
 1. An Azure Stack Hub (ASH) stamp where you or an identity you manage has `Owner` [RBAC permissions](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner)
 1. A workload subscription on the ASH stamp provisioned using an offering/plan that contains the following providers:
@@ -46,6 +47,8 @@ sharedServicesSubnetAddressPrefix | 10.93.0.0/24 | The CIDR Subnet Address Prefi
 f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters with atleast 1 uppercase, 1 lowercase, 1 alphnumeric, 1 special character
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
+f5VmImageVersion | 15.0.100000 | Version of F5 BIG-IP sku being deployed
+[stig](../scripts/stig/README.md) | false | Setting to true will allow Desired State Configuration on Windows remote access host to set STIG related controls.
 
 ### **Setup Deployment Container**
 
@@ -92,34 +95,68 @@ Step 1: cd src/bicep
 
 Step 2: Run the bashscript /scripts/generateSshKey.sh to generate new ssh keypair to configure SSH Key-Based Authentication on a Linux VM
 
-Step 3: Run the deployment script below with defaults by providing required parameter values for resourcePrefix and keyVaultAccessPolicyObjectId
+Step 3: Below are examples of deployment scripts that can be run based on environment and authentication type for the F5:
+
+The example below is for "password" auth in Azure Government (or Azure Stack Hub registered in Azure Government):
 
 ```plaintext
+resourcePrefix="<value>"
+f5AuthType="password"
+keyVaultAccessPolicyObjectId="<value>"
+region=<value>
+
 az deployment sub create \
-  --name myMlzDeployment \
-  --location <location> \
-  --template-file ./mlz-ash.bicep
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      resourcePrefix=${resourcePrefix} \
+      f5VmAuthenticationType=${f5AuthType} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
-#### **Custom MLZ Instance deployment**
+The example below is for "sshPublicKey" auth in Azure Government (or Azure Stack Hub registered in Azure Government):
 
-To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password`:
+To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password` and [allows setting `stig` controls on the Windows machine](../scripts/stig/README.md):
 
 ```plaintext
+resourcePrefix="<value>"
+keyVaultAccessPolicyObjectId="<value>"
+region=<value>
+
 az deployment sub create \
-  --name myMlzDeployment \
-  --location <location> \
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      stig=true
+      resourcePrefix=${resourcePrefix} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+```
+
+The example below is for "password" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial Note: Setting STIG to true not available in commercial):
+
+```plaintext
+resourcePrefix="<value>"
+f5AuthType="password"
+keyVaultAccessPolicyObjectId="<value>"
+region=<value>
+f5VmImageVersion="16.0.101000"
+
+az deployment sub create \
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
       f5VmAuthenticationType=password \
-```   f5VmAdminPasswordOrKey =<minimum length of 14 characters>
+  f5VmAdminPasswordOrKey =<minimum length of 14 characters>
 
 The mlz-ash.bicep deployment deploys a windows VM that has a public IP address. This VM is used to remote into the f5 VM and to configure it.
 The code has a deployLinux option to allow for the deployment of an Ubuntu Linux VM. This option (deployLinux) is defaulted to false, it does not automatically deploy the Linux VM. It is important to note that, when a linux VM is deployed with the initial deployment, that the admin password is the same for both the Windows and Linux VM.
 Should the Linux VM be deployed after the initial deployment, the user has the option to use the password as before or to use a different password.
 When the parameter deployLinux=true is provided at deployment time, the Linux Vm will be created. See example below:
 
-```plaintext
+
 az deployment sub create \
   --name myMlzDeployment \
   --location <location> \
@@ -128,4 +165,28 @@ az deployment sub create \
       f5VmAuthenticationType=password \
       f5VmAdminPasswordOrKey =<minimum length of 14 characters> \
       deployLinux=true
-```
+      resourcePrefix=${resourcePrefix} \
+      f5VmAuthenticationType=${f5AuthType} \
+      f5VmImageVersion=${f5VmImageVersion} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+
+
+The example below is for "sshPublicKey" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial Note: Setting STIG to true not available in commercial):
+
+
+
+az deployment sub create \
+  --name "deploy-mlz-${resourcePrefix}" \
+  --location ${region} \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      resourcePrefix=${resourcePrefix} \
+      f5VmImageVersion=${f5VmImageVersion} \
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+
+
+#### **Custom MLZ Instance deployment**
+
+Using the examples in the previous section, other default values can be overriden with custom values by adding the paramter and value to the `parameters` argument
+
+
