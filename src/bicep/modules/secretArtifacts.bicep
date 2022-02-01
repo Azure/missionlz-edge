@@ -11,7 +11,7 @@ param utcValue string = utcNow()
 var keyVaultNamingConvention = toLower('${resourcePrefix}-${vmType}-kv-unique_token')
 param newguid string = newGuid()
 
-var keyVaultUniqueName = replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9)))
+var keyVaultUniqueName = substring(replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9))),0,22)
 
 @allowed([
   'add'
