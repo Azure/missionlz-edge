@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "8677639637457169422"
+      "templateHash": "2589819333929011320"
     }
   },
   "parameters": {
@@ -157,7 +157,7 @@
     },
     "f5VmAdminPasswordOrKey": {
       "type": "secureString",
-      "defaultValue": "[substring(replace(newGuid(), '-', ''), 0, 15)]",
+      "defaultValue": "[substring(newGuid(), 0, 15)]",
       "minLength": 14,
       "metadata": {
         "description": "The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements."
@@ -297,7 +297,7 @@
     },
     "remoteVmAdminPassword": {
       "type": "secureString",
-      "defaultValue": "[substring(replace(newGuid(), '-', ''), 0, 15)]",
+      "defaultValue": "[substring(newGuid(), 0, 15)]",
       "minLength": 12,
       "metadata": {
         "description": "The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements."
@@ -1254,7 +1254,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "5830834654168766894"
+              "templateHash": "1450637448727839872"
             }
           },
           "parameters": {
@@ -1295,7 +1295,7 @@
             },
             "generatedSshKey": {
               "type": "object",
-              "defaultValue": "[json('\r\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
+              "defaultValue": "[json('\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
             }
           },
           "variables": {
@@ -1596,6 +1596,9 @@
           },
           "keySecretName": {
             "value": "f5Vm01Password"
+          },
+          "vmType": {
+            "value": "f5"
           }
         },
         "template": {
@@ -1605,7 +1608,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "1467255583843302048"
+              "templateHash": "11482305931824284796"
             }
           },
           "parameters": {
@@ -1613,6 +1616,9 @@
               "type": "string"
             },
             "location": {
+              "type": "string"
+            },
+            "vmType": {
               "type": "string"
             },
             "tenantId": {
@@ -1652,8 +1658,8 @@
             }
           },
           "variables": {
-            "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
-            "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]"
+            "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]",
+            "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]"
           },
           "resources": [
             {
@@ -3366,7 +3372,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "9443369707632570177"
+              "templateHash": "6028504489392532861"
             }
           },
           "parameters": {
@@ -3540,7 +3546,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "5830834654168766894"
+                      "templateHash": "1450637448727839872"
                     }
                   },
                   "parameters": {
@@ -3581,7 +3587,7 @@
                     },
                     "generatedSshKey": {
                       "type": "object",
-                      "defaultValue": "[json('\r\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
+                      "defaultValue": "[json('\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
                     }
                   },
                   "variables": {
@@ -3879,6 +3885,9 @@
                   },
                   "keySecretName": {
                     "value": "remoteLinuxVMPassword"
+                  },
+                  "vmType": {
+                    "value": "ra-linux"
                   }
                 },
                 "template": {
@@ -3888,7 +3897,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "1467255583843302048"
+                      "templateHash": "11482305931824284796"
                     }
                   },
                   "parameters": {
@@ -3896,6 +3905,9 @@
                       "type": "string"
                     },
                     "location": {
+                      "type": "string"
+                    },
+                    "vmType": {
                       "type": "string"
                     },
                     "tenantId": {
@@ -3935,8 +3947,8 @@
                     }
                   },
                   "variables": {
-                    "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
-                    "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]"
+                    "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]",
+                    "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]"
                   },
                   "resources": [
                     {
@@ -4209,6 +4221,9 @@
                   },
                   "keySecretName": {
                     "value": "remoteWinVMPassword"
+                  },
+                  "vmType": {
+                    "value": "ra-win"
                   }
                 },
                 "template": {
@@ -4218,7 +4233,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "1467255583843302048"
+                      "templateHash": "11482305931824284796"
                     }
                   },
                   "parameters": {
@@ -4226,6 +4241,9 @@
                       "type": "string"
                     },
                     "location": {
+                      "type": "string"
+                    },
+                    "vmType": {
                       "type": "string"
                     },
                     "tenantId": {
@@ -4265,8 +4283,8 @@
                     }
                   },
                   "variables": {
-                    "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
-                    "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]"
+                    "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]",
+                    "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]"
                   },
                   "resources": [
                     {
