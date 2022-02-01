@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "2589819333929011320"
+      "templateHash": "9877679139878653635"
     }
   },
   "parameters": {
@@ -437,18 +437,11 @@
         "description": "The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine."
       }
     },
-    "stig": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Set to tru to set STIG controls on Windows VM"
-      }
-    },
     "artifactsUrl": {
       "type": "string",
-      "defaultValue": "3173r03b.azcatcpec.com",
+      "defaultValue": "",
       "metadata": {
-        "description": "Url for . Example: local.azurestack.external"
+        "description": "Url for storing artifacts. Example: local.azurestack.external. Note: Leave blank to not deploy STIG artificats and to not STIG remote access VMs."
       }
     }
   },
@@ -5301,7 +5294,7 @@
       ]
     },
     {
-      "condition": "[parameters('stig')]",
+      "condition": "[not(empty(parameters('artifactsUrl')))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "deploy-remoteAccess-stig-compute",
@@ -5387,7 +5380,7 @@
       ]
     },
     {
-      "condition": "[parameters('stig')]",
+      "condition": "[not(empty(parameters('artifactsUrl')))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "deploy-remoteAccess-stig-dsc",

@@ -256,11 +256,9 @@ param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
 
 // Parameters required for STIG resources - Currently only supports  Windows VM
-@description('Set to tru to set STIG controls on Windows VM')
-param stig bool = false
 
-@description('Url for . Example: local.azurestack.external')
-param artifactsUrl string = '3173r03b.azcatcpec.com'
+@description('Url for storing artifacts. Example: local.azurestack.external. Note: Leave blank to not deploy STIG artificats and to not STIG remote access VMs.')
+param artifactsUrl string = ''
 
 // variables
 
@@ -345,10 +343,12 @@ var subnetNamingConvention = replace(namingConvention, resourceToken, 'snet')
 var virtualMachineNamingConvention = replace(namingConvention, resourceToken, 'vm')
 var virtualNetworkNamingConvention = replace(namingConvention, resourceToken, 'vnet')
 
+
 // HUB VARIABLES
 
 var hubName = 'hub'
 var hubResourceGroupName = replace(resourceGroupNamingConvention, nameToken, hubName)
+
 var hubVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, hubName)
 var hubNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, hubName)
 var mgmtSubnetName = replace(subnetNamingConvention, nameToken, 'mgmt')
@@ -867,7 +867,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
 }
 
 // Enable extensions for Windows VM in HUB RG for STIG requirements
-module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-compute'
   params: {
@@ -880,7 +880,7 @@ module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (
   }
 }
 
-module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-dsc'
   params: {
@@ -894,6 +894,7 @@ module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig
     stigComputeExtWindowsVm
   ]
 }
+
 
 // OUTPUTS
 
