@@ -130,7 +130,7 @@ module windowsNetworkInterface './networkInterface.bicep' = {
 }
 
 module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
-  name: 'remoteAccess-windowsVirtualMachine'
+  name: 'deploy-ra-windows-vm'
   params: {
     name: windowsVmName
     location: location
