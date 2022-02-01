@@ -117,19 +117,21 @@ az deployment sub create \
 
 The example below is for "sshPublicKey" auth in Azure Government (or Azure Stack Hub registered in Azure Government):
 
-To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden. The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password` and [allows setting `stig` controls on the Windows machine](../scripts/stig/README.md):
+To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden.
+The example below is a customer deployment that overrides the `f5VmAuthenticationType` default of `sshPublicKey` with `password` and [allows setting STIG controls on the Windows machine](../scripts/stig/README.md) by setting `artifactsUrl` to the storage accounts suffix, ie; local.azurestack.external :
 
 ```plaintext
 resourcePrefix="<value>"
 keyVaultAccessPolicyObjectId="<value>"
-region=<value>
+region="<value>"
+artifactsUrl="<value>"
 
 az deployment sub create \
   --name "deploy-mlz-${resourcePrefix}" \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
-      stig=true
+      artifactsUrl=${artifactsUrl} \
       resourcePrefix=${resourcePrefix} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
