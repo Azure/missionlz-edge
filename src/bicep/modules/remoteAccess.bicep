@@ -3,22 +3,10 @@ param tags object = {}
 param deploymentNameSuffix string
 param mgmtSubnetId string
 param hubVirtualNetworkName string
-
 param linuxNetworkInterfaceName string
 param linuxNetworkInterfaceIpConfigurationName string
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string
-param linuxNetworkInterfaceIpConfigurations array = [
-  {
-    name: linuxNetworkInterfaceIpConfigurationName
-    properties: {
-      subnet: {
-        id: mgmtSubnetId
-      }
-      primary: true
-      privateIPAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
-    }
-  }
-]
+param deployLinux bool
 param linuxVmName string
 param linuxVmSize string
 param linuxVmOsDiskCreateOption string
@@ -70,15 +58,6 @@ param windowsVmVersion string
 param windowsVmCreateOption string
 param windowsVmStorageAccountType string
 
-var nics = [
-  {
-    id: linuxNetworkInterface.outputs.id
-    properties: {
-      primary: true
-
-    }
-  }
-]
 
 resource hubVirtualNetwork 'Microsoft.Network/virtualNetworks@2021-02-01' existing = {
   name: hubVirtualNetworkName
@@ -88,36 +67,17 @@ resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existi
   name:'${hubVirtualNetworkName}/test'
 }
 
-module linuxNetworkInterface './networkInterface.bicep' = {
-  name: 'deploy-ra-linux-nic-${deploymentNameSuffix}'
+
+// Create Public IP
+module PublicIp './publicIPAddress.bicep' = {
+  name: 'create-pubip'
   params: {
-    name: linuxNetworkInterfaceName
     location: location
-    tags: tags
-    ipConfigurations: linuxNetworkInterfaceIpConfigurations
+    name: 'extPublicIpName'
+    publicIpAllocationMethod: 'Dynamic'
   }
 }
 
-module linuxVirtualMachine './linuxVirtualMachine.bicep' = {
-  name: 'deploy-ra-linux-vm-${deploymentNameSuffix}'
-  params: {
-    name: linuxVmName
-    location: location
-    tags: tags
-
-    vmSize: linuxVmSize
-    osDiskCreateOption: linuxVmOsDiskCreateOption
-    osDiskType: linuxVmOsDiskType
-    vmImagePublisher: linuxVmImagePublisher
-    vmImageOffer: linuxVmImageOffer
-    vmImageSku: linuxVmImageSku
-    vmImageVersion: linuxVmImageVersion
-    adminUsername: linuxVmAdminUsername
-    authenticationType: linuxVmAuthenticationType
-    adminPasswordOrKey: linuxVmAdminPasswordOrKey
-    networkInterfaces: nics
-    }
-}
 
 module windowsNetworkInterface './networkInterface.bicep' = {
   name: 'deploy-ra-windows-nic-${deploymentNameSuffix}'
@@ -130,12 +90,11 @@ module windowsNetworkInterface './networkInterface.bicep' = {
 }
 
 module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
-  name: 'deploy-ra-windows-vm'
+  name: 'deploy-ra-windows-vm-${deploymentNameSuffix}'
   params: {
     name: windowsVmName
     location: location
     tags: tags
-
     size: windowsVmSize
     adminUsername: windowsVmAdminUsername
     adminPassword: windowsVmAdminPassword
@@ -146,6 +105,31 @@ module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
     createOption: windowsVmCreateOption
     storageAccountType: windowsVmStorageAccountType
     networkInterfaceName: windowsNetworkInterface.outputs.name
+    }
+   
+}
+
+module linuxVirtualMachine './remoteAccessLinuxVM.bicep' = if(deployLinux) {
+  name: 'deploy-ra-linux-module-${deploymentNameSuffix}'
+  params: {    
+    location: location
+    tags: tags
+    deploymentNameSuffix:deploymentNameSuffix
+    hubSubnetResourceId:mgmtSubnetId
+    linuxNetworkInterfaceIpConfigurationName:linuxNetworkInterfaceIpConfigurationName
+    linuxNetworkInterfaceName:linuxNetworkInterfaceName
+    linuxVmAdminPasswordOrKey:linuxVmAdminPasswordOrKey
+    linuxVmAdminUsername:linuxVmAdminUsername
+    linuxVmAuthenticationType:linuxVmAuthenticationType
+    linuxVmImageSku:linuxVmImageSku
+    linuxVmImageVersion:linuxVmImageVersion
+    linuxNetworkInterfacePrivateIPAddressAllocationMethod:linuxNetworkInterfacePrivateIPAddressAllocationMethod
+    linuxVmImagePublisher:linuxVmImagePublisher
+    linuxVmSize:linuxVmSize
+    linuxVmName:linuxVmName
+    linuxVmOsDiskCreateOption:linuxVmOsDiskCreateOption
+    linuxVmImageOffer:linuxVmImageOffer
+    linuxVmOsDiskType:linuxVmOsDiskType   
     }
 }
 

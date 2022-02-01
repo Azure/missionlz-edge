@@ -166,6 +166,12 @@ param hubNetworkSecurityGroupRules array = [
 
 // REMOTE ACCESS PARAMETERS
 
+param deployLinux bool = false
+
+// LINUX VIRTUAL MACHINE PARAMETERS
+
+//param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
+
 @description('The name of the IP configuration for the Linux remotea Access VM. It defaults to "linuxVmIpConfiguration".')
 param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
 
@@ -182,7 +188,8 @@ param linuxVmAuthenticationType string = 'password'
 @description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(12)
-param linuxVmAdminPasswordOrKey string
+param VmAdminPassword string
+var linuxVmAdminPasswordOrKey = VmAdminPassword
 
 @description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param linuxVmSize string = 'Standard_DS1_v2'
@@ -218,9 +225,7 @@ param linuxNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 param windowsVmAdminUsername string = 'azureuser'
 
 @description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
-@secure()
-@minLength(12)
-param windowsVmAdminPassword string
+var windowsVmAdminPassword = VmAdminPassword
 
 @description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param windowsVmSize string = 'Standard_DS1_v2'
@@ -649,6 +654,22 @@ module f5Vm01SshKeyVault './modules/generateSshKey.bicep' = if(f5VmAuthenticatio
   ]
 
 }
+module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthenticationType=='password'){
+  scope: resourceGroup(hubResourceGroupName)
+  name:'deploy-f5vm01Pwdkv-hub-${deploymentNameSuffix}'
+  params: {
+    resourcePrefix : resourcePrefix 
+    location: location
+    tenantId: tenantId
+    keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
+    securePassword:linuxVmAdminPasswordOrKey
+    keySecretName:'f5Vm01Password'
+  }
+  dependsOn:[
+    hubResourceGroup
+  ]
+
+}
 
 // Replace the subnet resources below with output from virtualNetwork module
 // once supported by the Azure Stack API
@@ -789,19 +810,22 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
   ]
 }]
 
+
 // CREATE REMOTE ACCESS VIRTUAL MACHINES
 
+
 module remoteAccess './modules/remoteAccess.bicep' = {
-  scope: resourceGroup(hubResourceGroupName)
+  scope:resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-hub-${deploymentNameSuffix}'
   params: {
     location: location
-    mgmtSubnetId: mgmtSubnet.id
-    deploymentNameSuffix: deploymentNameSuffix
+    deployLinux: deployLinux
     hubVirtualNetworkName: hubVirtualNetwork.outputs.name
     linuxNetworkInterfaceName: linuxNetworkInterfaceName
     linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
     linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
+    mgmtSubnetId: mgmtSubnet.id
+    deploymentNameSuffix: deploymentNameSuffix
     linuxVmName: linuxVmName
     linuxVmSize: linuxVmSize
     linuxVmOsDiskCreateOption: linuxVmOsDiskCreateOption
@@ -812,7 +836,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     linuxVmImageVersion: linuxVmImageVersion
     linuxVmAdminUsername: linuxVmAdminUsername
     linuxVmAuthenticationType: linuxVmAuthenticationType
-    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey
+    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey    
     windowsNetworkInterfaceName: windowsNetworkInterfaceName
     windowsNetworkInterfaceIpConfigurationName: windowsNetworkInterfaceIpConfigurationName
     windowsNetworkInterfacePrivateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod

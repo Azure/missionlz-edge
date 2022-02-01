@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "4594486116797770133"
+      "templateHash": "3109497841805615938"
     }
   },
   "parameters": {
@@ -266,6 +266,10 @@
         "description": "An array of Network Security Group Rules to apply to the Hub Virtual Network. Default adds SSH and RDP to default rule set. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings."
       }
     },
+    "deployLinux": {
+      "type": "bool",
+      "defaultValue": false
+    },
     "linuxNetworkInterfaceIpConfigurationName": {
       "type": "string",
       "defaultValue": "linuxVmIpConfiguration",
@@ -291,7 +295,7 @@
         "password"
       ]
     },
-    "linuxVmAdminPasswordOrKey": {
+    "VmAdminPassword": {
       "type": "secureString",
       "minLength": 12,
       "metadata": {
@@ -363,13 +367,6 @@
       "defaultValue": "azureuser",
       "metadata": {
         "description": "The administrator username for the Windows Virtual Machine to   remote into. It defaults to \"azureuser\"."
-      }
-    },
-    "windowsVmAdminPassword": {
-      "type": "secureString",
-      "minLength": 12,
-      "metadata": {
-        "description": "The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements."
       }
     },
     "windowsVmSize": {
@@ -455,6 +452,8 @@
     }
   },
   "variables": {
+    "linuxVmAdminPasswordOrKey": "[parameters('VmAdminPassword')]",
+    "windowsVmAdminPassword": "[parameters('VmAdminPassword')]",
     "stigComputeExtProperties": {
       "publisher": "Microsoft.Compute",
       "type": "CustomScriptExtension",
@@ -1254,7 +1253,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "12042437454188739111"
+              "templateHash": "1450637448727839872"
             }
           },
           "parameters": {
@@ -1295,7 +1294,7 @@
             },
             "generatedSshKey": {
               "type": "object",
-              "defaultValue": "[json('{\"keyinfo\":{\"privateKey\":\"\"}}\n')]"
+              "defaultValue": "[json('\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
             }
           },
           "variables": {
@@ -1561,6 +1560,340 @@
               "value": "[parameters('generatedSshKey').keyinfo.publicKey]"
             }
           }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[equals(parameters('f5VmAuthenticationType'), 'password')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))]",
+      "resourceGroup": "[variables('hubResourceGroupName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "resourcePrefix": {
+            "value": "[parameters('resourcePrefix')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "tenantId": {
+            "value": "[parameters('tenantId')]"
+          },
+          "keyVaultAccessPolicyObjectId": {
+            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+          },
+          "securePassword": {
+            "value": "[variables('linuxVmAdminPasswordOrKey')]"
+          },
+          "keySecretName": {
+            "value": "f5Vm01Password"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1124.51302",
+              "templateHash": "1467255583843302048"
+            }
+          },
+          "parameters": {
+            "resourcePrefix": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "tenantId": {
+              "type": "string"
+            },
+            "keyVaultAccessPolicyObjectId": {
+              "type": "string"
+            },
+            "keySecretName": {
+              "type": "string"
+            },
+            "securePassword": {
+              "type": "secureString"
+            },
+            "utcValue": {
+              "type": "string",
+              "defaultValue": "[utcNow()]"
+            },
+            "newguid": {
+              "type": "string",
+              "defaultValue": "[newGuid()]"
+            },
+            "keyVaultAccessPolicyName": {
+              "type": "string",
+              "defaultValue": "add",
+              "allowedValues": [
+                "add",
+                "update",
+                "remove"
+              ]
+            },
+            "keyVaultSecretPerms": {
+              "type": "array",
+              "defaultValue": [
+                "all"
+              ]
+            }
+          },
+          "variables": {
+            "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
+            "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.KeyVault/vaults/secrets",
+              "apiVersion": "2019-09-01",
+              "name": "[format('{0}/{1}', variables('keyVaultUniqueName'), parameters('keySecretName'))]",
+              "properties": {
+                "value": "[parameters('securePassword')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "keyVaultName": {
+                    "value": "[variables('keyVaultUniqueName')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tenantId": {
+                    "value": "[parameters('tenantId')]"
+                  },
+                  "objectId": {
+                    "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "11161459979242425913"
+                    }
+                  },
+                  "parameters": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "tenantId": {
+                      "type": "string"
+                    },
+                    "objectId": {
+                      "type": "string"
+                    },
+                    "keyVaultName": {
+                      "type": "string"
+                    },
+                    "enabledForDeployment": {
+                      "type": "bool",
+                      "defaultValue": true
+                    },
+                    "enabledForDiskEncryption": {
+                      "type": "bool",
+                      "defaultValue": false
+                    },
+                    "enabledForTemplateDeployment": {
+                      "type": "bool",
+                      "defaultValue": true
+                    },
+                    "sku": {
+                      "type": "string",
+                      "defaultValue": "standard",
+                      "allowedValues": [
+                        "standard",
+                        "premium"
+                      ],
+                      "metadata": {
+                        "description": "SKU for the vault"
+                      }
+                    },
+                    "keysPermissions": {
+                      "type": "array",
+                      "defaultValue": [
+                        "list"
+                      ],
+                      "metadata": {
+                        "description": "Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge."
+                      }
+                    },
+                    "secretsPermissions": {
+                      "type": "array",
+                      "defaultValue": [
+                        "list"
+                      ],
+                      "metadata": {
+                        "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
+                      }
+                    }
+                  },
+                  "variables": {
+                    "accessPolicies": [
+                      {
+                        "objectId": "[parameters('objectId')]",
+                        "tenantId": "[parameters('tenantId')]",
+                        "permissions": {
+                          "keys": "[parameters('keysPermissions')]",
+                          "secrets": "[parameters('secretsPermissions')]"
+                        }
+                      }
+                    ]
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.KeyVault/vaults",
+                      "apiVersion": "2016-10-01",
+                      "name": "[parameters('keyVaultName')]",
+                      "location": "[parameters('location')]",
+                      "tags": {},
+                      "properties": {
+                        "enabledForDeployment": "[parameters('enabledForDeployment')]",
+                        "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+                        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+                        "accessPolicies": "[variables('accessPolicies')]",
+                        "tenantId": "[parameters('tenantId')]",
+                        "sku": {
+                          "name": "[parameters('sku')]",
+                          "family": "A"
+                        }
+                      }
+                    }
+                  ],
+                  "outputs": {
+                    "kvName": {
+                      "type": "string",
+                      "value": "[parameters('keyVaultName')]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('create_keyVaultAccessPolicy_{0}', parameters('utcValue'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "keyVaultAccessPolicyName": {
+                    "value": "[parameters('keyVaultAccessPolicyName')]"
+                  },
+                  "keyVaultName": {
+                    "value": "[variables('keyVaultUniqueName')]"
+                  },
+                  "tenantId": {
+                    "value": "[parameters('tenantId')]"
+                  },
+                  "keyVaultAccessPolicyObjectId": {
+                    "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                  },
+                  "secretPerms": {
+                    "value": "[parameters('keyVaultSecretPerms')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "1427844638164346916"
+                    }
+                  },
+                  "parameters": {
+                    "tenantId": {
+                      "type": "string"
+                    },
+                    "keyVaultName": {
+                      "type": "string"
+                    },
+                    "keyVaultAccessPolicyName": {
+                      "type": "string"
+                    },
+                    "keyVaultAccessPolicyObjectId": {
+                      "type": "string"
+                    },
+                    "keyVaultAccessPolicyApplicationId": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
+                    "secretPerms": {
+                      "type": "array",
+                      "defaultValue": []
+                    },
+                    "certPerms": {
+                      "type": "array",
+                      "defaultValue": []
+                    },
+                    "keyPerms": {
+                      "type": "array",
+                      "defaultValue": []
+                    },
+                    "storagePerms": {
+                      "type": "array",
+                      "defaultValue": []
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.KeyVault/vaults/accessPolicies",
+                      "apiVersion": "2019-09-01",
+                      "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('keyVaultAccessPolicyName'))]",
+                      "properties": {
+                        "accessPolicies": [
+                          {
+                            "applicationId": "[parameters('keyVaultAccessPolicyApplicationId')]",
+                            "objectId": "[parameters('keyVaultAccessPolicyObjectId')]",
+                            "permissions": {
+                              "certificates": "[parameters('certPerms')]",
+                              "keys": "[parameters('keyPerms')]",
+                              "secrets": "[parameters('secretPerms')]",
+                              "storage": "[parameters('storagePerms')]"
+                            },
+                            "tenantId": "[parameters('tenantId')]"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+              ]
+            }
+          ]
         }
       },
       "dependsOn": [
@@ -2919,11 +3252,8 @@
           "location": {
             "value": "[parameters('location')]"
           },
-          "mgmtSubnetId": {
-            "value": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Network/virtualNetworks/subnets', split(format('{0}/{1}', variables('hubVirtualNetworkName'), variables('mgmtSubnetName')), '/')[0], split(format('{0}/{1}', variables('hubVirtualNetworkName'), variables('mgmtSubnetName')), '/')[1])]"
-          },
-          "deploymentNameSuffix": {
-            "value": "[parameters('deploymentNameSuffix')]"
+          "deployLinux": {
+            "value": "[parameters('deployLinux')]"
           },
           "hubVirtualNetworkName": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-vnet-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.name.value]"
@@ -2936,6 +3266,12 @@
           },
           "linuxNetworkInterfacePrivateIPAddressAllocationMethod": {
             "value": "[parameters('linuxNetworkInterfacePrivateIPAddressAllocationMethod')]"
+          },
+          "mgmtSubnetId": {
+            "value": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Network/virtualNetworks/subnets', split(format('{0}/{1}', variables('hubVirtualNetworkName'), variables('mgmtSubnetName')), '/')[0], split(format('{0}/{1}', variables('hubVirtualNetworkName'), variables('mgmtSubnetName')), '/')[1])]"
+          },
+          "deploymentNameSuffix": {
+            "value": "[parameters('deploymentNameSuffix')]"
           },
           "linuxVmName": {
             "value": "[variables('linuxVmName')]"
@@ -2968,7 +3304,7 @@
             "value": "[parameters('linuxVmAuthenticationType')]"
           },
           "linuxVmAdminPasswordOrKey": {
-            "value": "[parameters('linuxVmAdminPasswordOrKey')]"
+            "value": "[variables('linuxVmAdminPasswordOrKey')]"
           },
           "windowsNetworkInterfaceName": {
             "value": "[variables('windowsNetworkInterfaceName')]"
@@ -2989,7 +3325,7 @@
             "value": "[parameters('windowsVmAdminUsername')]"
           },
           "windowsVmAdminPassword": {
-            "value": "[parameters('windowsVmAdminPassword')]"
+            "value": "[variables('windowsVmAdminPassword')]"
           },
           "windowsVmPublisher": {
             "value": "[parameters('windowsVmPublisher')]"
@@ -3020,7 +3356,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "2877272165607763616"
+              "templateHash": "12695141540592428360"
             }
           },
           "parameters": {
@@ -3049,20 +3385,8 @@
             "linuxNetworkInterfacePrivateIPAddressAllocationMethod": {
               "type": "string"
             },
-            "linuxNetworkInterfaceIpConfigurations": {
-              "type": "array",
-              "defaultValue": [
-                {
-                  "name": "[parameters('linuxNetworkInterfaceIpConfigurationName')]",
-                  "properties": {
-                    "subnet": {
-                      "id": "[parameters('mgmtSubnetId')]"
-                    },
-                    "primary": true,
-                    "privateIPAllocationMethod": "[parameters('linuxNetworkInterfacePrivateIPAddressAllocationMethod')]"
-                  }
-                }
-              ]
+            "deployLinux": {
+              "type": "bool"
             },
             "linuxVmName": {
               "type": "string"
@@ -3168,24 +3492,21 @@
             {
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
-              "name": "[format('deploy-ra-linux-nic-{0}', parameters('deploymentNameSuffix'))]",
+              "name": "create-pubip",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
                 },
                 "mode": "Incremental",
                 "parameters": {
-                  "name": {
-                    "value": "[parameters('linuxNetworkInterfaceName')]"
-                  },
                   "location": {
                     "value": "[parameters('location')]"
                   },
-                  "tags": {
-                    "value": "[parameters('tags')]"
+                  "name": {
+                    "value": "extPublicIpName"
                   },
-                  "ipConfigurations": {
-                    "value": "[parameters('linuxNetworkInterfaceIpConfigurations')]"
+                  "publicIpAllocationMethod": {
+                    "value": "Dynamic"
                   }
                 },
                 "template": {
@@ -3195,7 +3516,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "3248737148359485479"
+                      "templateHash": "9808792873606958506"
                     }
                   },
                   "parameters": {
@@ -3209,235 +3530,42 @@
                       "type": "object",
                       "defaultValue": {}
                     },
-                    "enableIPForwarding": {
-                      "type": "bool",
-                      "defaultValue": false
+                    "skuName": {
+                      "type": "string",
+                      "defaultValue": "Basic"
                     },
-                    "ipConfigurations": {
-                      "type": "array"
+                    "publicIpAllocationMethod": {
+                      "type": "string"
+                    },
+                    "availabilityZones": {
+                      "type": "array",
+                      "defaultValue": []
                     }
                   },
                   "resources": [
                     {
-                      "type": "Microsoft.Network/networkInterfaces",
+                      "type": "Microsoft.Network/publicIPAddresses",
                       "apiVersion": "2018-11-01",
                       "name": "[parameters('name')]",
                       "location": "[parameters('location')]",
                       "tags": "[parameters('tags')]",
+                      "sku": {
+                        "name": "[parameters('skuName')]"
+                      },
                       "properties": {
-                        "enableIPForwarding": "[parameters('enableIPForwarding')]",
-                        "ipConfigurations": "[parameters('ipConfigurations')]"
-                      }
+                        "publicIPAllocationMethod": "[parameters('publicIpAllocationMethod')]"
+                      },
+                      "zones": "[parameters('availabilityZones')]"
                     }
                   ],
                   "outputs": {
                     "id": {
                       "type": "string",
-                      "value": "[resourceId('Microsoft.Network/networkInterfaces', parameters('name'))]"
-                    },
-                    "name": {
-                      "type": "string",
-                      "value": "[parameters('name')]"
-                    },
-                    "ip": {
-                      "type": "string",
-                      "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('name'))).ipConfigurations[0].properties.privateIPAddress]"
+                      "value": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('name'))]"
                     }
                   }
                 }
               }
-            },
-            {
-              "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2020-10-01",
-              "name": "[format('deploy-ra-linux-vm-{0}', parameters('deploymentNameSuffix'))]",
-              "properties": {
-                "expressionEvaluationOptions": {
-                  "scope": "inner"
-                },
-                "mode": "Incremental",
-                "parameters": {
-                  "name": {
-                    "value": "[parameters('linuxVmName')]"
-                  },
-                  "location": {
-                    "value": "[parameters('location')]"
-                  },
-                  "tags": {
-                    "value": "[parameters('tags')]"
-                  },
-                  "vmSize": {
-                    "value": "[parameters('linuxVmSize')]"
-                  },
-                  "osDiskCreateOption": {
-                    "value": "[parameters('linuxVmOsDiskCreateOption')]"
-                  },
-                  "osDiskType": {
-                    "value": "[parameters('linuxVmOsDiskType')]"
-                  },
-                  "vmImagePublisher": {
-                    "value": "[parameters('linuxVmImagePublisher')]"
-                  },
-                  "vmImageOffer": {
-                    "value": "[parameters('linuxVmImageOffer')]"
-                  },
-                  "vmImageSku": {
-                    "value": "[parameters('linuxVmImageSku')]"
-                  },
-                  "vmImageVersion": {
-                    "value": "[parameters('linuxVmImageVersion')]"
-                  },
-                  "adminUsername": {
-                    "value": "[parameters('linuxVmAdminUsername')]"
-                  },
-                  "authenticationType": {
-                    "value": "[parameters('linuxVmAuthenticationType')]"
-                  },
-                  "adminPasswordOrKey": {
-                    "value": "[parameters('linuxVmAdminPasswordOrKey')]"
-                  },
-                  "networkInterfaces": {
-                    "value": [
-                      {
-                        "id": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-ra-linux-nic-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]",
-                        "properties": {
-                          "primary": true
-                        }
-                      }
-                    ]
-                  }
-                },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "metadata": {
-                    "_generator": {
-                      "name": "bicep",
-                      "version": "0.4.1124.51302",
-                      "templateHash": "15461396377124024507"
-                    }
-                  },
-                  "parameters": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "location": {
-                      "type": "string"
-                    },
-                    "tags": {
-                      "type": "object",
-                      "defaultValue": {}
-                    },
-                    "networkInterfaces": {
-                      "type": "array"
-                    },
-                    "vmSize": {
-                      "type": "string"
-                    },
-                    "osDiskCreateOption": {
-                      "type": "string"
-                    },
-                    "osDiskType": {
-                      "type": "string"
-                    },
-                    "vmImagePublisher": {
-                      "type": "string"
-                    },
-                    "vmImageOffer": {
-                      "type": "string"
-                    },
-                    "vmImageSku": {
-                      "type": "string"
-                    },
-                    "vmImageVersion": {
-                      "type": "string"
-                    },
-                    "adminUsername": {
-                      "type": "string"
-                    },
-                    "authenticationType": {
-                      "type": "string",
-                      "allowedValues": [
-                        "sshPublicKey",
-                        "password"
-                      ]
-                    },
-                    "adminPasswordOrKey": {
-                      "type": "secureString",
-                      "minLength": 14
-                    }
-                  },
-                  "variables": {
-                    "osProfile": {
-                      "sshPublicKey": {
-                        "computerName": "[parameters('name')]",
-                        "adminUsername": "[parameters('adminUsername')]",
-                        "linuxConfiguration": {
-                          "disablePasswordAuthentication": true,
-                          "ssh": {
-                            "publicKeys": [
-                              {
-                                "path": "[format('/home/{0}/.ssh/authorized_keys', parameters('adminUsername'))]",
-                                "keyData": "[parameters('adminPasswordOrKey')]"
-                              }
-                            ]
-                          }
-                        }
-                      },
-                      "password": {
-                        "computerName": "[parameters('name')]",
-                        "adminUsername": "[parameters('adminUsername')]",
-                        "adminPassword": "[parameters('adminPasswordOrKey')]"
-                      }
-                    }
-                  },
-                  "resources": [
-                    {
-                      "type": "Microsoft.Compute/virtualMachines",
-                      "apiVersion": "2020-06-01",
-                      "name": "[parameters('name')]",
-                      "location": "[parameters('location')]",
-                      "tags": "[parameters('tags')]",
-                      "properties": {
-                        "hardwareProfile": {
-                          "vmSize": "[parameters('vmSize')]"
-                        },
-                        "storageProfile": {
-                          "osDisk": {
-                            "createOption": "[parameters('osDiskCreateOption')]",
-                            "managedDisk": {
-                              "storageAccountType": "[parameters('osDiskType')]"
-                            }
-                          },
-                          "imageReference": {
-                            "publisher": "[parameters('vmImagePublisher')]",
-                            "offer": "[parameters('vmImageOffer')]",
-                            "sku": "[parameters('vmImageSku')]",
-                            "version": "[parameters('vmImageVersion')]"
-                          }
-                        },
-                        "networkProfile": {
-                          "networkInterfaces": "[parameters('networkInterfaces')]"
-                        },
-                        "osProfile": "[variables('osProfile')[parameters('authenticationType')]]"
-                      }
-                    }
-                  ],
-                  "outputs": {
-                    "adminUsername": {
-                      "type": "string",
-                      "value": "[parameters('adminUsername')]"
-                    },
-                    "authenticationType": {
-                      "type": "string",
-                      "value": "[parameters('authenticationType')]"
-                    }
-                  }
-                }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', format('deploy-ra-linux-nic-{0}', parameters('deploymentNameSuffix')))]"
-              ]
             },
             {
               "type": "Microsoft.Resources/deployments",
@@ -3524,7 +3652,7 @@
             {
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
-              "name": "remoteAccess-windowsVirtualMachine",
+              "name": "[format('deploy-ra-windows-vm-{0}', parameters('deploymentNameSuffix'))]",
               "properties": {
                 "expressionEvaluationOptions": {
                   "scope": "inner"
@@ -3679,16 +3807,448 @@
               "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', format('deploy-ra-windows-nic-{0}', parameters('deploymentNameSuffix')))]"
               ]
+            },
+            {
+              "condition": "[parameters('deployLinux')]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('deploy-ra-linux-module-{0}', parameters('deploymentNameSuffix'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tags": {
+                    "value": "[parameters('tags')]"
+                  },
+                  "deploymentNameSuffix": {
+                    "value": "[parameters('deploymentNameSuffix')]"
+                  },
+                  "hubSubnetResourceId": {
+                    "value": "[parameters('mgmtSubnetId')]"
+                  },
+                  "linuxNetworkInterfaceIpConfigurationName": {
+                    "value": "[parameters('linuxNetworkInterfaceIpConfigurationName')]"
+                  },
+                  "linuxNetworkInterfaceName": {
+                    "value": "[parameters('linuxNetworkInterfaceName')]"
+                  },
+                  "linuxVmAdminPasswordOrKey": {
+                    "value": "[parameters('linuxVmAdminPasswordOrKey')]"
+                  },
+                  "linuxVmAdminUsername": {
+                    "value": "[parameters('linuxVmAdminUsername')]"
+                  },
+                  "linuxVmAuthenticationType": {
+                    "value": "[parameters('linuxVmAuthenticationType')]"
+                  },
+                  "linuxVmImageSku": {
+                    "value": "[parameters('linuxVmImageSku')]"
+                  },
+                  "linuxVmImageVersion": {
+                    "value": "[parameters('linuxVmImageVersion')]"
+                  },
+                  "linuxNetworkInterfacePrivateIPAddressAllocationMethod": {
+                    "value": "[parameters('linuxNetworkInterfacePrivateIPAddressAllocationMethod')]"
+                  },
+                  "linuxVmImagePublisher": {
+                    "value": "[parameters('linuxVmImagePublisher')]"
+                  },
+                  "linuxVmSize": {
+                    "value": "[parameters('linuxVmSize')]"
+                  },
+                  "linuxVmName": {
+                    "value": "[parameters('linuxVmName')]"
+                  },
+                  "linuxVmOsDiskCreateOption": {
+                    "value": "[parameters('linuxVmOsDiskCreateOption')]"
+                  },
+                  "linuxVmImageOffer": {
+                    "value": "[parameters('linuxVmImageOffer')]"
+                  },
+                  "linuxVmOsDiskType": {
+                    "value": "[parameters('linuxVmOsDiskType')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "6896668518412598578"
+                    }
+                  },
+                  "parameters": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "defaultValue": {}
+                    },
+                    "deploymentNameSuffix": {
+                      "type": "string"
+                    },
+                    "hubSubnetResourceId": {
+                      "type": "string"
+                    },
+                    "linuxNetworkInterfaceName": {
+                      "type": "string"
+                    },
+                    "linuxNetworkInterfaceIpConfigurationName": {
+                      "type": "string"
+                    },
+                    "linuxNetworkInterfacePrivateIPAddressAllocationMethod": {
+                      "type": "string"
+                    },
+                    "linuxVmName": {
+                      "type": "string"
+                    },
+                    "linuxVmSize": {
+                      "type": "string"
+                    },
+                    "linuxVmOsDiskCreateOption": {
+                      "type": "string"
+                    },
+                    "linuxVmOsDiskType": {
+                      "type": "string"
+                    },
+                    "linuxVmImagePublisher": {
+                      "type": "string"
+                    },
+                    "linuxVmImageOffer": {
+                      "type": "string"
+                    },
+                    "linuxVmImageSku": {
+                      "type": "string"
+                    },
+                    "linuxVmImageVersion": {
+                      "type": "string"
+                    },
+                    "linuxVmAdminUsername": {
+                      "type": "string"
+                    },
+                    "linuxVmAuthenticationType": {
+                      "type": "string",
+                      "allowedValues": [
+                        "sshPublicKey",
+                        "password"
+                      ]
+                    },
+                    "linuxVmAdminPasswordOrKey": {
+                      "type": "secureString",
+                      "minLength": 14
+                    },
+                    "linuxNetworkInterfaceIpConfigurations": {
+                      "type": "array",
+                      "defaultValue": [
+                        {
+                          "name": "[parameters('linuxNetworkInterfaceIpConfigurationName')]",
+                          "properties": {
+                            "subnet": {
+                              "id": "[parameters('hubSubnetResourceId')]"
+                            },
+                            "primary": true,
+                            "privateIPAllocationMethod": "[parameters('linuxNetworkInterfacePrivateIPAddressAllocationMethod')]"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('deploy-ra-linux-nic-{0}', parameters('deploymentNameSuffix'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "name": {
+                            "value": "[parameters('linuxNetworkInterfaceName')]"
+                          },
+                          "location": {
+                            "value": "[parameters('location')]"
+                          },
+                          "tags": {
+                            "value": "[parameters('tags')]"
+                          },
+                          "ipConfigurations": {
+                            "value": "[parameters('linuxNetworkInterfaceIpConfigurations')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "3248737148359485479"
+                            }
+                          },
+                          "parameters": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "location": {
+                              "type": "string"
+                            },
+                            "tags": {
+                              "type": "object",
+                              "defaultValue": {}
+                            },
+                            "enableIPForwarding": {
+                              "type": "bool",
+                              "defaultValue": false
+                            },
+                            "ipConfigurations": {
+                              "type": "array"
+                            }
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Network/networkInterfaces",
+                              "apiVersion": "2018-11-01",
+                              "name": "[parameters('name')]",
+                              "location": "[parameters('location')]",
+                              "tags": "[parameters('tags')]",
+                              "properties": {
+                                "enableIPForwarding": "[parameters('enableIPForwarding')]",
+                                "ipConfigurations": "[parameters('ipConfigurations')]"
+                              }
+                            }
+                          ],
+                          "outputs": {
+                            "id": {
+                              "type": "string",
+                              "value": "[resourceId('Microsoft.Network/networkInterfaces', parameters('name'))]"
+                            },
+                            "name": {
+                              "type": "string",
+                              "value": "[parameters('name')]"
+                            },
+                            "ip": {
+                              "type": "string",
+                              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('name'))).ipConfigurations[0].properties.privateIPAddress]"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('deploy-ra-linux-vm-{0}', parameters('deploymentNameSuffix'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "name": {
+                            "value": "[parameters('linuxVmName')]"
+                          },
+                          "location": {
+                            "value": "[parameters('location')]"
+                          },
+                          "tags": {
+                            "value": "[parameters('tags')]"
+                          },
+                          "vmSize": {
+                            "value": "[parameters('linuxVmSize')]"
+                          },
+                          "osDiskCreateOption": {
+                            "value": "[parameters('linuxVmOsDiskCreateOption')]"
+                          },
+                          "osDiskType": {
+                            "value": "[parameters('linuxVmOsDiskType')]"
+                          },
+                          "vmImagePublisher": {
+                            "value": "[parameters('linuxVmImagePublisher')]"
+                          },
+                          "vmImageOffer": {
+                            "value": "[parameters('linuxVmImageOffer')]"
+                          },
+                          "vmImageSku": {
+                            "value": "[parameters('linuxVmImageSku')]"
+                          },
+                          "vmImageVersion": {
+                            "value": "[parameters('linuxVmImageVersion')]"
+                          },
+                          "adminUsername": {
+                            "value": "[parameters('linuxVmAdminUsername')]"
+                          },
+                          "authenticationType": {
+                            "value": "[parameters('linuxVmAuthenticationType')]"
+                          },
+                          "adminPasswordOrKey": {
+                            "value": "[parameters('linuxVmAdminPasswordOrKey')]"
+                          },
+                          "networkInterfaces": {
+                            "value": [
+                              {
+                                "id": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-ra-linux-nic-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]",
+                                "properties": {
+                                  "primary": true
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "15461396377124024507"
+                            }
+                          },
+                          "parameters": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "location": {
+                              "type": "string"
+                            },
+                            "tags": {
+                              "type": "object",
+                              "defaultValue": {}
+                            },
+                            "networkInterfaces": {
+                              "type": "array"
+                            },
+                            "vmSize": {
+                              "type": "string"
+                            },
+                            "osDiskCreateOption": {
+                              "type": "string"
+                            },
+                            "osDiskType": {
+                              "type": "string"
+                            },
+                            "vmImagePublisher": {
+                              "type": "string"
+                            },
+                            "vmImageOffer": {
+                              "type": "string"
+                            },
+                            "vmImageSku": {
+                              "type": "string"
+                            },
+                            "vmImageVersion": {
+                              "type": "string"
+                            },
+                            "adminUsername": {
+                              "type": "string"
+                            },
+                            "authenticationType": {
+                              "type": "string",
+                              "allowedValues": [
+                                "sshPublicKey",
+                                "password"
+                              ]
+                            },
+                            "adminPasswordOrKey": {
+                              "type": "secureString",
+                              "minLength": 14
+                            }
+                          },
+                          "variables": {
+                            "osProfile": {
+                              "sshPublicKey": {
+                                "computerName": "[parameters('name')]",
+                                "adminUsername": "[parameters('adminUsername')]",
+                                "linuxConfiguration": {
+                                  "disablePasswordAuthentication": true,
+                                  "ssh": {
+                                    "publicKeys": [
+                                      {
+                                        "path": "[format('/home/{0}/.ssh/authorized_keys', parameters('adminUsername'))]",
+                                        "keyData": "[parameters('adminPasswordOrKey')]"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "password": {
+                                "computerName": "[parameters('name')]",
+                                "adminUsername": "[parameters('adminUsername')]",
+                                "adminPassword": "[parameters('adminPasswordOrKey')]"
+                              }
+                            }
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Compute/virtualMachines",
+                              "apiVersion": "2020-06-01",
+                              "name": "[parameters('name')]",
+                              "location": "[parameters('location')]",
+                              "tags": "[parameters('tags')]",
+                              "properties": {
+                                "hardwareProfile": {
+                                  "vmSize": "[parameters('vmSize')]"
+                                },
+                                "storageProfile": {
+                                  "osDisk": {
+                                    "createOption": "[parameters('osDiskCreateOption')]",
+                                    "managedDisk": {
+                                      "storageAccountType": "[parameters('osDiskType')]"
+                                    }
+                                  },
+                                  "imageReference": {
+                                    "publisher": "[parameters('vmImagePublisher')]",
+                                    "offer": "[parameters('vmImageOffer')]",
+                                    "sku": "[parameters('vmImageSku')]",
+                                    "version": "[parameters('vmImageVersion')]"
+                                  }
+                                },
+                                "networkProfile": {
+                                  "networkInterfaces": "[parameters('networkInterfaces')]"
+                                },
+                                "osProfile": "[variables('osProfile')[parameters('authenticationType')]]"
+                              }
+                            }
+                          ],
+                          "outputs": {
+                            "adminUsername": {
+                              "type": "string",
+                              "value": "[parameters('adminUsername')]"
+                            },
+                            "authenticationType": {
+                              "type": "string",
+                              "value": "[parameters('authenticationType')]"
+                            }
+                          }
+                        }
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('deploy-ra-linux-nic-{0}', parameters('deploymentNameSuffix')))]"
+                      ]
+                    }
+                  ]
+                }
+              }
             }
           ],
           "outputs": {
             "windowsVm": {
               "type": "object",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsVirtualMachine'), '2020-10-01').outputs.windowsVm.value]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-ra-windows-vm-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVm.value]"
             },
             "windowsVmName": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'remoteAccess-windowsVirtualMachine'), '2020-10-01').outputs.windowsVmName.value]"
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-ra-windows-vm-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.windowsVmName.value]"
             }
           }
         }

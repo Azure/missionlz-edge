@@ -150,19 +150,32 @@ az deployment sub create \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
+      f5VmAuthenticationType=password \
+  f5VmAdminPasswordOrKey =<minimum length of 14 characters>
+
+The mlz-ash.bicep deployment deploys a windows VM that has a public IP address. This VM is used to remote into the f5 VM and to configure it.
+The code has a deployLinux option to allow for the deployment of an Ubuntu Linux VM. This option (deployLinux) is defaulted to false, it does not automatically deploy the Linux VM. It is important to note that, when a linux VM is deployed with the initial deployment, that the admin password is the same for both the Windows and Linux VM.
+Should the Linux VM be deployed after the initial deployment, the user has the option to use the password as before or to use a different password.
+When the parameter deployLinux=true is provided at deployment time, the Linux Vm will be created. See example below:
+
+
+az deployment sub create \
+  --name myMlzDeployment \
+  --location <location> \
+  --template-file ./mlz-ash.bicep \
+  --parameters \
+      f5VmAuthenticationType=password \
+      f5VmAdminPasswordOrKey =<minimum length of 14 characters> \
+      deployLinux=true
       resourcePrefix=${resourcePrefix} \
       f5VmAuthenticationType=${f5AuthType} \
       f5VmImageVersion=${f5VmImageVersion} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
-```
+
 
 The example below is for "sshPublicKey" auth in Azure Commercial (or Azure Stack Hub registered in Azure Commercial Note: Setting STIG to true not available in commercial):
 
-```plaintext
-resourcePrefix="<value>"
-keyVaultAccessPolicyObjectId="<value>"
-region=<value>
-f5VmImageVersion="16.0.101000"
+
 
 az deployment sub create \
   --name "deploy-mlz-${resourcePrefix}" \
@@ -172,9 +185,10 @@ az deployment sub create \
       resourcePrefix=${resourcePrefix} \
       f5VmImageVersion=${f5VmImageVersion} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
-```
+
 
 #### **Custom MLZ Instance deployment**
 
 Using the examples in the previous section, other default values can be overriden with custom values by adding the paramter and value to the `parameters` argument
+
 
