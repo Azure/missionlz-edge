@@ -1,9 +1,7 @@
 param name string
 param location string
 param tags object = {}
-
 param networkInterfaces array
-
 param vmSize string
 param osDiskCreateOption string
 param osDiskType string
