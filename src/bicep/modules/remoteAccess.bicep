@@ -93,6 +93,7 @@ module remoteLinuxVmPasswordKeyVault './secretArtifacts.bicep' = if(deployLinux 
     keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
     securePassword:linuxVmAdminPasswordOrKey
     keySecretName:'remoteLinuxVMPassword'
+    vmType:'ra-linux'
   }
   dependsOn:[
     
@@ -108,6 +109,7 @@ module remoteWinVmPasswordKeyVault './secretArtifacts.bicep' = {
     keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
     securePassword:windowsVmAdminPassword
     keySecretName:'remoteWinVMPassword'
+    vmType:'ra-win'
   }
   dependsOn:[
     

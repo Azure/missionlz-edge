@@ -1,5 +1,6 @@
 param resourcePrefix string 
 param location string
+param vmType string
 param tenantId string 
 param keyVaultAccessPolicyObjectId string
 param keySecretName string
@@ -7,7 +8,7 @@ param keySecretName string
 param securePassword string
 //defaults
 param utcValue string = utcNow()
-var keyVaultNamingConvention = toLower('${resourcePrefix}-kv-unique_token')
+var keyVaultNamingConvention = toLower('${resourcePrefix}-${vmType}-kv-unique_token')
 param newguid string = newGuid()
 
 var keyVaultUniqueName = replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9)))

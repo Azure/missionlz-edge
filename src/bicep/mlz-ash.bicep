@@ -91,7 +91,7 @@ param f5VmAuthenticationType string = 'password'
 @description('The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(14)
-param f5VmAdminPasswordOrKey string =substring(replace(newGuid(),'-',''), 0,15)
+param f5VmAdminPasswordOrKey string =substring(newGuid(), 0,15)
 
 @description('The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2".')
 param f5VmSize string = 'Standard_DS3_v2'
@@ -188,7 +188,7 @@ param linuxVmAuthenticationType string = 'password'
 @description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(12)
-param remoteVmAdminPassword string=substring(replace(newGuid(),'-',''), 0,15)
+param remoteVmAdminPassword string=substring(newGuid(),0,15)
 
 @description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param linuxVmSize string = 'Standard_DS1_v2'
@@ -667,6 +667,7 @@ module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthent
     keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
     securePassword:f5VmAdminPasswordOrKey
     keySecretName:'f5Vm01Password'
+    vmType:'f5'
   }
   dependsOn:[
     hubResourceGroup
@@ -856,7 +857,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     windowsVmVersion: windowsVmVersion
     windowsVmCreateOption: windowsVmCreateOption
     windowsVmStorageAccountType: windowsVmStorageAccountType
-    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id
+    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id       
   }
   dependsOn: [
     f5Vm01
