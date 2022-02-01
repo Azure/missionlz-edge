@@ -85,8 +85,8 @@ param f5VmAdminUsername string = 'f5admin'
   'sshPublicKey'
   'password'
 ])
-@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "sshPublicKey".')
-param f5VmAuthenticationType string = 'sshPublicKey'
+@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "password".')
+param f5VmAuthenticationType string = 'password'
 
 @description('The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
@@ -188,8 +188,7 @@ param linuxVmAuthenticationType string = 'password'
 @description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(12)
-param VmAdminPassword string
-var linuxVmAdminPasswordOrKey = VmAdminPassword
+param remoteVmAdminPassword string=substring(newGuid(),0,15)
 
 @description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param linuxVmSize string = 'Standard_DS1_v2'
@@ -219,13 +218,11 @@ param linuxVmImageVersion string = 'latest'
 @description('[Static/Dynamic] The public IP Address allocation method for the Linux virtual machine. It defaults to "Dynamic".')
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 
+
 // WINDOWS VIRTUAL MACHINE PARAMETERS
 
 @description('The administrator username for the Windows Virtual Machine to   remote into. It defaults to "azureuser".')
 param windowsVmAdminUsername string = 'azureuser'
-
-@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
-var windowsVmAdminPassword = VmAdminPassword
 
 @description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param windowsVmSize string = 'Standard_DS1_v2'
@@ -262,6 +259,12 @@ param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfigurat
 
 @description('Url for storing artifacts. Example: local.azurestack.external. Note: Leave blank to not deploy STIG artificats and to not STIG remote access VMs.')
 param artifactsUrl string = ''
+
+// variables
+
+var linuxVmAdminPasswordOrKey = remoteVmAdminPassword
+
+var windowsVmAdminPassword = remoteVmAdminPassword
 
 var stigComputeExtProperties = {
     publisher: 'Microsoft.Compute'
@@ -662,8 +665,9 @@ module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthent
     location: location
     tenantId: tenantId
     keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
-    securePassword:linuxVmAdminPasswordOrKey
+    securePassword:f5VmAdminPasswordOrKey
     keySecretName:'f5Vm01Password'
+    vmType:'f5'
   }
   dependsOn:[
     hubResourceGroup
@@ -819,12 +823,15 @@ module remoteAccess './modules/remoteAccess.bicep' = {
   name: 'deploy-remoteAccess-hub-${deploymentNameSuffix}'
   params: {
     location: location
+    resourcePrefix:resourcePrefix
+    hubResourceGroupName:hubResourceGroupName
     deployLinux: deployLinux
     hubVirtualNetworkName: hubVirtualNetwork.outputs.name
     linuxNetworkInterfaceName: linuxNetworkInterfaceName
     linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
     linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
     mgmtSubnetId: mgmtSubnet.id
+    keyVaultAccessPolicyObjectId:keyVaultAccessPolicyObjectId
     deploymentNameSuffix: deploymentNameSuffix
     linuxVmName: linuxVmName
     linuxVmSize: linuxVmSize
@@ -850,7 +857,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     windowsVmVersion: windowsVmVersion
     windowsVmCreateOption: windowsVmCreateOption
     windowsVmStorageAccountType: windowsVmStorageAccountType
-    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id
+    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id       
   }
   dependsOn: [
     f5Vm01

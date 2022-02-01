@@ -1,6 +1,9 @@
 param location string
+param resourcePrefix string
 param tags object = {}
 param deploymentNameSuffix string
+param keyVaultAccessPolicyObjectId string
+param hubResourceGroupName string
 param mgmtSubnetId string
 param hubVirtualNetworkName string
 param linuxNetworkInterfaceName string
@@ -24,7 +27,6 @@ param linuxVmAuthenticationType string
 @secure()
 @minLength(14)
 param linuxVmAdminPasswordOrKey string
-
 param windowsNetworkInterfaceName string
 param windowsNetworkInterfaceIpConfigurationName string
 param windowsNetworkInterfacePrivateIPAddressAllocationMethod string
@@ -67,6 +69,52 @@ resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existi
   name:'${hubVirtualNetworkName}/test'
 }
 
+
+module remoteLinuxVmSshKeyVault './generateSshKey.bicep' = if(deployLinux && linuxVmAuthenticationType=='sshPublicKey'){
+  scope: resourceGroup(hubResourceGroupName)
+  name:'deploy-remoteVMSshkv-hub-${deploymentNameSuffix}'
+  params: {
+    resourcePrefix : resourcePrefix 
+    location: location
+    tenantId: subscription().tenantId
+    keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
+  }
+  dependsOn:[
+     ]
+
+}
+module remoteLinuxVmPasswordKeyVault './secretArtifacts.bicep' = if(deployLinux && linuxVmAuthenticationType=='password'){
+  scope: resourceGroup(hubResourceGroupName)
+  name:'deploy-remoteLinuxVmPwdkv-hub-${deploymentNameSuffix}'
+  params: {
+    resourcePrefix : resourcePrefix 
+    location: location
+    tenantId: subscription().tenantId
+    keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
+    securePassword:linuxVmAdminPasswordOrKey
+    keySecretName:'remoteLinuxVMPassword'
+    vmType:'ra-linux'
+  }
+  dependsOn:[
+    
+  ]
+}
+module remoteWinVmPasswordKeyVault './secretArtifacts.bicep' = {
+  scope: resourceGroup(hubResourceGroupName)
+  name:'deploy-remoteWinVmPwdkv-hub-${deploymentNameSuffix}'
+  params: {
+    resourcePrefix : resourcePrefix 
+    location: location
+    tenantId: subscription().tenantId
+    keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
+    securePassword:windowsVmAdminPassword
+    keySecretName:'remoteWinVMPassword'
+    vmType:'ra-win'
+  }
+  dependsOn:[
+    
+  ]
+}
 
 // Create Public IP
 module PublicIp './publicIPAddress.bicep' = {
