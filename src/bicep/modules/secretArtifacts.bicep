@@ -23,8 +23,6 @@ param keyVaultSecretPerms array = [
   
 ]
 
-
-
 module keyVault './keyVault.bicep' = {
   name: 'create_${keyVaultUniqueName}_${utcValue}'
   params: {

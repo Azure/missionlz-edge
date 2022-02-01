@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "3109497841805615938"
+      "templateHash": "8677639637457169422"
     }
   },
   "parameters": {
@@ -146,9 +146,9 @@
     },
     "f5VmAuthenticationType": {
       "type": "string",
-      "defaultValue": "sshPublicKey",
+      "defaultValue": "password",
       "metadata": {
-        "description": "[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to \"sshPublicKey\"."
+        "description": "[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to \"password\"."
       },
       "allowedValues": [
         "sshPublicKey",
@@ -157,7 +157,7 @@
     },
     "f5VmAdminPasswordOrKey": {
       "type": "secureString",
-      "defaultValue": "[substring(newGuid(), 0, 15)]",
+      "defaultValue": "[substring(replace(newGuid(), '-', ''), 0, 15)]",
       "minLength": 14,
       "metadata": {
         "description": "The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements."
@@ -295,8 +295,9 @@
         "password"
       ]
     },
-    "VmAdminPassword": {
+    "remoteVmAdminPassword": {
       "type": "secureString",
+      "defaultValue": "[substring(replace(newGuid(), '-', ''), 0, 15)]",
       "minLength": 12,
       "metadata": {
         "description": "The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements."
@@ -452,8 +453,8 @@
     }
   },
   "variables": {
-    "linuxVmAdminPasswordOrKey": "[parameters('VmAdminPassword')]",
-    "windowsVmAdminPassword": "[parameters('VmAdminPassword')]",
+    "linuxVmAdminPasswordOrKey": "[parameters('remoteVmAdminPassword')]",
+    "windowsVmAdminPassword": "[parameters('remoteVmAdminPassword')]",
     "stigComputeExtProperties": {
       "publisher": "Microsoft.Compute",
       "type": "CustomScriptExtension",
@@ -1253,7 +1254,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "1450637448727839872"
+              "templateHash": "5830834654168766894"
             }
           },
           "parameters": {
@@ -1294,7 +1295,7 @@
             },
             "generatedSshKey": {
               "type": "object",
-              "defaultValue": "[json('\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
+              "defaultValue": "[json('\r\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
             }
           },
           "variables": {
@@ -1591,7 +1592,7 @@
             "value": "[parameters('keyVaultAccessPolicyObjectId')]"
           },
           "securePassword": {
-            "value": "[variables('linuxVmAdminPasswordOrKey')]"
+            "value": "[parameters('f5VmAdminPasswordOrKey')]"
           },
           "keySecretName": {
             "value": "f5Vm01Password"
@@ -3252,6 +3253,12 @@
           "location": {
             "value": "[parameters('location')]"
           },
+          "resourcePrefix": {
+            "value": "[parameters('resourcePrefix')]"
+          },
+          "hubResourceGroupName": {
+            "value": "[variables('hubResourceGroupName')]"
+          },
           "deployLinux": {
             "value": "[parameters('deployLinux')]"
           },
@@ -3269,6 +3276,9 @@
           },
           "mgmtSubnetId": {
             "value": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Network/virtualNetworks/subnets', split(format('{0}/{1}', variables('hubVirtualNetworkName'), variables('mgmtSubnetName')), '/')[0], split(format('{0}/{1}', variables('hubVirtualNetworkName'), variables('mgmtSubnetName')), '/')[1])]"
+          },
+          "keyVaultAccessPolicyObjectId": {
+            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
           },
           "deploymentNameSuffix": {
             "value": "[parameters('deploymentNameSuffix')]"
@@ -3356,11 +3366,14 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "12695141540592428360"
+              "templateHash": "9443369707632570177"
             }
           },
           "parameters": {
             "location": {
+              "type": "string"
+            },
+            "resourcePrefix": {
               "type": "string"
             },
             "tags": {
@@ -3368,6 +3381,12 @@
               "defaultValue": {}
             },
             "deploymentNameSuffix": {
+              "type": "string"
+            },
+            "keyVaultAccessPolicyObjectId": {
+              "type": "string"
+            },
+            "hubResourceGroupName": {
               "type": "string"
             },
             "mgmtSubnetId": {
@@ -3489,6 +3508,1009 @@
             }
           },
           "resources": [
+            {
+              "condition": "[and(parameters('deployLinux'), equals(parameters('linuxVmAuthenticationType'), 'sshPublicKey'))]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('deploy-remoteVMSshkv-hub-{0}', parameters('deploymentNameSuffix'))]",
+              "resourceGroup": "[parameters('hubResourceGroupName')]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "resourcePrefix": {
+                    "value": "[parameters('resourcePrefix')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tenantId": {
+                    "value": "[subscription().tenantId]"
+                  },
+                  "keyVaultAccessPolicyObjectId": {
+                    "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "5830834654168766894"
+                    }
+                  },
+                  "parameters": {
+                    "resourcePrefix": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tenantId": {
+                      "type": "string"
+                    },
+                    "keyVaultAccessPolicyObjectId": {
+                      "type": "string"
+                    },
+                    "utcValue": {
+                      "type": "string",
+                      "defaultValue": "[utcNow()]"
+                    },
+                    "newguid": {
+                      "type": "string",
+                      "defaultValue": "[newGuid()]"
+                    },
+                    "keyVaultAccessPolicyName": {
+                      "type": "string",
+                      "defaultValue": "add",
+                      "allowedValues": [
+                        "add",
+                        "update",
+                        "remove"
+                      ]
+                    },
+                    "keyVaultSecretPerms": {
+                      "type": "array",
+                      "defaultValue": [
+                        "all"
+                      ]
+                    },
+                    "generatedSshKey": {
+                      "type": "object",
+                      "defaultValue": "[json('\r\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
+                    }
+                  },
+                  "variables": {
+                    "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
+                    "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]",
+                    "publicKeySecretName": "sshPublicKey",
+                    "privateKeySecretName": "sshPrivateKey"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.KeyVault/vaults/secrets",
+                      "apiVersion": "2019-09-01",
+                      "name": "[format('{0}/{1}', variables('keyVaultUniqueName'), variables('publicKeySecretName'))]",
+                      "properties": {
+                        "value": "[parameters('generatedSshKey').keyinfo.publicKey]"
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+                      ]
+                    },
+                    {
+                      "type": "Microsoft.KeyVault/vaults/secrets",
+                      "apiVersion": "2019-09-01",
+                      "name": "[format('{0}/{1}', variables('keyVaultUniqueName'), variables('privateKeySecretName'))]",
+                      "properties": {
+                        "value": "[parameters('generatedSshKey').keyinfo.privateKey]"
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+                      ]
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "keyVaultName": {
+                            "value": "[variables('keyVaultUniqueName')]"
+                          },
+                          "location": {
+                            "value": "[parameters('location')]"
+                          },
+                          "tenantId": {
+                            "value": "[parameters('tenantId')]"
+                          },
+                          "objectId": {
+                            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "11161459979242425913"
+                            }
+                          },
+                          "parameters": {
+                            "location": {
+                              "type": "string"
+                            },
+                            "tenantId": {
+                              "type": "string"
+                            },
+                            "objectId": {
+                              "type": "string"
+                            },
+                            "keyVaultName": {
+                              "type": "string"
+                            },
+                            "enabledForDeployment": {
+                              "type": "bool",
+                              "defaultValue": true
+                            },
+                            "enabledForDiskEncryption": {
+                              "type": "bool",
+                              "defaultValue": false
+                            },
+                            "enabledForTemplateDeployment": {
+                              "type": "bool",
+                              "defaultValue": true
+                            },
+                            "sku": {
+                              "type": "string",
+                              "defaultValue": "standard",
+                              "allowedValues": [
+                                "standard",
+                                "premium"
+                              ],
+                              "metadata": {
+                                "description": "SKU for the vault"
+                              }
+                            },
+                            "keysPermissions": {
+                              "type": "array",
+                              "defaultValue": [
+                                "list"
+                              ],
+                              "metadata": {
+                                "description": "Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge."
+                              }
+                            },
+                            "secretsPermissions": {
+                              "type": "array",
+                              "defaultValue": [
+                                "list"
+                              ],
+                              "metadata": {
+                                "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
+                              }
+                            }
+                          },
+                          "variables": {
+                            "accessPolicies": [
+                              {
+                                "objectId": "[parameters('objectId')]",
+                                "tenantId": "[parameters('tenantId')]",
+                                "permissions": {
+                                  "keys": "[parameters('keysPermissions')]",
+                                  "secrets": "[parameters('secretsPermissions')]"
+                                }
+                              }
+                            ]
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.KeyVault/vaults",
+                              "apiVersion": "2016-10-01",
+                              "name": "[parameters('keyVaultName')]",
+                              "location": "[parameters('location')]",
+                              "tags": {},
+                              "properties": {
+                                "enabledForDeployment": "[parameters('enabledForDeployment')]",
+                                "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+                                "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+                                "accessPolicies": "[variables('accessPolicies')]",
+                                "tenantId": "[parameters('tenantId')]",
+                                "sku": {
+                                  "name": "[parameters('sku')]",
+                                  "family": "A"
+                                }
+                              }
+                            }
+                          ],
+                          "outputs": {
+                            "kvName": {
+                              "type": "string",
+                              "value": "[parameters('keyVaultName')]"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('create_keyVaultAccessPolicy_{0}', parameters('utcValue'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "keyVaultAccessPolicyName": {
+                            "value": "[parameters('keyVaultAccessPolicyName')]"
+                          },
+                          "keyVaultName": {
+                            "value": "[variables('keyVaultUniqueName')]"
+                          },
+                          "tenantId": {
+                            "value": "[parameters('tenantId')]"
+                          },
+                          "keyVaultAccessPolicyObjectId": {
+                            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                          },
+                          "secretPerms": {
+                            "value": "[parameters('keyVaultSecretPerms')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "1427844638164346916"
+                            }
+                          },
+                          "parameters": {
+                            "tenantId": {
+                              "type": "string"
+                            },
+                            "keyVaultName": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyName": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyObjectId": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyApplicationId": {
+                              "type": "string",
+                              "defaultValue": ""
+                            },
+                            "secretPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "certPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "keyPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "storagePerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            }
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.KeyVault/vaults/accessPolicies",
+                              "apiVersion": "2019-09-01",
+                              "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('keyVaultAccessPolicyName'))]",
+                              "properties": {
+                                "accessPolicies": [
+                                  {
+                                    "applicationId": "[parameters('keyVaultAccessPolicyApplicationId')]",
+                                    "objectId": "[parameters('keyVaultAccessPolicyObjectId')]",
+                                    "permissions": {
+                                      "certificates": "[parameters('certPerms')]",
+                                      "keys": "[parameters('keyPerms')]",
+                                      "secrets": "[parameters('secretPerms')]",
+                                      "storage": "[parameters('storagePerms')]"
+                                    },
+                                    "tenantId": "[parameters('tenantId')]"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+                      ]
+                    }
+                  ],
+                  "outputs": {
+                    "publicKey": {
+                      "type": "string",
+                      "value": "[parameters('generatedSshKey').keyinfo.publicKey]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "condition": "[and(parameters('deployLinux'), equals(parameters('linuxVmAuthenticationType'), 'password'))]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('deploy-remoteLinuxVmPwdkv-hub-{0}', parameters('deploymentNameSuffix'))]",
+              "resourceGroup": "[parameters('hubResourceGroupName')]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "resourcePrefix": {
+                    "value": "[parameters('resourcePrefix')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tenantId": {
+                    "value": "[subscription().tenantId]"
+                  },
+                  "keyVaultAccessPolicyObjectId": {
+                    "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                  },
+                  "securePassword": {
+                    "value": "[parameters('linuxVmAdminPasswordOrKey')]"
+                  },
+                  "keySecretName": {
+                    "value": "remoteLinuxVMPassword"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "1467255583843302048"
+                    }
+                  },
+                  "parameters": {
+                    "resourcePrefix": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tenantId": {
+                      "type": "string"
+                    },
+                    "keyVaultAccessPolicyObjectId": {
+                      "type": "string"
+                    },
+                    "keySecretName": {
+                      "type": "string"
+                    },
+                    "securePassword": {
+                      "type": "secureString"
+                    },
+                    "utcValue": {
+                      "type": "string",
+                      "defaultValue": "[utcNow()]"
+                    },
+                    "newguid": {
+                      "type": "string",
+                      "defaultValue": "[newGuid()]"
+                    },
+                    "keyVaultAccessPolicyName": {
+                      "type": "string",
+                      "defaultValue": "add",
+                      "allowedValues": [
+                        "add",
+                        "update",
+                        "remove"
+                      ]
+                    },
+                    "keyVaultSecretPerms": {
+                      "type": "array",
+                      "defaultValue": [
+                        "all"
+                      ]
+                    }
+                  },
+                  "variables": {
+                    "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
+                    "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.KeyVault/vaults/secrets",
+                      "apiVersion": "2019-09-01",
+                      "name": "[format('{0}/{1}', variables('keyVaultUniqueName'), parameters('keySecretName'))]",
+                      "properties": {
+                        "value": "[parameters('securePassword')]"
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+                      ]
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "keyVaultName": {
+                            "value": "[variables('keyVaultUniqueName')]"
+                          },
+                          "location": {
+                            "value": "[parameters('location')]"
+                          },
+                          "tenantId": {
+                            "value": "[parameters('tenantId')]"
+                          },
+                          "objectId": {
+                            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "11161459979242425913"
+                            }
+                          },
+                          "parameters": {
+                            "location": {
+                              "type": "string"
+                            },
+                            "tenantId": {
+                              "type": "string"
+                            },
+                            "objectId": {
+                              "type": "string"
+                            },
+                            "keyVaultName": {
+                              "type": "string"
+                            },
+                            "enabledForDeployment": {
+                              "type": "bool",
+                              "defaultValue": true
+                            },
+                            "enabledForDiskEncryption": {
+                              "type": "bool",
+                              "defaultValue": false
+                            },
+                            "enabledForTemplateDeployment": {
+                              "type": "bool",
+                              "defaultValue": true
+                            },
+                            "sku": {
+                              "type": "string",
+                              "defaultValue": "standard",
+                              "allowedValues": [
+                                "standard",
+                                "premium"
+                              ],
+                              "metadata": {
+                                "description": "SKU for the vault"
+                              }
+                            },
+                            "keysPermissions": {
+                              "type": "array",
+                              "defaultValue": [
+                                "list"
+                              ],
+                              "metadata": {
+                                "description": "Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge."
+                              }
+                            },
+                            "secretsPermissions": {
+                              "type": "array",
+                              "defaultValue": [
+                                "list"
+                              ],
+                              "metadata": {
+                                "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
+                              }
+                            }
+                          },
+                          "variables": {
+                            "accessPolicies": [
+                              {
+                                "objectId": "[parameters('objectId')]",
+                                "tenantId": "[parameters('tenantId')]",
+                                "permissions": {
+                                  "keys": "[parameters('keysPermissions')]",
+                                  "secrets": "[parameters('secretsPermissions')]"
+                                }
+                              }
+                            ]
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.KeyVault/vaults",
+                              "apiVersion": "2016-10-01",
+                              "name": "[parameters('keyVaultName')]",
+                              "location": "[parameters('location')]",
+                              "tags": {},
+                              "properties": {
+                                "enabledForDeployment": "[parameters('enabledForDeployment')]",
+                                "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+                                "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+                                "accessPolicies": "[variables('accessPolicies')]",
+                                "tenantId": "[parameters('tenantId')]",
+                                "sku": {
+                                  "name": "[parameters('sku')]",
+                                  "family": "A"
+                                }
+                              }
+                            }
+                          ],
+                          "outputs": {
+                            "kvName": {
+                              "type": "string",
+                              "value": "[parameters('keyVaultName')]"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('create_keyVaultAccessPolicy_{0}', parameters('utcValue'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "keyVaultAccessPolicyName": {
+                            "value": "[parameters('keyVaultAccessPolicyName')]"
+                          },
+                          "keyVaultName": {
+                            "value": "[variables('keyVaultUniqueName')]"
+                          },
+                          "tenantId": {
+                            "value": "[parameters('tenantId')]"
+                          },
+                          "keyVaultAccessPolicyObjectId": {
+                            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                          },
+                          "secretPerms": {
+                            "value": "[parameters('keyVaultSecretPerms')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "1427844638164346916"
+                            }
+                          },
+                          "parameters": {
+                            "tenantId": {
+                              "type": "string"
+                            },
+                            "keyVaultName": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyName": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyObjectId": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyApplicationId": {
+                              "type": "string",
+                              "defaultValue": ""
+                            },
+                            "secretPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "certPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "keyPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "storagePerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            }
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.KeyVault/vaults/accessPolicies",
+                              "apiVersion": "2019-09-01",
+                              "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('keyVaultAccessPolicyName'))]",
+                              "properties": {
+                                "accessPolicies": [
+                                  {
+                                    "applicationId": "[parameters('keyVaultAccessPolicyApplicationId')]",
+                                    "objectId": "[parameters('keyVaultAccessPolicyObjectId')]",
+                                    "permissions": {
+                                      "certificates": "[parameters('certPerms')]",
+                                      "keys": "[parameters('keyPerms')]",
+                                      "secrets": "[parameters('secretPerms')]",
+                                      "storage": "[parameters('storagePerms')]"
+                                    },
+                                    "tenantId": "[parameters('tenantId')]"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('deploy-remoteWinVmPwdkv-hub-{0}', parameters('deploymentNameSuffix'))]",
+              "resourceGroup": "[parameters('hubResourceGroupName')]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "resourcePrefix": {
+                    "value": "[parameters('resourcePrefix')]"
+                  },
+                  "location": {
+                    "value": "[parameters('location')]"
+                  },
+                  "tenantId": {
+                    "value": "[subscription().tenantId]"
+                  },
+                  "keyVaultAccessPolicyObjectId": {
+                    "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                  },
+                  "securePassword": {
+                    "value": "[parameters('windowsVmAdminPassword')]"
+                  },
+                  "keySecretName": {
+                    "value": "remoteWinVMPassword"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1124.51302",
+                      "templateHash": "1467255583843302048"
+                    }
+                  },
+                  "parameters": {
+                    "resourcePrefix": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tenantId": {
+                      "type": "string"
+                    },
+                    "keyVaultAccessPolicyObjectId": {
+                      "type": "string"
+                    },
+                    "keySecretName": {
+                      "type": "string"
+                    },
+                    "securePassword": {
+                      "type": "secureString"
+                    },
+                    "utcValue": {
+                      "type": "string",
+                      "defaultValue": "[utcNow()]"
+                    },
+                    "newguid": {
+                      "type": "string",
+                      "defaultValue": "[newGuid()]"
+                    },
+                    "keyVaultAccessPolicyName": {
+                      "type": "string",
+                      "defaultValue": "add",
+                      "allowedValues": [
+                        "add",
+                        "update",
+                        "remove"
+                      ]
+                    },
+                    "keyVaultSecretPerms": {
+                      "type": "array",
+                      "defaultValue": [
+                        "all"
+                      ]
+                    }
+                  },
+                  "variables": {
+                    "keyVaultNamingConvention": "[toLower(format('{0}-kv-unique_token', parameters('resourcePrefix')))]",
+                    "keyVaultUniqueName": "[replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9)))]"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.KeyVault/vaults/secrets",
+                      "apiVersion": "2019-09-01",
+                      "name": "[format('{0}/{1}', variables('keyVaultUniqueName'), parameters('keySecretName'))]",
+                      "properties": {
+                        "value": "[parameters('securePassword')]"
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+                      ]
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "keyVaultName": {
+                            "value": "[variables('keyVaultUniqueName')]"
+                          },
+                          "location": {
+                            "value": "[parameters('location')]"
+                          },
+                          "tenantId": {
+                            "value": "[parameters('tenantId')]"
+                          },
+                          "objectId": {
+                            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "11161459979242425913"
+                            }
+                          },
+                          "parameters": {
+                            "location": {
+                              "type": "string"
+                            },
+                            "tenantId": {
+                              "type": "string"
+                            },
+                            "objectId": {
+                              "type": "string"
+                            },
+                            "keyVaultName": {
+                              "type": "string"
+                            },
+                            "enabledForDeployment": {
+                              "type": "bool",
+                              "defaultValue": true
+                            },
+                            "enabledForDiskEncryption": {
+                              "type": "bool",
+                              "defaultValue": false
+                            },
+                            "enabledForTemplateDeployment": {
+                              "type": "bool",
+                              "defaultValue": true
+                            },
+                            "sku": {
+                              "type": "string",
+                              "defaultValue": "standard",
+                              "allowedValues": [
+                                "standard",
+                                "premium"
+                              ],
+                              "metadata": {
+                                "description": "SKU for the vault"
+                              }
+                            },
+                            "keysPermissions": {
+                              "type": "array",
+                              "defaultValue": [
+                                "list"
+                              ],
+                              "metadata": {
+                                "description": "Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge."
+                              }
+                            },
+                            "secretsPermissions": {
+                              "type": "array",
+                              "defaultValue": [
+                                "list"
+                              ],
+                              "metadata": {
+                                "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
+                              }
+                            }
+                          },
+                          "variables": {
+                            "accessPolicies": [
+                              {
+                                "objectId": "[parameters('objectId')]",
+                                "tenantId": "[parameters('tenantId')]",
+                                "permissions": {
+                                  "keys": "[parameters('keysPermissions')]",
+                                  "secrets": "[parameters('secretsPermissions')]"
+                                }
+                              }
+                            ]
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.KeyVault/vaults",
+                              "apiVersion": "2016-10-01",
+                              "name": "[parameters('keyVaultName')]",
+                              "location": "[parameters('location')]",
+                              "tags": {},
+                              "properties": {
+                                "enabledForDeployment": "[parameters('enabledForDeployment')]",
+                                "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+                                "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+                                "accessPolicies": "[variables('accessPolicies')]",
+                                "tenantId": "[parameters('tenantId')]",
+                                "sku": {
+                                  "name": "[parameters('sku')]",
+                                  "family": "A"
+                                }
+                              }
+                            }
+                          ],
+                          "outputs": {
+                            "kvName": {
+                              "type": "string",
+                              "value": "[parameters('keyVaultName')]"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('create_keyVaultAccessPolicy_{0}', parameters('utcValue'))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
+                        },
+                        "mode": "Incremental",
+                        "parameters": {
+                          "keyVaultAccessPolicyName": {
+                            "value": "[parameters('keyVaultAccessPolicyName')]"
+                          },
+                          "keyVaultName": {
+                            "value": "[variables('keyVaultUniqueName')]"
+                          },
+                          "tenantId": {
+                            "value": "[parameters('tenantId')]"
+                          },
+                          "keyVaultAccessPolicyObjectId": {
+                            "value": "[parameters('keyVaultAccessPolicyObjectId')]"
+                          },
+                          "secretPerms": {
+                            "value": "[parameters('keyVaultSecretPerms')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.4.1124.51302",
+                              "templateHash": "1427844638164346916"
+                            }
+                          },
+                          "parameters": {
+                            "tenantId": {
+                              "type": "string"
+                            },
+                            "keyVaultName": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyName": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyObjectId": {
+                              "type": "string"
+                            },
+                            "keyVaultAccessPolicyApplicationId": {
+                              "type": "string",
+                              "defaultValue": ""
+                            },
+                            "secretPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "certPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "keyPerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            },
+                            "storagePerms": {
+                              "type": "array",
+                              "defaultValue": []
+                            }
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.KeyVault/vaults/accessPolicies",
+                              "apiVersion": "2019-09-01",
+                              "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('keyVaultAccessPolicyName'))]",
+                              "properties": {
+                                "accessPolicies": [
+                                  {
+                                    "applicationId": "[parameters('keyVaultAccessPolicyApplicationId')]",
+                                    "objectId": "[parameters('keyVaultAccessPolicyObjectId')]",
+                                    "permissions": {
+                                      "certificates": "[parameters('certPerms')]",
+                                      "keys": "[parameters('keyPerms')]",
+                                      "secrets": "[parameters('secretPerms')]",
+                                      "storage": "[parameters('storagePerms')]"
+                                    },
+                                    "tenantId": "[parameters('tenantId')]"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
             {
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
