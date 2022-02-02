@@ -31,6 +31,7 @@ param windowsNetworkInterfaceName string
 param windowsNetworkInterfaceIpConfigurationName string
 param windowsNetworkInterfacePrivateIPAddressAllocationMethod string
 param windowspublicIPAddressId string
+param windowsPublicIpAddressName string
 param windowsNetworkInterfaceIpConfigurations array = [
   {
     name: windowsNetworkInterfaceIpConfigurationName
@@ -121,7 +122,7 @@ module PublicIp './publicIPAddress.bicep' = {
   name: 'create-pubip'
   params: {
     location: location
-    name: 'extPublicIpName'
+    name: windowsPublicIpAddressName
     publicIpAllocationMethod: 'Dynamic'
   }
 }
