@@ -1,6 +1,6 @@
 #!/bin/sh
 
-################################################
+#####################################################
 ## BashSRG - Bash STIG/SRG configuration Script
 ## Michael Coleman.  M.Coleman@F5.com
 ## Modified by r.eastman@f5.com
@@ -15,38 +15,48 @@
 ##
 ## Script settings that have been successfully replicated to DO
 ## Will be annotated below.
-################################################
+#####################################################
 echo
 echo "###############################################"
 echo " BASHSRG - Bash STIG/SRG Configuration Script"
-echo " Michael Coleman.  M.Coleman@F5.com. Modified by r.eastman@f5.com"
+echo " Developed by F5 Networks"
 echo "###############################################"
-## Replicated in DO Example ##########################
+## Replicated in DO Example #########################
 
-tmsh create /net vlan External_Interface
-tmsh create /net vlan Internal_Interface
-tmsh create /net vlan VDMS_Interface
-tmsh modify /net vlan External_Interface add { 1.1 }
-tmsh modify /net vlan Internal_Interface add { 1.2 }
-tmsh modify /net vlan VDMS_Interface add { 1.3 }
-tmsh modify /net self VDMS_IP address 10.90.3.4/24 vlan VDMS_Interface
-tmsh modify /net self External_IP address 10.90.2.4/24 vlan External_Interface
-tmsh modify /net self Internal_IP address 10.90.1.4/24 vlan Internal_Interface
-tmsh modify /net interface 1.1 description External 
-tmsh modify /net interface 1.2 description Internal_IP
-tmsh modify /net interface 1.3 description VDMS_IP
-tmsh create /sys management-route defaut gateway 10.90.0.1
-tmsh create /ltm node 10.90.0.5 address 10.90.0.5
-tmsh create /ltm node 10.90.1.5 address 10.90.1.5
-tmsh creat /ltm pool Jumpbox
-tmsh modify /ltm pool Jumpbox members add { 10.90.0.5:3389 }
-tmsh create /ltm virtual Allow_RDP_to_MGMT destination 10.90.1.6:3389 ip-protocol tcp mask 255.255.255.255 pool Jumpbox source 0.0.0.0/0
-tmsh create /ltm virtual MLZ_to_External description MLZ_to_External destination 0.0.0.0:443 ip-forward ip-protocol tcp source 10.88.0.0/13 snat automap
-tmsh modify /ltm virtual MLZ_to_External profile modify { fastL4 }
-tmsh create /ltm virtual-address 10.88.0.0 mask 255.248.0.0
-tmsh create /ltm virtual-address 10.90.1.6 mask 255.255.255.255
-tmsh create /net route MLZ_Tiers description "Tier-to-Tier Trafic" gw 10.90.2.1 network 10.88.0.0/13
-##
+## Routing Configurations ###########################
+# tmsh create /net vlan External_Interface
+# tmsh create /net vlan Internal_Interface
+# tmsh create /net vlan VDMS_Interface
+# tmsh modify /net vlan External_Interface interfaces add { 1.1 }
+# tmsh modify /net vlan Internal_Interface interfaces add { 1.2 }
+# tmsh modify /net vlan VDMS_Interface interfaces add { 1.3 }
+# tmsh create /net self VDMS_IP address 10.90.3.4/24 vlan VDMS_Interface
+# tmsh create /net self External_IP address 10.90.2.4/24 vlan External_Interface
+# tmsh create /net self Internal_IP address 10.90.1.4/24 vlan Internal_Interface
+# tmsh modify /net interface 1.1 description External 
+# tmsh modify /net interface 1.2 description Internal_IP
+# tmsh modify /net interface 1.3 description VDMS_IP
+# # tmsh create /sys management-route defaut gateway 10.90.0.1
+# tmsh create /ltm node 10.90.0.5 address 10.90.0.5
+# tmsh create /ltm node 10.90.1.5 address 10.90.1.5
+# tmsh create /ltm virtual-address 10.88.0.0 mask 255.248.0.0
+# tmsh create /ltm pool Jumpbox
+# tmsh modify /ltm pool Jumpbox members add { 10.90.0.5:3389 }
+# tmsh create /ltm virtual Allow_RDP_to_MGMT destination 10.90.1.5:3389 ip-protocol tcp mask 255.255.255.255 pool Jumpbox source 0.0.0.0/0
+# tmsh create /ltm virtual MLZ_to_External description MLZ_to_External destination 0.0.0.0:443 ip-forward ip-protocol tcp source 10.88.0.0/13 snat automap
+# tmsh modify /ltm virtual MLZ_to_External profiles modify { fastL4 }
+# tmsh save sys config
+
+# tmsh create /ltm virtual Spoke_to_Spoke_Traffic description Spoke_to_Spoke_Traffic destination 10.88.0.0/13:any ip-forward ip-protocol any source 10.88.0.0/13 snat automap
+# tmsh modify /ltm virtual Spoke_to_Spoke_Traffic profiles modify { fastL4 }
+
+# # tmsh create /ltm virtual-address 10.90.1.5 mask 255.255.255.255
+# tmsh create /net route Default_Route description "Outbound_External" gw 10.90.1.1 network 0.0.0.0/0
+# tmsh create /net route MLZ_Tiers description "Spoke_to_Spoke Trafic" gw 10.90.2.1 network 10.88.0.0/13
+# tmsh save sys config
+
+
+## STIG Configurations ##############################
 tmsh modify sys sshd inactivity-timeout 900
 tmsh modify sys sshd banner enabled
 tmsh modify sys sshd banner-text "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations. At any time, the USG may inspect and seize data stored on this IS. Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG authorized purpose. This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy. Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details."
@@ -80,17 +90,19 @@ tmsh modify sys software update auto-check disabled
 tmsh modify sys software update auto-phonehome disabled
 tmsh modify sys daemon-log-settings mcpd audit enabled
 tmsh modify sys daemon-log-settings mcpd log-level notice
-#tmsh modify sys dns name-servers add { x.x.x.x x.x.x.x }
-#tmsh modify sys ntp servers add { x.x.x.x x.x.x.x }
-#tmsh modify sys dns search add { demo.local demo.f5demo.local }
-#tmsh create sys management-route ntpservers network x.x.x.x/255.255.0.0 gateway x.x.x.x
+
+## Optional settings ################################
+# tmsh modify sys dns name-servers add { x.x.x.x x.x.x.x }
+# tmsh modify sys ntp servers add { x.x.x.x x.x.x.x }
+# tmsh modify sys dns search add { demo.local demo.f5demo.local }
+# tmsh create sys management-route ntpservers network x.x.x.x/255.255.0.0 gateway x.x.x.x
 ## End Replicated Settings ##########################
 
-#tmsh modify ltm profile client-ssl clientssl ciphers HIGH:!RSA:!DES:!TLSv1:!TLSv1_1:!SSLv3:!ECDHE-RSA-AES256-CBC-SHA:@STRENGTH
-#tmsh modify ltm profile server-ssl serverssl ciphers HIGH:!RSA:!DES:!TLSv1:!TLSv1_1:!SSLv3:!ECDHE-RSA-AES256-CBC-SHA:@STRENGTH
+# tmsh modify ltm profile client-ssl clientssl ciphers HIGH:!RSA:!DES:!TLSv1:!TLSv1_1:!SSLv3:!ECDHE-RSA-AES256-CBC-SHA:@STRENGTH
+# tmsh modify ltm profile server-ssl serverssl ciphers HIGH:!RSA:!DES:!TLSv1:!TLSv1_1:!SSLv3:!ECDHE-RSA-AES256-CBC-SHA:@STRENGTH
 tmsh modify sys global-settings gui-security-banner enabled
 tmsh modify sys global-settings gui-security-banner-text "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations. At any time, the USG may inspect and seize data stored on this IS. Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG authorized purpose. This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy. Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details."
-tmsh modify gtm global-settings general { iquery-minimum-tls-version TLSv1.2 }
+# tmsh modify gtm global-settings general { iquery-minimum-tls-version TLSv1.2 }
 tmsh modify sys snmp communities delete { comm-public }
 tmsh modify sys daemon-log-settings tmm os-log-level informational
 tmsh modify sys daemon-log-settings tmm ssl-log-level informational
@@ -118,5 +130,4 @@ FileETag MTime Size
 </LocationMatch>"'
 tmsh save sys config
 bigstart restart httpd
-#tmsh list sys management-route
 echo "Configuration Complete"
