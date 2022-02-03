@@ -61,7 +61,7 @@ Most customers will deploy each tier to a separate Azure subscription, but multi
 
 All network traffic is directed through the firewall residing in the Network Hub resource group. The firewall is configured as the default route for all the T0 (Identity and Authorization) through T3 (workload/team environments) resource groups.  
 
-The default firewall configured for MLZ edge is F5 and see F5 configuration [here](links).
+The default firewall configured for MLZ edge is a single F5 BIG-IP VE. Detailed documentation for configuring the F5 BIG-IP is located [here](links).
 
 ## Getting Started
 
