@@ -31,7 +31,7 @@ tmsh create /ltm node RemoteAccess_Windows_VM_1 address 10.90.0.5
 tmsh create /ltm virtual-address 10.88.0.0 mask 255.248.0.0
 tmsh create /ltm pool RemoteAccess_Windows
 tmsh modify /ltm pool RemoteAccess_Windows members add { RemoteAccess_Windows_VM_1:3389 }
-tmsh create /ltm virtual Allow_RDP_to_MGMT description Inbound_RemoteAccess_to_MGMT_Server destination 10.90.1.5:3389 ip-protocol tcp mask 255.255.255.255 pool Jumpbox source 0.0.0.0/0 snat automap
+tmsh create /ltm virtual Allow_RDP_to_MGMT description Inbound_RemoteAccess_to_MGMT_Server destination 10.90.1.5:3389 ip-protocol tcp mask 255.255.255.255 pool RemoteAccess_Windows source 0.0.0.0/0 snat automap
 tmsh modify /ltm virtual Allow_RDP_to_MGMT vlans-enabled vlans add { External_VLAN }
 tmsh create /ltm virtual Spoke_to_Spoke_Traffic description Spoke_to_Spoke_Traffic destination 10.88.0.0:any mask 255.248.0.0 ip-forward ip-protocol any source 10.88.0.0/13 snat automap
 tmsh modify /ltm virtual Spoke_to_Spoke_Traffic profiles modify { fastL4 }
