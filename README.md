@@ -55,7 +55,6 @@ Networking is set up in a hub and spoke design, separated by tiers: T0 (Identity
 <!-- allow html for images so that they can be sized -->
 <img src="images/network.png" alt="Mission LZ Networking" width="600" />
 
-
 ## Subscriptions
 
 Most customers will deploy each tier to a separate Azure subscription, but multiple subscriptions are not required. A single subscription deployment is good for a testing and evaluation, or possibly a small IT Admin team.
