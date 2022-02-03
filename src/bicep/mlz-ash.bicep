@@ -112,7 +112,7 @@ param f5VmImageOffer string = 'f5-big-ip-byol'
 param f5VmImageSku string = 'f5-big-all-2slot-byol'
 
 @description('The image version of the F5 firewall appliance. It defaults to "16.0.101000".')
-param f5VmImageVersion string = '16.0.101000'
+param f5VmImageVersion string = '15.1.004000'
 
 @allowed([
   'Static'
