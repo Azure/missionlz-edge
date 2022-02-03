@@ -11,24 +11,21 @@ This guide will walk the MLZ-Edge deployer thru the steps to manually configure 
 
 ## Prerequisites
 
-- F5 BIG-IP license key
-- Deployment system must have an Azure supported browser (Edge, Chrome)
-- IP assigned to the network interface card of the F5 BIG-IP attached to the `mgmt` subnet (This is normally `.4` of the subnet assigned to the `mgmt` subnet. The default is `10.90.0.4`)
-- Password for Windows 2019 management server which is stored in the Key Vault secret named ``
-- Password or SSH private key for `f5admin` account. Password will be stored in the Key Vault secret named `f5Vm01Password`. SSH private will be stored in the repo of the system used to deploy the MLZ instance
-- Public IP address of the Windows 2019 management VM deployed as part of the MLZ solution
+- Public IP address of the Windows 2019 management VM deployed as part of the MLZ solution.
+- Password of `azureuser` account created on Windows 2019 management VM (created and stored in Key Vault at deployment time).
+- IP assigned to the network interface card of the F5 BIG-IP attached to the `mgmt` subnet (This is normally `.4` of the subnet assigned to the `mgmt` subnet. The default is `10.90.0.4`). This value is referred to as `<mgmt-ip-of-f5>` in the documentation sections below.
+- F5 BIG-IP license key.
+- Password or SSH private key for `f5admin` account. When deploying using `password` for the value of the `f5VmAuthenticationType` parameter, the password gets created and stored in Key Vault at deployment time. When using `sshPublicKey` for the value of the `f5VmAuthenticationType` parameter, the SSH private key will be stored in the repo of the system used to deploy the MLZ instance.
 
 ## Accessing the F5
 
-When the MLZ-Edge instance was deployed, a Windows 2019 management VM was deployed with a public IP address. From the system used to deploy the instance, open a browser and access the Azure Stack stamp portal, authenticating with credentials that has access to the subscription the instance was deployed into.
-
-From the system used to deploy the instance, RDP into the Windows 2019 management VM using the public IP. The credentials to use to authenticate to the VM are `azureuser` along with the `` secret value retrieved from the Key Vault.
+From the system used to deploy the instance, RDP into the Windows 2019 management VM using the public IP. The credentials to use to authenticate to the VM are `azureuser` along with the password retrieved from the Key Vault.
 
 Once logged onto the Windows 2019 VM, the administrator will be presented with the Server Manager application. On the left hand side of the `Server Manager` application, click on the `Local Server` blade. In the `PROPERTIES` pane for the `Local Server`, click the `IE Enhanced Security Configuration` setting and select `Off` for both `Administrators` and `Users`. Close the `Server Manager` application.
 
 From the Windows 2019 management VM, open Internet Explorer and enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (https://10.90.0.4). A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
 
-The `F5 BIG-IP Configuration Utility` page should appear. Login to the page with `f5admin` along with the `f5Vm01Password` secret value retrieved from the Key Vault.
+The `F5 BIG-IP Configuration Utility` page should appear. Login to the page with `f5admin` along with the password retrieved from the Key Vault.
 
 ## Configuring the F5 BIG-IP
 
@@ -50,11 +47,11 @@ Click the button `Download license` to download the license file. Transfer the `
 
 Back on the Windows 2019 management VM on the `Setup Utility >> License` page, click the Browse button to select the license file to upload. In the browser window that opens, navigate to and select the `License.txt` file downloaded from the F5 activation site and then click `Next` to upload the file to the F5 BIG-IP.
 
-The F5 BIG-IP should now be licensed and activated and the `Resource Provisioning` page should be displayed. NOTE: The BIG-IP may log the user out before presenting the `Resource Provisioning` page. If this happens, re-authenticate anc continue the setup process.
+The F5 BIG-IP should now be licensed and activated and the `Resource Provisioning` page should be displayed. NOTE: The BIG-IP may log the user out before presenting the `Resource Provisioning` page. If this happens, re-authenticate and continue the setup process.
 
 On the `Resource Provisioning` page, leave all default settings as configured and click on the `Next` button at the bottom of the page.
 
-On the `Device Certificates` page, import a customer cert if desired or to just proceed with the self-signed cert for testing purposes click `Next`.
+On the `Device Certificates` page, import a customer cert if desired or to proceed with the self-signed cert for testing purposes click `Next`.
 
 On the `Platform` page, make the following configurations and then click `Next`:
 
@@ -109,7 +106,7 @@ Depending on the IP scheme used when the MLZ instance was deployed, the `Spoke-t
 
 In the `Network > Routes` section, create the spoke-to-spoke route by clicking the `Add` button and entering in the information listed below:
 
-- Enter a `Name` for the Route (Example: `MLZ_Tiers`)
+- Enter a `Name` for the Route (Example: `Traffic_between_MLZ_Tiers`)
 - Enter a `Description` for the Route (Example: `Spoke-to-Spoke Traffic`)
 - Enter `10.88.0.0` for the `Destination` field
 - Enter `255.248.0.0` for the `Netmask` field
@@ -118,6 +115,19 @@ In the `Network > Routes` section, create the spoke-to-spoke route by clicking t
 - Click the `Finished` button at the bottom of the page
 
 ## Local Traffic
+
+### Pools & Nodes
+
+Pools can be defined to group 1 to many servers that host the same services. Create a pool for the Windows remote access server using the steps below:
+
+In the `Local Traffic > Pools > Pool List` section, click the `Create...` button and enter the information below:
+
+- Enter a name and description for the Pool (example: `RemoteAccess_Windows`)
+- In the `New Members` field, add the information below for the Windows 2019 management VM and then click the `Add` button
+  - Node Name: `RemoteAccess_Windows_VM_1`
+  - Address: `<private_mgmt_IP_address_of_Windows_VM>` (Default: 10.90.0.5)
+  - Service Port: `3389`
+- Click the `Finished` button to create the node and the pool
 
 ### Virtual Servers
 
@@ -191,14 +201,14 @@ Perform the steps below from the Windows 2019 management VM:
 
 ### Executing bash configuration script
 
-The MLZ repo that is part of the deployment container image contains the bash script called `<script_name>` that will be used to apply STIG and network settings to the BIG-IP. The script is located in the `/src/scripts/f5config` folder. Copy the script over to the Windows 2019 management VM.
+The MLZ repo that is part of the deployment container image contains the bash script called `mlzash_f5_stig_only.sh` that will be used to apply STIG and network settings to the BIG-IP. The script is located in the `/src/scripts/f5config` folder. Copy the script over to the Windows 2019 management VM and apply to the F5 BIG-IP using the steps below:
 
-From the Windows 2019 management VM, copy the bash script over to the F5 BIG-IP by running the command below:
-
-- `scp <path_to_script>\<script_name> root@<mgmt-ip-of-f5>:/var/config/rest/downloads/<script_name>`
-
-SSH into the F5 BIG-IP as the root account by running the command: `ssh root@<mgmt-ip-of-f5>`.
-
-Navigate to the `/var/config/rest/downloads/` folder
-
-Execute the bash script using the command: 
+- From the Windows 2019 management VM, copy the bash script over to the F5 BIG-IP by running the command below:
+  - `scp <path_to_script>\mlzash_f5_stig_only.sh root@<mgmt-ip-of-f5>:/var/config/rest/downloads/mlzash_f5_stig_only.sh`
+- SSH into the F5 BIG-IP as the root account by running the command: `ssh root@<mgmt-ip-of-f5>`.
+- Once on the BIG-IP, ensure the prompt is `config #`
+- Apply the execute flag to the `mlzash_f5_stig_only.sh` script by execute the command below:
+  - `chmod +x /var/config/rest/downloads/mlzash_f5_stig_only.sh`
+- Execute the bash script using the command below:
+  - `sh /var/config/rest/downloads/mlzash_f5_stig_only.sh`
+- Once the script completes, reboot the F5 BIG-IP by entering the command `reboot`
