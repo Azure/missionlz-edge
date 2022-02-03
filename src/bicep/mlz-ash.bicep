@@ -111,8 +111,8 @@ param f5VmImageOffer string = 'f5-big-ip-byol'
 @description('The image SKU of the F5 firewall appliance. It defaults to "f5-big-all-2slot-byol".')
 param f5VmImageSku string = 'f5-big-all-2slot-byol'
 
-@description('The image version of the F5 firewall appliance. It defaults to "15.0.100000".')
-param f5VmImageVersion string = '15.0.100000'
+@description('The image version of the F5 firewall appliance. It defaults to "16.0.101000".')
+param f5VmImageVersion string = '16.0.101000'
 
 @allowed([
   'Static'
@@ -481,7 +481,7 @@ var f5publicIPAddressAllocationMethod = 'Static'
 
 // REMOTE ACCESS VARIABLES
 
-var windowsPublicIpAddressName = replace(publicIpAddressNamingConvention, nameToken, 'winVM')
+var windowsPublicIpAddressName = replace(publicIpAddressNamingConvention, nameToken, 'win')
 var windowsPublicIpAddressAllocationMethod = 'Dynamic'
 
 // VM names and VMNIC names
@@ -857,7 +857,8 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     windowsVmVersion: windowsVmVersion
     windowsVmCreateOption: windowsVmCreateOption
     windowsVmStorageAccountType: windowsVmStorageAccountType
-    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id       
+    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id    
+    windowsPublicIpAddressName: windowsPublicIpAddressName   
   }
   dependsOn: [
     f5Vm01

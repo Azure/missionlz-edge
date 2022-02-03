@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "14093397352292855137"
+      "templateHash": "14508758057147401814"
     }
   },
   "parameters": {
@@ -207,9 +207,9 @@
     },
     "f5VmImageVersion": {
       "type": "string",
-      "defaultValue": "15.0.100000",
+      "defaultValue": "16.0.101000",
       "metadata": {
-        "description": "The image version of the F5 firewall appliance. It defaults to \"15.0.100000\"."
+        "description": "The image version of the F5 firewall appliance. It defaults to \"16.0.101000\"."
       }
     },
     "f5privateIPAddressAllocationMethod": {
@@ -614,7 +614,7 @@
     "f5vm01OutboundPublicIPAddressName": "[replace(variables('publicIpAddressNamingConvention'), variables('nameToken'), 'f5-out')]",
     "f5vm01InboundPublicIPAddressName": "[replace(variables('publicIpAddressNamingConvention'), variables('nameToken'), 'f5-in')]",
     "f5publicIPAddressAllocationMethod": "Static",
-    "windowsPublicIpAddressName": "[replace(variables('publicIpAddressNamingConvention'), variables('nameToken'), 'winVM')]",
+    "windowsPublicIpAddressName": "[replace(variables('publicIpAddressNamingConvention'), variables('nameToken'), 'win')]",
     "windowsPublicIpAddressAllocationMethod": "Dynamic",
     "linuxVmName": "[replace(variables('virtualMachineNamingConvention'), variables('nameToken'), 'lnx')]",
     "windowsVmName": "[replace(variables('virtualMachineNamingConvention'), variables('nameToken'), 'win')]",
@@ -1247,7 +1247,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "1450637448727839872"
+              "templateHash": "10096066286715353495"
             }
           },
           "parameters": {
@@ -1288,7 +1288,7 @@
             },
             "generatedSshKey": {
               "type": "object",
-              "defaultValue": "[json('\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
+              "defaultValue": "[json('{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
             }
           },
           "variables": {
@@ -3356,6 +3356,9 @@
           },
           "windowspublicIPAddressId": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('create-ra-windows-pubip-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.id.value]"
+          },
+          "windowsPublicIpAddressName": {
+            "value": "[variables('windowsPublicIpAddressName')]"
           }
         },
         "template": {
@@ -3365,7 +3368,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "6028504489392532861"
+              "templateHash": "14335541731220258036"
             }
           },
           "parameters": {
@@ -3456,6 +3459,9 @@
             "windowspublicIPAddressId": {
               "type": "string"
             },
+            "windowsPublicIpAddressName": {
+              "type": "string"
+            },
             "windowsNetworkInterfaceIpConfigurations": {
               "type": "array",
               "defaultValue": [
@@ -3539,7 +3545,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "1450637448727839872"
+                      "templateHash": "10096066286715353495"
                     }
                   },
                   "parameters": {
@@ -3580,7 +3586,7 @@
                     },
                     "generatedSshKey": {
                       "type": "object",
-                      "defaultValue": "[json('\n{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
+                      "defaultValue": "[json('{\"keyinfo\":{\"privateKey\":\"\",\"publicKey\":\"\"}}')]"
                     }
                   },
                   "variables": {
@@ -4536,7 +4542,7 @@
                     "value": "[parameters('location')]"
                   },
                   "name": {
-                    "value": "extPublicIpName"
+                    "value": "[parameters('windowsPublicIpAddressName')]"
                   },
                   "publicIpAllocationMethod": {
                     "value": "Dynamic"
