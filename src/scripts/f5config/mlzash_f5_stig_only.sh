@@ -5,16 +5,6 @@
 ## Michael Coleman.  M.Coleman@F5.com
 ## Modified by r.eastman@f5.com
 ## Last Update M.Coleman@f5.com July 2020
-##
-## Portions of this hardening script are being replicated
-## in Declarative Onboarding as those properties are exposed
-## in the DO API.
-##
-## DO: https://github.com/F5Networks/f5-declarative-onboarding
-## Examples: https://github.com/Mikej81/f5-securecloud-DO
-##
-## Script settings that have been successfully replicated to DO
-## Will be annotated below.
 #####################################################
 echo
 echo "###############################################"
