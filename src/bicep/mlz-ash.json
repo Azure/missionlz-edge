@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "14508758057147401814"
+      "templateHash": "16497702306754013143"
     }
   },
   "parameters": {
@@ -207,7 +207,7 @@
     },
     "f5VmImageVersion": {
       "type": "string",
-      "defaultValue": "16.0.101000",
+      "defaultValue": "15.1.004000",
       "metadata": {
         "description": "The image version of the F5 firewall appliance. It defaults to \"16.0.101000\"."
       }
