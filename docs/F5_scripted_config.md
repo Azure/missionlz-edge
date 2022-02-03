@@ -23,7 +23,7 @@ From the system used to deploy the instance, RDP into the Windows 2019 managemen
 
 Once logged onto the Windows 2019 VM, the administrator will be presented with the Server Manager application. On the left hand side of the `Server Manager` application, click on the `Local Server` blade. In the `PROPERTIES` pane for the `Local Server`, click the `IE Enhanced Security Configuration` setting and select `Off` for both `Administrators` and `Users`. Close the `Server Manager` application.
 
-From the Windows 2019 management VM, open Internet Explorer and enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (https://10.90.0.4). A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
+From the Windows 2019 management VM, open Internet Explorer and enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (<https://10.90.0.4>). A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
 
 The `F5 BIG-IP Configuration Utility` page should appear. Login to the page with `f5admin` along with the password retrieved from the Key Vault.
 
