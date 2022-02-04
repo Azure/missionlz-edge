@@ -85,8 +85,8 @@ param f5VmAdminUsername string = 'f5admin'
   'sshPublicKey'
   'password'
 ])
-@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "sshPublicKey".')
-param f5VmAuthenticationType string = 'sshPublicKey'
+@description('[sshPublicKey/password] The authentication type for the F5 firewall appliance. It defaults to "password".')
+param f5VmAuthenticationType string = 'password'
 
 @description('The administrator password or public SSH key for the F5 firewall appliance. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
@@ -111,8 +111,8 @@ param f5VmImageOffer string = 'f5-big-ip-byol'
 @description('The image SKU of the F5 firewall appliance. It defaults to "f5-big-all-2slot-byol".')
 param f5VmImageSku string = 'f5-big-all-2slot-byol'
 
-@description('The image version of the F5 firewall appliance. It defaults to "15.0.100000".')
-param f5VmImageVersion string = '15.0.100000'
+@description('The image version of the F5 firewall appliance. It defaults to "16.0.101000".')
+param f5VmImageVersion string = '15.1.004000'
 
 @allowed([
   'Static'
@@ -166,6 +166,12 @@ param hubNetworkSecurityGroupRules array = [
 
 // REMOTE ACCESS PARAMETERS
 
+param deployLinux bool = false
+
+// LINUX VIRTUAL MACHINE PARAMETERS
+
+//param linuxNetworkInterfaceName string = 'linuxVmNetworkInterface'
+
 @description('The name of the IP configuration for the Linux remotea Access VM. It defaults to "linuxVmIpConfiguration".')
 param linuxNetworkInterfaceIpConfigurationName string = 'linuxVmIpConfiguration'
 
@@ -182,7 +188,7 @@ param linuxVmAuthenticationType string = 'password'
 @description('The administrator password or public SSH key for the Linux Virtual Machine to remote into. See https://docs.microsoft.com/en-us/azure/virtual-machines/linux/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
 @secure()
 @minLength(12)
-param linuxVmAdminPasswordOrKey string
+param remoteVmAdminPassword string=substring(newGuid(),0,15)
 
 @description('The size of the Linux Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param linuxVmSize string = 'Standard_DS1_v2'
@@ -212,15 +218,11 @@ param linuxVmImageVersion string = 'latest'
 @description('[Static/Dynamic] The public IP Address allocation method for the Linux virtual machine. It defaults to "Dynamic".')
 param linuxNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 
+
 // WINDOWS VIRTUAL MACHINE PARAMETERS
 
 @description('The administrator username for the Windows Virtual Machine to   remote into. It defaults to "azureuser".')
 param windowsVmAdminUsername string = 'azureuser'
-
-@description('The administrator password the Windows Virtual Machine to  remote into. It must be > 12 characters in length. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#what-are-the-password-requirements-when-creating-a-vm- for password requirements.')
-@secure()
-@minLength(12)
-param windowsVmAdminPassword string
 
 @description('The size of the Windows Virtual Machine to remote into. It defaults to "Standard_DS1_v2".')
 param windowsVmSize string = 'Standard_DS1_v2'
@@ -254,11 +256,15 @@ param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
 
 // Parameters required for STIG resources - Currently only supports  Windows VM
-@description('Set to tru to set STIG controls on Windows VM')
-param stig bool = false
 
-@description('Url for . Example: local.azurestack.external')
-param artifactsUrl string = '3173r03b.azcatcpec.com'
+@description('Url for storing artifacts. Example: local.azurestack.external. Note: Leave blank to not deploy STIG artificats and to not STIG remote access VMs.')
+param artifactsUrl string = ''
+
+// variables
+
+var linuxVmAdminPasswordOrKey = remoteVmAdminPassword
+
+var windowsVmAdminPassword = remoteVmAdminPassword
 
 var stigComputeExtProperties = {
     publisher: 'Microsoft.Compute'
@@ -337,10 +343,12 @@ var subnetNamingConvention = replace(namingConvention, resourceToken, 'snet')
 var virtualMachineNamingConvention = replace(namingConvention, resourceToken, 'vm')
 var virtualNetworkNamingConvention = replace(namingConvention, resourceToken, 'vnet')
 
+
 // HUB VARIABLES
 
 var hubName = 'hub'
 var hubResourceGroupName = replace(resourceGroupNamingConvention, nameToken, hubName)
+
 var hubVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, hubName)
 var hubNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, hubName)
 var mgmtSubnetName = replace(subnetNamingConvention, nameToken, 'mgmt')
@@ -473,7 +481,7 @@ var f5publicIPAddressAllocationMethod = 'Static'
 
 // REMOTE ACCESS VARIABLES
 
-var windowsPublicIpAddressName = replace(publicIpAddressNamingConvention, nameToken, 'winVM')
+var windowsPublicIpAddressName = replace(publicIpAddressNamingConvention, nameToken, 'win')
 var windowsPublicIpAddressAllocationMethod = 'Dynamic'
 
 // VM names and VMNIC names
@@ -657,8 +665,9 @@ module f5Vm01PasswordKeyVault './modules/secretArtifacts.bicep' = if(f5VmAuthent
     location: location
     tenantId: tenantId
     keyVaultAccessPolicyObjectId: keyVaultAccessPolicyObjectId
-    securePassword:linuxVmAdminPasswordOrKey
+    securePassword:f5VmAdminPasswordOrKey
     keySecretName:'f5Vm01Password'
+    vmType:'f5'
   }
   dependsOn:[
     hubResourceGroup
@@ -805,19 +814,25 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
   ]
 }]
 
+
 // CREATE REMOTE ACCESS VIRTUAL MACHINES
 
+
 module remoteAccess './modules/remoteAccess.bicep' = {
-  scope: resourceGroup(hubResourceGroupName)
+  scope:resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-hub-${deploymentNameSuffix}'
   params: {
     location: location
-    mgmtSubnetId: mgmtSubnet.id
-    deploymentNameSuffix: deploymentNameSuffix
+    resourcePrefix:resourcePrefix
+    hubResourceGroupName:hubResourceGroupName
+    deployLinux: deployLinux
     hubVirtualNetworkName: hubVirtualNetwork.outputs.name
     linuxNetworkInterfaceName: linuxNetworkInterfaceName
     linuxNetworkInterfaceIpConfigurationName: linuxNetworkInterfaceIpConfigurationName
     linuxNetworkInterfacePrivateIPAddressAllocationMethod: linuxNetworkInterfacePrivateIPAddressAllocationMethod
+    mgmtSubnetId: mgmtSubnet.id
+    keyVaultAccessPolicyObjectId:keyVaultAccessPolicyObjectId
+    deploymentNameSuffix: deploymentNameSuffix
     linuxVmName: linuxVmName
     linuxVmSize: linuxVmSize
     linuxVmOsDiskCreateOption: linuxVmOsDiskCreateOption
@@ -828,7 +843,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     linuxVmImageVersion: linuxVmImageVersion
     linuxVmAdminUsername: linuxVmAdminUsername
     linuxVmAuthenticationType: linuxVmAuthenticationType
-    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey
+    linuxVmAdminPasswordOrKey: linuxVmAdminPasswordOrKey    
     windowsNetworkInterfaceName: windowsNetworkInterfaceName
     windowsNetworkInterfaceIpConfigurationName: windowsNetworkInterfaceIpConfigurationName
     windowsNetworkInterfacePrivateIPAddressAllocationMethod: windowsNetworkInterfacePrivateIPAddressAllocationMethod
@@ -842,7 +857,8 @@ module remoteAccess './modules/remoteAccess.bicep' = {
     windowsVmVersion: windowsVmVersion
     windowsVmCreateOption: windowsVmCreateOption
     windowsVmStorageAccountType: windowsVmStorageAccountType
-    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id
+    windowspublicIPAddressId: windowsPublicIPAddress.outputs.id    
+    windowsPublicIpAddressName: windowsPublicIpAddressName   
   }
   dependsOn: [
     f5Vm01
@@ -852,7 +868,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
 }
 
 // Enable extensions for Windows VM in HUB RG for STIG requirements
-module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-compute'
   params: {
@@ -865,7 +881,7 @@ module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (
   }
 }
 
-module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
+module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-dsc'
   params: {
@@ -879,6 +895,7 @@ module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig
     stigComputeExtWindowsVm
   ]
 }
+
 
 // OUTPUTS
 
