@@ -1,7 +1,5 @@
 # Mission LZ - Edge
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FChambras%2Fmissionlz-edge%2Fmain%2Fsrc%2Fbicep%2Fmlz-ash.json)
-
 Mission Landing Zone Edge is a highly opinionated template which IT oversight organizations can used to deploy compliant enclaves on Azure Stack Hub stamps. It addresses a narrowly scoped, specific need for an SCCA compliant hub and spoke infrastructure.
 
 Mission LZ Edge is:
@@ -30,6 +28,57 @@ Our intent is to enable IT Admins to use this software to:
 
 - Test and evaluate the landing zone using a single Azure subscription
 - Deploy multiple customer workloads in production
+
+## Scope
+
+Mission LZ Edge has the following scope:
+
+- Hub and spoke networking intended to comply with SCCA controls
+- Predefined spokes for identity, operations, shared services, and workloads
+- Ability to create multiple, isolated workloads
+- Remote access
+- Compatibility with SCCA compliance (and other compliance frameworks)
+- Security using standard Azure tools with sensible defaults
+
+<!-- markdownlint-disable MD033 -->
+<!-- allow html for images so that they can be sized -->
+<img src="images/scope.png" alt="Mission LZ Edge Scope" width="600" />
+<!-- markdownlint-enable MD033 -->
+
+## Networking
+
+Networking is set up in a hub and spoke design, separated by tiers: T0 (Identity and Authorization), T1 (Infrastructure Operations), T2 (DevSecOps and Shared Services), and multiple T3s (Workloads). Access control can be configured to allow separation of duties between all tiers.
+
+<!-- markdownlint-disable MD033 -->
+<!-- allow html for images so that they can be sized -->
+<img src="images/network.png" alt="Mission LZ Networking" width="600" />
+
+## Subscriptions
+
+Most customers will deploy each tier to a separate Azure subscription, but multiple subscriptions are not required. A single subscription deployment is good for a testing and evaluation, or possibly a small IT Admin team.
+
+## Firewall
+
+All network traffic is directed through the firewall residing in the Network Hub resource group. The firewall is configured as the default route for all the T0 (Identity and Authorization) through T3 (workload/team environments) resource groups.  
+
+The default firewall configured for MLZ edge is a single F5 BIG-IP VE. Detailed documentation for configuring the F5 BIG-IP is located [here](docs/F5_manual_cfg.md).
+
+## Getting Started
+
+1. Prior to mission landing zone edge deployments with a new install of Azure Stack Hub (ASH) require certain marketplace items be made available. Follow [here](docs/SETUP.md) to set up Azure stack Hub with required artifacts.
+
+2. See the [Deployment Guide for Mission LZ Edge](src/bicep/README.md).
+
+## Product Roadmap
+
+See the [Projects](https://github.com/Azure/missionlz-edge/projects) page for the release timeline and feature areas.
+
+Here's a summary of what Mission Landing Zone Edge deploys of as of February 2022:
+
+<!-- markdownlint-disable MD033 -->
+<!-- allow html for images so that they can be sized -->
+<img src="images/roadmap.png" alt="Mission LZ as of December 2021" width="1200" />
+<!-- markdownlint-enable MD033 -->
 
 ## Contributing
 
