@@ -61,13 +61,13 @@ Most customers will deploy each tier to a separate Azure subscription, but multi
 
 All network traffic is directed through the firewall residing in the Network Hub resource group. The firewall is configured as the default route for all the T0 (Identity and Authorization) through T3 (workload/team environments) resource groups.  
 
-The default firewall configured for MLZ edge is a single F5 BIG-IP VE. Detailed documentation for configuring the F5 BIG-IP is located [here](docs/F5_manual_cfg.md).
+The default firewall configured for MLZ edge is a single F5 BIG-IP VE. Review the [Configuring F5 README](docs/Configuring_F5.md) for detailed instructions on how to configure the F5.
 
 ## Getting Started
 
-1. Prior to mission landing zone edge deployments with a new install of Azure Stack Hub (ASH) require certain marketplace items be made available. Follow [here](docs/SETUP.md) to set up Azure stack Hub with required artifacts.
+1. Prior to deploying the Mission Landing Zone Edge on a new install of Azure Stack Hub (ASH), the ASH marketplace must be populated with the necessary items to support the deployment. Review the [Deployment Container README](docs/Deployment_container_setup.md) to set up Azure stack Hub with required artifacts.
 
-2. See the [Deployment Guide for Mission LZ Edge](src/bicep/README.md).
+2. Review the [Deployment Guide for Mission LZ Edge](docs/MLZ_Deployment.md).
 
 ## Product Roadmap
 

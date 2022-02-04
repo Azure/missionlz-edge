@@ -1,8 +1,8 @@
 # Azure Stack Hub Syndication and setup
 
 Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission landing zone edge will require certain marketplace items be made available. These marketplace items exist in your ‘registration’ subscription in a publicly available cloud.
-The following allows for this specific list of required items be downloaded into a container then saved and moved into the environment which has access to ASH. The following process is design for environments where the ASH stamp is in a isolated network without connectivity to public clouds.
-![Basic process flow of syndication in highly secure scenarios.](./images/workflow.png)
+The following allows for this specific list of required items be downloaded into a container then saved and moved into the environment which has access to ASH. The following process is designed for environments where the ASH stamp is in a isolated network without connectivity to public clouds.
+![Basic process flow of syndication in highly secure scenarios.](../images/workflow.png)
 
 *Note: In the above scenario the container is created in a publicly accessible location, this means access to the Azure portal, either commercial or government where the subscription that hosts the ASH registration is. The container can then be moved to the private location where the ASH stamp lives and connected to a network that has access to its admin portal management API.
 The only requirements for both environments, the public and private networks will be that docker containers can run and connect to the proper network and that Docker containers availble space has been expanded using the process documented below in troubleshooting.
