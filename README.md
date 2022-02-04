@@ -51,7 +51,7 @@ Networking is set up in a hub and spoke design, separated by tiers: T0 (Identity
 
 <!-- markdownlint-disable MD033 -->
 <!-- allow html for images so that they can be sized -->
-<img src="images/network.png" alt="Mission LZ Networking" width="600" />
+<img src="images/networking.png" alt="Mission LZ Networking" width="600" />
 
 ## Subscriptions
 
