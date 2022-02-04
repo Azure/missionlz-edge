@@ -1,14 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param resourcePrefix string 
 param location string
 param tenantId string 
 param keyVaultAccessPolicyObjectId string
-//defaults
 param utcValue string = utcNow()
-var keyVaultNamingConvention = toLower('${resourcePrefix}-kv-unique_token')
 param newguid string = newGuid()
-
-var keyVaultUniqueName = replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9)))
-
 @allowed([
   'add'
   'update'
@@ -21,10 +19,12 @@ param keyVaultSecretPerms array = [
 ]
 param generatedSshKey object = json(loadTextContent('../sshkeys.json'))
 
+var keyVaultNamingConvention = toLower('${resourcePrefix}-kv-unique_token')
+var keyVaultUniqueName = replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9)))
 var publicKeySecretName = 'sshPublicKey'
 var privateKeySecretName = 'sshPrivateKey'
 
-
+// Create Key Vault
 module keyVault './keyVault.bicep' = {
   name: 'create_${keyVaultUniqueName}_${utcValue}'
   params: {
@@ -50,7 +50,7 @@ module accessPolicy '../modules/keyVaultAccessPolicy.bicep' = {
   ]
 }
 
-
+// Store Secret
 resource publicKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
   name: '${keyVaultUniqueName}/${publicKeySecretName}'
   properties: {
@@ -62,6 +62,7 @@ resource publicKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
   ]
 }
 
+// Store Secret
 resource privateKeySecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
  
   name: '${keyVaultUniqueName}/${privateKeySecretName}'

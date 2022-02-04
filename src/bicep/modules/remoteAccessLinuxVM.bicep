@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param location string
 param tags object = {}
 param deploymentNameSuffix string
@@ -28,7 +31,6 @@ var nics = [
     id: linuxNetworkInterface.outputs.id
     properties: {
       primary: true
-
     }
   }
 ]

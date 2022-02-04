@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 <#
 .SYNOPSIS 
     Pre-process for Azure Stack Hub market place items related to Mission Landing Zone Edge.
