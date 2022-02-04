@@ -1,6 +1,6 @@
 # Azure Stack Hub Syndication and setup
 
-Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission landing zone will require certain marketplace items be made available. These marketplace items exist in your ‘registration’ subscription in a publicly available cloud.
+Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission landing zone edge will require certain marketplace items be made available. These marketplace items exist in your ‘registration’ subscription in a publicly available cloud.
 The following allows for this specific list of required items be downloaded into a container then saved and moved into the environment which has access to ASH. The following process is design for environments where the ASH stamp is in a isolated network without connectivity to public clouds.
 ![Basic process flow of syndication in highly secure scenarios.](./images/workflow.png)
 
