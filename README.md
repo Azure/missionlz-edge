@@ -67,7 +67,7 @@ The default firewall configured for MLZ edge is a single F5 BIG-IP VE. Review th
 
 1. Prior to deploying the Mission Landing Zone Edge on a new install of Azure Stack Hub (ASH), the ASH marketplace must be populated with the necessary items to support the deployment. Review the [Deployment Container README](docs/Deployment_container_setup.md) to set up Azure stack Hub with required artifacts.
 
-2. Review the [Deployment Guide for Mission LZ Edge](docs/MLZ_Deployment.md).
+2. Review the [Deployment Guide for Mission LZ Edge](docs/Usage_Guide.md).
 
 ## Product Roadmap
 
