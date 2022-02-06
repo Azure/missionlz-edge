@@ -13,7 +13,7 @@
 
 The Mission LZ - Edge solution was designed to be deployed utilizing a deployment container built from an image defined in this repo.
 
->**Note**: Prior to deploying Mission LZ - Edge it is required that the necessary Marketplace items are available in the target ASH Marketplace. Follow the steps outlined in the [Deployment Container Setup README](./Deployment_container_setup.md) to populate the ASH Marketplace with the required SKUs.
+>**NOTE**: Prior to deploying Mission LZ - Edge it is required that the necessary Marketplace items are available in the target ASH Marketplace. Follow the steps outlined in the [Deployment Container Setup README](./Deployment_container_setup.md) to populate the ASH Marketplace with the required SKUs.
 
 The required Marketplace items and specific versions can be found in the text file used by the container to download. The file is located [here](../src/artifacts/defaultMlzMarketPlaceItems.txt).
 
@@ -100,16 +100,16 @@ Once the F5 BIG-IP is completely configured, test accessing the Windows 2019 man
 
 The deployment code has a parameter called `deployLinux` that when set to `true`, deploys a Ubuntu 18.04 management VM alongside the Windows 2019 management VM. The Ubuntu VM is not deployed with a Public IP and will need to be accessed via the Windows 2019 maangement VM.
 
->**Note**: When a linux VM is deployed as part the initial MLZ-Edge deployment, the credentials (admin username/password) are the same for both the Windows and Linux VMs.
+>**NOTE**: When a linux VM is deployed as part the initial MLZ-Edge deployment, the credentials (admin username/password) are the same for both the Windows and Linux VMs.
 Should the Linux VM be deployed after the initial deployment, the deployer has the option to use the password as before or to use a different password.
 
 ## **Deployment Examples**
 
 Use `az deployment sub` to deploy MLZ to the subscription set as **isDefault** for the logged on account (run `az deployment sub create --help` for additional information).
 
->**Note**: When deploying from a container that does not have access to the Internet, replace the `mlz-ash.bicep` template file in the deployment command with the `mlz-ash.json` file.
+>**NOTE**: When deploying from a container that does not have access to the Internet, replace the `mlz-ash.bicep` template file in the deployment command with the `mlz-ash.json` file.
 >
->**Note**: To deploy Mission LZ with all of the parameter defaults, provide values for the `--name` and `--location` parameters (by default, location will be "local" unless that stamp has a custom domain name) and specify the `./mlz-ash.bicep` template file.
+>**NOTE**: To deploy Mission LZ with all of the parameter defaults, provide values for the `--name` and `--location` parameters (by default, location will be "local" unless that stamp has a custom domain name) and specify the `./mlz-ash.bicep` template file.
 
 To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden.
 
@@ -193,7 +193,7 @@ az deployment sub create \
 
 The example below is for `password` auth in Azure Commercial (or an Azure Stack Hub registered in Azure Commercial).
 
->**Note**: Setting STIG to true is currently not available in Commercial:
+>**NOTE**: Setting STIG to true is currently not available in Commercial:
 
 ```plaintext
 resourcePrefix="<value>"
@@ -213,7 +213,7 @@ az deployment sub create \
 
 The example below is for `sshPublicKey` auth in Azure Commercial (or an Azure Stack Hub registered in Azure Commercial).
 
->**Note**: Setting STIG to true is currently not available in Commercial:
+>**NOTE**: Setting STIG to true is currently not available in Commercial:
 
 ```plaintext
 resourcePrefix="<value>"
@@ -235,7 +235,7 @@ az deployment sub create \
 
 The example is for `sshPublicKey` auth in Azure Commercial (or an Azure Stack Hub registered in Azure Commercial) and includes the Linux VM option:
 
->**Note**: Setting STIG to true is currently not available in Commercial:
+>**NOTE**: Setting STIG to true is currently not available in Commercial:
 
 ```plaintext
 resourcePrefix="<value>"
@@ -267,8 +267,9 @@ To deploy an initial instance of MLZ onto an Azure Stack Hub stamp that has been
     - Create deployment container using image transferred from connected environment
     - From deployment container, populate the Marketplace of the target Azure Stack Hub stamp
 1. From within the deployment container, deploy the MLZ-Edge instance using Azure CLI ([examples](#deployment-examples))
-    - NOTE: Execute deployment from the `src/bicep` folder
-    - NOTE: If using SSH keys for auth to the F5, run the script `generateSshKey.sh` to generate a new ssh keypair. Execute the script from the `src/bicep` folder by executing `../scripts/generateSshKey.sh`
+    >**NOTE**: Execute deployment from the `src/bicep` folder
+    >
+    >**NOTE**: If using SSH keys for auth to the F5, run the script `generateSshKey.sh` to generate a new ssh keypair. Execute the script from the `src/bicep` folder by executing `../scripts/generateSshKey.sh`
 1. From the deployment system, remote (RDP) into the Windows 2019 management VM using the Public IP attached to the VM
 1. Configure the F5 BIG-IP using the appropriate guide ([Partially Scripted](./F5_manual_cfg.md) or [Fully Scripted](./F5_scripted_config.md)) for the deployment scenario
 1. Test remote (RDP) connectivity to the F5 BIG-IP using the `Inbound` public IP of the F5

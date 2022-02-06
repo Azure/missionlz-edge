@@ -1,5 +1,18 @@
 # Post-deployment F5 BIG-IP configuration
 
+## Table of Contents
+
+1. [Introduction](#introduction)
+1. [Prerequisites](#prerequisites)
+1. [Accessing the F5](#accessing-the-f5)
+1. [Configuring the F5 BIG-IP](#configuring-the-f5-big-ip)
+    - [Setup Utility](#setup-utility)
+    - [Network Configuration](#network-configuration)
+    - [Routes](#routes)
+    - [Local Traffic](#local-traffic)
+    - [Virtual Servers](#virtual-servers)
+1. [Applying Network and STIG Configurations to F5](#applying-stig-configurations-to-f5)
+
 ## Introduction
 
 This guide will walk the MLZ-Edge deployer thru the steps to manually configure the F5 BIG-IP with the base configurations that will implement the following functionalities:
@@ -47,7 +60,9 @@ Click the button `Download license` to download the license file. Transfer the `
 
 Back on the Windows 2019 management VM on the `Setup Utility >> License` page, click the Browse button to select the license file to upload. In the browser window that opens, navigate to and select the `License.txt` file downloaded from the F5 activation site and then click `Next` to upload the file to the F5 BIG-IP.
 
-The F5 BIG-IP should now be licensed and activated and the `Resource Provisioning` page should be displayed. NOTE: The BIG-IP may log the user out before presenting the `Resource Provisioning` page. If this happens, re-authenticate and continue the setup process.
+The F5 BIG-IP should now be licensed and activated and the `Resource Provisioning` page should be displayed.
+
+>**NOTE**: The BIG-IP may log the user out before presenting the `Resource Provisioning` page. If this happens, re-authenticate and continue the setup process.
 
 On the `Resource Provisioning` page, leave all default settings as configured and click on the `Next` button at the bottom of the page.
 
@@ -57,17 +72,19 @@ On the `Platform` page, make the following configurations and then click `Next`:
 
 - Enter a desired hostname for the F5 (example: `mlzashf5.local`)
 - Select the desired time zone
+- Uncheck the box next to `Disable login` for the Root Account field
+- Enter a secure password for the Root account
 - Select `Specify Range` in the `SSH IP Allow` section and then enter the CIDR information for the management subnet (default is 10.90.0.0/24)
 
 On the `Network` page, click `Finished` under `Advanced Network Configuration`.
 
-## Network Configuration
+### Network Configuration
 
-### Interfaces
+#### Interfaces
 
 In the `Network > Interfaces` section click on each discovered interface and enter a description (labels such as `External, Internal, VDMS`) for the interface. To understand which interface is connected to which subnet, it can be helpful to view the interfaces via the Azure Stack portal and observe the MAC address of the interface
 
-### VLANs
+#### VLANs
 
 In the `Network > VLANs > VLAN List` section, create a VLAN for each of the interfaces (`External, Internal, VDMS`) by clicking the `Create...` button and entering in the information listed below:
 
@@ -75,7 +92,7 @@ In the `Network > VLANs > VLAN List` section, create a VLAN for each of the inte
 - Select the interface that will be attached to the VLAN in the `Interface` dropdown, select `untagged` in the `Tagging` dropdown and then click the `Add` button
 - Leave all other fields with the default settings and click the `Finished` button at the bottom of the page
 
-### Self IPs
+#### Self IPs
 
 Using the Azure Stack portal, note the IP address that was assigned to each of the F5 interfaces (`External, Internal, VDMS`). The default IPs are `10.90.1.4, 10.90.2.4, 10.90.3.4` respectfully. In the `Network > Self IPs` section, create a new IP for each interface by clicking the `Create...` button and entering in the information listed below:
 
@@ -114,9 +131,9 @@ In the `Network > Routes` section, create the spoke-to-spoke route by clicking t
 - In the `Gateway Address` field, enter in the IP address of the gateway for the `Internal` subnet. The default value is `10.90.2.1`
 - Click the `Finished` button at the bottom of the page
 
-## Local Traffic
+### Local Traffic
 
-### Pools & Nodes
+#### Pools & Nodes
 
 Pools can be defined to group 1 to many servers that host the same services. Create a pool for the Windows remote access server using the steps below:
 
@@ -186,20 +203,6 @@ In the `Local Traffic > Virtual Servers > Virtual Server List` section, click th
 - Leave all other fields with the default settings and click the `Finished` button at the bottom of the page
 
 ## Applying STIG Configurations to F5
-
-### Enabling the root account
-
-In-order to scp a bash script over to the F5 and then execute the script, the root account must be enabled.
-
-Perform the steps below from the Windows 2019 management VM:
-
-- Open a `CMD` window
-- SSH into the F5 BIG-IP as the f5admin account by running the command: `ssh f5admin@<mgmt-ip-of-f5>`. If using SSH keys, add `-i <path/name of private key>`. Default management IP for F5 BIG-IP is `10.90.0.4`
-- Once on the BIG-IP, ensure the prompt si `(tmos)#`
-- From the `(tmos)#` prompt, enter the command `modify auth password root`. Enter a new password once prompted and save password to Key Vault.
-- From the `(tmos)#` prompt, enter the command `modify /sys db systemauth.disablerootlogin value false`. Reboot the F5 BIG-IP by entering the command `reboot`
-
-### Executing bash configuration script
 
 The MLZ repo that is part of the deployment container image contains the bash script called `mlzash_f5_stig_only.sh` that will be used to apply STIG and network settings to the BIG-IP. The script is located in the `/src/scripts/f5config` folder. Copy the script over to the Windows 2019 management VM and apply to the F5 BIG-IP using the steps below:
 

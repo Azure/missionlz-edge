@@ -37,3 +37,4 @@ az deployment sub create \
       hubDeploymentName = {Hub and Spoke Deployment Name that recently deployed} \
       hubSubscriptionId = {Hub Subscription Id} \
       hubResourceGroupName = {Hub Resource Group Name}
+```

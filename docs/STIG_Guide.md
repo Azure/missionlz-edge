@@ -4,7 +4,8 @@ When setting [STIG controls](https://public.cyber.mil/stigs/) is a requirement f
 
 First a quick explanation of the underlying technologies. This solution is based on the work done in the [Azure ato-toolkit](https://github.com/Azure/ato-toolkit) GitHub repo. This toolkit takes advantage of a number of technologies in and out of Azure. Slight modifications have been made to the toolkit to enable it to work within an ASH stamp deployed in a disconnected environment.
 
-1. [Azure Desired State Configuration](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/dsc-overview) - managing vm guest configurations at scale. *Note: currently this only supports Windows machines in Azure Stack Hub*
+1. [Azure Desired State Configuration](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/dsc-overview) - managing vm guest configurations at scale.
+    >**NOTE**: currently this only supports Windows machines in Azure Stack Hub
 2. [PowerSTIG](https://github.com/Microsoft/PowerStig) - Tooling based on DSC tied into DISA STIG controls to allow DSC to manage setting these controls.
 
 Optional:
@@ -13,11 +14,12 @@ Optional:
 
 Currently the process is as follows:
 
-Step 1: The syndication container process described in the [Deployment Container Setup README](./Windows_STIG_Guide.md) will not only allow uploading the required market place items needed by MLZ to deploy but also Marketplace items for DSC to set STIG controls as well as a set of scripts and tools needed to accomplish the setting of controls.
+Step 1: The syndication container process described in the [Deployment Container Setup README](./STIG_Guide.md) will not only allow uploading the required market place items needed by MLZ to deploy but also Marketplace items for DSC to set STIG controls as well as a set of scripts and tools needed to accomplish the setting of controls.
 These tools will be uploaded into a storage account in the admin portal of the Azure Stack Hub and made readable to all on the network. Not all files uploaded to the storage account are currently used as part of the base MLZ deployment but are provided for customized deployments.
 Step 2: During the deployment of a landing zone instance, the `stig` parameter can be set to `true` which then adds the 'custom script' and 'DSC' extensions to the Windows remote access host.
 
-Once the syndication process has uploaded the required scripts and files for the STIG process, PowerShell commands can be run to add the extensions to existing Windows VM's deployed on the ASH stamp. *Note: The Linux VM STIG process is still a work in progress*
+Once the syndication process has uploaded the required scripts and files for the STIG process, PowerShell commands can be run to add the extensions to existing Windows VM's deployed on the ASH stamp.
+>**NOTE**: The Linux VM STIG process is still under development
 
 Example:
 
