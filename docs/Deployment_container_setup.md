@@ -1,14 +1,15 @@
 # Azure Stack Hub Syndication and setup
 
-Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission landing zone edge will require certain marketplace items be made available. These marketplace items exist in your ‘registration’ subscription in a publicly available cloud.
-The following allows for this specific list of required items be downloaded into a container then saved and moved into the environment which has access to ASH. The following process is design for environments where the ASH stamp is in a isolated network without connectivity to public clouds.
-![Basic process flow of syndication in highly secure scenarios.](./images/workflow.png)
+Prior to any deployments with a new install of Azure Stack Hub (ASH) the mission landing zone edge will require certain marketplace items be made available. These marketplace items exist in your "registration" subscription in a publicly available cloud.
+The following allows for this specific list of required items to be downloaded into a container then saved and moved into the environment which has access to ASH. The following process is designed for environments where the ASH stamp is in a isolated network without connectivity to public clouds.
 
-*Note: In the above scenario the container is created in a publicly accessible location, this means access to the Azure portal, either commercial or government where the subscription that hosts the ASH registration is. The container can then be moved to the private location where the ASH stamp lives and connected to a network that has access to its admin portal management API.
-The only requirements for both environments, the public and private networks will be that docker containers can run and connect to the proper network and that Docker containers availble space has been expanded using the process documented below in troubleshooting.
-For example, a single laptop can run the create and download process in a public network and then be moved to the private network and run import and eventually azure deploy of mission landing zone.*
+![Basic process flow of syndication in highly secure scenarios.](../images/workflow.png)
 
-*This process will also bring with it, in the container, all files needed to STIG VMs during or after deployment. These will be located in the artifacts folder inside the container as well as a script in the scripts folder to upload them into a storage account of the ASH’s operator portal for access to deployment resources.*
+>**NOTE**: In the above scenario the container is created in a publicly accessible location, this means access to the Azure portal, either commercial or government where the subscription that hosts the ASH registration is. The container can then be moved to the private location where the ASH stamp lives and connected to a network that has access to the stamps admin portal management API.
+The only requirements for both environments, is that Docker containers can run and connect to the proper network and that the Docker containers available space has been expanded using the process documented below in troubleshooting.
+For example, a single laptop can run the create and download process in a public network and then be moved to the private network and run import and eventually azure deploy of mission landing zone.
+>
+>**NOTE**: This process will also bring with it, in the container, all files needed to STIG VMs during or after deployment. These will be located in the artifacts folder inside the container as well as a script in the scripts folder to upload them into a storage account of the ASH’s operator portal for access to deployment resources.
 
 ## From main source repo directory run the following
 
@@ -23,9 +24,9 @@ Tested environments: 2 Options
 
 ## Container \<create\>
 
-Clone the repo and run the following from a command prompt in which docker client is installed and has access to docker service. Also run from repo's root directory.
+Clone the repo and run the following from a command prompt in which Docker client is installed and has access to Docker service. Also run from repo's root directory.
 
-- Create new container from dockerfile: use your own naming in place of shawngib/syndication
+- Create new container from Dockerfile:
 
   ```bash
   docker build -t <image_name> .
@@ -39,12 +40,16 @@ Clone the repo and run the following from a command prompt in which docker clien
 
 ## Inside container \<download\>
 
-*Note: The download process will include complete packages which may or may not include required VMs making this process time consuming and result in a large container to transport.*
+>**NOTE**: The download process will include complete packages which may or may not include required VMs making this process time consuming and result in a large container to transport.
+>
+>**NOTE****: To modify the default list of items that gets downloaded, edit the `artifacts/defaultMarketPlaceItems.txt` file.
+>
+>**NOTE**: The value for `<registration_name>` can be found from the admin portal of the stamp. In the admin portal, click on the `Dashboard` blade, click on the `Region management` tile, click on the `Properties` blade and observe the value in the `Registration name` field.
 
-- Run download script as first step of syndication. This will also upload the required resources needed to STIG VMs into a storage account unless you add the parameter `-uploadStigReq $false`. Note: if you wanted to modify marketplace items prior to this download step you can modify the artifacts/defaultMarketPlaceItems.txt file to include those.
+- Run download script as first step of syndication. This will also upload the required resources needed to STIG VMs into a storage account unless you add the parameter `-uploadStigReq $false`.
 
   ```bash
-  pwsh ./src/scripts/download.ps1 –registrationName <your reg. name> [-UseDeviceAuthentication] # example: CPEC-37173
+  pwsh ./src/scripts/download.ps1 –registrationName <registration_name> [-UseDeviceAuthentication]
   ```
 
 `download.ps1` Availalbe Parameters:
@@ -57,7 +62,7 @@ skipprecheck  | False | Set to true if you do not want script to run chaeck agai
 
 A few other parameters exist in the script file but do not require changing.
 
-*Note: You will be prompted for username and password for a user that has access to the subscription where the registration exists. To find your registration name you can log into the Admin portal and on the dashboard select the region inside the 'region management' widget and then select properties.*
+>**NOTE**: You will be prompted for username and password for a user that has access to the subscription where the registration exists. To find your registration name you can log into the Admin portal and on the dashboard select the region inside the 'region management' widget and then select properties.*
 
 ## Save container – commit changes in new container
 
@@ -68,7 +73,7 @@ A few other parameters exist in the script file but do not require changing.
   docker ps -a
   ```
 
-- Depending on your use of docker locally you may see 1 or more containers listed, we are looking for one named the same as used in the above steps. ‘shawngib/syndication’, copy its ‘CONTAINER ID’, example ‘72118659ddcf’
+- Depending on your use of Docker locally you may see 1 or more containers listed. Observe the container that was create previously and copy its "CONTAINER ID" (example "72118659ddcf")
 - Commit its changes to new container
 
   ```bash
@@ -83,7 +88,7 @@ A few other parameters exist in the script file but do not require changing.
 
 - If wanting to use a different system than one used to create the container and transport a tar file you can save this image to compressed tar file by running:
 
-*Note: Essentially, we want to run 'docker save -o \<container name\>.tar' to create a tar of the container image and then compress/zip the file for transport. On Windows we simply save the tar file and open explorer then right click on tar file and zip/compress.*
+>**NOTE**: Essentially, we want to run 'docker save -o \<container name\>.tar' to create a tar of the container image and then compress/zip the file for transport. On Windows we simply save the tar file and open explorer then right click on tar file and zip/compress.*
 
   Linux \<create new container\>:
 
@@ -95,7 +100,7 @@ A few other parameters exist in the script file but do not require changing.
 
 ## Container \<Import\>
 
-*Note: This is also a time consuming process depending on the size of the packages selected and network bandwidth.*
+>**NOTE**: This is also a time consuming process depending on the size of the packages selected and network bandwidth.*
 
 - If on a new system with the compressed file available run:
 
@@ -117,7 +122,7 @@ A few other parameters exist in the script file but do not require changing.
   pwsh ./src/scripts/import.ps1 -hubDomain <local ASH domain> [-UseDeviceAuthentication]
   ```
 
-  *Note: Import will use the default value of AzureStackAdmin for adding an environment into the containers local Azure environment files. This will be based on the hubDomain value you enter which is basically the same portal domain you use to access the stamp minus the ‘portal’ or ‘adminportal’ part. Example: ‘region.localstamp.com’* .
+  >**NOTE**: Import will use the default value of AzureStackAdmin for adding an environment into the containers local Azure environment files. This will be based on the hubDomain value you enter which is basically the same portal domain you use to access the stamp minus the ‘portal’ or ‘adminportal’ part. Example: ‘region.localstamp.com’* .
 
 ## Using this container model to transport other market place items
 
@@ -125,10 +130,11 @@ At a few different stages in the process it can be modified to download an exter
 
 - The easiest way to accomplish this task would be use the Azure Stack Hub syndication tool which runs on Windows to select items you want to move into ASH and can download then import. This is the same tool, although slightly modified to run on Linux that is used in this container process except it doesn't allow you to run the 'Select items' capability.
 
-- `./artifacts/defaultMlzMarketPlaceItems.txt` host the required by MLZ list of marketplace items. Modify this list either in the source repo which then requires a new container to be built or inside the container using `vi ./artifacts/defaultMlzMarketPlaceItems.txt`.
+- `./artifacts/defaultMlzMarketPlaceItems.txt` contains the list of Marketplace items required to deploy MLZ on Azure Stack Hub. Modify this list either in the source repo which then requires a new container to be built or inside the container using `vi ./artifacts/defaultMlzMarketPlaceItems.txt`.
 
-*Note: the items are separated by new line and are in the resource ID format `/subscriptions/<subscription>/resourceGroups/<resourcegroup>/providers/Microsoft.AzureStack/registrations/<registration>/products/f5-networks.f5-big-ip-bestf5-bigip-virtual-edition-best-byol-13.1.100000`.
-Leave the variables for \<subscription\> and \<registration\> as is since the script replaces these based on the credentials you enter.*
+  >**NOTE**: Each item in the `./artifacts/defaultMlzMarketPlaceItems.txt` file is separated by new line and is in the resource ID format `/subscriptions/<subscription>/resourceGroups/<resourcegroup>/providers/Microsoft.AzureStack/registrations/<registration>/products/f5-networks.f5-big-ip-bestf5-bigip-virtual-edition-best-byol-13.1.100000`.
+  >
+  >**NOTE**: Do not edit the variables for \<subscription\> and \<registration\> because the script replaces them with values at execution time.
 
 - An additional model to undertake would be combine both efforts, the easy method using the windows tooling to create a directory of items and then move that directory into the artifacts folder prior to building the container. At this point the 'download' process would not need to be run since it is already completed so only the 'import' process should run to move into ASH.
 
@@ -137,7 +143,7 @@ Leave the variables for \<subscription\> and \<registration\> as is since the sc
 - Error downloading marketplace items due to size limits.
 Run `df -h` in WSL to see  current directory sizes and usage. The docker directory `/mnt/wsl/docker-desktop-data/isocache` can be maxed out either due to caching a failed effort or other cause. Running `docker system prune` may clear enough resources to download items.
 
-### Changing default docker size limits may also alleviate the issue. To resize
+### Changing default Docker size limits may also alleviate the issue. To resize
 
 - Stop WSL by running `wsl --shutdown`
 - Stop Docker For Windows by right clicking DFW in status bar and selecting quit.
@@ -149,4 +155,4 @@ Run `df -h` in WSL to see  current directory sizes and usage. The docker directo
 - Start Docker For Windows
 - Double check size by running `df -Th` at command prompt and look for `/mnt/wsl/docker-desktop-data/isocache` "Mounted on" and copy the Filesytem, ie: /dev/sde
 - If not already installed in WSL, install resize2fs by running with sudo apt install resize2fs
-- Expand the corresponding docker desktop iso cache mount with `sudo resize2fs /dev/<mount> <sizeInMegabytes>M` where \<mount\> is the filesystem from the earlier `df -Th` command.
+- Expand the corresponding Docker desktop iso cache mount with `sudo resize2fs /dev/<mount> <sizeInMegabytes>M` where \<mount\> is the filesystem from the earlier `df -Th` command.

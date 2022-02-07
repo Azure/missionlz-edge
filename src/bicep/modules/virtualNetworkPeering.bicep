@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param localVirtualNetworkName string
 param remoteVirtualNetworkName string
 param remoteResourceGroupName string

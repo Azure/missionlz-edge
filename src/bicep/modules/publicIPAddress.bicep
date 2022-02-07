@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param name string
 param location string
 param tags object = {}
-
 param skuName string = 'Basic'
 param publicIpAllocationMethod string
 param availabilityZones array = []

@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted # removes need to approce untrusted gallery items.
 
 Install-Module -Name Az.BootStrapper -Force

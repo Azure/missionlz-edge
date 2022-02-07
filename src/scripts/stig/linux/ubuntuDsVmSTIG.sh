@@ -1,3 +1,8 @@
+#!/bin/sh
+
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 # only run once during deployment
 if [ -f ./azAutomationComplete ]; then
     echo "STIG Automation completion detected, exiting..."

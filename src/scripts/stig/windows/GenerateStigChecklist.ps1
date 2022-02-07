@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 <#
 .SYNOPSIS
     When "Run as administrator" this script will generate a checklist file via PowerSTIG for Windows Server 2016/2019 that can be viewed with DISA's StigViewer 

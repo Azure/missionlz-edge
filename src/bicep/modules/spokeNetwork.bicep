@@ -1,17 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param location string = resourceGroup().location
 param tags object = {}
-
 param firewallPrivateIPAddress string
-
 param virtualNetworkName string
 param virtualNetworkAddressPrefix string
-
 param networkSecurityGroupName string
 param networkSecurityGroupRules array
-
 param subnetName string
 param subnetAddressPrefix string
-
 param routeTableName string = '${subnetName}-routetable'
 param routeTableRouteName string = 'default_route'
 param routeTableRouteAddressPrefix string = '0.0.0.0/0'
@@ -49,9 +47,7 @@ module virtualNetwork './virtualNetwork.bicep' = {
     name: virtualNetworkName
     location: location
     tags: tags
-
     addressPrefix: virtualNetworkAddressPrefix
-
     subnets: [
       {
         name: subnetName
@@ -63,7 +59,6 @@ module virtualNetwork './virtualNetwork.bicep' = {
           routeTable: {
             id: routeTable.outputs.id
           }
-          
         }
       }
     ]
@@ -73,8 +68,8 @@ module virtualNetwork './virtualNetwork.bicep' = {
 
 output virtualNetworkName string = virtualNetwork.outputs.name
 output virtualNetworkResourceId string = virtualNetwork.outputs.id
-// output subnetName string = virtualNetwork.outputs.subnets[0].name
-// output subnetAddressPrefix string = virtualNetwork.outputs.subnets[0].properties.addressPrefix
-// output subnetResourceId string = virtualNetwork.outputs.subnets[0].id
+output subnetName string = virtualNetwork.outputs.subnets[0].name
+output subnetAddressPrefix string = virtualNetwork.outputs.subnets[0].properties.addressPrefix
+output subnetResourceId string = virtualNetwork.outputs.subnets[0].id
 output networkSecurityGroupName string = networkSecurityGroup.outputs.name
 output networkSecurityGroupResourceId string =  networkSecurityGroup.outputs.id
