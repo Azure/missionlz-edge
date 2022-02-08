@@ -19,8 +19,8 @@ jobs:
         datetime=$(date +%s) # gets the current date time as an epoch
         az deployment sub create \
            --name "deploy-mlz-ash" \
-           --location $(Location) \
-           --template-file $(TemplateFile)  \
+           --location $(GLocation) \
+           --template-file $(ashTemplateFile)  \
            --parameters \
              resourcePrefix=$datetime \
              f5VmImageVersion="15.1.400000" \
