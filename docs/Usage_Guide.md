@@ -58,7 +58,7 @@ f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicK
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
 f5VmImageVersion | 15.0.100000 | Version of F5 BIG-IP sku being deployed
-[stig](./STIG_Guide.md) | false | Setting to true will allow Desired State Configuration on Windows remote access host to set STIG related controls
+[artifactsUrl](./STIG_Guide.md) | None | Setting to the storage suffix will allow Desired State Configuration on Windows remote access host to set STIG related controls. ie: location.azurestack.local
 deployLinux | false | Setting to true deploys a Ubuntu 180.04 management VM alongside the Windows 2019 management VM using the same credentials
 
 ## **Setup Deployment Container**
