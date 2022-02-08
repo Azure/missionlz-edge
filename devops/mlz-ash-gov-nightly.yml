@@ -1,14 +1,5 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
-
-schedules:
-  - cron: "0 4 * * *"
-    displayName: "Nightly - mlz bicep azure US Gov Cloud"
-    branches:
-      include:
-        - main
-    always: true
-
 pool:
   vmImage: ubuntu-latest
 
@@ -27,11 +18,15 @@ jobs:
       inlineScript: |
         datetime=$(date +%s) # gets the current date time as an epoch
         az deployment sub create \
-          --name $(bDeploymentName) \
-          --location $(GLocation) \
-          --template-file $(TemplateFile) \
-          --parameters resourcePrefix=$datetime
-          
+           --name "deploy-mlz-ash" \
+           --location $(Location) \
+           --template-file $(TemplateFile)  \
+           --parameters \
+             resourcePrefix=$datetime \
+             f5VmImageVersion="15.1.400000" \
+             keyVaultAccessPolicyObjectId=$(ObjectId)
+             
+
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Generate SBOM'
     inputs:
@@ -52,7 +47,6 @@ jobs:
           --yes \
           --no-wait \
           --name %
-
   
   - task: PublishBuildArtifacts@1
     displayName: 'Publish SBOM to Build Artifact'
