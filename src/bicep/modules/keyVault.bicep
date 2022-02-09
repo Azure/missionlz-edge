@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 // Parameters
 param location string
 param tenantId string
@@ -22,6 +25,7 @@ param keysPermissions array = [
 param secretsPermissions array = [
   'list'
 ]
+
 var accessPolicies= [
   {
     objectId: objectId
@@ -50,6 +54,5 @@ resource keyVault 'Microsoft.KeyVault/vaults@2016-10-01' = {
     }
   }
 }
-
 
 output kvName string = keyVault.name

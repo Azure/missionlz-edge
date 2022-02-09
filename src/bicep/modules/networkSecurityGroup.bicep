@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param name string
 param location string
 param tags object = {}
-
 param securityRules array
 
 resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2018-11-01' = {

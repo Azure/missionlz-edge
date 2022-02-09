@@ -1,20 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// scope
 targetScope = 'subscription'
 
 @minLength(3)
 @maxLength(14)
 @description('Workload name, 3-14 alphanumeric characters without whitespaces. It defaults to "workload"')
 param workloadName string ='workload'
-
 @minLength(3)
 @maxLength(10)
 @description('A prefix, 3-10 alphanumeric characters without whitespace, used to prefix resources and generate uniqueness for resources with globally unique naming requirements like Storage Accounts and Log Analytics Workspaces')
 param resourcePrefix string
-
 @minLength(3)
 @maxLength(6)
 @description('A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz".')
 param resourceSuffix string = 'mlz'
-
 @description('A string dictionary of tags to add to deployed resources. See https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources?tabs=json#arm-templates for valid settings.')
 param tags object = {}
 
@@ -42,7 +43,6 @@ var workloadVirtualNetworkName = '${toLower(resourcePrefix)}-vnet-${workloadName
 var workloadNetworkSecurityGroupName = '${toLower(resourcePrefix)}-nsg-${workloadName}-${toLower(resourceSuffix)}'
 var workloadSubnetName = '${toLower(resourcePrefix)}-snet-${workloadName}-${toLower(resourceSuffix)}'
 
-
 // TAGS
 
 var defaultTags = {
@@ -52,8 +52,6 @@ var defaultTags = {
 }
 
 var calculatedTags = union(tags, defaultTags)
-
-
 
 @description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network.')
 param workloadVirtualNetworkAddressPrefix string = '10.94.0.0/16'
@@ -74,6 +72,7 @@ module hubDeploymentValues './hubDeploymentValues.bicep' = {
     mlzHubDeploymentName:hubDeploymentName    
   }
 }
+
 module workloadSpokeNetwork '../modules/spokeNetwork.bicep' = {
   name: 'workLoadSpokeNetwork'
   scope: az.resourceGroup(workloadResourceGroupName)
@@ -120,7 +119,6 @@ module workloadVirtualNetworkPeerings '../modules/virtualNetworkPeering.bicep' =
     workloadSpokeNetwork
   ]
 }
-
 
 output workloadVirtualNetworkName string = workloadSpokeNetwork.outputs.virtualNetworkName
 output workloadVirtualNetworkResourceId string = workloadSpokeNetwork.outputs.virtualNetworkResourceId

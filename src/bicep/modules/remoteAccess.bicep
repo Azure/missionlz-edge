@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param location string
 param resourcePrefix string
 param tags object = {}
@@ -61,7 +64,6 @@ param windowsVmVersion string
 param windowsVmCreateOption string
 param windowsVmStorageAccountType string
 
-
 resource hubVirtualNetwork 'Microsoft.Network/virtualNetworks@2021-02-01' existing = {
   name: hubVirtualNetworkName
 }
@@ -69,7 +71,6 @@ resource hubVirtualNetwork 'Microsoft.Network/virtualNetworks@2021-02-01' existi
 resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
   name:'${hubVirtualNetworkName}/test'
 }
-
 
 module remoteLinuxVmSshKeyVault './generateSshKey.bicep' = if(deployLinux && linuxVmAuthenticationType=='sshPublicKey'){
   scope: resourceGroup(hubResourceGroupName)
@@ -84,6 +85,7 @@ module remoteLinuxVmSshKeyVault './generateSshKey.bicep' = if(deployLinux && lin
      ]
 
 }
+
 module remoteLinuxVmPasswordKeyVault './secretArtifacts.bicep' = if(deployLinux && linuxVmAuthenticationType=='password'){
   scope: resourceGroup(hubResourceGroupName)
   name:'deploy-remoteLinuxVmPwdkv-hub-${deploymentNameSuffix}'
@@ -100,6 +102,7 @@ module remoteLinuxVmPasswordKeyVault './secretArtifacts.bicep' = if(deployLinux 
     
   ]
 }
+
 module remoteWinVmPasswordKeyVault './secretArtifacts.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
   name:'deploy-remoteWinVmPwdkv-hub-${deploymentNameSuffix}'
@@ -126,7 +129,6 @@ module PublicIp './publicIPAddress.bicep' = {
     publicIpAllocationMethod: 'Dynamic'
   }
 }
-
 
 module windowsNetworkInterface './networkInterface.bicep' = {
   name: 'deploy-ra-windows-nic-${deploymentNameSuffix}'
@@ -155,7 +157,6 @@ module windowsVirtualMachine './windowsVirtualMachine.bicep' = {
     storageAccountType: windowsVmStorageAccountType
     networkInterfaceName: windowsNetworkInterface.outputs.name
     }
-   
 }
 
 module linuxVirtualMachine './remoteAccessLinuxVM.bicep' = if(deployLinux) {

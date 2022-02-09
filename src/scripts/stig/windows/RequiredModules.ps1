@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 function Get-RequiredModules {
     return @(
         @{ModuleName = 'AuditPolicyDsc'; ModuleVersion = '1.4.0.0' },

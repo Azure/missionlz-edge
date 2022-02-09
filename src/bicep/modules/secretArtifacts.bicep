@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 param resourcePrefix string 
 param location string
 param vmType string
@@ -6,13 +9,8 @@ param keyVaultAccessPolicyObjectId string
 param keySecretName string
 @secure()
 param securePassword string
-//defaults
 param utcValue string = utcNow()
-var keyVaultNamingConvention = toLower('${resourcePrefix}-${vmType}-kv-unique_token')
 param newguid string = newGuid()
-
-var keyVaultUniqueName = substring(replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9))),0,22)
-
 @allowed([
   'add'
   'update'
@@ -23,6 +21,9 @@ param keyVaultSecretPerms array = [
   'all'
   
 ]
+
+var keyVaultUniqueName = substring(replace(keyVaultNamingConvention, 'unique_token', uniqueString(resourcePrefix, substring(newguid,0,9))),0,22)
+var keyVaultNamingConvention = toLower('${resourcePrefix}-${vmType}-kv-unique_token')
 
 module keyVault './keyVault.bicep' = {
   name: 'create_${keyVaultUniqueName}_${utcValue}'

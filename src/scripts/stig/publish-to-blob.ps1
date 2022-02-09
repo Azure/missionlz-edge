@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 <#
     This script publishes templates and associated scripts into your Azure Storage account, and generates Azure Portal link for deployment.
     Replace variables with your environment details.

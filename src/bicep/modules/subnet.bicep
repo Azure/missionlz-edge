@@ -1,5 +1,7 @@
-param name string
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
+param name string
 param addressPrefix string
 
 resource subnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' = {

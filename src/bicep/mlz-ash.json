@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1124.51302",
-      "templateHash": "14508758057147401814"
+      "templateHash": "9135278932373827680"
     }
   },
   "parameters": {
@@ -207,7 +207,7 @@
     },
     "f5VmImageVersion": {
       "type": "string",
-      "defaultValue": "16.0.101000",
+      "defaultValue": "15.1.004000",
       "metadata": {
         "description": "The image version of the F5 firewall appliance. It defaults to \"16.0.101000\"."
       }
@@ -1601,7 +1601,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "11482305931824284796"
+              "templateHash": "6735415060237706591"
             }
           },
           "parameters": {
@@ -1651,8 +1651,8 @@
             }
           },
           "variables": {
-            "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]",
-            "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]"
+            "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]",
+            "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]"
           },
           "resources": [
             {
@@ -2735,7 +2735,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "13503571013080653111"
+              "templateHash": "6947080925942825339"
             }
           },
           "parameters": {
@@ -3078,6 +3078,18 @@
               "type": "string",
               "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.id.value]"
             },
+            "subnetName": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.subnets.value[0].name]"
+            },
+            "subnetAddressPrefix": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.subnets.value[0].properties.addressPrefix]"
+            },
+            "subnetResourceId": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', 'virtualNetwork'), '2020-10-01').outputs.subnets.value[0].id]"
+            },
             "networkSecurityGroupName": {
               "type": "string",
               "value": "[reference(resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup'), '2020-10-01').outputs.name.value]"
@@ -3368,7 +3380,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1124.51302",
-              "templateHash": "14335541731220258036"
+              "templateHash": "7770785746206816309"
             }
           },
           "parameters": {
@@ -3896,7 +3908,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "11482305931824284796"
+                      "templateHash": "6735415060237706591"
                     }
                   },
                   "parameters": {
@@ -3946,8 +3958,8 @@
                     }
                   },
                   "variables": {
-                    "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]",
-                    "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]"
+                    "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]",
+                    "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]"
                   },
                   "resources": [
                     {
@@ -4232,7 +4244,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1124.51302",
-                      "templateHash": "11482305931824284796"
+                      "templateHash": "6735415060237706591"
                     }
                   },
                   "parameters": {
@@ -4282,8 +4294,8 @@
                     }
                   },
                   "variables": {
-                    "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]",
-                    "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]"
+                    "keyVaultUniqueName": "[substring(replace(variables('keyVaultNamingConvention'), 'unique_token', uniqueString(parameters('resourcePrefix'), substring(parameters('newguid'), 0, 9))), 0, 22)]",
+                    "keyVaultNamingConvention": "[toLower(format('{0}-{1}-kv-unique_token', parameters('resourcePrefix'), parameters('vmType')))]"
                   },
                   "resources": [
                     {

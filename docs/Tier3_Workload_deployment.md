@@ -8,7 +8,7 @@ The Mission LZ - Edge existing deployment to Azure Stack subscription.
 
 ### **Common Workload(tier3)Deployment Parameters**
 
-Below is a table of parameters that should be reviewed before deployment. While not an exhaust list of all parameters, these parameters either do not have default values or have defaults that customers may want to modify:
+Below is a table of parameters that should be reviewed before deployment. While not an exhaustive list of all parameters, these parameters either do not have default values or have defaults that customers may want to modify:
 
 **Parameter Name**          | **Default value** | **Description**
 ------------------------| --------------| -----------
@@ -21,18 +21,20 @@ workloadsSubnetAddressPrefix | 10.94.0.0/24 | The CIDR Subnet Address Prefix for
 
 #### **Default MLZ workload(tier3) Instance deployment**
 
-To deploy workload to an existing MLZ-ASH with default values, provide values for the --name, --location parameters (by default, location will be "local" unless that stamp has a custom domain name) and specify the `./workloadSpoke.bicep` template file with following parameters to extract output values of existing MLZ-ASH deployment: resourcePrefix,hubDeploymentName,hubSubscriptionId, and hubResourceGroupName
+To deploy workload to an existing MLZ-ASH instance with default values, provide values for the --name, --location parameters (by default, location will be "local" unless that stamp has a custom domain name) and specify the `./workloadSpoke.bicep` template file with following parameters to extract output values of existing MLZ-ASH deployment: resourcePrefix,hubDeploymentName,hubSubscriptionId, and hubResourceGroupName
 
 Step 1: cd src/bicep/tier3WorkloadSpoke
 
 Step 2: Run the deployment script below with defaults by providing required parameter values for resourcePrefix and keyVaultAccessPolicyObjectId
 
 ```plaintext
-az deployment sub create --name <t3 deployment Name> \
-                         --template-file workloadSpoke.bicep \
-                         --location 3173r03b \
-                         --parameters \
-                        resourcePrefix =<resource prefix>
-                        hubDeploymentName = {Hub and Spoke Deployment Name that recently deployed}
-                        hubSubscriptionId = {Hub Subscription Id}
-                        hubResourceGroupName = {Hub Resource Group Name}
+az deployment sub create \
+  --name <t3 deployment Name> \
+  --template-file workloadSpoke.bicep \
+  --location 3173r03b \
+  --parameters \
+      resourcePrefix =<resource prefix> \
+      hubDeploymentName = {Hub and Spoke Deployment Name that recently deployed} \
+      hubSubscriptionId = {Hub Subscription Id} \
+      hubResourceGroupName = {Hub Resource Group Name}
+```
