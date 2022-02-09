@@ -22,7 +22,7 @@ jobs:
            --location $(GLocation) \
            --template-file $(ashTemplateFile)  \
            --parameters \
-             resourcePrefix=$datetime \
+             resourcePrefix=mlzash \
              f5VmImageVersion="15.1.400000" \
              keyVaultAccessPolicyObjectId=$(GObjectId)
              
