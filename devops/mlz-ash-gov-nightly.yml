@@ -11,7 +11,7 @@ jobs:
   steps:
   - task: AzureCLI@2
     inputs:
-      azureSubscription: 'GovConnection'
+      azureSubscription: $(GServiceConnectionName)
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: 'az vm image accept-terms --urn f5-networks:f5-big-ip-byol:f5-big-all-2slot-byol:15.1.400000'
