@@ -24,7 +24,7 @@ jobs:
            --parameters \
              resourcePrefix=$datetime \
              f5VmImageVersion="15.1.400000" \
-             keyVaultAccessPolicyObjectId=$(ObjectId)
+             keyVaultAccessPolicyObjectId=$(GObjectId)
              
 
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
