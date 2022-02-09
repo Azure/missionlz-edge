@@ -10,6 +10,12 @@ jobs:
 - job: AzureGov
   steps:
   - task: AzureCLI@2
+    inputs:
+      azureSubscription: $(GServiceConnectionName)
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'az vm image accept-terms --urn f5-networks:f5-big-ip-byol:f5-big-all-2slot-byol:15.1.400000'
+  - task: AzureCLI@2
     displayName: "Deploy MLZ - ASH"
     inputs:
       azureSubscription: $(GServiceConnectionName)
@@ -19,12 +25,12 @@ jobs:
         datetime=$(date +%s) # gets the current date time as an epoch
         az deployment sub create \
            --name "deploy-mlz-ash" \
-           --location $(Location) \
-           --template-file $(TemplateFile)  \
+           --location $(GLocation) \
+           --template-file $(ashTemplateFile)  \
            --parameters \
-             resourcePrefix=$datetime \
+             resourcePrefix=mlzash \
              f5VmImageVersion="15.1.400000" \
-             keyVaultAccessPolicyObjectId=$(ObjectId)
+             keyVaultAccessPolicyObjectId=$(GObjectId)
              
 
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
