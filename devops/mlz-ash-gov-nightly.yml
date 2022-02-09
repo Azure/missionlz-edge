@@ -10,6 +10,12 @@ jobs:
 - job: AzureGov
   steps:
   - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'GovConnection'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'az vm image accept-terms --urn f5-networks:f5-big-ip-byol:f5-big-all-2slot-byol:15.1.400000'
+  - task: AzureCLI@2
     displayName: "Deploy MLZ - ASH"
     inputs:
       azureSubscription: $(GServiceConnectionName)
