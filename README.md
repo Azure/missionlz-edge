@@ -31,6 +31,13 @@ Our intent is to enable IT Admins to use this software to:
 - Test and evaluate the landing zone using a single Azure subscription
 - Deploy multiple customer workloads in production
 
+## Nightly Build Status
+
+<!-- markdownlint-disable MD033 -->
+Azure Government
+
+[![Build Status](https://ag-ascii.visualstudio.com/Mission%20Landing%20Zone%20-%20Pipeline/_apis/build/status/mlz-edge/missionlz-edge-nightly-build?branchName=azure-pipelines)](https://ag-ascii.visualstudio.com/Mission%20Landing%20Zone%20-%20Pipeline/_build/latest?definitionId=199&branchName=azure-pipelines)
+
 ## Contributing
 
 This project welcomes contributions and suggestions. See our [Contributing Guide](CONTRIBUTING.md) for details.
