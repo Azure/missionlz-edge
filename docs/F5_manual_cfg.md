@@ -34,9 +34,10 @@ This guide will walk the MLZ-Edge deployer thru the steps to manually configure 
 
 From the system used to deploy the instance, RDP into the Windows 2019 management VM using the public IP. The credentials to use to authenticate to the VM are `azureuser` along with the password retrieved from the Key Vault.
 
-Once logged onto the Windows 2019 VM, the administrator will be presented with the Server Manager application. On the left hand side of the `Server Manager` application, click on the `Local Server` blade. In the `PROPERTIES` pane for the `Local Server`, click the `IE Enhanced Security Configuration` setting and select `Off` for both `Administrators` and `Users`. Close the `Server Manager` application.
+Once logged onto the Windows 2019 VM, right-click on the Internet Explorer icon on the Taskbar, right-click on `Internet Explorer` from the menu that opens and then select `Run as administrator`. Click `Yes` on the UAC dialog box that pops up.
 
-From the Windows 2019 management VM, open Internet Explorer and enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (<https://10.90.0.4>). A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
+In the address bar of Internet Explorer, enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (<https://10.90.0.4>). In the Security Alert popup that opens, check the box next to `In the future, do not show this warning` and then click `OK`.
+A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
 
 The `F5 BIG-IP Configuration Utility` page should appear. Login to the page with `f5admin` along with the password retrieved from the Key Vault.
 
@@ -46,7 +47,7 @@ The `F5 BIG-IP Configuration Utility` page should appear. Login to the page with
 
 Once logged into the F5 BIG-IP, the screen displayed will be the `Welcome` page of the `Setup Utility`. Click `Next` on the page.
 
-On the `General Properties`, click `Activate` to enter the license key. Enter the license key into the `Base Registration Key` field, select `Manual` in the `Activation Method` field and then clcik the `Next` button.
+On the `General Properties`, click `Activate` to enter the license key. Enter the license key into the `Base Registration Key` field, select `Manual` in the `Activation Method` field and then click the `Next` button.
 
 On the next screen, select `Download/Upload File` and then click the `Click Here To Download Dossier File`. Transfer the `dossier.do` file downloaded to the `Downloads` folder to a system that has Internet connectivity.
 
