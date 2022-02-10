@@ -62,6 +62,8 @@ f5VmImageVersion | 15.1.004000 | Version of F5 BIG-IP sku being deployed
 [artifactsUrl](./STIG_Guide.md) | None | Setting to the storage suffix will allow Desired State Configuration on Windows remote access host to set STIG related controls. ie: location.azurestack.local
 deployLinux | false | Setting to true deploys a Ubuntu 180.04 management VM alongside the Windows 2019 management VM using the same credentials
 
+>**NOTE** The `artifactsUrl` parameter is reliant on the existance of a storage account that has been populated with source files using the deployment container. If deploying MLZ-Edge into Azure Commercial or Azure Government hyper-scale, do not include the `artifactsUrl` in the deployment command.
+
 ## **Setup Deployment Container**
 
 The deployment container can be created using the container image generated from the dockerfile in this repo. Transfer the image to the MLZ deployment system. Once the image is on the MLZ deployment system and imported into the local docker repository, perform the steps below to create and configure the deployment container:
@@ -150,7 +152,7 @@ az deployment sub create \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
-The example below is a custom deployment in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey` and [allows setting STIG controls on the Windows machine](./STIG_Guide.md) by setting `artifactsUrl` to the storage accounts suffix, ie; local.azurestack.external:
+The example below is a custom deployment in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey`:
 
 ```plaintext
 resourcePrefix="<value>"
@@ -158,14 +160,12 @@ f5AuthType="sshPublicKey"
 f5VmImageVersion="15.1.400000"
 keyVaultAccessPolicyObjectId="<value>"
 region="<value>"
-artifactsUrl="<value>"
 
 az deployment sub create \
   --name "deploy-mlz-${resourcePrefix}" \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
-      artifactsUrl=${artifactsUrl} \
       resourcePrefix=${resourcePrefix} \
       f5VmAuthenticationType=${f5AuthType} \
       f5VmImageVersion=${f5VmImageVersion} \
