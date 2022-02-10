@@ -36,7 +36,36 @@ param hubResourceGroupName string
 param location string = deployment().location
 
 @description('An array of Network Security Group rules to apply to the SharedServices Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
-param workloadNetworkSecurityGroupRules array = []
+param workloadNetworkSecurityGroupRules array = [
+  {
+    name: 'allow_SSH'
+    properties: {
+      description: 'Allows SSH traffic'
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      destinationPortRange: '22'
+      sourceAddressPrefix: '*'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'allow_RDP'
+    properties: {
+      description: 'Allows SSH traffic'
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      destinationPortRange: '3389'
+      sourceAddressPrefix: '*'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 120
+      direction: 'Inbound'
+    }
+  }
+]
 
 var workloadResourceGroupName = '${toLower(resourcePrefix)}-rg-${workloadName}-${toLower(resourceSuffix)}'
 var workloadVirtualNetworkName = '${toLower(resourcePrefix)}-vnet-${workloadName}-${toLower(resourceSuffix)}'
