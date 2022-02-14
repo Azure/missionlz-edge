@@ -72,3 +72,4 @@ if (!$container) {
 
 Write-Host "Uploading required artifacts to set STIG controls on VMs. Note: This will overwrite existing files." -ForegroundColor Cyan
 Get-ChildItem -Path $osBasePath -Exclude "publish-to-blob.ps1","*.md" -File -Recurse | Set-AzStorageBlobContent -Context $storageContext -Container $containerName -Force
+Get-ChildItem -Path $osBasePath.Replace('\stig\','\f5config\') -File -Recurse | Set-AzStorageBlobContent -Context $storageContext -Container $containerName -Force

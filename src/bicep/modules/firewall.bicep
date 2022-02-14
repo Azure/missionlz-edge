@@ -118,6 +118,7 @@ param vdmsIpConfigurations array = [
     }
   }
 ]
+param artifactsUrl string = ''
 
 // Variables
 var nics = [
@@ -169,6 +170,25 @@ var osProfile = {
     adminPassword: adminPasswordOrKey
   }
 }
+
+var f5ComputeExtProperties = {
+  publisher: 'Microsoft.Azure.Extensions'
+  type: 'CustomScript'
+  typeHandlerVersion: '2.0'
+  autoUpgradeMinorVersion: true
+  settings: {
+    commandToExecute: 'sh mlzash_f5_cfg.sh'
+  }
+}
+
+var f5ComputeprotectedSettings = {
+  fileUris: [
+    '${f5configLocation}'
+    '${f5stigLocation}'
+  ]
+}
+var f5configLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_cfg.sh'
+var f5stigLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_stig_only.sh'
 
 // Create External NIC
 module f5externalNic './networkInterface.bicep' = {
@@ -253,6 +273,18 @@ resource f5vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
     f5managementNic
     f5vdmsNic
   ]
+}
+
+module customScript 'virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
+  name: 'deploy-custom-scripts-compute'
+  params: {
+    name: 'install-config-scripts'
+    vmName: f5vm.name
+    location: f5vm.location
+    tags: tags
+    properties: f5ComputeExtProperties
+    protectedSettings: f5ComputeprotectedSettings
+  }
 }
 
 output adminUsername string = adminUsername

@@ -285,6 +285,8 @@ var stigComputeprotectedSettings = {
         '${artifactsLocation}${requiredModulesFile}'
         '${artifactsLocation}${installPSModulesFile}'
         '${artifactsLocation}${generateStigChecklist}'
+        '${f5configLocation}'
+        '${f5stigLocation}'
       ]
       ignoreRelativePathForFileDownloads: true
   }
@@ -308,6 +310,8 @@ var artifactsLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artif
 var requiredModulesFile = 'RequiredModules.ps1'
 var installPSModulesFile = 'InstallModules.ps1'
 var generateStigChecklist = 'GenerateStigChecklist.ps1'
+var f5configLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_cfg.sh'
+var f5stigLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_stig_only.sh'
 
 /*
 
@@ -709,6 +713,7 @@ module f5Vm01 './modules/firewall.bicep' = {
   params: {
     adminPasswordOrKey: f5VmAuthenticationType=='password'?f5VmAdminPasswordOrKey: f5Vm01SshKeyVault.outputs.publicKey
     adminUsername: f5VmAdminUsername
+    artifactsUrl: artifactsUrl
     authenticationType: f5VmAuthenticationType
     extIpConfiguration1Name: f5vm01extIpConfiguration1Name
     extIpConfiguration2Name: f5vm01extIpConfiguration2Name
