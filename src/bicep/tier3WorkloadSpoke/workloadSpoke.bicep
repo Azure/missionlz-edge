@@ -83,10 +83,10 @@ var defaultTags = {
 var calculatedTags = union(tags, defaultTags)
 
 @description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network.')
-param workloadVirtualNetworkAddressPrefix string = '10.94.0.0/16'
+param workloadVirtualNetworkAddressPrefix string = '10.100.0.0/16'
 
 @description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space.')
-param workloadSubnetAddressPrefix string = '10.94.0.0/24'
+param workloadSubnetAddressPrefix string = '10.100.0.0/24'
 
 resource workloadResourceGroup 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: workloadResourceGroupName

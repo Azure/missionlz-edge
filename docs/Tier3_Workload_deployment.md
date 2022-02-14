@@ -21,8 +21,8 @@ resourcePrefix | None | A prefix, 3-10 alphanumeric characters without whitespac
 hubDeploymentName | None | Required to extract MLZ-ASH deployment values
 hubSubscriptionId | None | Required to extract MLZ-ASH deployment values
 hubResourceGroupName | None | Required to extract MLZ-ASH deployment values
-workloadVirtualNetworkAddressPrefix | 10.94.0.0/16 | The CIDR Virtual Network Address Prefix for the Workload Virtual Network
-workloadsSubnetAddressPrefix | 10.94.0.0/24 | The CIDR Subnet Address Prefix for the default Workload subnet. It must be in the Workload Virtual Network space
+workloadVirtualNetworkAddressPrefix | 10.100.0.0/16 | The CIDR Virtual Network Address Prefix for the Workload Virtual Network
+workloadsSubnetAddressPrefix | 10.100.0.0/24 | The CIDR Subnet Address Prefix for the default Workload subnet. It must be in the Workload Virtual Network space
 
 ## **Default MLZ Workload (Tier3) Instance deployment**
 
@@ -56,7 +56,7 @@ Once a workload (Tier 3) is deployed, configurations need to be made to the F5 t
 
 The configurations need to be made on the F5 in the MLZ-Edge hub. Access to the F5 portal is done from the Windows 2019 management VM deployed in the hub attached to the `MGMT` subnet.
 
-Remote Access into the virtual network will only be possible from the Windows 2019 VM deployed in the hub. This traffic is allowed via the virtual networking peering that is established between the workload vnet and the hub vnet as part of the workload deployment.
+Remote Access into the workload (Tier 3) virtual network will only be possible from the Windows 2019 VM deployed in the hub. This traffic is allowed via the virtual network peering that is established between the workload virtual network and the hub virtual network as part of the workload deployment.
 
 ### **Workload to MLZ Tiers Flow**
 
@@ -66,9 +66,9 @@ In the `Local Traffic > Virtual Servers > Virtual Server List` section, click th
 
 - Enter a name and description for the Virtual Server (example: `<name_for_workload>_to_MLZ-Spokes`)
 - In the `Type` dropdown, select `Forwarding (IP)`
-- In the `Source Address` field, enter `<workload_address_space/mask>`. Using deployment defaults, value would be `10.94.0.0/16`
-- In the `Destination Address/Mask` field, enter `10.88.0.0/13`. This is the default value which is supernet of the MLZ spoke vnets
-- In the `Service Port` field, select `HTTPS`.
+- In the `Source Address` field, enter `<workload_address_space/mask>`. Using deployment defaults, value would be `10.100.0.0/16`
+- In the `Destination Address/Mask` field, enter `10.88.0.0/13`. This is the default value which is a supernet of the MLZ spoke virtual networks
+- In the `Service Port` field, select `* All Ports`.
 - In the `VLAN and Tunnel Traffic` field, select `Enabled on...` from the dropdown.
 - In the `VLANS and Tunnels` field, select the VLAN that is associated with the internal subnet (example: `Internal_Interface`).
 - In the `Source Address Translation` field, select `Auto Map` from the dropdown.
@@ -80,7 +80,7 @@ The steps below will allow traffic initiated in the workload with a destination 
 
 - Enter a name and description for the Virtual Server (example: `<name_for_workload>_to_External`)
 - In the `Type` dropdown, select `Forwarding (IP)`
-- In the `Source Address` field, enter `<workload_address_space/mask>`. Using deployment defaults, value would be `10.94.0.0/16`
+- In the `Source Address` field, enter `<workload_address_space/mask>`. Using deployment defaults, value would be `10.100.0.0/16`
 - In the `Destination Address/Mask` field, enter `0.0.0.0/0`. This can be further restricted down depending on the desired traffic flow.
 - In the `Service Port` field, select `HTTPS`.
 - In the `VLAN and Tunnel Traffic` field, select `Enabled on...` from the dropdown.
