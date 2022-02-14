@@ -8,6 +8,7 @@
 1. [Remote Access](#remote-access)
 1. [Deployment Examples](#deployment-examples)
 1. [Deployment Process](#deployment-process)
+1. [Workload Deployment](#workload-deployment)
 
 ## **Prerequisistes**
 
@@ -57,9 +58,11 @@ sharedServicesSubnetAddressPrefix | 10.93.0.0/24 | The CIDR Subnet Address Prefi
 f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicKey} with a minimum length of 14 characters with atleast 1 uppercase, 1 lowercase, 1 alphnumeric, 1 special character
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
-f5VmImageVersion | 15.0.100000 | Version of F5 BIG-IP sku being deployed
+f5VmImageVersion | 15.1.004000 | Version of F5 BIG-IP sku being deployed
 [artifactsUrl](./STIG_Guide.md) | None | Setting to the storage suffix will allow Desired State Configuration on Windows remote access host to set STIG related controls. ie: location.azurestack.local
 deployLinux | false | Setting to true deploys a Ubuntu 180.04 management VM alongside the Windows 2019 management VM using the same credentials
+
+>**NOTE** The `artifactsUrl` parameter is reliant on the existance of a storage account that has been populated with source files using the deployment container. If deploying MLZ-Edge into Azure Commercial or Azure Government hyper-scale, do not include the `artifactsUrl` in the deployment command.
 
 ## **Setup Deployment Container**
 
@@ -149,7 +152,7 @@ az deployment sub create \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
-The example below is a custom deployment in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey` and [allows setting STIG controls on the Windows machine](./STIG_Guide.md) by setting `artifactsUrl` to the storage accounts suffix, ie; local.azurestack.external:
+The example below is a custom deployment in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey`:
 
 ```plaintext
 resourcePrefix="<value>"
@@ -157,14 +160,12 @@ f5AuthType="sshPublicKey"
 f5VmImageVersion="15.1.400000"
 keyVaultAccessPolicyObjectId="<value>"
 region="<value>"
-artifactsUrl="<value>"
 
 az deployment sub create \
   --name "deploy-mlz-${resourcePrefix}" \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
-      artifactsUrl=${artifactsUrl} \
       resourcePrefix=${resourcePrefix} \
       f5VmAuthenticationType=${f5AuthType} \
       f5VmImageVersion=${f5VmImageVersion} \
@@ -274,3 +275,7 @@ To deploy an initial instance of MLZ onto an Azure Stack Hub stamp that has been
 1. Configure the F5 BIG-IP using the appropriate guide ([Partially Scripted](./F5_manual_cfg.md) or [Fully Scripted](./F5_scripted_config.md)) for the deployment scenario
 1. Test remote (RDP) connectivity to the F5 BIG-IP using the `Inbound` public IP of the F5
 1. If the test in the previouis step is successful, disassociate the public IP attached to the Windows 2019 management VM NIC and delete the public IP resource
+
+## **Workload Deployment**
+
+Once the MLZ-Edge instance is deployed and functional as outlined in the [Deployment Process](#deployment-process) section, `N` number of Tier 3 deployments can be performed to integrate workloads with the MLZ-Edge instance. Refer to the [Tier 3 Workload Deployment Guide](./Tier3_Workload_deployment.md) for details on deploying workloads.

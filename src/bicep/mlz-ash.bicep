@@ -406,7 +406,7 @@ var identityNetworkSecurityGroupRules = [
       ]
       destinationAddressPrefix: '*'
       access: 'Allow'
-      priority: 100
+      priority: 1000
       direction: 'Inbound'
     }
   }
@@ -433,7 +433,7 @@ var operationsNetworkSecurityGroupRules = [
       ]
       destinationAddressPrefix: '*'
       access: 'Allow'
-      priority: 100
+      priority: 1000
       direction: 'Inbound'
     }
   }
@@ -460,7 +460,7 @@ var sharedServicesNetworkSecurityGroupRules = [
       ]
       destinationAddressPrefix: '*'
       access: 'Allow'
-      priority: 100
+      priority: 1000
       direction: 'Inbound'
     }
   }
@@ -909,3 +909,8 @@ output hub object = {
   virtualNetworkName: hubVirtualNetworkName  
   firewallPrivateIPAddress:f5Vm01.outputs.internalIpAddress
 }
+
+output nsgsArray array = [for (name, i) in spokes: {
+  nsgResourceGroupName: spokeNetworks[i].outputs.networkSecurityGroupResourceGroupName
+  nsgName: spokeNetworks[i].outputs.networkSecurityGroupName
+}]
