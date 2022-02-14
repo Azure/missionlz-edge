@@ -4,36 +4,34 @@
 // scope
 targetScope = 'subscription'
 
-@minLength(3)
-@maxLength(14)
-@description('Workload name, 3-14 alphanumeric characters without whitespaces. It defaults to "workload"')
-param workloadName string ='workload'
+@description('The region to deploy resources into. It defaults to the deployment location.')
+param location string = deployment().location
+
+// WORKLOAD PARAMETERS
+
 @minLength(3)
 @maxLength(10)
 @description('A prefix, 3-10 alphanumeric characters without whitespace, used to prefix resources and generate uniqueness for resources with globally unique naming requirements like Storage Accounts and Log Analytics Workspaces')
 param resourcePrefix string
+
 @minLength(3)
 @maxLength(6)
 @description('A suffix, 3 to 6 characters in length, to append to resource names (e.g. "dev", "test", "prod", "mlz"). It defaults to "mlz".')
 param resourceSuffix string = 'mlz'
+
+@minLength(3)
+@maxLength(14)
+@description('Workload name, 3-14 alphanumeric characters without whitespaces. It defaults to "workload"')
+param workloadName string ='workload'
+
+@description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network.')
+param workloadVirtualNetworkAddressPrefix string = '10.100.0.0/16'
+
+@description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space.')
+param workloadSubnetAddressPrefix string = '10.100.0.0/24'
+
 @description('A string dictionary of tags to add to deployed resources. See https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources?tabs=json#arm-templates for valid settings.')
 param tags object = {}
-
-// Hub Resources
-@description('The Hub Deployment Name.')
-param hubDeploymentName string
-@description('The Hub subscription Id.')
-param hubSubscriptionId string
-@description('Hub Resource Group Name.')
-param hubResourceGroupName string
-// @description('Hub Virtual Network Name to peer with.')
-// param hubVirtualNetworkName string
-// @description('Hub Firewall Private IP Address.')
-// param firewallPrivateIPAddress string
-//
-
-@description('The region to deploy resources into. It defaults to the deployment location.')
-param location string = deployment().location
 
 @description('An array of Network Security Group rules to apply to the SharedServices Virtual Network. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
 param workloadNetworkSecurityGroupRules array = [
@@ -67,10 +65,42 @@ param workloadNetworkSecurityGroupRules array = [
   }
 ]
 
+@description('True or False value for adding rules to the MLZ spoke NSGs for workload traffic. Default value is false')
+param addSpokeRules bool = false
+
+@description('Priority number to be used for the first rule in the array of rules being added to the MLZ-Spoke Network Security Groups. Default value is 100')
+param rulePriority int = 100
+
+// WORKLOAD VARIABLES
+
 var workloadResourceGroupName = '${toLower(resourcePrefix)}-rg-${workloadName}-${toLower(resourceSuffix)}'
 var workloadVirtualNetworkName = '${toLower(resourcePrefix)}-vnet-${workloadName}-${toLower(resourceSuffix)}'
 var workloadNetworkSecurityGroupName = '${toLower(resourcePrefix)}-nsg-${workloadName}-${toLower(resourceSuffix)}'
 var workloadSubnetName = '${toLower(resourcePrefix)}-snet-${workloadName}-${toLower(resourceSuffix)}'
+var rulesToAddToMLZSpokeNSGs = [
+  {
+    description: 'Allows traffic from ${workloadName}'
+    protocol: '*'
+    sourcePortRange: '*'
+    destinationPortRange: '*'
+    sourceAddressPrefixes: [
+      '${workloadVirtualNetworkAddressPrefix}'
+    ]
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: rulePriority
+    direction: 'Inbound'
+  }
+]
+
+// HUB PARAMETERS
+
+@description('The Hub Deployment Name.')
+param hubDeploymentName string
+@description('The Hub subscription Id.')
+param hubSubscriptionId string
+@description('Hub Resource Group Name.')
+param hubResourceGroupName string
 
 // TAGS
 
@@ -82,11 +112,6 @@ var defaultTags = {
 
 var calculatedTags = union(tags, defaultTags)
 
-@description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network.')
-param workloadVirtualNetworkAddressPrefix string = '10.100.0.0/16'
-
-@description('The CIDR Subnet Address Prefix for the default Shared Services subnet. It must be in the Shared Services Virtual Network space.')
-param workloadSubnetAddressPrefix string = '10.100.0.0/24'
 
 resource workloadResourceGroup 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: workloadResourceGroupName
@@ -147,6 +172,15 @@ module workloadVirtualNetworkPeerings '../modules/virtualNetworkPeering.bicep' =
     hubDeploymentValues
     workloadSpokeNetwork
   ]
+}
+
+module workloadAccessToMLZSpokes 'updateMLZNSGs.bicep' = if (addSpokeRules) {
+  scope: resourceGroup(workloadResourceGroupName)
+  name: 'add-${workloadName}-rule-to-MLZ-NSGs'
+  params: {
+    nsgs: hubDeploymentValues.outputs.nsgs.value
+    rules: rulesToAddToMLZSpokeNSGs
+  }
 }
 
 output workloadVirtualNetworkName string = workloadSpokeNetwork.outputs.virtualNetworkName

@@ -19,4 +19,4 @@ output hubsubscriptionId string = mlzDeploymentVariables.hub.Value.subscriptionI
 output hubResourceGroupName string = mlzDeploymentVariables.hub.Value.resourceGroupName
 output hubVirtualNetworkName string = mlzDeploymentVariables.hub.Value.virtualNetworkName
 output firewallPrivateIPAddress string = mlzDeploymentVariables.hub.Value.firewallPrivateIPAddress
-
+output nsgs object = mlzDeploymentVariables.nsgsArray
