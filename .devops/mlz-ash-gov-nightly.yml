@@ -1,12 +1,14 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
+
 schedules:
   - cron: "0 0 * * *"
-    displayName: "Nightly - mlz bicep azure cloud"
+    displayName: "Nightly - mlz-ash azure gov cloud"
     branches:
       include:
         - main
     always: true
+
 pool:
   vmImage: ubuntu-latest
 
@@ -39,12 +41,6 @@ jobs:
              f5VmImageVersion="15.1.400000" \
              keyVaultAccessPolicyObjectId=$(GObjectId)
              
-
-  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-    displayName: 'Generate SBOM'
-    inputs:
-      BuildDropPath: '$(Build.ArtifactStagingDirectory)'  
-
   - task: AzureCLI@2
     displayName: "Clean up Resources"
     condition: always()
@@ -60,10 +56,3 @@ jobs:
           --yes \
           --no-wait \
           --name %
-  
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish SBOM to Build Artifact'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
