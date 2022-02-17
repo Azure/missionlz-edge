@@ -23,6 +23,9 @@ jobs:
     displayName: 'Copy Source directory to Target directory'
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        **/*
+        !.git/**/*
       targetFolder: '$(Build.ArtifactStagingDirectory)'
 
   - task: Bash@3
@@ -30,33 +33,31 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-            cd $(Build.SourcesDirectory);
-            rm -rf _manifest;   
-
+        cd $(Build.SourcesDirectory)
+        rm -rf _manifest
 
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Generate SBOM'
     inputs:
       BuildComponentPath: '$(Build.ArtifactStagingDirectory)'
       BuildDropPath: '$(Build.SourcesDirectory)'
-      PackageName: 'TestPackage'
-      PackageVersion: '2.1.11'      
+      PackageName: 'Mission LZ'
+      PackageVersion: '$(Build.BuildNumber)'      
     
+  
   - task: Bash@3
     inputs:
       targetType: 'inline'
       script: |
-            git config --global user.email $BUILD_REQUESTEDFOREMAIL
+            git config --global user.email "$BUILD_REQUESTEDFOREMAIL"
             git config --global user.name "$BUILD_REQUESTEDFOR"
-            git checkout -t origin $(Build.SourceBranch);
-            git add '_manifest/*';
-            git status;
-            git commit -m "Software bill of materials changes"
-            echo $(Build.SourceBranch)
-            echo "Pushing now!!!";
-            git push --set-upstream origin HEAD:$(Build.SourceBranch);
+            git checkout -t origin $(Build.SourceBranch)
+            git add '_manifest/*'
+            git status
+            git commit -m "Update Software Bill of Materials (SBOM)"
+            git push --set-upstream origin HEAD:$(Build.SourceBranch)
       workingDirectory: $(Build.SourcesDirectory)
-    displayName: 'Git Commit from pipeline'
+    displayName: 'Commit SBOM changes back to source branch'
    
   - task: PublishBuildArtifacts@1
     displayName: 'Publish SBOM to Build Artifact'
