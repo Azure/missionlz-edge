@@ -52,7 +52,7 @@ jobs:
             git add '_manifest/*'
             git status
             git commit -m "Update Software Bill of Materials (SBOM)"
-            git push origin +HEAD
+            git push origin +refs/heads/*:refs/heads/*
       workingDirectory: $(Build.SourcesDirectory)
     displayName: 'Commit SBOM changes back to source branch'
    
