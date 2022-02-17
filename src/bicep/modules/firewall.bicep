@@ -275,7 +275,7 @@ resource f5vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
   ]
 }
 
-module customScript 'virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
+module customScript 'virtualMachines.extensions.bicep' = {
   name: 'deploy-custom-scripts-compute'
   params: {
     name: 'install-config-scripts'

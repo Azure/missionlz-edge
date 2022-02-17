@@ -260,8 +260,11 @@ param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfigurat
 
 // Parameters required for STIG resources - Currently only supports  Windows VM
 
-@description('Url for storing artifacts. Example: local.azurestack.external. Note: Leave blank to not deploy STIG artificats and to not STIG remote access VMs.')
-param artifactsUrl string = ''
+@description('To enable setting STIG controls on Windows remote access VM.')
+param stig bool = false
+//@description('Url for storing artifacts. Example: local.azurestack.external.')
+//param artifactsUrl string = ''
+var fqdn = f5Vm01PasswordKeyVault.outputs.fqdn
 
 // variables
 
@@ -306,12 +309,12 @@ var stigDscExtProperties = {
     }
   }
 
-var artifactsLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/windows/'
+var artifactsLocation = 'https://stigtools${location}.blob.${fqdn}/artifacts/windows/'
 var requiredModulesFile = 'RequiredModules.ps1'
 var installPSModulesFile = 'InstallModules.ps1'
 var generateStigChecklist = 'GenerateStigChecklist.ps1'
-var f5configLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_cfg.sh'
-var f5stigLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_stig_only.sh'
+var f5configLocation = 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_cfg.sh'
+var f5stigLocation = 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_stig_only.sh'
 
 /*
 
@@ -713,7 +716,7 @@ module f5Vm01 './modules/firewall.bicep' = {
   params: {
     adminPasswordOrKey: f5VmAuthenticationType=='password'?f5VmAdminPasswordOrKey: f5Vm01SshKeyVault.outputs.publicKey
     adminUsername: f5VmAdminUsername
-    artifactsUrl: artifactsUrl
+    artifactsUrl: fqdn
     authenticationType: f5VmAuthenticationType
     extIpConfiguration1Name: f5vm01extIpConfiguration1Name
     extIpConfiguration2Name: f5vm01extIpConfiguration2Name
@@ -876,7 +879,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
 }
 
 // Enable extensions for Windows VM in HUB RG for STIG requirements
-module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
+module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-compute'
   params: {
@@ -889,7 +892,7 @@ module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (
   }
 }
 
-module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
+module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-dsc'
   params: {

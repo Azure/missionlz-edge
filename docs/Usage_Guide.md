@@ -58,7 +58,7 @@ f5VmAuthenticationType | sshPublicKey | Allowed values are {password, sshPublicK
 f5VmAdminUsername | f5admin | Administrator account on the F5 NVAs that get deployed
 f5VmSize | Standard_DS3_v2 | The size of the F5 firewall appliance. It defaults to "Standard_DS3_v2"
 f5VmImageVersion | 15.0.100000 | Version of F5 BIG-IP sku being deployed
-[artifactsUrl](./STIG_Guide.md) | None | Setting to the storage suffix will allow Desired State Configuration on Windows remote access host to set STIG related controls. ie: location.azurestack.local
+[stig](./STIG_Guide.md) | false | Setting to true enables custom script and DSC extension to set STIG controls on Windows remote access VM.
 deployLinux | false | Setting to true deploys a Ubuntu 180.04 management VM alongside the Windows 2019 management VM using the same credentials
 
 ## **Setup Deployment Container**
@@ -149,7 +149,7 @@ az deployment sub create \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
-The example below is a custom deployment in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey` and [allows setting STIG controls on the Windows machine](./STIG_Guide.md) by setting `artifactsUrl` to the storage accounts suffix, ie; local.azurestack.external:
+The example below is a custom deployment in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey` and [allows setting STIG controls on the Windows machine](./STIG_Guide.md) by setting `stig` to true.
 
 ```plaintext
 resourcePrefix="<value>"
@@ -157,21 +157,20 @@ f5AuthType="sshPublicKey"
 f5VmImageVersion="15.1.400000"
 keyVaultAccessPolicyObjectId="<value>"
 region="<value>"
-artifactsUrl="<value>"
 
 az deployment sub create \
   --name "deploy-mlz-${resourcePrefix}" \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
-      artifactsUrl=${artifactsUrl} \
+      stig="true" \
       resourcePrefix=${resourcePrefix} \
       f5VmAuthenticationType=${f5AuthType} \
       f5VmImageVersion=${f5VmImageVersion} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
 ```
 
-The example below is a custom deployment on and Azure Stack Hub registered in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey` and [allows setting STIG controls on the Windows machine](./STIG_Guide.md) by setting `artifactsUrl` to the storage accounts suffix, ie; local.azurestack.external:
+The example below is a custom deployment on and Azure Stack Hub registered in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey` and [allows setting STIG controls on the Windows machine](./STIG_Guide.md) by setting `stig` to true.
 
 ```plaintext
 resourcePrefix="<value>"
@@ -185,7 +184,7 @@ az deployment sub create \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
-      artifactsUrl=${artifactsUrl} \
+      stig="true" \
       resourcePrefix=${resourcePrefix} \
       f5VmAuthenticationType=${f5AuthType} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
