@@ -1,0 +1,58 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+schedules:
+  - cron: "0 6 * * *"
+    displayName: "Nightly - mlz-ash azure gov cloud"
+    branches:
+      include:
+        - main
+    always: true
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  GServiceConnectionName: $(GAzureConnection)
+
+jobs:
+- job: AzureGov
+  steps:
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: $(GServiceConnectionName)
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'az vm image accept-terms --urn f5-networks:f5-big-ip-byol:f5-big-all-2slot-byol:15.1.400000'
+  - task: AzureCLI@2
+    displayName: "Deploy MLZ - ASH"
+    inputs:
+      azureSubscription: $(GServiceConnectionName)
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        datetime=$(date +%s) # gets the current date time as an epoch
+        az deployment sub create \
+           --name "deploy-mlz-ash" \
+           --location $(GLocation) \
+           --template-file $(ashTemplateFile)  \
+           --parameters \
+             resourcePrefix=mlzash \
+             f5VmImageVersion="15.1.400000" \
+             keyVaultAccessPolicyObjectId=$(GObjectId)
+             
+  - task: AzureCLI@2
+    displayName: "Clean up Resources"
+    condition: always()
+    inputs:
+      azureSubscription: $(GServiceConnectionName)
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az group list \
+          --query "[].name" \
+          --output tsv \
+        | xargs -t -I % az group delete \
+          --yes \
+          --no-wait \
+          --name %
