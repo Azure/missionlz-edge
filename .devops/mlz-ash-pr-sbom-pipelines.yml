@@ -48,7 +48,7 @@ jobs:
       script: |
             git config --global user.email "$BUILD_REQUESTEDFOREMAIL"
             git config --global user.name "$BUILD_REQUESTEDFOR"
-            git pull origin +HEAD
+            git pull origin +refs/heads/*:refs/heads/*
             git add '_manifest/*'
             git status
             git commit -m "Update Software Bill of Materials (SBOM)"
