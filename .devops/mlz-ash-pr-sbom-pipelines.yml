@@ -52,7 +52,7 @@ jobs:
             git add '_manifest/*'
             git status
             git commit -m "Update Software Bill of Materials (SBOM)"
-            git push
+            git push -f --set-upstream origin master
       workingDirectory: $(Build.SourcesDirectory)
     displayName: 'Commit SBOM changes back to source branch'
    
