@@ -177,7 +177,7 @@ var f5ComputeExtProperties = {
   typeHandlerVersion: '2.0'
   autoUpgradeMinorVersion: true
   settings: {
-    commandToExecute: 'sh mlzash_f5_cfg.sh'
+    commandToExecute: 'sh mlzash_f5_stig.sh'
   }
 }
 
@@ -188,7 +188,7 @@ var f5ComputeprotectedSettings = {
   ]
 }
 var f5configLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_cfg.sh'
-var f5stigLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_stig_only.sh'
+var f5stigLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_stig.sh'
 
 // Create External NIC
 module f5externalNic './networkInterface.bicep' = {
