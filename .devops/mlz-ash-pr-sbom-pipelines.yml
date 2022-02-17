@@ -48,11 +48,11 @@ jobs:
       script: |
             git config --global user.email "$BUILD_REQUESTEDFOREMAIL"
             git config --global user.name "$BUILD_REQUESTEDFOR"
-            git pull
+            git pull origin +HEAD
             git add '_manifest/*'
             git status
             git commit -m "Update Software Bill of Materials (SBOM)"
-            git push -f --set-upstream origin master
+            git push origin +HEAD
       workingDirectory: $(Build.SourcesDirectory)
     displayName: 'Commit SBOM changes back to source branch'
    
