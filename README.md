@@ -79,7 +79,14 @@ Here's a summary of what Mission Landing Zone Edge deploys of as of February 202
 <!-- allow html for images so that they can be sized -->
 <img src="images/roadmap.png" alt="Mission LZ as of December 2021" width="1200" />
 <!-- markdownlint-enable MD033 -->
+## Nightly Build Status
 
+<!-- markdownlint-disable MD033 -->
+Azure Government
+
+[![Build Status](https://ag-ascii.visualstudio.com/Mission%20Landing%20Zone%20-%20Pipeline/_apis/build/status/mlz-edge/missionlz-edge-nightly-build?branchName=azure-pipelines)](https://ag-ascii.visualstudio.com/Mission%20Landing%20Zone%20-%20Pipeline/_build/latest?definitionId=199&branchName=azure-pipelines)
+
+<!-- markdownlint-enable MD033 -->
 ## Contributing
 
 This project welcomes contributions and suggestions. See our [Contributing Guide](CONTRIBUTING.md) for details.
