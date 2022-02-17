@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 schedules:
-  - cron: "0 0 * * *"
+  - cron: "0 6 * * *"
     displayName: "Nightly - mlz-ash azure gov cloud"
     branches:
       include:
