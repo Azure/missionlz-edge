@@ -873,6 +873,7 @@ module remoteAccess './modules/remoteAccess.bicep' = {
   }
   dependsOn: [
     f5Vm01
+    f5Vm01PasswordKeyVault
     hubResourceGroup
     hubVirtualNetwork
   ]
