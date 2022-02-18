@@ -758,6 +758,7 @@ module f5Vm01 './modules/firewall.bicep' = {
     vmPlanProduct: f5VmImageOffer
     vmPlanPublisher: f5VmImagePublisher
     vmSize: f5VmSize
+    stig: stig
   }
   dependsOn: [
     hubResourceGroup
