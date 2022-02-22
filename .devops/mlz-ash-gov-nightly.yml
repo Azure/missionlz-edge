@@ -1,9 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
-
 schedules:
-  - cron: "0 6 * * *"
-    displayName: "Nightly - mlz-ash azure gov cloud"
+  - cron: "40 16 * * *"
+    displayName: "Nightly mlz ash azure gov cloud"
     branches:
       include:
         - main
