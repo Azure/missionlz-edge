@@ -492,8 +492,8 @@
     },
     {
       "Source": "/.github/workflows/validate-build-bicep.yml",
-      "AzureArtifactsHash": "042320436F7079726967687420286329204D6963726F736F667420436F72706F7261",
-      "Sha256Hash": "E400653461F42C2AEAB3BF40EA36BAB6515D5BD56F96B524CFE5DB194CC7EC5B"
+      "AzureArtifactsHash": "040A6E616D653A2076616C69646174652D6275696C642D62696365700A6F6E3A0A20",
+      "Sha256Hash": "0BAFA7FEBB5965BE7E32CC326C548BEFAD6F5E2C6B3944C6ABFEB54D8655227D"
     },
     {
       "Source": "/docs/Deployment_container_setup.md",
@@ -506,10 +506,10 @@
       "Sha256Hash": "484DDD553C2A98E2344C35A434C04F16037E960132A9C736174F5A8467BBF475"
     }
   ],
-  "CloudBuildId": "8811",
+  "CloudBuildId": "8882",
   "Repo": "https://github.com/Azure/missionlz-edge",
   "Branch": "merge",
-  "CommitId": "ab3b60df7f1933c3cf7b05a7d3782d091d5680a3",
+  "CommitId": "6da69d11227998342311b6971a76e05503ba1c3f",
   "Version": "0.0.1",
-  "Timestamp": 1645572644
+  "Timestamp": 1645635171
 }

@@ -1864,15 +1864,15 @@
     },
     {
       "fileName": "./.github/workflows/validate-build-bicep.yml",
-      "SPDXID": "SPDXRef-File--.github-workflows-validate-build-bicep.yml-3D073BC5A7BA639A179E449B0BB75F36B85B35EC",
+      "SPDXID": "SPDXRef-File--.github-workflows-validate-build-bicep.yml-FE702E7A70DA1BD828B039B3D8EAD68A15EF412D",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "e400653461f42c2aeab3bf40ea36bab6515d5bd56f96b524cfe5db194cc7ec5b"
+          "checksumValue": "0bafa7febb5965be7e32cc326c548befad6f5e2c6b3944c6abfeb54d8655227d"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "3d073bc5a7ba639a179e449b0bb75f36b85b35ec"
+          "checksumValue": "fe702e7a70da1bd828b039b3d8ead68a15ef412d"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1947,7 +1947,7 @@
       "SPDXID": "SPDXRef-RootPackage",
       "downloadLocation": "NOASSERTION",
       "packageVerificationCode": {
-        "packageVerificationCodeValue": "258b12c2bcf2058f73da52181147a20af88dd2ab"
+        "packageVerificationCodeValue": "00cf92fbbe3d523433580ba005a4d38a85837b0a"
       },
       "filesAnalyzed": true,
       "licenseConcluded": "NOASSERTION",
@@ -1956,12 +1956,12 @@
       ],
       "licenseDeclared": "NOASSERTION",
       "copyrightText": "NOASSERTION",
-      "versionInfo": "20220222.3",
+      "versionInfo": "20220223.1",
       "supplier": "Organization: Microsoft",
       "hasFiles": [
         "SPDXRef-File--images-scope.png-8E6381A51CEAC81943DC84374A0DA7BEC550738A",
         "SPDXRef-File--docs-Deployment-container-setup.md-BA1A3504B020162845AE851C03F07FDBCDBA4AAF",
-        "SPDXRef-File--.github-workflows-validate-build-bicep.yml-3D073BC5A7BA639A179E449B0BB75F36B85B35EC",
+        "SPDXRef-File--.github-workflows-validate-build-bicep.yml-FE702E7A70DA1BD828B039B3D8EAD68A15EF412D",
         "SPDXRef-File--src-scripts-stig-windows-GenerateStigChecklist.ps1-24855AD2892626FF8EDE181A9785A3D054BE5A75",
         "SPDXRef-File--src-scripts-stig-linux-mof-CentOS79.mof-53E8BE6EF2D057E6EC310990261B0E3D904612E2",
         "SPDXRef-File--src-scripts-stig-linux-mof-RHEL78.mof-D3E62773CC83202F0AD19EB595AB5597CB4FD403",
@@ -2065,23 +2065,23 @@
   ],
   "relationships": [
     {
-      "relationshipType": "DEPENDS_ON",
-      "relatedSpdxElement": "Azure-Pipelines-Hosted-Image-ubuntu20-20220220.1",
-      "spdxElementId": "SPDXRef-RootPackage"
-    },
-    {
       "relationshipType": "DESCRIBES",
       "relatedSpdxElement": "SPDXRef-RootPackage",
       "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "Azure-Pipelines-Hosted-Image-ubuntu20-20220220.1",
+      "spdxElementId": "SPDXRef-RootPackage"
     }
   ],
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "name": "Mission LZ 20220222.3",
-  "documentNamespace": "https://sbom.microsoft/1:I5vpEMl9wkCCZsmqQqtQDQ:MIGbmOPODUWjMVCPbweVOQ/204:8811/OihCFSn-QUGpDpMFLyE9Uw",
+  "name": "Mission LZ 20220223.1",
+  "documentNamespace": "https://sbom.microsoft/1:I5vpEMl9wkCCZsmqQqtQDQ:MIGbmOPODUWjMVCPbweVOQ/204:8882/YOyEoiJni0C5twOcRvud3Q",
   "creationInfo": {
-    "created": "2022-02-22T23:30:44Z",
+    "created": "2022-02-23T16:52:51Z",
     "creators": [
       "Organization: Microsoft",
       "Tool: Microsoft.SBOMTool-2.1.14"
