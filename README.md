@@ -11,7 +11,7 @@ Mission LZ Edge is:
 - A simple solution with low configuration​
 - Written in Bicep
 
-Mission Landing Zone is the right solution when:
+Mission Landing Zone Edge is the right solution when:
 
 - A simple, secure, and repeatable hub and spoke infrastructure is needed
 - Various teams need separate, secure cloud environments administered by a central IT team
@@ -28,6 +28,8 @@ Our intent is to enable IT Admins to use this software to:
 
 - Test and evaluate the landing zone using a single Azure subscription
 - Deploy multiple customer workloads in production
+
+** If you are interested in Mission Landing Zone for your Hyperscale solutions, check out the [Mission Landing Zone](https://github.com/Azure/missionlz) repo **
 
 ## Scope
 
