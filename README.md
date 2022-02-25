@@ -29,7 +29,7 @@ Our intent is to enable IT Admins to use this software to:
 - Test and evaluate the landing zone using a single Azure subscription
 - Deploy multiple customer workloads in production
 
-** If you are interested in Mission Landing Zone for your Hyperscale solutions, check out the MLZ GitHub page [here](https://github.com/Azure/missionlz) **
+** If you are interested in Mission Landing Zone for your Hyperscale solutions, check out the [Mission Landing Zone](https://github.com/Azure/missionlz) repo **
 
 ## Scope
 
