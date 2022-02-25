@@ -1,7 +1,5 @@
 # Mission LZ - Edge
 
-Test test
-
 Mission Landing Zone Edge is a highly opinionated template which IT oversight organizations can used to deploy compliant enclaves on Azure Stack Hub stamps. It addresses a narrowly scoped, specific need for an SCCA compliant hub and spoke infrastructure.
 
 Mission LZ Edge is:
@@ -13,7 +11,7 @@ Mission LZ Edge is:
 - A simple solution with low configuration​
 - Written in Bicep
 
-Mission Landing Zone is the right solution when:
+Mission Landing Zone Edge is the right solution when:
 
 - A simple, secure, and repeatable hub and spoke infrastructure is needed
 - Various teams need separate, secure cloud environments administered by a central IT team
@@ -30,6 +28,8 @@ Our intent is to enable IT Admins to use this software to:
 
 - Test and evaluate the landing zone using a single Azure subscription
 - Deploy multiple customer workloads in production
+
+** If you are interested in Mission Landing Zone for your Hyperscale solutions, check out the MLZ GitHub page [here](https://github.com/Azure/missionlz) **
 
 ## Scope
 
