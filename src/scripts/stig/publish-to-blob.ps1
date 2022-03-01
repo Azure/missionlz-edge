@@ -25,7 +25,11 @@ Param(
     
     [string]
     [Parameter(Mandatory = $false)]
-    $osBasePath = '.\src\scripts\stig\'
+    $osBasePath = '.\src\scripts\stig\',
+
+    [string]
+    [Parameter(Mandatory = $false)]
+    $location = ""
 )
 
 if(!$uploadStigReq)
@@ -36,8 +40,9 @@ if(!$uploadStigReq)
 Write-Host "Uploading required tool set for applying STIG controls to VMs."  -ForegroundColor Cyan
 
 $ErrorActionPreference = "Stop"
-
-$location = (Get-AzLocation).Location
+if(!$location) {
+    $location = if(((Get-AzLocation).Location).count -gt 1){$location = (Get-AzLocation).Location[0]}else{$location = (Get-AzLocation).Location}
+}
 $resourceGroup = Get-AzResourceGroup -name $resourceGroupName -ErrorAction SilentlyContinue
 $storageAccountName = $storageAccountNamePrefix + $location
 $storageContext = (Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue).Context
@@ -71,5 +76,5 @@ if (!$container) {
 }
 
 Write-Host "Uploading required artifacts to set STIG controls on VMs. Note: This will overwrite existing files." -ForegroundColor Cyan
-Get-ChildItem -Path $osBasePath -Exclude "publish-to-blob.ps1","*.md" -File -Recurse | Set-AzStorageBlobContent -Context $storageContext -Container $containerName -Force
+Get-ChildItem -Path $osBasePath -Exclude "publish-to-blob.sh","publish-to-blob.ps1","*.md" -File -Recurse | Set-AzStorageBlobContent -Context $storageContext -Container $containerName -Force
 Get-ChildItem -Path $osBasePath.Replace('\stig\','\f5config\') -File -Recurse | Set-AzStorageBlobContent -Context $storageContext -Container $containerName -Force

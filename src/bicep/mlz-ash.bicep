@@ -259,13 +259,20 @@ param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
 
 // Parameters required for STIG resources - Currently only supports  Windows VM
+param storageUrl string = ''
 
 @description('To enable setting STIG controls on Windows remote access VM.')
 param stig bool = false
 //@description('Url for storing artifacts. Example: local.azurestack.external.')
 //param artifactsUrl string = ''
 var fqdn = f5Vm01PasswordKeyVault.outputs.fqdn
-
+var f5ComputeprotectedSettings = {
+  fileUris: [
+    '${f5configLocation}'
+    '${f5stigLocation}'
+    '${f5nullWorkLocation}'
+  ]
+}
 // variables
 
 var linuxVmAdminPasswordOrKey = remoteVmAdminPassword
@@ -309,12 +316,13 @@ var stigDscExtProperties = {
     }
   }
 
-var artifactsLocation = 'https://stigtools${location}.blob.${fqdn}/artifacts/windows/'
+var artifactsLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/windows/' : '${storageUrl}/artifacts/windows/')
 var requiredModulesFile = 'RequiredModules.ps1'
 var installPSModulesFile = 'InstallModules.ps1'
 var generateStigChecklist = 'GenerateStigChecklist.ps1'
-var f5configLocation = 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_cfg.sh'
-var f5stigLocation = 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_stig_only.sh'
+var f5configLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_cfg.sh' : '${storageUrl}/artifacts/mlzash_f5_cfg.sh')
+var f5stigLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_stig.sh' : '${storageUrl}/artifacts/mlzash_f5_stig.sh')
+var f5nullWorkLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_null.sh' : '${storageUrl}/artifacts/mlzash_f5_null.sh')
 
 /*
 
@@ -716,7 +724,6 @@ module f5Vm01 './modules/firewall.bicep' = {
   params: {
     adminPasswordOrKey: f5VmAuthenticationType=='password'?f5VmAdminPasswordOrKey: f5Vm01SshKeyVault.outputs.publicKey
     adminUsername: f5VmAdminUsername
-    artifactsUrl: fqdn
     authenticationType: f5VmAuthenticationType
     extIpConfiguration1Name: f5vm01extIpConfiguration1Name
     extIpConfiguration2Name: f5vm01extIpConfiguration2Name
@@ -759,6 +766,7 @@ module f5Vm01 './modules/firewall.bicep' = {
     vmPlanPublisher: f5VmImagePublisher
     vmSize: f5VmSize
     stig: stig
+    f5ComputeprotectedSettings: f5ComputeprotectedSettings
   }
   dependsOn: [
     hubResourceGroup

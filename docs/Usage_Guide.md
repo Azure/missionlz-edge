@@ -113,22 +113,26 @@ Use `az deployment sub` to deploy MLZ to the subscription set as **isDefault** f
 
 To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden.
 
-The example below is for "password" auth in Azure Government:
+The example below is for "password" auth and STIG'd VMs in Azure Government:
+>**Note:** In commercial or Government cloud the artifacts required to configure and STIG VMs need to be uploaded using `./src/scripts/stig/publish-to-blob.ps1`. The full url needs to be submitted as parameter, ie: `https://stigtoolsusgovvirginia.blob.core.usgovcloudapi.net`
 
 ```plaintext
 resourcePrefix="<value>"
 f5VmImageVersion="15.1.400000"
 keyVaultAccessPolicyObjectId="<value>"
 region=<value>
+artifactsStorageUrl=<blob storage URL where artifacts where uploaded>
 
 az deployment sub create \
   --name "deploy-mlz-${resourcePrefix}" \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
+      stig="true" \
       resourcePrefix=${resourcePrefix} \
       f5VmImageVersion=${f5VmImageVersion} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+      storageUrl=${artifactsStorageUrl}
 ```
 
 The example below is for "password" auth on an Azure Stack Hub registered in Azure Government:
@@ -138,15 +142,18 @@ resourcePrefix="<value>"
 f5AuthType="password"
 keyVaultAccessPolicyObjectId="<value>"
 region=<value>
+artifactsStorageUrl=<blob storage URL where artifacts where uploaded>
 
 az deployment sub create \
   --name "deploy-mlz-${resourcePrefix}" \
   --location ${region} \
   --template-file ./mlz-ash.bicep \
   --parameters \
+      stig="true" \
       resourcePrefix=${resourcePrefix} \
       f5VmAuthenticationType=${f5AuthType} \
       keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+      storageUrl=${artifactsStorageUrl}
 ```
 
 The example below is a custom deployment in Azure Government that overrides the `f5VmAuthenticationType` default of `password` with `sshPublicKey` and [allows setting STIG controls on the Windows machine](./STIG_Guide.md) by setting `stig` to true.

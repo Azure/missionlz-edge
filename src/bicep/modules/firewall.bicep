@@ -119,7 +119,8 @@ param vdmsIpConfigurations array = [
     }
   }
 ]
-param artifactsUrl string = ''
+
+param f5ComputeprotectedSettings object 
 
 // Variables
 var nics = [
@@ -182,16 +183,6 @@ var f5ComputeExtProperties = {
   }
 }
 
-var f5ComputeprotectedSettings = {
-  fileUris: [
-    '${f5configLocation}'
-    '${f5stigLocation}'
-    '${f5nullWorkLocation}'
-  ]
-}
-var f5configLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_cfg.sh'
-var f5stigLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_stig.sh'
-var f5nullWorkLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/mlzash_f5_null.sh'
 
 // Create External NIC
 module f5externalNic './networkInterface.bicep' = {
