@@ -44,7 +44,7 @@ if(!$location) {
     $location = if(((Get-AzLocation).Location).count -gt 1){$location = (Get-AzLocation).Location[0]}else{$location = (Get-AzLocation).Location}
 }
 $resourceGroup = Get-AzResourceGroup -name $resourceGroupName -ErrorAction SilentlyContinue
-$storageAccountName = $storageAccountNamePrefix + $location
+$storageAccountName = (($storageAccountNamePrefix + $location).ToLower()).Substring(0,24)
 $storageContext = (Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue).Context
 
 # Create Resource Group
