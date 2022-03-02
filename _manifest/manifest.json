@@ -308,7 +308,7 @@
     {
       "Source": "/.github/workflows/bicep.yml",
       "AzureArtifactsHash": "046E616D653A2042696365700A0A6F6E3A0A2020707573683A0A2020202070617468",
-      "Sha256Hash": "9B7F3451FDB834A8DA6A8621B68220FBCD518B68E7F84D430A149E335F29C23D"
+      "Sha256Hash": "3484DE18337EA1E4C905D7B1D357C1E6EB3247D1B1D5BA7F21B65F5D73505CBC"
     },
     {
       "Source": "/.github/ISSUE_TEMPLATE/question.md",
@@ -373,7 +373,7 @@
     {
       "Source": "/.github/workflows/validate-bicep.yml",
       "AzureArtifactsHash": "042320436F7079726967687420286329204D6963726F736F667420436F72706F7261",
-      "Sha256Hash": "CFFA6E5C4484D6A918707B66C36435D3D8390BE534E9242150C16524DA050E4A"
+      "Sha256Hash": "C0A0540690E7155681F438185DAD33FD043263849A5AFB11DD61253B6D1D671D"
     },
     {
       "Source": "/docs/Configuring_F5.md",
@@ -433,7 +433,7 @@
     {
       "Source": "/.github/workflows/super-linter.yml",
       "AzureArtifactsHash": "042D2D2D0A0A2320436F7079726967687420286329204D6963726F736F667420436F",
-      "Sha256Hash": "CCA090CABF1D76B2FA63A6CE3F0BECF098766E26B31376756C101B5042D739FE"
+      "Sha256Hash": "0404568CBF55657430253A02E42C536A4D79EDDC21080CF7A98E37525F922205"
     },
     {
       "Source": "/docs/F5_scripted_config.md",
@@ -493,7 +493,7 @@
     {
       "Source": "/.github/workflows/validate-build-bicep.yml",
       "AzureArtifactsHash": "042320436F7079726967687420286329204D6963726F736F667420436F72706F7261",
-      "Sha256Hash": "E400653461F42C2AEAB3BF40EA36BAB6515D5BD56F96B524CFE5DB194CC7EC5B"
+      "Sha256Hash": "BE0A6D3852FD3B4CEBE984CA3A5E7B21D60B671B21BD65B63C25BAA44ED5757C"
     },
     {
       "Source": "/docs/Deployment_container_setup.md",
@@ -506,10 +506,10 @@
       "Sha256Hash": "484DDD553C2A98E2344C35A434C04F16037E960132A9C736174F5A8467BBF475"
     }
   ],
-  "CloudBuildId": "9114",
+  "CloudBuildId": "9254",
   "Repo": "https://github.com/Azure/missionlz-edge",
   "Branch": "merge",
-  "CommitId": "f9efa6a65be040297a4405cb22d0656b47d7254e",
+  "CommitId": "6580ea499b920a6ce7d08e1ee350f1c61fe59661",
   "Version": "0.0.1",
-  "Timestamp": 1645817592
+  "Timestamp": 1646216903
 }
