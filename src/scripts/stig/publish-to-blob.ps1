@@ -84,7 +84,8 @@ Write-Host "Uploading required artifacts to set STIG controls on VMs. Note: This
 Get-ChildItem -Path $osBasePath -Exclude "publish-to-blob.sh","publish-to-blob.ps1","*.md" -File -Recurse | Set-AzStorageBlobContent -Context $storageContext -Container $containerName -Force
 Get-ChildItem -Path $osBasePath.Replace('\stig\','\f5config\') -File -Recurse | Set-AzStorageBlobContent -Context $storageContext -Container $containerName -Force
 
+$blobUrl = (Get-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -ErrorAction SilentlyContinue).Context.BlobEndpoint
 Write-Host "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 Write-Host "Use this URL in any deployments that require links back to the files."
 Write-Host ""
-Write-Host $storage.Context.BlobEndPoint
+Write-Host $blobUrl.Substring(0,$blobUrl.Length-1)
