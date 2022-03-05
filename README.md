@@ -45,6 +45,13 @@ Mission LZ Edge has the following scope:
 <img src="images/scope.png" alt="Mission LZ Edge Scope" width="600" />
 <!-- markdownlint-enable MD033 -->
 
+Here's a summary of what Mission Landing Zone Edge deploys of as of February 2022:
+
+<!-- markdownlint-disable MD033 -->
+<!-- allow html for images so that they can be sized -->
+<img src="images/roadmap.png" alt="Mission LZ as of December 2021" width="1200" />
+<!-- markdownlint-enable MD033 -->
+
 ## Networking
 
 Networking is set up in a hub and spoke design, separated by tiers: T0 (Identity and Authorization), T1 (Infrastructure Operations), T2 (DevSecOps and Shared Services), and multiple T3s (Workloads). Access control can be configured to allow separation of duties between all tiers.
@@ -72,13 +79,6 @@ The default firewall configured for MLZ edge is a single F5 BIG-IP VE. Review th
 ## Product Roadmap
 
 See the [Projects](https://github.com/Azure/missionlz-edge/projects) page for the release timeline and feature areas.
-
-Here's a summary of what Mission Landing Zone Edge deploys of as of February 2022:
-
-<!-- markdownlint-disable MD033 -->
-<!-- allow html for images so that they can be sized -->
-<img src="images/roadmap.png" alt="Mission LZ as of December 2021" width="1200" />
-<!-- markdownlint-enable MD033 -->
 
 ## Contributing
 

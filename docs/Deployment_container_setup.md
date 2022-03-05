@@ -52,7 +52,7 @@ Clone the repo and run the following from a command prompt in which Docker clien
   pwsh ./src/scripts/download.ps1 –registrationName <registration_name> [-UseDeviceAuthentication]
   ```
 
-`download.ps1` Availalbe Parameters:
+`download.ps1` Available Parameters:
 **Parameter Name**          | **Default value** | **Description**
 ------------------------| --------------| -----------
 registrationName  | None  | Required. The name of registration in which the Azure Stack Hub is added.

@@ -34,9 +34,9 @@ This guide will walk the MLZ-Edge deployer thru the steps to manually configure 
 
 From the system used to deploy the instance, RDP into the Windows 2019 management VM using the public IP. The credentials to use to authenticate to the VM are `azureuser` along with the password retrieved from the Key Vault.
 
-Once logged onto the Windows 2019 VM, the administrator will be presented with the Server Manager application. On the left hand side of the `Server Manager` application, click on the `Local Server` blade. In the `PROPERTIES` pane for the `Local Server`, click the `IE Enhanced Security Configuration` setting and select `Off` for both `Administrators` and `Users`. Close the `Server Manager` application.
+From the Windows 2019 management VM, right-click on the Internet Explorer icon on the Taskbar, right-click on `Internet Explorer` in the popup menu and select `Run as administrator`
 
-From the Windows 2019 management VM, open Internet Explorer and enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (<https://10.90.0.4>). A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
+In the Internet Explorer address bar, and enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (<https://10.90.0.4>). A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
 
 The `F5 BIG-IP Configuration Utility` page should appear. Login to the page with `f5admin` along with the password retrieved from the Key Vault.
 
@@ -204,14 +204,13 @@ In the `Local Traffic > Virtual Servers > Virtual Server List` section, click th
 
 ## Applying STIG Configurations to F5
 
-The MLZ repo that is part of the deployment container image contains the bash script called `mlzash_f5_stig_only.sh` that will be used to apply STIG and network settings to the BIG-IP. The script is located in the `/src/scripts/f5config` folder. Copy the script over to the Windows 2019 management VM and apply to the F5 BIG-IP using the steps below:
+When the F5 was deployed as part of the MLZ - Edge deployment, the scripts needed to configure the F5 were copied to the F5. If the MLZ - Edge deployment was done with the `stig` parameter set to `true`, the STIG settings script was run against the F5 during the deployment.
 
-- From the Windows 2019 management VM, copy the bash script over to the F5 BIG-IP by running the command below:
-  - `scp <path_to_script>\mlzash_f5_stig_only.sh root@<mgmt-ip-of-f5>:/var/config/rest/downloads/mlzash_f5_stig_only.sh`
-- SSH into the F5 BIG-IP as the root account by running the command: `ssh root@<mgmt-ip-of-f5>`.
-- Once on the BIG-IP, ensure the prompt is `config #`
-- Apply the execute flag to the `mlzash_f5_stig_only.sh` script by execute the command below:
-  - `chmod +x /var/config/rest/downloads/mlzash_f5_stig_only.sh`
-- Execute the bash script using the command below:
-  - `sh /var/config/rest/downloads/mlzash_f5_stig_only.sh`
+If the MLZ - Edge deployment was done without setting the `stig` parameter to `true` and post deployment the F5 needs to have STIG settings applied, follow the steps below to run the STIG script:
+
+- From the Windows 2019 management VM, SSH into the F5 BIG-IP using the `f5admin` account by running the command: `ssh f5admin@<mgmt-ip-of-f5>`
+- Once on the BIG-IP, ensure the prompt is `f5admin@(localhost)(cfg-sync Standalone)(Active)(/Common)(tmos)#`
+- At the prompt, enter the command `bash` to change to the bash shell
+- Execute the configuratiuon bash script using the command below:
+  - `/var/lib/waagent/custom-script/download/0/mlzash_f5_stig.sh`
 - Once the script completes, reboot the F5 BIG-IP by entering the command `reboot`
