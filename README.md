@@ -11,7 +11,7 @@ Mission LZ Edge is:
 - A simple solution with low configuration​
 - Written in Bicep
 
-Mission Landing Zone is the right solution when:
+Mission Landing Zone Edge is the right solution when:
 
 - A simple, secure, and repeatable hub and spoke infrastructure is needed
 - Various teams need separate, secure cloud environments administered by a central IT team
@@ -28,6 +28,8 @@ Our intent is to enable IT Admins to use this software to:
 
 - Test and evaluate the landing zone using a single Azure subscription
 - Deploy multiple customer workloads in production
+
+** If you are interested in Mission Landing Zone for your Hyperscale solutions, check out the [Mission Landing Zone](https://github.com/Azure/missionlz) repo **
 
 ## Scope
 
@@ -80,6 +82,20 @@ The default firewall configured for MLZ edge is a single F5 BIG-IP VE. Review th
 
 See the [Projects](https://github.com/Azure/missionlz-edge/projects) page for the release timeline and feature areas.
 
+Here's a summary of what Mission Landing Zone Edge deploys of as of February 2022:
+
+<!-- markdownlint-disable MD033 -->
+<!-- allow html for images so that they can be sized -->
+<img src="images/roadmap.png" alt="Mission LZ as of December 2021" width="1200" />
+<!-- markdownlint-enable MD033 -->
+## Nightly Build Status
+
+<!-- markdownlint-disable MD033 -->
+Azure Government
+
+[![Build Status](https://ag-ascii.visualstudio.com/Mission%20Landing%20Zone%20-%20Pipeline/_apis/build/status/mlz-edge/missionlz-edge-nightly-build?branchName=azure-pipelines)](https://ag-ascii.visualstudio.com/Mission%20Landing%20Zone%20-%20Pipeline/_build/latest?definitionId=199&branchName=azure-pipelines)
+
+<!-- markdownlint-enable MD033 -->
 ## Contributing
 
 This project welcomes contributions and suggestions. See our [Contributing Guide](CONTRIBUTING.md) for details.

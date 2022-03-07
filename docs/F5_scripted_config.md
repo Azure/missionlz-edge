@@ -29,9 +29,10 @@ This guide will walk the MLZ-Edge deployer thru the steps to configure the F5 BI
 
 From the system used to deploy the instance, RDP into the Windows 2019 management VM using the public IP. The credentials to use to authenticate to the VM are `azureuser` along with the password retrieved from the Key Vault.
 
-From the Windows 2019 management VM, right-click on the Internet Explorer icon on the Taskbar, right-click on `Internet Explorer` in the popup menu and select `Run as administrator`
+Once logged onto the Windows 2019 VM, right-click on the Internet Explorer icon on the Taskbar, right-click on `Internet Explorer` from the menu that opens and then select `Run as administrator`. Click `Yes` on the UAC dialog box that pops up.
 
-In the Internet Explorer address bar, and enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (<https://10.90.0.4>). A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
+In the address bar of Internet Explorer, enter the URL `https://<private_management_ip_of_the_F5_BIG-IP>`. The URL for a default deployment would be (<https://10.90.0.4>). In the Security Alert popup that opens, check the box next to `In the future, do not show this warning` and then click `OK`.
+A page stating `This site is not secure` should appear. Click the `More information` drop down on the page and then click on `Go on to the webpage (not recommended)` link.
 
 The `F5 BIG-IP Configuration Utility` page should appear. Login to the page with `f5admin` along with the password retrieved from the Key Vault.
 
