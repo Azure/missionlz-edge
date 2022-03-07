@@ -5,6 +5,7 @@
 param deploymentNameSuffix string
 param location string
 param tags object = {}
+param stig bool
 
 @allowed([
   'sshPublicKey'
@@ -119,6 +120,8 @@ param vdmsIpConfigurations array = [
   }
 ]
 
+param f5ComputeprotectedSettings object 
+
 // Variables
 var nics = [
   {
@@ -169,6 +172,17 @@ var osProfile = {
     adminPassword: adminPasswordOrKey
   }
 }
+
+var f5ComputeExtProperties = {
+  publisher: 'Microsoft.Azure.Extensions'
+  type: 'CustomScript'
+  typeHandlerVersion: '2.0'
+  autoUpgradeMinorVersion: true
+  settings: {
+    commandToExecute: (stig ? 'sh mlzash_f5_stig.sh':'sh mlzash_f5_null.sh')
+  }
+}
+
 
 // Create External NIC
 module f5externalNic './networkInterface.bicep' = {
@@ -253,6 +267,18 @@ resource f5vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
     f5managementNic
     f5vdmsNic
   ]
+}
+
+module customScript 'virtualMachines.extensions.bicep' = {
+  name: 'deploy-custom-scripts-compute'
+  params: {
+    name: 'install-config-scripts'
+    vmName: f5vm.name
+    location: f5vm.location
+    tags: tags
+    properties: f5ComputeExtProperties
+    protectedSettings: f5ComputeprotectedSettings
+  }
 }
 
 output adminUsername string = adminUsername

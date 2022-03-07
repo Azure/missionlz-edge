@@ -56,3 +56,4 @@ resource keyVault 'Microsoft.KeyVault/vaults@2016-10-01' = {
 }
 
 output kvName string = keyVault.name
+output fqdn string = replace(split(keyVault.properties.vaultUri,'vault.')[1],'/','')
