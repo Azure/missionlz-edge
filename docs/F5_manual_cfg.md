@@ -205,14 +205,13 @@ In the `Local Traffic > Virtual Servers > Virtual Server List` section, click th
 
 ## Applying STIG Configurations to F5
 
-The MLZ repo that is part of the deployment container image contains the bash script called `mlzash_f5_stig_only.sh` that will be used to apply STIG and network settings to the BIG-IP. The script is located in the `/src/scripts/f5config` folder. Copy the script over to the Windows 2019 management VM and apply to the F5 BIG-IP using the steps below:
+When the F5 was deployed as part of the MLZ - Edge deployment, the scripts needed to configure the F5 were copied to the F5. If the MLZ - Edge deployment was done with the `stig` parameter set to `true`, the STIG settings script was run against the F5 during the deployment.
 
-- From the Windows 2019 management VM, copy the bash script over to the F5 BIG-IP by running the command below:
-  - `scp <path_to_script>\mlzash_f5_stig_only.sh root@<mgmt-ip-of-f5>:/var/config/rest/downloads/mlzash_f5_stig_only.sh`
-- SSH into the F5 BIG-IP as the root account by running the command: `ssh root@<mgmt-ip-of-f5>`.
-- Once on the BIG-IP, ensure the prompt is `config #`
-- Apply the execute flag to the `mlzash_f5_stig_only.sh` script by execute the command below:
-  - `chmod +x /var/config/rest/downloads/mlzash_f5_stig_only.sh`
-- Execute the bash script using the command below:
-  - `sh /var/config/rest/downloads/mlzash_f5_stig_only.sh`
+If the MLZ - Edge deployment was done without setting the `stig` parameter to `true` and post deployment the F5 needs to have STIG settings applied, follow the steps below to run the STIG script:
+
+- From the Windows 2019 management VM, SSH into the F5 BIG-IP using the `f5admin` account by running the command: `ssh f5admin@<mgmt-ip-of-f5>`
+- Once on the BIG-IP, ensure the prompt is `f5admin@(localhost)(cfg-sync Standalone)(Active)(/Common)(tmos)#`
+- At the prompt, enter the command `bash` to change to the bash shell
+- Execute the configuratiuon bash script using the command below:
+  - `/var/lib/waagent/custom-script/download/0/mlzash_f5_stig.sh`
 - Once the script completes, reboot the F5 BIG-IP by entering the command `reboot`

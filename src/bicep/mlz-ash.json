@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1272.37030",
-      "templateHash": "15936187576633853516"
+      "templateHash": "14298969732329684194"
     }
   },
   "parameters": {
@@ -437,50 +437,21 @@
         "description": "The NetworkInterfaceNameIpConfiguration Name for the Windows virtual machine."
       }
     },
-    "artifactsUrl": {
+    "storageUrl": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": ""
+    },
+    "stig": {
+      "type": "bool",
+      "defaultValue": false,
       "metadata": {
-        "description": "Url for storing artifacts. Example: local.azurestack.external. Note: Leave blank to not deploy STIG artificats and to not STIG remote access VMs."
+        "description": "To enable setting STIG controls on Windows remote access VM."
       }
     }
   },
   "variables": {
     "linuxVmAdminPasswordOrKey": "[parameters('remoteVmAdminPassword')]",
     "windowsVmAdminPassword": "[parameters('remoteVmAdminPassword')]",
-    "stigComputeExtProperties": {
-      "publisher": "Microsoft.Compute",
-      "type": "CustomScriptExtension",
-      "typeHandlerVersion": "1.10",
-      "autoUpgradeMinorVersion": true,
-      "protectedSettings": "[variables('stigComputeprotectedSettings')]",
-      "settings": {
-        "commandToExecute": "[format('PowerShell -ExecutionPolicy Unrestricted -File {0} -autoInstallDependencies true', variables('installPSModulesFile'))]"
-      }
-    },
-    "stigComputeprotectedSettings": {
-      "fileUris": [
-        "[format('{0}{1}', variables('artifactsLocation'), variables('requiredModulesFile'))]",
-        "[format('{0}{1}', variables('artifactsLocation'), variables('installPSModulesFile'))]",
-        "[format('{0}{1}', variables('artifactsLocation'), variables('generateStigChecklist'))]"
-      ],
-      "ignoreRelativePathForFileDownloads": true
-    },
-    "stigDscExtProperties": {
-      "publisher": "Microsoft.Powershell",
-      "type": "DSC",
-      "typeHandlerVersion": "2.77",
-      "autoUpgradeMinorVersion": true,
-      "settings": {
-        "wmfVersion": "latest",
-        "configuration": {
-          "url": "[format('{0}Windows.ps1.zip', variables('artifactsLocation'))]",
-          "script": "Windows.ps1",
-          "function": "Windows"
-        }
-      }
-    },
-    "artifactsLocation": "[format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), parameters('artifactsUrl'))]",
     "requiredModulesFile": "RequiredModules.ps1",
     "installPSModulesFile": "InstallModules.ps1",
     "generateStigChecklist": "GenerateStigChecklist.ps1",
@@ -1247,7 +1218,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1272.37030",
-              "templateHash": "5076068402170962797"
+              "templateHash": "4696728657688857921"
             }
           },
           "parameters": {
@@ -1350,7 +1321,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1272.37030",
-                      "templateHash": "11474227552425702977"
+                      "templateHash": "3565520052591685448"
                     }
                   },
                   "parameters": {
@@ -1444,6 +1415,10 @@
                     "kvName": {
                       "type": "string",
                       "value": "[parameters('keyVaultName')]"
+                    },
+                    "fqdn": {
+                      "type": "string",
+                      "value": "[replace(split(reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))).vaultUri, 'vault.')[1], '/', '')]"
                     }
                   }
                 }
@@ -1601,7 +1576,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1272.37030",
-              "templateHash": "6652321204901862496"
+              "templateHash": "3769872929165503125"
             }
           },
           "parameters": {
@@ -1696,7 +1671,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1272.37030",
-                      "templateHash": "11474227552425702977"
+                      "templateHash": "3565520052591685448"
                     }
                   },
                   "parameters": {
@@ -1790,6 +1765,10 @@
                     "kvName": {
                       "type": "string",
                       "value": "[parameters('keyVaultName')]"
+                    },
+                    "fqdn": {
+                      "type": "string",
+                      "value": "[replace(split(reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))).vaultUri, 'vault.')[1], '/', '')]"
                     }
                   }
                 }
@@ -1893,7 +1872,13 @@
                 "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "fqdn": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))).outputs.fqdn.value]"
+            }
+          }
         }
       },
       "dependsOn": [
@@ -2027,6 +2012,18 @@
           },
           "vmSize": {
             "value": "[parameters('f5VmSize')]"
+          },
+          "stig": {
+            "value": "[parameters('stig')]"
+          },
+          "f5ComputeprotectedSettings": {
+            "value": {
+              "fileUris": [
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_null.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_null.sh', parameters('storageUrl'))))]"
+              ]
+            }
           }
         },
         "template": {
@@ -2036,7 +2033,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1272.37030",
-              "templateHash": "4449501272515316451"
+              "templateHash": "10544031631208874330"
             }
           },
           "parameters": {
@@ -2049,6 +2046,9 @@
             "tags": {
               "type": "object",
               "defaultValue": {}
+            },
+            "stig": {
+              "type": "bool"
             },
             "authenticationType": {
               "type": "string",
@@ -2242,6 +2242,9 @@
                   }
                 }
               ]
+            },
+            "f5ComputeprotectedSettings": {
+              "type": "object"
             }
           },
           "variables": {
@@ -2265,6 +2268,15 @@
                 "computerName": "[parameters('vmName')]",
                 "adminUsername": "[parameters('adminUsername')]",
                 "adminPassword": "[parameters('adminPasswordOrKey')]"
+              }
+            },
+            "f5ComputeExtProperties": {
+              "publisher": "Microsoft.Azure.Extensions",
+              "type": "CustomScript",
+              "typeHandlerVersion": "2.0",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "commandToExecute": "[if(parameters('stig'), 'sh mlzash_f5_stig.sh', 'sh mlzash_f5_null.sh')]"
               }
             }
           },
@@ -2662,6 +2674,90 @@
                   }
                 }
               }
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "deploy-custom-scripts-compute",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "name": {
+                    "value": "install-config-scripts"
+                  },
+                  "vmName": {
+                    "value": "[parameters('vmName')]"
+                  },
+                  "location": {
+                    "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName')), '2020-06-01', 'full').location]"
+                  },
+                  "tags": {
+                    "value": "[parameters('tags')]"
+                  },
+                  "properties": {
+                    "value": "[variables('f5ComputeExtProperties')]"
+                  },
+                  "protectedSettings": {
+                    "value": "[parameters('f5ComputeprotectedSettings')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.1272.37030",
+                      "templateHash": "16636603933670422690"
+                    }
+                  },
+                  "parameters": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "vmName": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "object",
+                      "defaultValue": {}
+                    },
+                    "properties": {
+                      "type": "object"
+                    },
+                    "protectedSettings": {
+                      "type": "object",
+                      "defaultValue": {}
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Compute/virtualMachines/extensions",
+                      "apiVersion": "2020-06-01",
+                      "name": "[format('{0}/{1}', parameters('vmName'), parameters('name'))]",
+                      "location": "[parameters('location')]",
+                      "tags": "[parameters('tags')]",
+                      "properties": {
+                        "publisher": "[parameters('properties').publisher]",
+                        "type": "[parameters('properties').type]",
+                        "typeHandlerVersion": "[parameters('properties').typeHandlerVersion]",
+                        "autoUpgradeMinorVersion": true,
+                        "protectedSettings": "[parameters('protectedSettings')]",
+                        "settings": "[parameters('properties').settings]"
+                      }
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+              ]
             }
           ],
           "outputs": {
@@ -2677,6 +2773,7 @@
         }
       },
       "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Sshkv-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('create-fw_in-pubip-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('create-fw_out-pubip-{0}', parameters('deploymentNameSuffix')))]",
@@ -3384,7 +3481,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1272.37030",
-              "templateHash": "12142505404926553940"
+              "templateHash": "10297416164104648467"
             }
           },
           "parameters": {
@@ -3561,7 +3658,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1272.37030",
-                      "templateHash": "5076068402170962797"
+                      "templateHash": "4696728657688857921"
                     }
                   },
                   "parameters": {
@@ -3664,7 +3761,7 @@
                             "_generator": {
                               "name": "bicep",
                               "version": "0.4.1272.37030",
-                              "templateHash": "11474227552425702977"
+                              "templateHash": "3565520052591685448"
                             }
                           },
                           "parameters": {
@@ -3758,6 +3855,10 @@
                             "kvName": {
                               "type": "string",
                               "value": "[parameters('keyVaultName')]"
+                            },
+                            "fqdn": {
+                              "type": "string",
+                              "value": "[replace(split(reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))).vaultUri, 'vault.')[1], '/', '')]"
                             }
                           }
                         }
@@ -3912,7 +4013,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1272.37030",
-                      "templateHash": "6652321204901862496"
+                      "templateHash": "3769872929165503125"
                     }
                   },
                   "parameters": {
@@ -4007,7 +4108,7 @@
                             "_generator": {
                               "name": "bicep",
                               "version": "0.4.1272.37030",
-                              "templateHash": "11474227552425702977"
+                              "templateHash": "3565520052591685448"
                             }
                           },
                           "parameters": {
@@ -4101,6 +4202,10 @@
                             "kvName": {
                               "type": "string",
                               "value": "[parameters('keyVaultName')]"
+                            },
+                            "fqdn": {
+                              "type": "string",
+                              "value": "[replace(split(reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))).vaultUri, 'vault.')[1], '/', '')]"
                             }
                           }
                         }
@@ -4204,7 +4309,13 @@
                         "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
                       ]
                     }
-                  ]
+                  ],
+                  "outputs": {
+                    "fqdn": {
+                      "type": "string",
+                      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))).outputs.fqdn.value]"
+                    }
+                  }
                 }
               }
             },
@@ -4248,7 +4359,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.4.1272.37030",
-                      "templateHash": "6652321204901862496"
+                      "templateHash": "3769872929165503125"
                     }
                   },
                   "parameters": {
@@ -4343,7 +4454,7 @@
                             "_generator": {
                               "name": "bicep",
                               "version": "0.4.1272.37030",
-                              "templateHash": "11474227552425702977"
+                              "templateHash": "3565520052591685448"
                             }
                           },
                           "parameters": {
@@ -4437,6 +4548,10 @@
                             "kvName": {
                               "type": "string",
                               "value": "[parameters('keyVaultName')]"
+                            },
+                            "fqdn": {
+                              "type": "string",
+                              "value": "[replace(split(reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))).vaultUri, 'vault.')[1], '/', '')]"
                             }
                           }
                         }
@@ -4540,7 +4655,13 @@
                         "[resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))]"
                       ]
                     }
-                  ]
+                  ],
+                  "outputs": {
+                    "fqdn": {
+                      "type": "string",
+                      "value": "[reference(resourceId('Microsoft.Resources/deployments', format('create_{0}_{1}', variables('keyVaultUniqueName'), parameters('utcValue')))).outputs.fqdn.value]"
+                    }
+                  }
                 }
               }
             },
@@ -5310,13 +5431,14 @@
       },
       "dependsOn": [
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01-hub-{0}', parameters('deploymentNameSuffix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[subscriptionResourceId('Microsoft.Resources/deployments', format('deploy-rg-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-vnet-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('create-ra-windows-pubip-{0}', parameters('deploymentNameSuffix')))]"
       ]
     },
     {
-      "condition": "[not(empty(parameters('artifactsUrl')))]",
+      "condition": "[parameters('stig')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "deploy-remoteAccess-stig-compute",
@@ -5340,10 +5462,37 @@
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))).outputs.windowsVm.value.tags]"
           },
           "properties": {
-            "value": "[variables('stigComputeExtProperties')]"
+            "value": {
+              "publisher": "Microsoft.Compute",
+              "type": "CustomScriptExtension",
+              "typeHandlerVersion": "1.10",
+              "autoUpgradeMinorVersion": true,
+              "protectedSettings": {
+                "fileUris": [
+                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('requiredModulesFile'))]",
+                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('installPSModulesFile'))]",
+                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('generateStigChecklist'))]",
+                  "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
+                  "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]"
+                ],
+                "ignoreRelativePathForFileDownloads": true
+              },
+              "settings": {
+                "commandToExecute": "[format('PowerShell -ExecutionPolicy Unrestricted -File {0} -autoInstallDependencies true', variables('installPSModulesFile'))]"
+              }
+            }
           },
           "protectedSettings": {
-            "value": "[variables('stigComputeprotectedSettings')]"
+            "value": {
+              "fileUris": [
+                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('requiredModulesFile'))]",
+                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('installPSModulesFile'))]",
+                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('generateStigChecklist'))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]"
+              ],
+              "ignoreRelativePathForFileDownloads": true
+            }
           }
         },
         "template": {
@@ -5398,11 +5547,12 @@
         }
       },
       "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))]"
       ]
     },
     {
-      "condition": "[not(empty(parameters('artifactsUrl')))]",
+      "condition": "[parameters('stig')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "deploy-remoteAccess-stig-dsc",
@@ -5426,7 +5576,20 @@
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))).outputs.windowsVm.value.tags]"
           },
           "properties": {
-            "value": "[variables('stigDscExtProperties')]"
+            "value": {
+              "publisher": "Microsoft.Powershell",
+              "type": "DSC",
+              "typeHandlerVersion": "2.77",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "wmfVersion": "latest",
+                "configuration": {
+                  "url": "[format('{0}Windows.ps1.zip', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))))]",
+                  "script": "Windows.ps1",
+                  "function": "Windows"
+                }
+              }
+            }
           }
         },
         "template": {
@@ -5481,6 +5644,7 @@
         }
       },
       "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-remoteAccess-hub-{0}', parameters('deploymentNameSuffix')))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', 'deploy-remoteAccess-stig-compute')]"
       ]

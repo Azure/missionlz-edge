@@ -259,10 +259,20 @@ param windowsNetworkInterfacePrivateIPAddressAllocationMethod string = 'Dynamic'
 param windowsNetworkInterfaceIpConfigurationName string = 'windowsVmIpConfiguration'
 
 // Parameters required for STIG resources - Currently only supports  Windows VM
+param storageUrl string = ''
 
-@description('Url for storing artifacts. Example: local.azurestack.external. Note: Leave blank to not deploy STIG artificats and to not STIG remote access VMs.')
-param artifactsUrl string = ''
-
+@description('To enable setting STIG controls on Windows remote access VM.')
+param stig bool = false
+//@description('Url for storing artifacts. Example: local.azurestack.external.')
+//param artifactsUrl string = ''
+var fqdn = f5Vm01PasswordKeyVault.outputs.fqdn
+var f5ComputeprotectedSettings = {
+  fileUris: [
+    '${f5configLocation}'
+    '${f5stigLocation}'
+    '${f5nullWorkLocation}'
+  ]
+}
 // variables
 
 var linuxVmAdminPasswordOrKey = remoteVmAdminPassword
@@ -285,6 +295,8 @@ var stigComputeprotectedSettings = {
         '${artifactsLocation}${requiredModulesFile}'
         '${artifactsLocation}${installPSModulesFile}'
         '${artifactsLocation}${generateStigChecklist}'
+        '${f5configLocation}'
+        '${f5stigLocation}'
       ]
       ignoreRelativePathForFileDownloads: true
   }
@@ -304,10 +316,13 @@ var stigDscExtProperties = {
     }
   }
 
-var artifactsLocation = 'https://stigtools${location}.blob.${artifactsUrl}/artifacts/windows/'
+var artifactsLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/windows/' : '${storageUrl}/artifacts/windows/')
 var requiredModulesFile = 'RequiredModules.ps1'
 var installPSModulesFile = 'InstallModules.ps1'
 var generateStigChecklist = 'GenerateStigChecklist.ps1'
+var f5configLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_cfg.sh' : '${storageUrl}/artifacts/mlzash_f5_cfg.sh')
+var f5stigLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_stig.sh' : '${storageUrl}/artifacts/mlzash_f5_stig.sh')
+var f5nullWorkLocation = ( empty(storageUrl) ? 'https://stigtools${location}.blob.${fqdn}/artifacts/mlzash_f5_null.sh' : '${storageUrl}/artifacts/mlzash_f5_null.sh')
 
 /*
 
@@ -750,6 +765,8 @@ module f5Vm01 './modules/firewall.bicep' = {
     vmPlanProduct: f5VmImageOffer
     vmPlanPublisher: f5VmImagePublisher
     vmSize: f5VmSize
+    stig: stig
+    f5ComputeprotectedSettings: f5ComputeprotectedSettings
   }
   dependsOn: [
     hubResourceGroup
@@ -865,13 +882,14 @@ module remoteAccess './modules/remoteAccess.bicep' = {
   }
   dependsOn: [
     f5Vm01
+    f5Vm01PasswordKeyVault
     hubResourceGroup
     hubVirtualNetwork
   ]
 }
 
 // Enable extensions for Windows VM in HUB RG for STIG requirements
-module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
+module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-compute'
   params: {
@@ -884,7 +902,7 @@ module stigComputeExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (
   }
 }
 
-module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (!empty(artifactsUrl)) {
+module stigDscExtWindowsVm 'modules/virtualMachines.extensions.bicep' = if (stig) {
   scope: resourceGroup(hubResourceGroupName)
   name: 'deploy-remoteAccess-stig-dsc'
   params: {

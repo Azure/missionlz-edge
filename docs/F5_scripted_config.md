@@ -66,22 +66,21 @@ On the `Platform` page, make the following configurations and then click `Next`:
 
 - Enter a desired hostname for the F5 (example: `mlzashf5.local`)
 - Select the desired time zone
-- Uncheck the box next to `Disable login` for the Root Account field
-- Enter a secure password for the Root account
 - Select `Specify Range` in the `SSH IP Allow` section and then enter the CIDR information for the management subnet (default is 10.90.0.0/24)
 
 On the `Network` page, click `Finished` under `Advanced Network Configuration`.
 
 ## Applying Network and STIG Configurations to F5
 
-The MLZ repo that is part of the deployment container image contains the bash script called `mlzash_f5_cfg.sh` that will be used to apply STIG and network settings to the BIG-IP. The script is located in the `/src/scripts/f5config` folder. Copy the script over to the Windows 2019 management VM and apply to the F5 BIG-IP using the steps below:
+When the F5 was deployed as part of the MLZ - Edge deployment, the scripts needed to configure the F5 were copied to the F5. If the MLZ - Edge deployment was done with the `stig` parameter set to `true`, the STIG settings script was run against the F5 during the deployment and now it just needs to be configured. Follow the steps below to run the configuration script:
 
-- From the Windows 2019 management VM, copy the bash script over to the F5 BIG-IP by running the command below:
-  - `scp <path_to_script>\mlzash_f5_cfg.sh root@<mgmt-ip-of-f5>:/var/config/rest/downloads/mlzash_f5_cfg.sh`
-- SSH into the F5 BIG-IP as the root account by running the command: `ssh root@<mgmt-ip-of-f5>`.
-- Once on the BIG-IP, ensure the prompt is `config #`
-- Apply the execute flag to the `mlzash_f5_stig.sh` script by execute the command below:
-  - `chmod +x /var/config/rest/downloads/mlzash_f5_cfg.sh`
-- Execute the bash script using the command below:
-  - `sh /var/config/rest/downloads/mlzash_f5_cfg.sh`
+- From the Windows 2019 management VM, SSH into the F5 BIG-IP using the `f5admin` account by running the command: `ssh f5admin@<mgmt-ip-of-f5>`
+- Once on the BIG-IP, ensure the prompt is `f5admin@(localhost)(cfg-sync Standalone)(Active)(/Common)(tmos)#`
+- At the prompt, enter the command `bash` to change to the bash shell
+- Execute the configuratiuon bash script using the command below:
+  - `/var/lib/waagent/custom-script/download/0/mlzash_f5_cfg.sh`
 - Once the script completes, reboot the F5 BIG-IP by entering the command `reboot`
+
+>**NOTE**: If the MLZ - Edge deployment was done without setting the `stig` parameter to `true` and post deployment the F5 needs to have STIG settings applied, run the script below from the bash shell prompt:
+
+- `/var/lib/waagent/custom-script/download/0/mlzash_f5_stig.sh`
