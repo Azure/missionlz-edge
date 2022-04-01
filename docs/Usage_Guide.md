@@ -38,7 +38,7 @@ Deploying to hyperscale requires the following prerequisites:
 1. Populate the target environment with the files necessary for applying STIG configurations by running the PowerShell script detailed below. The script create a storage account in the Resource Group specified and then upload the STIG'ing components to the storage account. The script will also output the URL to the storage account that will be used when executing the deployment of MLZ-Edge:
 
     ```plaintext
-    ./src/scripts/stig/publish-to-blob.ps1 -location <region_to_deploy_into> -resourceGroupName <resource_group_name> -storageAccountPrefix <string_used_in_storage_account_name>
+    ./src/scripts/stig/publish-to-blob.ps1 -location <region_to_deploy_into> -resourceGroupName <resource_group_name> -storageAccountNamePrefix <string_used_in_storage_account_name>
     ```
 
 1. Login to the target environment using Azure CLI
