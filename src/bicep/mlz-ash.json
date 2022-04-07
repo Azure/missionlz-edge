@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.4.1272.37030",
-      "templateHash": "14298969732329684194"
+      "version": "0.4.1318.3566",
+      "templateHash": "10580992635886279708"
     }
   },
   "parameters": {
@@ -658,8 +658,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "7102472530746848694"
+              "version": "0.4.1318.3566",
+              "templateHash": "6181595588760780351"
             }
           },
           "parameters": {
@@ -731,8 +731,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "7102472530746848694"
+              "version": "0.4.1318.3566",
+              "templateHash": "6181595588760780351"
             }
           },
           "parameters": {
@@ -806,8 +806,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "16542091112771803620"
+              "version": "0.4.1318.3566",
+              "templateHash": "13232815144489403577"
             }
           },
           "parameters": {
@@ -892,8 +892,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "18199516679334208368"
+              "version": "0.4.1318.3566",
+              "templateHash": "15973919032649060958"
             }
           },
           "parameters": {
@@ -966,8 +966,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "18127442355126962157"
+              "version": "0.4.1318.3566",
+              "templateHash": "6242099249645503712"
             }
           },
           "parameters": {
@@ -1048,8 +1048,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "18127442355126962157"
+              "version": "0.4.1318.3566",
+              "templateHash": "6242099249645503712"
             }
           },
           "parameters": {
@@ -1130,8 +1130,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "18127442355126962157"
+              "version": "0.4.1318.3566",
+              "templateHash": "6242099249645503712"
             }
           },
           "parameters": {
@@ -1217,8 +1217,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "4696728657688857921"
+              "version": "0.4.1318.3566",
+              "templateHash": "4545509566937687930"
             }
           },
           "parameters": {
@@ -1320,8 +1320,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "3565520052591685448"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "2426788282237273547"
                     }
                   },
                   "parameters": {
@@ -1456,8 +1456,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "3316352157372760063"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "17970277866313951616"
                     }
                   },
                   "parameters": {
@@ -1575,8 +1575,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "3769872929165503125"
+              "version": "0.4.1318.3566",
+              "templateHash": "8113787677970400671"
             }
           },
           "parameters": {
@@ -1670,8 +1670,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "3565520052591685448"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "2426788282237273547"
                     }
                   },
                   "parameters": {
@@ -1806,8 +1806,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "3316352157372760063"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "17970277866313951616"
                     }
                   },
                   "parameters": {
@@ -1897,7 +1897,7 @@
         "mode": "Incremental",
         "parameters": {
           "adminPasswordOrKey": {
-            "value": "[if(equals(parameters('f5VmAuthenticationType'), 'password'), parameters('f5VmAdminPasswordOrKey'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Sshkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.publicKey.value)]"
+            "value": "[if(equals(parameters('f5VmAuthenticationType'), 'password'), parameters('f5VmAdminPasswordOrKey'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Sshkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.publicKey.value)]"
           },
           "adminUsername": {
             "value": "[parameters('f5VmAdminUsername')]"
@@ -2019,9 +2019,9 @@
           "f5ComputeprotectedSettings": {
             "value": {
               "fileUris": [
-                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
-                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]",
-                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_null.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_null.sh', parameters('storageUrl'))))]"
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_null.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_null.sh', parameters('storageUrl'))))]"
               ]
             }
           }
@@ -2032,8 +2032,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "10544031631208874330"
+              "version": "0.4.1318.3566",
+              "templateHash": "10772705532261135667"
             }
           },
           "parameters": {
@@ -2298,6 +2298,7 @@
                 },
                 "storageProfile": {
                   "osDisk": {
+                    "name": "[format('{0}-disk-os', parameters('vmName'))]",
                     "createOption": "[parameters('osDiskCreateOption')]",
                     "managedDisk": {
                       "storageAccountType": "[parameters('vmOsDiskType')]"
@@ -2376,8 +2377,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16120473229317534509"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "5795745572429663633"
                     }
                   },
                   "parameters": {
@@ -2458,8 +2459,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16120473229317534509"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "5795745572429663633"
                     }
                   },
                   "parameters": {
@@ -2540,8 +2541,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16120473229317534509"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "5795745572429663633"
                     }
                   },
                   "parameters": {
@@ -2622,8 +2623,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16120473229317534509"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "5795745572429663633"
                     }
                   },
                   "parameters": {
@@ -2710,8 +2711,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16636603933670422690"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "14332171207975132464"
                     }
                   },
                   "parameters": {
@@ -2831,8 +2832,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "5196026206918667727"
+              "version": "0.4.1318.3566",
+              "templateHash": "2099722644453593430"
             }
           },
           "parameters": {
@@ -2916,8 +2917,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "18199516679334208368"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "15973919032649060958"
                     }
                   },
                   "parameters": {
@@ -2998,8 +2999,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "18308697598571349899"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "13982076013008771890"
                     }
                   },
                   "parameters": {
@@ -3105,8 +3106,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16542091112771803620"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "13232815144489403577"
                     }
                   },
                   "parameters": {
@@ -3238,8 +3239,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "4764423804171511019"
+              "version": "0.4.1318.3566",
+              "templateHash": "7864310825086321600"
             }
           },
           "parameters": {
@@ -3312,8 +3313,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "4764423804171511019"
+              "version": "0.4.1318.3566",
+              "templateHash": "7864310825086321600"
             }
           },
           "parameters": {
@@ -3480,8 +3481,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "10297416164104648467"
+              "version": "0.4.1318.3566",
+              "templateHash": "2839159407722588987"
             }
           },
           "parameters": {
@@ -3657,8 +3658,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "4696728657688857921"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "4545509566937687930"
                     }
                   },
                   "parameters": {
@@ -3760,8 +3761,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "3565520052591685448"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "2426788282237273547"
                             }
                           },
                           "parameters": {
@@ -3896,8 +3897,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "3316352157372760063"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "17970277866313951616"
                             }
                           },
                           "parameters": {
@@ -4012,8 +4013,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "3769872929165503125"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "8113787677970400671"
                     }
                   },
                   "parameters": {
@@ -4107,8 +4108,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "3565520052591685448"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "2426788282237273547"
                             }
                           },
                           "parameters": {
@@ -4243,8 +4244,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "3316352157372760063"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "17970277866313951616"
                             }
                           },
                           "parameters": {
@@ -4358,8 +4359,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "3769872929165503125"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "8113787677970400671"
                     }
                   },
                   "parameters": {
@@ -4453,8 +4454,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "3565520052591685448"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "2426788282237273547"
                             }
                           },
                           "parameters": {
@@ -4589,8 +4590,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "3316352157372760063"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "17970277866313951616"
                             }
                           },
                           "parameters": {
@@ -4691,8 +4692,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "18127442355126962157"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "6242099249645503712"
                     }
                   },
                   "parameters": {
@@ -4772,8 +4773,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "16120473229317534509"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "5795745572429663633"
                     }
                   },
                   "parameters": {
@@ -4881,8 +4882,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "4394059809550817777"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "9162416863130333894"
                     }
                   },
                   "parameters": {
@@ -4952,6 +4953,7 @@
                             "version": "[parameters('version')]"
                           },
                           "osDisk": {
+                            "name": "[format('{0}-disk-os', parameters('name'))]",
                             "createOption": "[parameters('createOption')]",
                             "managedDisk": {
                               "storageAccountType": "[parameters('storageAccountType')]"
@@ -5056,8 +5058,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.4.1272.37030",
-                      "templateHash": "9356067961909277542"
+                      "version": "0.4.1318.3566",
+                      "templateHash": "1284785760264520379"
                     }
                   },
                   "parameters": {
@@ -5167,8 +5169,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "16120473229317534509"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "5795745572429663633"
                             }
                           },
                           "parameters": {
@@ -5286,8 +5288,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.4.1272.37030",
-                              "templateHash": "3589702826159650580"
+                              "version": "0.4.1318.3566",
+                              "templateHash": "4195972077942133339"
                             }
                           },
                           "parameters": {
@@ -5377,6 +5379,7 @@
                                 },
                                 "storageProfile": {
                                   "osDisk": {
+                                    "name": "[format('{0}-disk-os', parameters('name'))]",
                                     "createOption": "[parameters('osDiskCreateOption')]",
                                     "managedDisk": {
                                       "storageAccountType": "[parameters('osDiskType')]"
@@ -5469,11 +5472,11 @@
               "autoUpgradeMinorVersion": true,
               "protectedSettings": {
                 "fileUris": [
-                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('requiredModulesFile'))]",
-                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('installPSModulesFile'))]",
-                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('generateStigChecklist'))]",
-                  "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
-                  "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]"
+                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('requiredModulesFile'))]",
+                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('installPSModulesFile'))]",
+                  "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('generateStigChecklist'))]",
+                  "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
+                  "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]"
                 ],
                 "ignoreRelativePathForFileDownloads": true
               },
@@ -5485,11 +5488,11 @@
           "protectedSettings": {
             "value": {
               "fileUris": [
-                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('requiredModulesFile'))]",
-                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('installPSModulesFile'))]",
-                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('generateStigChecklist'))]",
-                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
-                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]"
+                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('requiredModulesFile'))]",
+                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('installPSModulesFile'))]",
+                "[format('{0}{1}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))), variables('generateStigChecklist'))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_cfg.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_cfg.sh', parameters('storageUrl'))))]",
+                "[format('{0}', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/mlzash_f5_stig.sh', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/mlzash_f5_stig.sh', parameters('storageUrl'))))]"
               ],
               "ignoreRelativePathForFileDownloads": true
             }
@@ -5501,8 +5504,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "16636603933670422690"
+              "version": "0.4.1318.3566",
+              "templateHash": "14332171207975132464"
             }
           },
           "parameters": {
@@ -5584,7 +5587,7 @@
               "settings": {
                 "wmfVersion": "latest",
                 "configuration": {
-                  "url": "[format('{0}Windows.ps1.zip', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix')))).outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))))]",
+                  "url": "[format('{0}Windows.ps1.zip', if(empty(parameters('storageUrl')), format('https://stigtools{0}.blob.{1}/artifacts/windows/', parameters('location'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('hubResourceGroupName')), 'Microsoft.Resources/deployments', format('deploy-f5vm01Pwdkv-hub-{0}', parameters('deploymentNameSuffix'))), '2020-10-01').outputs.fqdn.value), format('{0}/artifacts/windows/', parameters('storageUrl'))))]",
                   "script": "Windows.ps1",
                   "function": "Windows"
                 }
@@ -5598,8 +5601,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.4.1272.37030",
-              "templateHash": "16636603933670422690"
+              "version": "0.4.1318.3566",
+              "templateHash": "14332171207975132464"
             }
           },
           "parameters": {
