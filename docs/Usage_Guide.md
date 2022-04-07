@@ -154,7 +154,7 @@ Use `az deployment sub` to deploy MLZ to the subscription set as **isDefault** f
 >
 >**NOTE**: To deploy Mission LZ with all of the parameter defaults, provide values for the `--name` and `--location` parameters (by default, location will be "local" unless that stamp has a custom domain name) and specify the `./mlz-ash.bicep` template file.
 
-To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value paris to be overriden.
+To deploy an instance of MLZ with customized parameters, utilize the `--parameters` parameter and specify the parameter/value pairs to be overriden.
 
 The example below is for `password` auth and [applies STIG settings](./STIG_Guide.md) in Azure Government:
 >**Note:** In commercial or Government cloud the artifacts required to configure and STIG VMs need to be uploaded using `./src/scripts/stig/publish-to-blob.ps1`. The url output from the script is the value used in the `storageUrl` parameter
@@ -174,7 +174,7 @@ az deployment sub create \
       stig="true" \
       resourcePrefix=${resourcePrefix} \
       f5VmImageVersion=${f5VmImageVersion} \
-      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId}
+      keyVaultAccessPolicyObjectId=${keyVaultAccessPolicyObjectId} \
       storageUrl=${storageUrl}
 ```
 
