@@ -325,15 +325,15 @@
     },
     {
       "fileName": "./src/bicep/mlz-ash.json",
-      "SPDXID": "SPDXRef-File--src-bicep-mlz-ash.json-9D3A7249CD7BDC3141EF565E68A7B7081B8DB632",
+      "SPDXID": "SPDXRef-File--src-bicep-mlz-ash.json-BBAD65F696B3F400048FE54819AB8079B20D1741",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "b4d9e0b853050f2001f43a904de72be3987adeebcec01b0ce33dae1ccceec76a"
+          "checksumValue": "44f21b1c8571a7523c570fdf266e6693f1c60ea4000707f35796d8e4f9654d17"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "9d3a7249cd7bdc3141ef565e68a7b7081b8db632"
+          "checksumValue": "bbad65f696b3f400048fe54819ab8079b20d1741"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1985,7 +1985,7 @@
       "SPDXID": "SPDXRef-RootPackage",
       "downloadLocation": "NOASSERTION",
       "packageVerificationCode": {
-        "packageVerificationCodeValue": "4bf321b137bf125731eb446b4412013c0a8cea8f"
+        "packageVerificationCodeValue": "1369936e908196ac5f73529fc76301f9d2ad59c5"
       },
       "filesAnalyzed": true,
       "licenseConcluded": "NOASSERTION",
@@ -1994,7 +1994,7 @@
       ],
       "licenseDeclared": "NOASSERTION",
       "copyrightText": "NOASSERTION",
-      "versionInfo": "20220407.1",
+      "versionInfo": "20220407.3",
       "supplier": "Organization: Microsoft",
       "hasFiles": [
         "SPDXRef-File--.github-ISSUE-TEMPLATE-question.md-11851AC984C381F90CACF46A4CDF4C8F41A79C06",
@@ -2082,7 +2082,7 @@
         "SPDXRef-File--src-bicep-tier3WorkloadSpoke-hubDeploymentValues.bicep-DE854D7D2CF475C92FD49623EADC3326713DDF82",
         "SPDXRef-File--src-bicep-modules-virtualMachines.extensions.bicep-EEB5142CF706289EC3F5FD33C27B76CE74DC2738",
         "SPDXRef-File--src-bicep-modules-calculateStaticIp.bicep-F4BDC1CAA0BEDE5B47BF647E97AE5FD585D27BC5",
-        "SPDXRef-File--src-bicep-mlz-ash.json-9D3A7249CD7BDC3141EF565E68A7B7081B8DB632",
+        "SPDXRef-File--src-bicep-mlz-ash.json-BBAD65F696B3F400048FE54819AB8079B20D1741",
         "SPDXRef-File--images-roadmap.png-08D390FB6C7F0C9D6447D29BFB6B0D5B6A25318E",
         "SPDXRef-File--docs-Common-Parameters.md-8C1008AD29F39722879F8EF1335EAA5DCAA5814D",
         "SPDXRef-File--SECURITY.md-28A48DED0C097169644A9C376CAD1A380DECB6CE",
@@ -2106,23 +2106,23 @@
   "externalDocumentRefs": [],
   "relationships": [
     {
-      "relationshipType": "DEPENDS_ON",
-      "relatedSpdxElement": "SPDXRef-Package-F971375938F2811D87729862595D69280749F0592C72AA99877624A4599580D2",
-      "spdxElementId": "SPDXRef-RootPackage"
-    },
-    {
       "relationshipType": "DESCRIBES",
       "relatedSpdxElement": "SPDXRef-RootPackage",
       "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-F971375938F2811D87729862595D69280749F0592C72AA99877624A4599580D2",
+      "spdxElementId": "SPDXRef-RootPackage"
     }
   ],
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "name": "Mission LZ 20220407.1",
-  "documentNamespace": "https://sbom.microsoft/1:I5vpEMl9wkCCZsmqQqtQDQ:MIGbmOPODUWjMVCPbweVOQ/204:10224/Mission%20LZ:20220407.1:3VJmywxKdk-dZuRmx3qBqg",
+  "name": "Mission LZ 20220407.3",
+  "documentNamespace": "https://sbom.microsoft/1:I5vpEMl9wkCCZsmqQqtQDQ:MIGbmOPODUWjMVCPbweVOQ/204:10226/Mission%20LZ:20220407.3:WxUHJ1GebUKaYg9i_D2yrA",
   "creationInfo": {
-    "created": "2022-04-07T14:17:11Z",
+    "created": "2022-04-07T14:19:01Z",
     "creators": [
       "Organization: Microsoft",
       "Tool: Microsoft.SBOMTool-2.1.27"

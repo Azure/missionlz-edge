@@ -88,7 +88,7 @@
     {
       "Source": "/src/bicep/mlz-ash.json",
       "AzureArtifactsHash": "047B0A20202224736368656D61223A202268747470733A2F2F736368656D612E6D61",
-      "Sha256Hash": "B4D9E0B853050F2001F43A904DE72BE3987ADEEBCEC01B0CE33DAE1CCCEEC76A"
+      "Sha256Hash": "44F21B1C8571A7523C570FDF266E6693F1C60EA4000707F35796D8E4F9654D17"
     },
     {
       "Source": "/src/bicep/modules/calculateStaticIp.bicep",
@@ -516,10 +516,10 @@
       "Sha256Hash": "52481C6C2F9A540089846608388932E9ADAC745BC7604EBBF03BD8D31498D398"
     }
   ],
-  "CloudBuildId": "10224",
+  "CloudBuildId": "10226",
   "Repo": "https://github.com/Azure/missionlz-edge",
   "Branch": "merge",
-  "CommitId": "acdc0547a52b0668c5e453e68c3d5a574940d5eb",
+  "CommitId": "9ba28e7f66b308e65292a43555eb7e775ddd41f8",
   "Version": "0.0.1",
-  "Timestamp": 1649341031
+  "Timestamp": 1649341141
 }
