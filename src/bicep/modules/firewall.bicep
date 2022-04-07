@@ -244,6 +244,7 @@ resource f5vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
     }
     storageProfile: {
       osDisk: {
+        name: '${vmName}-disk-os'
         createOption: osDiskCreateOption
         managedDisk: {
           storageAccountType: vmOsDiskType
