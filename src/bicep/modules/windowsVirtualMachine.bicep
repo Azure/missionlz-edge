@@ -43,6 +43,7 @@ resource windowsVirtualMachine 'Microsoft.Compute/virtualMachines@2017-03-30' = 
         version: version 
       }
       osDisk: {
+        name: '${name}-disk-os'
         createOption: createOption
         managedDisk: {
           storageAccountType: storageAccountType          

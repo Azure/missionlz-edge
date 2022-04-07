@@ -56,6 +56,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2020-06-01' = {
     }
     storageProfile: {
       osDisk: {
+        name: '${name}-disk-os'
         createOption: osDiskCreateOption
         managedDisk: {
           storageAccountType: osDiskType
