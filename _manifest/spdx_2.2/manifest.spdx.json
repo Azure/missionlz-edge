@@ -1,814 +1,16 @@
 {
   "files": [
     {
-      "fileName": "./SECURITY.md",
-      "SPDXID": "SPDXRef-File--SECURITY.md-28A48DED0C097169644A9C376CAD1A380DECB6CE",
+      "fileName": "./SUPPORT.md",
+      "SPDXID": "SPDXRef-File--SUPPORT.md-CDDBAE46F82B3BE3088BAE0EF7CC097E7F131A27",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "89ffe07758cfd3c7d69f05047000130f78dd40a809d5496e19dccab76cf8f50c"
+          "checksumValue": "cf0f7f19c93f26131922f164ec2282ff70d7607819e54326e905f07f16baaab6"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "28a48ded0c097169644a9c376cad1a380decb6ce"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./README.md",
-      "SPDXID": "SPDXRef-File--README.md-77CC541B05BAA566E54DDE3645FF2479D3FFBA74",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "d932787866fa17a6b124d8d74d6c8409247f6068d339a76475a5f54c45859ab5"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "77cc541b05baa566e54dde3645ff2479d3ffba74"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/keyVaultAccessPolicy.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-keyVaultAccessPolicy.bicep-6BCF3D960BDE92E33F64144C93DE6C4B38C371B4",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "030ec50973674f4527f27e8039dc235ebe5f3298a72eee8905f9bbdc8255ac11"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "6bcf3d960bde92e33f64144c93de6c4b38c371b4"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/firewall.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-firewall.bicep-39CA3B9AC0B552E3188F330795516803E2C2659C",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "81faec294c2ec953e0519b6359309a7114b33c7a990d4e2e67e37ba954dfa6bf"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "39ca3b9ac0b552e3188f330795516803e2c2659c"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/linuxVirtualMachine.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-linuxVirtualMachine.bicep-59F8B79F6C2A691CB7EB0D729AF37A87DCE3E4EB",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "a3eb2b1257d1fe7df47a94fe993381094223ba1c9ef64aac6439fe0bb29e2e09"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "59f8b79f6c2a691cb7eb0d729af37a87dce3e4eb"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/import.ps1",
-      "SPDXID": "SPDXRef-File--src-scripts-import.ps1-1B2D0B2EEB5C2FBBDBEAC05D6BF8CA8F26D66377",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "491fd9ca9b392ea6636482bfe177b74c0a203f6aa5f8407e7c4078195042b8e8"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "1b2d0b2eeb5c2fbbdbeac05d6bf8ca8f26d66377"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/createUiDefinition.json",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-createUiDefinition.json-FEE6D993029BD647E6743EEC83612FAAE1C76E1B",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "333380988546c189213d2a3f73be75710b5f6de86ed2730671608d6a23c68795"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "fee6d993029bd647e6743eec83612faae1c76e1b"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/RHEL78.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL78.mof-D3E62773CC83202F0AD19EB595AB5597CB4FD403",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "2a5d3271d653b34a71f5998b58338ad4e4b34a9e58a81c4648099476dc90635d"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "d3e62773cc83202f0ad19eb595ab5597cb4fd403"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/CentOS79.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS79.mof-53E8BE6EF2D057E6EC310990261B0E3D904612E2",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "07454fceb72143b1eb9b2c44a67a423553b41c6c1ca7ed2c726b939a24fce1ac"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "53e8be6ef2d057e6ec310990261b0e3d904612e2"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/windows/GenerateStigChecklist.ps1",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-GenerateStigChecklist.ps1-24855AD2892626FF8EDE181A9785A3D054BE5A75",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "038e15c27b8c43ce86ccc3ab60f3eba00a786463217dd198190b3646f75a3243"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "24855ad2892626ff8ede181a9785a3d054be5a75"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.github/workflows/validate-build-bicep.yml",
-      "SPDXID": "SPDXRef-File--.github-workflows-validate-build-bicep.yml-3D073BC5A7BA639A179E449B0BB75F36B85B35EC",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "e400653461f42c2aeab3bf40ea36bab6515d5bd56f96b524cfe5db194cc7ec5b"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "3d073bc5a7ba639a179e449b0bb75f36b85b35ec"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./docs/F5_scripted_config.md",
-      "SPDXID": "SPDXRef-File--docs-F5-scripted-config.md-F1E63C237D5BEE91F6A5CDBA0947FD8F71923896",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "2cfe71ed985fbf467eb363658fcadf00dcabc0c9876f2dcca62457640952d50c"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "f1e63c237d5bee91f6a5cdba0947fd8f71923896"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./images/network.png",
-      "SPDXID": "SPDXRef-File--images-network.png-D5234C9CB040FC125C0F21DB0D9872053E61316B",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "1e2c9f4aa24856f79ac27d03786b0e0930633949b149eb5358c5a34a31246579"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "d5234c9cb040fc125c0f21db0d9872053e61316b"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.gitignore",
-      "SPDXID": "SPDXRef-File--.gitignore-33390204F663267E958EA2E2B1C56151A619137C",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "dabd256d131846ca0bb7c8a333f4740a17f2fd1b2acee410aeffb4276e41e512"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "33390204f663267e958ea2e2b1c56151a619137c"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/tier3WorkloadSpoke/workloadSpoke.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-tier3WorkloadSpoke-workloadSpoke.bicep-77EE5CDA090438883A96A6CD7680D206F6D176BD",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "f0f9da1a74cacafc60327a040baef0d705aa4d96f644dac5731543909a0dbf4a"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "77ee5cda090438883a96a6cd7680d206f6d176bd"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/spokeNetwork.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-spokeNetwork.bicep-327212675A63CE478C8EA648AAF67A6DA66B350C",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "b27c98f0e20fadb89fa9105813509953039a9146a5e8ed919aa5d2e2c47b2d0b"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "327212675a63ce478c8ea648aaf67a6da66b350c"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/virtualNetwork.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-virtualNetwork.bicep-D4494559870FB2DACE00CB5B480A498B916418C7",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "dfaaa05a4d9b7d86d0c4cf09caf31af1179f8c2787732a4f837a61a152839d45"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "d4494559870fb2dace00cb5b480a498b916418c7"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.gitattributes",
-      "SPDXID": "SPDXRef-File--.gitattributes-07F8761D46A3D812D9E153224BE52A1E6727051E",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "ddd45a76776b95dc1815ebe27a1c0f3d919b4edde74a6ffa18ebf49ef3e7eda3"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "07f8761d46a3d812d9e153224be52a1e6727051e"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/tier3WorkloadSpoke/updateMLZNSGs.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-tier3WorkloadSpoke-updateMLZNSGs.bicep-93679A4D6EB01116131B7C25E9465BE1F7A2F9CB",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "08e3a0cdbf4446866a17d5005cafab425fc0aa1815985f4f25f19cf667218369"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "93679a4d6eb01116131b7c25e9465be1f7a2f9cb"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/windowsVirtualMachine.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-windowsVirtualMachine.bicep-7565AECDAFE872C14651BE721D9D7B57852BC679",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "2913c30ccb3df7bb8864813abfeb678f0e1aaa396f1127a582705bfad9138566"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "7565aecdafe872c14651be721d9d7b57852bc679"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/routeTable.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-routeTable.bicep-80067510CFE6E14F2DF26AA0382E2FEBA328F22B",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "193753c905dd38aa889bec154f9f0af24aa44b049271ada5df47245a9728da0b"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "80067510cfe6e14f2df26aa0382e2feba328f22b"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/artifacts/defaultMlzMarketPlaceItems.txt",
-      "SPDXID": "SPDXRef-File--src-artifacts-defaultMlzMarketPlaceItems.txt-FB6578FB9F60213788536AF689D134F9E1FB8EA3",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "7f68e04592f7fa4b15bd271852c0d61f26b77f9bb9b3a68037f96d3592f4c202"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "fb6578fb9f60213788536af689d134f9e1fb8ea3"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/f5config/mlzash_f5_cfg.sh",
-      "SPDXID": "SPDXRef-File--src-scripts-f5config-mlzash-f5-cfg.sh-FAAEDFA4C8D794E82656A88054B1FC92948CECF5",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "cf2e37c620b001db71fd9a6fb4620166c97683afe3a5f5643690945ce1992b8e"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "faaedfa4c8d794e82656a88054b1fc92948cecf5"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/CentOS75.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS75.mof-D77F8809D26812B607F7186A7D8502B25DB89E1B",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "49317f1ecf5e911d60cb61c586612f7d245ccb48b66887170c0c216f05c44441"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "d77f8809d26812b607f7186a7d8502b25db89e1b"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/CentOS77.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS77.mof-1585C5178D63BC5264B3BAF04C2983C6A063E644",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "3a4753149ceca3b25c96382663c7ca52f5a4ebfb66ebe31c35e39f21e76fb7cb"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "1585c5178d63bc5264b3baf04c2983c6a063e644"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/windows/RequiredModules.ps1",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-RequiredModules.ps1-EAA5836FF6B6BF41438FDB14105112E07920330B",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "bf702a9f7a1228306ce12d388b65683141b32ee174d453ecd4576291334e96a3"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "eaa5836ff6b6bf41438fdb14105112e07920330b"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.github/workflows/validate-bicep.yml",
-      "SPDXID": "SPDXRef-File--.github-workflows-validate-bicep.yml-9A29CB56EAD7DB77B419F141CFFC53DFC46F4E22",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "cffa6e5c4484d6a918707b66c36435d3d8390be534e9242150c16524da050e4a"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "9a29cb56ead7db77b419f141cffc53dfc46f4e22"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./docs/Common_Parameters.md",
-      "SPDXID": "SPDXRef-File--docs-Common-Parameters.md-8C1008AD29F39722879F8EF1335EAA5DCAA5814D",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "ba92022340ce2f17453fc32f38821af1c81ae501b1bdb786e8c47cb2ba128628"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "8c1008ad29f39722879f8ef1335eaa5dcaa5814d"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.vscode/extensions.json",
-      "SPDXID": "SPDXRef-File--.vscode-extensions.json-B410AFCE726859B978FEF226CA6F799D6931A3C2",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "e54e7bb6baeafc552cc9012f684f10a66834ae06fd107d4266070b7ce256f3ba"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "b410afce726859b978fef226ca6f799d6931a3c2"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.devops/mlz-ash-pr-sbom-pipelines.yml",
-      "SPDXID": "SPDXRef-File--.devops-mlz-ash-pr-sbom-pipelines.yml-80E6501620DBB0269278151850B5758822A3D6BA",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "5ccf7581e3f27b9c4ec5395d05b05886b3eeed8ef3f0de133c224655ced06157"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "80e6501620dbb0269278151850b5758822a3d6ba"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./CODE_OF_CONDUCT.md",
-      "SPDXID": "SPDXRef-File--CODE-OF-CONDUCT.md-F1E7F6BA29A857FD36A5F603FA873753ABA9917E",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "9daeae709a0bd71bcfd1c96dc5822ecec5210327eff929da64b0ae7f8faf1444"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "f1e7f6ba29a857fd36a5f603fa873753aba9917e"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/tier3WorkloadSpoke/hubDeploymentValues.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-tier3WorkloadSpoke-hubDeploymentValues.bicep-DE854D7D2CF475C92FD49623EADC3326713DDF82",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "048a73ddc0cf949ef47afebd2c7f5397f1fbf26194bd2f33c7ab599330a1c54c"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "de854d7d2cf475c92fd49623eadc3326713ddf82"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/networkInterface.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-networkInterface.bicep-13EC596D4D2A41F9DBB2C58FD8B53292B44398D3",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "da6272ca609d6d11fba6e91eb97e07e7ee58e3d474015daaaaf706e74c3e981f"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "13ec596d4d2a41f9dbb2c58fd8b53292b44398d3"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/calculateStaticIp.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-calculateStaticIp.bicep-F4BDC1CAA0BEDE5B47BF647E97AE5FD585D27BC5",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "1bcdbb8416767fb4836a1090be834d3a07c58dd806eb06306b9358700f86af98"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "f4bdc1caa0bede5b47bf647e97ae5fd585d27bc5"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/networkSecurityGroup.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-networkSecurityGroup.bicep-A633DAE9426E7C9006D35B894BAC6A5D8CFF77FD",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "e612da079d8d9d9f92d219174886f6d3ecfa80ada3f642b5dfb61699cb4e5a52"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "a633dae9426e7c9006d35b894bac6a5d8cff77fd"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/f5config/mlzash_f5_null.sh",
-      "SPDXID": "SPDXRef-File--src-scripts-f5config-mlzash-f5-null.sh-02840A2300CBAC573D2D5E94A0ECAAB8F6623C27",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "7e745350397454efbf4dc43ac59d17ba65b646dee7abb53f92da43891c4cc7df"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "02840a2300cbac573d2d5e94a0ecaab8f6623c27"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/RHEL74.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL74.mof-D824D68764BB99EB60A9FAA3A21DAA0F68DF7D75",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "f6d92adc8d7bc20e2b2fbfdbff6189b0d3de0321605ccad2a814f9c8ca1cae00"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "d824d68764bb99eb60a9faa3a21daa0f68df7d75"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/CentOS74.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS74.mof-8F6C2816A807079BC338F1C613C48BC1BF94CC1C",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "3598c1509a78f0e0cf7606386e77011d7c2d920824d4b126e2ef10e1a1118012"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "8f6c2816a807079bc338f1c613c48bc1bf94cc1c"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/windows/InstallModules.ps1",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-InstallModules.ps1-98590AFB33CDE808DC38814B944E359DAEC72B8B",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "08990dd7ed814e172fc3c9c37dd4aec26795d9caa450010337a0967b1b36c7be"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "98590afb33cde808dc38814b944e359daec72b8b"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.github/workflows/bicep.yml",
-      "SPDXID": "SPDXRef-File--.github-workflows-bicep.yml-BB886D972818D025283B259C0CF12205ABEA2081",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "9b7f3451fdb834a8da6a8621b68220fbcd518b68e7f84d430a149e335f29c23d"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "bb886d972818d025283b259c0cf12205abea2081"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.github/ISSUE_TEMPLATE/question.md",
-      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-question.md-11851AC984C381F90CACF46A4CDF4C8F41A79C06",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "52481c6c2f9a540089846608388932e9adac745bc7604ebbf03bd8d31498d398"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "11851ac984c381f90cacf46a4cdf4c8f41a79c06"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./docs/F5_manual_cfg.md",
-      "SPDXID": "SPDXRef-File--docs-F5-manual-cfg.md-C36D1CC76143DC107FF3DE53237CA65ADC8FFCCC",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "5ba80a2c78b68e066079cf2c2a05a360403dec74264b97f7408e651fcf6866a1"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "c36d1cc76143dc107ff3de53237ca65adc8ffccc"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.devops/mlz-ash-gov-nightly.yml",
-      "SPDXID": "SPDXRef-File--.devops-mlz-ash-gov-nightly.yml-2713A49CC0FB7A456E4F00F0D950EAE1702DEFD1",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "2847824924dcd58185c78c83e66b12c20275c2e48c5c241a6ba0e984d599a0c1"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "2713a49cc0fb7a456e4f00f0d950eae1702defd1"
+          "checksumValue": "cddbae46f82b3be3088bae0ef7cc097e7f131a27"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -837,206 +39,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/bicep/bicepconfig.json",
-      "SPDXID": "SPDXRef-File--src-bicep-bicepconfig.json-19B4E153666EA4AC1BE0180CA0CEFE9206B650C3",
+      "fileName": "./docs/F5_manual_cfg.md",
+      "SPDXID": "SPDXRef-File--docs-F5-manual-cfg.md-C36D1CC76143DC107FF3DE53237CA65ADC8FFCCC",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "77fa6f0029d37602664d964da5c08c13cf5c60ce7eaf0a7cbc2489fdaf0eeba6"
+          "checksumValue": "5ba80a2c78b68e066079cf2c2a05a360403dec74264b97f7408e651fcf6866a1"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "19b4e153666ea4ac1be0180ca0cefe9206b650c3"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/remoteAccessLinuxVM.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-remoteAccessLinuxVM.bicep-6828AA0B6EB8E774B19C0D786BDA99289122B167",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "f13d3c0451ff0bc17a474f84f11c2b0f62f1c85e2718035d467086d00f98bc8c"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "6828aa0b6eb8e774b19c0d786bda99289122b167"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/keyVault.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-keyVault.bicep-09225BA0EBA314F96F4B0E9D7AE6E211F976F57E",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "712aade97e827fcdb9b7ae47e80e12e8d9b0e8782e87874c823bc5d10a3be70a"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "09225ba0eba314f96f4b0e9d7ae6e211f976f57e"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/remoteAccess.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-remoteAccess.bicep-B75588CD71F01ADA3D12BA1B1E49096DC231D314",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "9c05d491c4f66d8ee7113e22a2ec40f7181c2c069dc7edcc3094ce34c6cb8793"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "b75588cd71f01ada3d12ba1b1e49096dc231d314"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/f5config/mlzash_f5_stig.sh",
-      "SPDXID": "SPDXRef-File--src-scripts-f5config-mlzash-f5-stig.sh-F1D0AB560F1F903671BDE4315DBF000887EECF4A",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "d506306d64c414d0eb881a89e3b0bcb9214b9dde896bba0e67181ffaf7e9d0ff"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "f1d0ab560f1f903671bde4315dbf000887eecf4a"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mainTemplate.json",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mainTemplate.json-9F0678BB477885B8D6BC996714205CA12EF887E3",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "546b03eac97c94241711bbb6e95d6fcd48415f5fdb447347705cb8b8637bd846"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "9f0678bb477885b8d6bc996714205ca12ef887e3"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/RHEL75.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL75.mof-23B8EC4A5B7C276344C953CC957350D4457C94C8",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "9e9e3b02c306e758dfead8b86eed27cef73db73e1d372dc669c8b076a2d9e70d"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "23b8ec4a5b7c276344c953cc957350d4457c94c8"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/Ubuntu1804.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804.mof-91B61DBA270504C76D4CAAFE23D691031802F423",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "446c063de6f6e7ca75e8141e97e1b4d98ee8672bbe818bb12d35e54b9ac63fbc"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "91b61dba270504c76d4caafe23d691031802f423"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.github/pull_request_template.md",
-      "SPDXID": "SPDXRef-File--.github-pull-request-template.md-DC86DEADDA96D728BDB99855DC3B6E4BEF34E11A",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "0df7c4d87086902f68be49acaeb6f9239b3d77dbe4f9b4ae2e1423f871ce9a42"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "dc86deadda96d728bdb99855dc3b6e4bef34e11a"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.github/ISSUE_TEMPLATE/backlog_item.md",
-      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-backlog-item.md-90510393BB178582FFEFB7192590E1EEA9C9CCA8",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "ca672b16689d0a576689d37237ef63e37120163c8ec99382496ce7e46a42b8cf"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "90510393bb178582ffefb7192590e1eea9c9cca8"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./docs/Usage_Guide.md",
-      "SPDXID": "SPDXRef-File--docs-Usage-Guide.md-882254618D91DB636182F61C4D0EDE685DB3A17F",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "fc539f65a9aac4844de6071b7c3eefa293f35a77ef45f9873ac65af8c0bb4b14"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "882254618d91db636182f61c4d0ede685db3a17f"
+          "checksumValue": "c36d1cc76143dc107ff3de53237ca65adc8ffccc"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1065,16 +77,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./SUPPORT.md",
-      "SPDXID": "SPDXRef-File--SUPPORT.md-CDDBAE46F82B3BE3088BAE0EF7CC097E7F131A27",
+      "fileName": "./src/bicep/modules/remoteAccessLinuxVM.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-remoteAccessLinuxVM.bicep-6828AA0B6EB8E774B19C0D786BDA99289122B167",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "cf0f7f19c93f26131922f164ec2282ff70d7607819e54326e905f07f16baaab6"
+          "checksumValue": "f13d3c0451ff0bc17a474f84f11c2b0f62f1c85e2718035d467086d00f98bc8c"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "cddbae46f82b3be3088bae0ef7cc097e7f131a27"
+          "checksumValue": "6828aa0b6eb8e774b19c0d786bda99289122b167"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1084,16 +96,263 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/bicep/sshkeys.json",
-      "SPDXID": "SPDXRef-File--src-bicep-sshkeys.json-8B8DA8F99ACB1E2272ED6549521F8184B164BD8B",
+      "fileName": "./src/bicep/modules/networkInterface.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-networkInterface.bicep-13EC596D4D2A41F9DBB2C58FD8B53292B44398D3",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "da0e5a589b44e0f33b356a77bb6ef2975f1d2a84bf22bcfd71e8035f072cee8c"
+          "checksumValue": "da6272ca609d6d11fba6e91eb97e07e7ee58e3d474015daaaaf706e74c3e981f"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "8b8da8f99acb1e2272ed6549521f8184b164bd8b"
+          "checksumValue": "13ec596d4d2a41f9dbb2c58fd8b53292b44398d3"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/virtualNetworkPeering.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-virtualNetworkPeering.bicep-D975FDB7912B7A1923298606B231FF1AD1B89066",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1469717b1186501cc99425d7e426a280062799ed9e30706946cc26e06f312c81"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d975fdb7912b7a1923298606b231ff1ad1b89066"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/tier3WorkloadSpoke/updateMLZNSGs.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-tier3WorkloadSpoke-updateMLZNSGs.bicep-93679A4D6EB01116131B7C25E9465BE1F7A2F9CB",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "08e3a0cdbf4446866a17d5005cafab425fc0aa1815985f4f25f19cf667218369"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "93679a4d6eb01116131b7c25e9465be1f7a2f9cb"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/f5config/mlzash_f5_null.sh",
+      "SPDXID": "SPDXRef-File--src-scripts-f5config-mlzash-f5-null.sh-02840A2300CBAC573D2D5E94A0ECAAB8F6623C27",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7e745350397454efbf4dc43ac59d17ba65b646dee7abb53f92da43891c4cc7df"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "02840a2300cbac573d2d5e94a0ecaab8f6623c27"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/windows/createUiDefinition.json",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-createUiDefinition.json-EC903DEAAD9F2353F61BD7A64FEC990B67394DC6",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "90e86a876b342df7724cc477a50f88ea46cea741bae3d323c2e2c522d1adab99"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "ec903deaad9f2353f61bd7a64fec990b67394dc6"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/CentOS74.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS74.mof-8F6C2816A807079BC338F1C613C48BC1BF94CC1C",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3598c1509a78f0e0cf7606386e77011d7c2d920824d4b126e2ef10e1a1118012"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "8f6c2816a807079bc338f1c613c48bc1bf94cc1c"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/Ubuntu1804-DataScience.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804-DataScience.mof-88D3844ACC662CC506CF4873E9980C959BA394BA",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "0571e7125c9c980da798ea45f6e2a95179f27f19a7acddd48380c6253165c04f"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "88d3844acc662cc506cf4873e9980c959ba394ba"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.github/ISSUE_TEMPLATE/feature_request.md",
+      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-feature-request.md-F6867A2F0417FE89A0F2008730EE19DD38422021",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1f48c52f209a971b8e7eae4120144d28fcf8ee38a7778a7b4d8cf1ab356617d2"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "f6867a2f0417fe89a0f2008730ee19dd38422021"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.github/workflows/bicep.yml",
+      "SPDXID": "SPDXRef-File--.github-workflows-bicep.yml-BB886D972818D025283B259C0CF12205ABEA2081",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "9b7f3451fdb834a8da6a8621b68220fbcd518b68e7f84d430a149e335f29c23d"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "bb886d972818d025283b259c0cf12205abea2081"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./SECURITY.md",
+      "SPDXID": "SPDXRef-File--SECURITY.md-28A48DED0C097169644A9C376CAD1A380DECB6CE",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "89ffe07758cfd3c7d69f05047000130f78dd40a809d5496e19dccab76cf8f50c"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "28a48ded0c097169644a9c376cad1a380decb6ce"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./docs/Common_Parameters.md",
+      "SPDXID": "SPDXRef-File--docs-Common-Parameters.md-8C1008AD29F39722879F8EF1335EAA5DCAA5814D",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ba92022340ce2f17453fc32f38821af1c81ae501b1bdb786e8c47cb2ba128628"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "8c1008ad29f39722879f8ef1335eaa5dcaa5814d"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./images/roadmap.png",
+      "SPDXID": "SPDXRef-File--images-roadmap.png-08D390FB6C7F0C9D6447D29BFB6B0D5B6A25318E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "67ca60ef836ecc1b592ef7175a09fdf079141f4971992d3f1f315b92f5351f75"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "08d390fb6c7f0c9d6447d29bfb6b0d5b6a25318e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/mlz-ash.json",
+      "SPDXID": "SPDXRef-File--src-bicep-mlz-ash.json-9D3A7249CD7BDC3141EF565E68A7B7081B8DB632",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "b4d9e0b853050f2001f43a904de72be3987adeebcec01b0ce33dae1ccceec76a"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9d3a7249cd7bdc3141ef565e68a7b7081b8db632"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/calculateStaticIp.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-calculateStaticIp.bicep-F4BDC1CAA0BEDE5B47BF647E97AE5FD585D27BC5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1bcdbb8416767fb4836a1090be834d3a07c58dd806eb06306b9358700f86af98"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "f4bdc1caa0bede5b47bf647e97ae5fd585d27bc5"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1122,16 +381,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/bicep/modules/nsgRule.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-nsgRule.bicep-8A0164181E6ABE3F061E099F396FCFF7CFAF0C1A",
+      "fileName": "./src/bicep/tier3WorkloadSpoke/hubDeploymentValues.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-tier3WorkloadSpoke-hubDeploymentValues.bicep-DE854D7D2CF475C92FD49623EADC3326713DDF82",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "1141d71b398fd634bcd897a2cd18d57758761286ee6e8bc88a1d0b72a374be89"
+          "checksumValue": "048a73ddc0cf949ef47afebd2c7f5397f1fbf26194bd2f33c7ab599330a1c54c"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "8a0164181e6abe3f061e099f396fcff7cfaf0c1a"
+          "checksumValue": "de854d7d2cf475c92fd49623eadc3326713ddf82"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1141,16 +400,244 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/bicep/modules/resourceGroup.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-resourceGroup.bicep-5EFAA16D82120EFEF83382A24CE96FD77E97F28B",
+      "fileName": "./src/scripts/f5config/mlzash_f5_cfg.sh",
+      "SPDXID": "SPDXRef-File--src-scripts-f5config-mlzash-f5-cfg.sh-FAAEDFA4C8D794E82656A88054B1FC92948CECF5",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "b5bfdb17dd5888c7694636143d47231db886d8e01b203a02682c9e9018863bea"
+          "checksumValue": "cf2e37c620b001db71fd9a6fb4620166c97683afe3a5f5643690945ce1992b8e"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "5efaa16d82120efef83382a24ce96fd77e97f28b"
+          "checksumValue": "faaedfa4c8d794e82656a88054b1fc92948cecf5"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/windows/GenerateStigChecklist.ps1",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-GenerateStigChecklist.ps1-24855AD2892626FF8EDE181A9785A3D054BE5A75",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "038e15c27b8c43ce86ccc3ab60f3eba00a786463217dd198190b3646f75a3243"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "24855ad2892626ff8ede181a9785a3d054be5a75"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/CentOS77.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS77.mof-1585C5178D63BC5264B3BAF04C2983C6A063E644",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3a4753149ceca3b25c96382663c7ca52f5a4ebfb66ebe31c35e39f21e76fb7cb"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "1585c5178d63bc5264b3baf04c2983c6a063e644"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/localhost.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-localhost.mof-011BE2430B2466AA2FE1B645E75049367C6F89EE",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "60aa5307584a113d1a5b9d97fc9cd79f644b1d6c2b6635080d6f2c2874c31e2c"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "011be2430b2466aa2fe1b645e75049367c6f89ee"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.github/pull_request_template.md",
+      "SPDXID": "SPDXRef-File--.github-pull-request-template.md-DC86DEADDA96D728BDB99855DC3B6E4BEF34E11A",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "0df7c4d87086902f68be49acaeb6f9239b3d77dbe4f9b4ae2e1423f871ce9a42"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "dc86deadda96d728bdb99855dc3b6e4bef34e11a"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.github/workflows/validate-bicep.yml",
+      "SPDXID": "SPDXRef-File--.github-workflows-validate-bicep.yml-9A29CB56EAD7DB77B419F141CFFC53DFC46F4E22",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "cffa6e5c4484d6a918707b66c36435d3d8390be534e9242150c16524da050e4a"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9a29cb56ead7db77b419f141cffc53dfc46f4e22"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./README.md",
+      "SPDXID": "SPDXRef-File--README.md-77CC541B05BAA566E54DDE3645FF2479D3FFBA74",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "d932787866fa17a6b124d8d74d6c8409247f6068d339a76475a5f54c45859ab5"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "77cc541b05baa566e54dde3645ff2479d3ffba74"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./docs/STIG_Guide.md",
+      "SPDXID": "SPDXRef-File--docs-STIG-Guide.md-50A1C0FD93C96129C8C52FB9D93D1EAC51ED8187",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "169ecd9dc1cbaac0b206084f9a9f8f5e97195f0215fc462cd5815b22823b4259"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "50a1c0fd93c96129c8c52fb9d93d1eac51ed8187"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./images/scope.png",
+      "SPDXID": "SPDXRef-File--images-scope.png-8E6381A51CEAC81943DC84374A0DA7BEC550738A",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "484ddd553c2a98e2344c35a434c04f16037e960132a9c736174f5a8467bbf475"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "8e6381a51ceac81943dc84374a0da7bec550738a"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/sshkeys.json",
+      "SPDXID": "SPDXRef-File--src-bicep-sshkeys.json-8B8DA8F99ACB1E2272ED6549521F8184B164BD8B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "da0e5a589b44e0f33b356a77bb6ef2975f1d2a84bf22bcfd71e8035f072cee8c"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "8b8da8f99acb1e2272ed6549521f8184b164bd8b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/virtualNetwork.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-virtualNetwork.bicep-D4494559870FB2DACE00CB5B480A498B916418C7",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "dfaaa05a4d9b7d86d0c4cf09caf31af1179f8c2787732a4f837a61a152839d45"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d4494559870fb2dace00cb5b480a498b916418c7"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/remoteAccess.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-remoteAccess.bicep-B75588CD71F01ADA3D12BA1B1E49096DC231D314",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "9c05d491c4f66d8ee7113e22a2ec40f7181c2c069dc7edcc3094ce34c6cb8793"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "b75588cd71f01ada3d12ba1b1e49096dc231d314"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/tier3WorkloadSpoke/workloadSpoke.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-tier3WorkloadSpoke-workloadSpoke.bicep-77EE5CDA090438883A96A6CD7680D206F6D176BD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "f0f9da1a74cacafc60327a040baef0d705aa4d96f644dac5731543909a0dbf4a"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "77ee5cda090438883a96a6cd7680d206f6d176bd"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1179,16 +666,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/scripts/stig/linux/rhel7STIG.sh",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-rhel7STIG.sh-FD97BAC105FFEE9C5CA5EF64403ABC339D3973EF",
+      "fileName": "./src/scripts/stig/windows/RequiredModules.ps1",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-RequiredModules.ps1-EAA5836FF6B6BF41438FDB14105112E07920330B",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "5848eb8f2b0127269c7316216a00b4c87afaedbe1826342ace213318e6ebf130"
+          "checksumValue": "bf702a9f7a1228306ce12d388b65683141b32ee174d453ecd4576291334e96a3"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "fd97bac105ffee9c5ca5ef64403abc339d3973ef"
+          "checksumValue": "eaa5836ff6b6bf41438fdb14105112e07920330b"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1198,16 +685,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/scripts/stig/linux/mof/RHEL79.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL79.mof-B1021AED19FAFDA2CE6ABF6A9285528BB9A25572",
+      "fileName": "./src/scripts/stig/linux/mof/CentOS78.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS78.mof-B2855834AD281F1732CE9277ABC6700739123630",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "60276345965f3c96e940351e64a24fcbd7867906b48b1487acf9a374c860624d"
+          "checksumValue": "d5d121b1ecb92875be895f07a491a2911c04558018fb9be86ac5b11e0a729808"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "b1021aed19fafda2ce6abf6a9285528bb9a25572"
+          "checksumValue": "b2855834ad281f1732ce9277abc6700739123630"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1217,16 +704,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/scripts/stig/linux/mof/CentOS76.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS76.mof-28099009D7E8A5549F972A05A8A573B3FA7AA0A3",
+      "fileName": "./src/scripts/stig/linux/mof/CentOS79.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS79.mof-53E8BE6EF2D057E6EC310990261B0E3D904612E2",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "80b573e036d17921945275e76315b19a4999d2b1cfd44a46496caa6841633116"
+          "checksumValue": "07454fceb72143b1eb9b2c44a67a423553b41c6c1ca7ed2c726b939a24fce1ac"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "28099009d7e8a5549f972a05a8a573b3fa7aa0a3"
+          "checksumValue": "53e8be6ef2d057e6ec310990261b0e3d904612e2"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1255,16 +742,35 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./.github/ISSUE_TEMPLATE/feature_request.md",
-      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-feature-request.md-F6867A2F0417FE89A0F2008730EE19DD38422021",
+      "fileName": "./.github/workflows/validate-build-bicep.yml",
+      "SPDXID": "SPDXRef-File--.github-workflows-validate-build-bicep.yml-3D073BC5A7BA639A179E449B0BB75F36B85B35EC",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "1f48c52f209a971b8e7eae4120144d28fcf8ee38a7778a7b4d8cf1ab356617d2"
+          "checksumValue": "e400653461f42c2aeab3bf40ea36bab6515d5bd56f96b524cfe5db194cc7ec5b"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "f6867a2f0417fe89a0f2008730ee19dd38422021"
+          "checksumValue": "3d073bc5a7ba639a179e449b0bb75f36b85b35ec"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./CODE_OF_CONDUCT.md",
+      "SPDXID": "SPDXRef-File--CODE-OF-CONDUCT.md-F1E7F6BA29A857FD36A5F603FA873753ABA9917E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "9daeae709a0bd71bcfd1c96dc5822ecec5210327eff929da64b0ae7f8faf1444"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "f1e7f6ba29a857fd36a5f603fa873753aba9917e"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1312,272 +818,6 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./Dockerfile",
-      "SPDXID": "SPDXRef-File--Dockerfile-8D940B90F250EE261C33B99FDD1DF4A827998E6F",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "0f289771df959360872a4b0a2eb092cb0305cefea8e1dbee1565d460a27aee1f"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "8d940b90f250ee261c33b99fdd1df4a827998e6f"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/mlz-ash.json",
-      "SPDXID": "SPDXRef-File--src-bicep-mlz-ash.json-9D3A7249CD7BDC3141EF565E68A7B7081B8DB632",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "b4d9e0b853050f2001f43a904de72be3987adeebcec01b0ce33dae1ccceec76a"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "9d3a7249cd7bdc3141ef565e68a7b7081b8db632"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/virtualNetworkPeering.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-virtualNetworkPeering.bicep-D975FDB7912B7A1923298606B231FF1AD1B89066",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "1469717b1186501cc99425d7e426a280062799ed9e30706946cc26e06f312c81"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "d975fdb7912b7a1923298606b231ff1ad1b89066"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/publicIPAddress.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-publicIPAddress.bicep-9BAED0D6302EA48F4A25DC4DC303806CB461C69C",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "b048181ef4d8cc31cda4b072ea2a6efd42a0319368fbe5d012eea45662a08922"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "9baed0d6302ea48f4a25dc4dc303806cb461c69c"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/secretArtifacts.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-secretArtifacts.bicep-9A260E43CC4165276D78861842FFBDAE4D06B450",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "7c4fb45b12ca57c616035a7ac0834a99d6b669c43b7fda59248501fdbc4f469e"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "9a260e43cc4165276d78861842ffbdae4d06b450"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/download.ps1",
-      "SPDXID": "SPDXRef-File--src-scripts-download.ps1-6D05E5DABB49006526A7CF2ECD0A9466F0DE2D92",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "0f39df0890eb7bee6e65c08054de2300eb90ca7098321b050699aecce520cf76"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "6d05e5dabb49006526a7cf2ecd0a9466f0de2d92"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/ubuntuDsVmSTIG.sh",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-ubuntuDsVmSTIG.sh-28CAE029E578D0DF7B595BA58D6FC0C3CF18A69C",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "73275cf99ec39ab8fb2df538c7ce3d1149f7121102cd469dee8db8cafc139fca"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "28cae029e578d0df7b595ba58d6fc0c3cf18a69c"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/RHEL72.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL72.mof-1DF1068B089DE10285FCB17BCFC36307F36846B1",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "3406f8cb86c52bf26527b97f8844bb808e7238c9f11e6c28873be593f7824112"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "1df1068b089de10285fcb17bcfc36307f36846b1"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/localhost.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-localhost.mof-011BE2430B2466AA2FE1B645E75049367C6F89EE",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "60aa5307584a113d1a5b9d97fc9cd79f644b1d6c2b6635080d6f2c2874c31e2c"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "011be2430b2466aa2fe1b645e75049367c6f89ee"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/windows/mainTemplate.json",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-mainTemplate.json-E0141FC3542F081663506A7AED0AE10CAEC77C5F",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "eb914f373b73291cf57ed40d17c432d6bfffc58b7d5de71e45d9b0899c7c0d1e"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "e0141fc3542f081663506a7aed0ae10caec77c5f"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./.github/ISSUE_TEMPLATE/bug_report.md",
-      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-bug-report.md-FAAB1E16327A47D27D1FB4E6DB25FD67B2C4CBF3",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "1cdebd7cdf0a80b49268e64954fa015707f6ee13c3458f9a7aea52f21d3a26d2"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "faab1e16327a47d27d1fb4e6db25fd67b2c4cbf3"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./docs/STIG_Guide.md",
-      "SPDXID": "SPDXRef-File--docs-STIG-Guide.md-50A1C0FD93C96129C8C52FB9D93D1EAC51ED8187",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "169ecd9dc1cbaac0b206084f9a9f8f5e97195f0215fc462cd5815b22823b4259"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "50a1c0fd93c96129c8c52fb9d93d1eac51ed8187"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./images/roadmap.png",
-      "SPDXID": "SPDXRef-File--images-roadmap.png-08D390FB6C7F0C9D6447D29BFB6B0D5B6A25318E",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "67ca60ef836ecc1b592ef7175a09fdf079141f4971992d3f1f315b92f5351f75"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "08d390fb6c7f0c9d6447d29bfb6b0d5b6a25318e"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./LICENSE",
-      "SPDXID": "SPDXRef-File--LICENSE-689EC0681815ECC32BEE639C68E7740ADD7BD301",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "689ec0681815ecc32bee639c68e7740add7bd301"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
       "fileName": "./src/bicep/mlz-ash.bicep",
       "SPDXID": "SPDXRef-File--src-bicep-mlz-ash.bicep-F7B1D8F0FAF5C87D1D3CA2D034B5160FB9FAD2C6",
       "checksums": [
@@ -1588,25 +828,6 @@
         {
           "algorithm": "SHA1",
           "checksumValue": "f7b1d8f0faf5c87d1d3ca2d034b5160fb9fad2c6"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/bicep/modules/storageAccount.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-storageAccount.bicep-9557B78D7327FEEE622B8611822397BE9C1DCCF0",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "7d69d7fec8ebe30d22fc4032102671160972d2a030d175f0c54e53893b825939"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "9557b78d7327feee622b8611822397be9c1dccf0"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1635,16 +856,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/bicep/modules/subnet.bicep",
-      "SPDXID": "SPDXRef-File--src-bicep-modules-subnet.bicep-44E51948DA67F3F4F183C559F8161C99FD667836",
+      "fileName": "./src/bicep/modules/resourceGroup.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-resourceGroup.bicep-5EFAA16D82120EFEF83382A24CE96FD77E97F28B",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "306b353b1af37314870f5e42573a4e9dd11b41a7c4d2b48bc0c4c3bd7c6bec06"
+          "checksumValue": "b5bfdb17dd5888c7694636143d47231db886d8e01b203a02682c9e9018863bea"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "44e51948da67f3f4f183c559f8161c99fd667836"
+          "checksumValue": "5efaa16d82120efef83382a24ce96fd77e97f28b"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1654,16 +875,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/scripts/generateSshKey.sh",
-      "SPDXID": "SPDXRef-File--src-scripts-generateSshKey.sh-9CD293D510913AD7E002DAF511FB84C826C7AB73",
+      "fileName": "./src/bicep/modules/secretArtifacts.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-secretArtifacts.bicep-9A260E43CC4165276D78861842FFBDAE4D06B450",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "8d8033f5dac7e5ea761b97f7b7afb2c051fb8b2958baef1ff7e39949c9ddd469"
+          "checksumValue": "7c4fb45b12ca57c616035a7ac0834a99d6b669c43b7fda59248501fdbc4f469e"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "9cd293d510913ad7e002daf511fb84c826c7ab73"
+          "checksumValue": "9a260e43cc4165276d78861842ffbdae4d06b450"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1673,54 +894,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/scripts/stig/linux/ubuntuSTIG.sh",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-ubuntuSTIG.sh-D26B4345173D45149A7ADE6391D817068F95C9C1",
+      "fileName": "./src/scripts/import.ps1",
+      "SPDXID": "SPDXRef-File--src-scripts-import.ps1-1B2D0B2EEB5C2FBBDBEAC05D6BF8CA8F26D66377",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "c8657caf70dff2410c44c996404e8e85d85ae8227c47ec28d1aa5bfe5d1602d4"
+          "checksumValue": "491fd9ca9b392ea6636482bfe177b74c0a203f6aa5f8407e7c4078195042b8e8"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "d26b4345173d45149a7ade6391d817068f95c9c1"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/RHEL73.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL73.mof-82688A8E92BF8D16BB57E65B4F4BC50C80A153D6",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "971a0507f74c697058de4677af0b2526aad558bfc844755d0627d1d01d38354c"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "82688a8e92bf8d16bb57e65b4f4bc50c80a153d6"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/linux/mof/CentOS78.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS78.mof-B2855834AD281F1732CE9277ABC6700739123630",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "d5d121b1ecb92875be895f07a491a2911c04558018fb9be86ac5b11e0a729808"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "b2855834ad281f1732ce9277abc6700739123630"
+          "checksumValue": "1b2d0b2eeb5c2fbbdbeac05d6bf8ca8f26d66377"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1749,6 +932,63 @@
       "copyrightText": "NOASSERTION"
     },
     {
+      "fileName": "./src/scripts/stig/linux/createUiDefinition.json",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-createUiDefinition.json-FEE6D993029BD647E6743EEC83612FAAE1C76E1B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "333380988546c189213d2a3f73be75710b5f6de86ed2730671608d6a23c68795"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "fee6d993029bd647e6743eec83612faae1c76e1b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/RHEL74.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL74.mof-D824D68764BB99EB60A9FAA3A21DAA0F68DF7D75",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "f6d92adc8d7bc20e2b2fbfdbff6189b0d3de0321605ccad2a814f9c8ca1cae00"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d824d68764bb99eb60a9faa3a21daa0f68df7d75"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/RHEL73.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL73.mof-82688A8E92BF8D16BB57E65B4F4BC50C80A153D6",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "971a0507f74c697058de4677af0b2526aad558bfc844755d0627d1d01d38354c"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "82688a8e92bf8d16bb57e65b4f4bc50c80a153d6"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
       "fileName": "./.github/workflows/README.md",
       "SPDXID": "SPDXRef-File--.github-workflows-README.md-79F409FE0E387334C45034C682A51F6A2A22819E",
       "checksums": [
@@ -1759,6 +999,25 @@
         {
           "algorithm": "SHA1",
           "checksumValue": "79f409fe0e387334c45034c682a51f6a2a22819e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./Dockerfile",
+      "SPDXID": "SPDXRef-File--Dockerfile-8D940B90F250EE261C33B99FDD1DF4A827998E6F",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "0f289771df959360872a4b0a2eb092cb0305cefea8e1dbee1565d460a27aee1f"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "8d940b90f250ee261c33b99fdd1df4a827998e6f"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1787,16 +1046,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./images/scope.png",
-      "SPDXID": "SPDXRef-File--images-scope.png-8E6381A51CEAC81943DC84374A0DA7BEC550738A",
+      "fileName": "./.vscode/settings.json",
+      "SPDXID": "SPDXRef-File--.vscode-settings.json-A24FE53E191F4741377D7108253E02CD243B1828",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "484ddd553c2a98e2344c35a434c04f16037e960132a9c736174f5a8467bbf475"
+          "checksumValue": "dade07abcee3726d12dba6a4156ee04c000305ed116593173176d1a0899c4041"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "8e6381a51ceac81943dc84374a0da7bec550738a"
+          "checksumValue": "a24fe53e191f4741377d7108253e02cd243b1828"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1806,16 +1065,16 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/artifacts/Azs.Syndication.Admin.Linux.MLZ.zip",
-      "SPDXID": "SPDXRef-File--src-artifacts-Azs.Syndication.Admin.Linux.MLZ.zip-D3AE8E5E7784FA7676968E5749314039284B9B3B",
+      "fileName": "./src/bicep/bicepconfig.json",
+      "SPDXID": "SPDXRef-File--src-bicep-bicepconfig.json-19B4E153666EA4AC1BE0180CA0CEFE9206B650C3",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "7d34d1c5e1262fb2b79f8c2f3f2b929058855213559f2a82a8906ced02f919a2"
+          "checksumValue": "77fa6f0029d37602664d964da5c08c13cf5c60ce7eaf0a7cbc2489fdaf0eeba6"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "d3ae8e5e7784fa7676968e5749314039284b9b3b"
+          "checksumValue": "19b4e153666ea4ac1be0180ca0cefe9206b650c3"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1825,16 +1084,130 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/scripts/stig/publish-to-blob.ps1",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-publish-to-blob.ps1-530F5A01159BCD7A9D89EAB95E939332DF995AA3",
+      "fileName": "./src/bicep/modules/keyVault.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-keyVault.bicep-09225BA0EBA314F96F4B0E9D7AE6E211F976F57E",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "339502488f9faf0678076c98145636873f1de7088ba09a092efb17f7bfc4f2e7"
+          "checksumValue": "712aade97e827fcdb9b7ae47e80e12e8d9b0e8782e87874c823bc5d10a3be70a"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "530f5a01159bcd7a9d89eab95e939332df995aa3"
+          "checksumValue": "09225ba0eba314f96f4b0e9d7ae6e211f976f57e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/publicIPAddress.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-publicIPAddress.bicep-9BAED0D6302EA48F4A25DC4DC303806CB461C69C",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "b048181ef4d8cc31cda4b072ea2a6efd42a0319368fbe5d012eea45662a08922"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9baed0d6302ea48f4a25dc4dc303806cb461c69c"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/networkSecurityGroup.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-networkSecurityGroup.bicep-A633DAE9426E7C9006D35B894BAC6A5D8CFF77FD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "e612da079d8d9d9f92d219174886f6d3ecfa80ada3f642b5dfb61699cb4e5a52"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "a633dae9426e7c9006d35b894bac6a5d8cff77fd"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/download.ps1",
+      "SPDXID": "SPDXRef-File--src-scripts-download.ps1-6D05E5DABB49006526A7CF2ECD0A9466F0DE2D92",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "0f39df0890eb7bee6e65c08054de2300eb90ca7098321b050699aecce520cf76"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "6d05e5dabb49006526a7cf2ecd0a9466f0de2d92"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/windows/InstallModules.ps1",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-InstallModules.ps1-98590AFB33CDE808DC38814B944E359DAEC72B8B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "08990dd7ed814e172fc3c9c37dd4aec26795d9caa450010337a0967b1b36c7be"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "98590afb33cde808dc38814b944e359daec72b8b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/ubuntuSTIG.sh",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-ubuntuSTIG.sh-D26B4345173D45149A7ADE6391D817068F95C9C1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "c8657caf70dff2410c44c996404e8e85d85ae8227c47ec28d1aa5bfe5d1602d4"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d26b4345173d45149a7ade6391d817068f95c9c1"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/RHEL72.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL72.mof-1DF1068B089DE10285FCB17BCFC36307F36846B1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3406f8cb86c52bf26527b97f8844bb808e7238c9f11e6c28873be593f7824112"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "1df1068b089de10285fcb17bcfc36307f36846b1"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1863,44 +1236,6 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./src/scripts/stig/linux/mof/Ubuntu1804-DataScience.mof",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804-DataScience.mof-88D3844ACC662CC506CF4873E9980C959BA394BA",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "0571e7125c9c980da798ea45f6e2a95179f27f19a7acddd48380c6253165c04f"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "88d3844acc662cc506cf4873e9980c959ba394ba"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
-      "fileName": "./src/scripts/stig/windows/createUiDefinition.json",
-      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-createUiDefinition.json-EC903DEAAD9F2353F61BD7A64FEC990B67394DC6",
-      "checksums": [
-        {
-          "algorithm": "SHA256",
-          "checksumValue": "90e86a876b342df7724cc477a50f88ea46cea741bae3d323c2e2c522d1adab99"
-        },
-        {
-          "algorithm": "SHA1",
-          "checksumValue": "ec903deaad9f2353f61bd7a64fec990b67394dc6"
-        }
-      ],
-      "licenseConcluded": "NOASSERTION",
-      "licenseInfoInFiles": [
-        "NOASSERTION"
-      ],
-      "copyrightText": "NOASSERTION"
-    },
-    {
       "fileName": "./.github/workflows/super-linter.yml",
       "SPDXID": "SPDXRef-File--.github-workflows-super-linter.yml-1FADCAC3FE71BBAFD8E65D34F6BF5454DD3DD909",
       "checksums": [
@@ -1911,6 +1246,253 @@
         {
           "algorithm": "SHA1",
           "checksumValue": "1fadcac3fe71bbafd8e65d34f6bf5454dd3dd909"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.gitignore",
+      "SPDXID": "SPDXRef-File--.gitignore-33390204F663267E958EA2E2B1C56151A619137C",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "dabd256d131846ca0bb7c8a333f4740a17f2fd1b2acee410aeffb4276e41e512"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "33390204f663267e958ea2e2b1c56151a619137c"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./docs/Usage_Guide.md",
+      "SPDXID": "SPDXRef-File--docs-Usage-Guide.md-882254618D91DB636182F61C4D0EDE685DB3A17F",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "fc539f65a9aac4844de6071b7c3eefa293f35a77ef45f9873ac65af8c0bb4b14"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "882254618d91db636182f61c4d0ede685db3a17f"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.vscode/extensions.json",
+      "SPDXID": "SPDXRef-File--.vscode-extensions.json-B410AFCE726859B978FEF226CA6F799D6931A3C2",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "e54e7bb6baeafc552cc9012f684f10a66834ae06fd107d4266070b7ce256f3ba"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "b410afce726859b978fef226ca6f799d6931a3c2"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/linuxVirtualMachine.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-linuxVirtualMachine.bicep-ABC345688788406B294B1250938B2CA7313C4E8F",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7c46d37e6f2f2211b8049d06283b4a896e0ee3e501bf2ea50fd83f3a44c72aee"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "abc345688788406b294b1250938b2ca7313c4e8f"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/windowsVirtualMachine.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-windowsVirtualMachine.bicep-EBF34EDCF8A28A3B435FF2C8AE1CFED379FAC947",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "6c6b231e92a8bced144ed516de5ae0724174f3c5ee8ace84504b6d73be3166ab"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "ebf34edcf8a28a3b435ff2c8ae1cfed379fac947"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/nsgRule.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-nsgRule.bicep-8A0164181E6ABE3F061E099F396FCFF7CFAF0C1A",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1141d71b398fd634bcd897a2cd18d57758761286ee6e8bc88a1d0b72a374be89"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "8a0164181e6abe3f061e099f396fcff7cfaf0c1a"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/generateSshKey.sh",
+      "SPDXID": "SPDXRef-File--src-scripts-generateSshKey.sh-9CD293D510913AD7E002DAF511FB84C826C7AB73",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8d8033f5dac7e5ea761b97f7b7afb2c051fb8b2958baef1ff7e39949c9ddd469"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9cd293d510913ad7e002daf511fb84c826c7ab73"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/windows/mainTemplate.json",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-windows-mainTemplate.json-E0141FC3542F081663506A7AED0AE10CAEC77C5F",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "eb914f373b73291cf57ed40d17c432d6bfffc58b7d5de71e45d9b0899c7c0d1e"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "e0141fc3542f081663506a7aed0ae10caec77c5f"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/ubuntuDsVmSTIG.sh",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-ubuntuDsVmSTIG.sh-28CAE029E578D0DF7B595BA58D6FC0C3CF18A69C",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "73275cf99ec39ab8fb2df538c7ce3d1149f7121102cd469dee8db8cafc139fca"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "28cae029e578d0df7b595ba58d6fc0c3cf18a69c"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/CentOS76.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS76.mof-28099009D7E8A5549F972A05A8A573B3FA7AA0A3",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "80b573e036d17921945275e76315b19a4999d2b1cfd44a46496caa6841633116"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "28099009d7e8a5549f972a05a8a573b3fa7aa0a3"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/RHEL78.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL78.mof-D3E62773CC83202F0AD19EB595AB5597CB4FD403",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "2a5d3271d653b34a71f5998b58338ad4e4b34a9e58a81c4648099476dc90635d"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d3e62773cc83202f0ad19eb595ab5597cb4fd403"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.github/ISSUE_TEMPLATE/backlog_item.md",
+      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-backlog-item.md-90510393BB178582FFEFB7192590E1EEA9C9CCA8",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ca672b16689d0a576689d37237ef63e37120163c8ec99382496ce7e46a42b8cf"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "90510393bb178582ffefb7192590e1eea9c9cca8"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./LICENSE",
+      "SPDXID": "SPDXRef-File--LICENSE-689EC0681815ECC32BEE639C68E7740ADD7BD301",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "689ec0681815ecc32bee639c68e7740add7bd301"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1939,16 +1521,434 @@
       "copyrightText": "NOASSERTION"
     },
     {
-      "fileName": "./.vscode/settings.json",
-      "SPDXID": "SPDXRef-File--.vscode-settings.json-A24FE53E191F4741377D7108253E02CD243B1828",
+      "fileName": "./.devops/mlz-ash-gov-nightly.yml",
+      "SPDXID": "SPDXRef-File--.devops-mlz-ash-gov-nightly.yml-2713A49CC0FB7A456E4F00F0D950EAE1702DEFD1",
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "dade07abcee3726d12dba6a4156ee04c000305ed116593173176d1a0899c4041"
+          "checksumValue": "2847824924dcd58185c78c83e66b12c20275c2e48c5c241a6ba0e984d599a0c1"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "a24fe53e191f4741377d7108253e02cd243b1828"
+          "checksumValue": "2713a49cc0fb7a456e4f00f0d950eae1702defd1"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/subnet.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-subnet.bicep-44E51948DA67F3F4F183C559F8161C99FD667836",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "306b353b1af37314870f5e42573a4e9dd11b41a7c4d2b48bc0c4c3bd7c6bec06"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "44e51948da67f3f4f183c559f8161c99fd667836"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/spokeNetwork.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-spokeNetwork.bicep-327212675A63CE478C8EA648AAF67A6DA66B350C",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "b27c98f0e20fadb89fa9105813509953039a9146a5e8ed919aa5d2e2c47b2d0b"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "327212675a63ce478c8ea648aaf67a6da66b350c"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/keyVaultAccessPolicy.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-keyVaultAccessPolicy.bicep-6BCF3D960BDE92E33F64144C93DE6C4B38C371B4",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "030ec50973674f4527f27e8039dc235ebe5f3298a72eee8905f9bbdc8255ac11"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "6bcf3d960bde92e33f64144c93de6c4b38c371b4"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/artifacts/defaultMlzMarketPlaceItems.txt",
+      "SPDXID": "SPDXRef-File--src-artifacts-defaultMlzMarketPlaceItems.txt-FB6578FB9F60213788536AF689D134F9E1FB8EA3",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7f68e04592f7fa4b15bd271852c0d61f26b77f9bb9b3a68037f96d3592f4c202"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "fb6578fb9f60213788536af689d134f9e1fb8ea3"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/publish-to-blob.ps1",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-publish-to-blob.ps1-530F5A01159BCD7A9D89EAB95E939332DF995AA3",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "339502488f9faf0678076c98145636873f1de7088ba09a092efb17f7bfc4f2e7"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "530f5a01159bcd7a9d89eab95e939332df995aa3"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/rhel7STIG.sh",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-rhel7STIG.sh-FD97BAC105FFEE9C5CA5EF64403ABC339D3973EF",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "5848eb8f2b0127269c7316216a00b4c87afaedbe1826342ace213318e6ebf130"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "fd97bac105ffee9c5ca5ef64403abc339d3973ef"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/Ubuntu1804.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804.mof-91B61DBA270504C76D4CAAFE23D691031802F423",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "446c063de6f6e7ca75e8141e97e1b4d98ee8672bbe818bb12d35e54b9ac63fbc"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "91b61dba270504c76d4caafe23d691031802f423"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/RHEL75.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL75.mof-23B8EC4A5B7C276344C953CC957350D4457C94C8",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "9e9e3b02c306e758dfead8b86eed27cef73db73e1d372dc669c8b076a2d9e70d"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "23b8ec4a5b7c276344c953cc957350d4457c94c8"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.github/ISSUE_TEMPLATE/bug_report.md",
+      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-bug-report.md-FAAB1E16327A47D27D1FB4E6DB25FD67B2C4CBF3",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1cdebd7cdf0a80b49268e64954fa015707f6ee13c3458f9a7aea52f21d3a26d2"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "faab1e16327a47d27d1fb4e6db25fd67b2c4cbf3"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.gitattributes",
+      "SPDXID": "SPDXRef-File--.gitattributes-07F8761D46A3D812D9E153224BE52A1E6727051E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ddd45a76776b95dc1815ebe27a1c0f3d919b4edde74a6ffa18ebf49ef3e7eda3"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "07f8761d46a3d812d9e153224be52a1e6727051e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./docs/F5_scripted_config.md",
+      "SPDXID": "SPDXRef-File--docs-F5-scripted-config.md-F1E63C237D5BEE91F6A5CDBA0947FD8F71923896",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "2cfe71ed985fbf467eb363658fcadf00dcabc0c9876f2dcca62457640952d50c"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "f1e63c237d5bee91f6a5cdba0947fd8f71923896"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.devops/mlz-ash-pr-sbom-pipelines.yml",
+      "SPDXID": "SPDXRef-File--.devops-mlz-ash-pr-sbom-pipelines.yml-80E6501620DBB0269278151850B5758822A3D6BA",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "5ccf7581e3f27b9c4ec5395d05b05886b3eeed8ef3f0de133c224655ced06157"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "80e6501620dbb0269278151850b5758822a3d6ba"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./images/network.png",
+      "SPDXID": "SPDXRef-File--images-network.png-D5234C9CB040FC125C0F21DB0D9872053E61316B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1e2c9f4aa24856f79ac27d03786b0e0930633949b149eb5358c5a34a31246579"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d5234c9cb040fc125c0f21db0d9872053e61316b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/routeTable.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-routeTable.bicep-80067510CFE6E14F2DF26AA0382E2FEBA328F22B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "193753c905dd38aa889bec154f9f0af24aa44b049271ada5df47245a9728da0b"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "80067510cfe6e14f2df26aa0382e2feba328f22b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/firewall.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-firewall.bicep-DA0F4C8EC1EBBF758E4E121B99FDA78E7194659B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "908fad5c7e24a6cb8ba8290f1e0682aa6291e49d6c16b5f750a6228715643e9b"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "da0f4c8ec1ebbf758e4e121b99fda78e7194659b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/bicep/modules/storageAccount.bicep",
+      "SPDXID": "SPDXRef-File--src-bicep-modules-storageAccount.bicep-9557B78D7327FEEE622B8611822397BE9C1DCCF0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7d69d7fec8ebe30d22fc4032102671160972d2a030d175f0c54e53893b825939"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9557b78d7327feee622b8611822397be9c1dccf0"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/artifacts/Azs.Syndication.Admin.Linux.MLZ.zip",
+      "SPDXID": "SPDXRef-File--src-artifacts-Azs.Syndication.Admin.Linux.MLZ.zip-D3AE8E5E7784FA7676968E5749314039284B9B3B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7d34d1c5e1262fb2b79f8c2f3f2b929058855213559f2a82a8906ced02f919a2"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d3ae8e5e7784fa7676968e5749314039284b9b3b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/f5config/mlzash_f5_stig.sh",
+      "SPDXID": "SPDXRef-File--src-scripts-f5config-mlzash-f5-stig.sh-F1D0AB560F1F903671BDE4315DBF000887EECF4A",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "d506306d64c414d0eb881a89e3b0bcb9214b9dde896bba0e67181ffaf7e9d0ff"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "f1d0ab560f1f903671bde4315dbf000887eecf4a"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mainTemplate.json",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mainTemplate.json-9F0678BB477885B8D6BC996714205CA12EF887E3",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "546b03eac97c94241711bbb6e95d6fcd48415f5fdb447347705cb8b8637bd846"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9f0678bb477885b8d6bc996714205ca12ef887e3"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/RHEL79.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-RHEL79.mof-B1021AED19FAFDA2CE6ABF6A9285528BB9A25572",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "60276345965f3c96e940351e64a24fcbd7867906b48b1487acf9a374c860624d"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "b1021aed19fafda2ce6abf6a9285528bb9a25572"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./src/scripts/stig/linux/mof/CentOS75.mof",
+      "SPDXID": "SPDXRef-File--src-scripts-stig-linux-mof-CentOS75.mof-D77F8809D26812B607F7186A7D8502B25DB89E1B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "49317f1ecf5e911d60cb61c586612f7d245ccb48b66887170c0c216f05c44441"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d77f8809d26812b607f7186a7d8502b25db89e1b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./.github/ISSUE_TEMPLATE/question.md",
+      "SPDXID": "SPDXRef-File--.github-ISSUE-TEMPLATE-question.md-11851AC984C381F90CACF46A4CDF4C8F41A79C06",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "52481c6c2f9a540089846608388932e9adac745bc7604ebbf03bd8d31498d398"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "11851ac984c381f90cacf46a4cdf4c8f41a79c06"
         }
       ],
       "licenseConcluded": "NOASSERTION",
@@ -1961,7 +1961,7 @@
   "packages": [
     {
       "name": "Azure Pipelines Hosted Image ubuntu20",
-      "SPDXID": "SPDXRef-Package-ACBD9A236EF46C555772183785548DC4484DC066C062B292194E45C5CB574792",
+      "SPDXID": "SPDXRef-Package-F971375938F2811D87729862595D69280749F0592C72AA99877624A4599580D2",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
@@ -1970,7 +1970,7 @@
       ],
       "licenseDeclared": "NOASSERTION",
       "copyrightText": "NOASSERTION",
-      "versionInfo": "20220227.1",
+      "versionInfo": "20220405.4",
       "externalRefs": [
         {
           "referenceCategory": "PACKAGE_MANAGER",
@@ -1985,7 +1985,7 @@
       "SPDXID": "SPDXRef-RootPackage",
       "downloadLocation": "NOASSERTION",
       "packageVerificationCode": {
-        "packageVerificationCodeValue": "e3498965dad5eecde46e650003fb37a4d5c1c304"
+        "packageVerificationCodeValue": "4bf321b137bf125731eb446b4412013c0a8cea8f"
       },
       "filesAnalyzed": true,
       "licenseConcluded": "NOASSERTION",
@@ -1994,138 +1994,138 @@
       ],
       "licenseDeclared": "NOASSERTION",
       "copyrightText": "NOASSERTION",
-      "versionInfo": "20220307.2",
+      "versionInfo": "20220407.1",
       "supplier": "Organization: Microsoft",
       "hasFiles": [
-        "SPDXRef-File--.vscode-settings.json-A24FE53E191F4741377D7108253E02CD243B1828",
-        "SPDXRef-File--docs-Configuring-F5.md-E7C69056C5D1160FAAA0AC6A27DA1DC2BD55F49C",
-        "SPDXRef-File--.github-workflows-super-linter.yml-1FADCAC3FE71BBAFD8E65D34F6BF5454DD3DD909",
-        "SPDXRef-File--src-scripts-stig-windows-createUiDefinition.json-EC903DEAAD9F2353F61BD7A64FEC990B67394DC6",
-        "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804-DataScience.mof-88D3844ACC662CC506CF4873E9980C959BA394BA",
-        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL77.mof-88378E930E1CF5641570E13E09C5902C192169D4",
-        "SPDXRef-File--src-scripts-stig-publish-to-blob.ps1-530F5A01159BCD7A9D89EAB95E939332DF995AA3",
-        "SPDXRef-File--src-artifacts-Azs.Syndication.Admin.Linux.MLZ.zip-D3AE8E5E7784FA7676968E5749314039284B9B3B",
-        "SPDXRef-File--images-scope.png-8E6381A51CEAC81943DC84374A0DA7BEC550738A",
-        "SPDXRef-File--docs-Deployment-container-setup.md-9709D803FD633E58E9D5C07C1E2A72508ECC7A16",
-        "SPDXRef-File--.github-workflows-README.md-79F409FE0E387334C45034C682A51F6A2A22819E",
-        "SPDXRef-File--src-scripts-stig-windows-Windows.ps1.zip-4A239AE77ACAA5E2A83195391CB930F83AD91BE7",
-        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS78.mof-B2855834AD281F1732CE9277ABC6700739123630",
-        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL73.mof-82688A8E92BF8D16BB57E65B4F4BC50C80A153D6",
-        "SPDXRef-File--src-scripts-stig-linux-ubuntuSTIG.sh-D26B4345173D45149A7ADE6391D817068F95C9C1",
-        "SPDXRef-File--src-scripts-generateSshKey.sh-9CD293D510913AD7E002DAF511FB84C826C7AB73",
-        "SPDXRef-File--src-bicep-modules-subnet.bicep-44E51948DA67F3F4F183C559F8161C99FD667836",
-        "SPDXRef-File--src-bicep-modules-generateSshKey.bicep-BDBC71F624F597863EFD1069D0AD6995DBDBAEFE",
-        "SPDXRef-File--src-bicep-modules-storageAccount.bicep-9557B78D7327FEEE622B8611822397BE9C1DCCF0",
-        "SPDXRef-File--src-bicep-mlz-ash.bicep-F7B1D8F0FAF5C87D1D3CA2D034B5160FB9FAD2C6",
-        "SPDXRef-File--LICENSE-689EC0681815ECC32BEE639C68E7740ADD7BD301",
-        "SPDXRef-File--images-roadmap.png-08D390FB6C7F0C9D6447D29BFB6B0D5B6A25318E",
-        "SPDXRef-File--docs-STIG-Guide.md-50A1C0FD93C96129C8C52FB9D93D1EAC51ED8187",
-        "SPDXRef-File--.github-ISSUE-TEMPLATE-bug-report.md-FAAB1E16327A47D27D1FB4E6DB25FD67B2C4CBF3",
-        "SPDXRef-File--src-scripts-stig-windows-mainTemplate.json-E0141FC3542F081663506A7AED0AE10CAEC77C5F",
-        "SPDXRef-File--src-scripts-stig-linux-mof-localhost.mof-011BE2430B2466AA2FE1B645E75049367C6F89EE",
-        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL72.mof-1DF1068B089DE10285FCB17BCFC36307F36846B1",
-        "SPDXRef-File--src-scripts-stig-linux-ubuntuDsVmSTIG.sh-28CAE029E578D0DF7B595BA58D6FC0C3CF18A69C",
-        "SPDXRef-File--src-scripts-download.ps1-6D05E5DABB49006526A7CF2ECD0A9466F0DE2D92",
-        "SPDXRef-File--src-bicep-modules-secretArtifacts.bicep-9A260E43CC4165276D78861842FFBDAE4D06B450",
-        "SPDXRef-File--src-bicep-modules-publicIPAddress.bicep-9BAED0D6302EA48F4A25DC4DC303806CB461C69C",
-        "SPDXRef-File--src-bicep-modules-virtualNetworkPeering.bicep-D975FDB7912B7A1923298606B231FF1AD1B89066",
-        "SPDXRef-File--src-bicep-mlz-ash.json-9D3A7249CD7BDC3141EF565E68A7B7081B8DB632",
-        "SPDXRef-File--Dockerfile-8D940B90F250EE261C33B99FDD1DF4A827998E6F",
-        "SPDXRef-File--images-networking.png-393C984E4D29903DE4426906F004A26CF023B7F2",
-        "SPDXRef-File--docs-Tier3-Workload-deployment.md-13B1F37C979F23EB0998EE78DCAF7B0568E65A8B",
-        "SPDXRef-File--.github-ISSUE-TEMPLATE-feature-request.md-F6867A2F0417FE89A0F2008730EE19DD38422021",
-        "SPDXRef-File--.github-dependabot.yml-D32D29F69D4FAB0CE55327A6CC232B7B020DFFDD",
-        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS76.mof-28099009D7E8A5549F972A05A8A573B3FA7AA0A3",
+        "SPDXRef-File--.github-ISSUE-TEMPLATE-question.md-11851AC984C381F90CACF46A4CDF4C8F41A79C06",
+        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS75.mof-D77F8809D26812B607F7186A7D8502B25DB89E1B",
         "SPDXRef-File--src-scripts-stig-linux-mof-RHEL79.mof-B1021AED19FAFDA2CE6ABF6A9285528BB9A25572",
-        "SPDXRef-File--src-scripts-stig-linux-rhel7STIG.sh-FD97BAC105FFEE9C5CA5EF64403ABC339D3973EF",
-        "SPDXRef-File--src-scripts-setup.ps1-B651D082911DDD2F9337D9DE00FB11B5AAA84FCF",
-        "SPDXRef-File--src-bicep-modules-resourceGroup.bicep-5EFAA16D82120EFEF83382A24CE96FD77E97F28B",
-        "SPDXRef-File--src-bicep-modules-nsgRule.bicep-8A0164181E6ABE3F061E099F396FCFF7CFAF0C1A",
-        "SPDXRef-File--src-bicep-modules-virtualMachines.extensions.bicep-EEB5142CF706289EC3F5FD33C27B76CE74DC2738",
-        "SPDXRef-File--src-bicep-sshkeys.json-8B8DA8F99ACB1E2272ED6549521F8184B164BD8B",
-        "SPDXRef-File--SUPPORT.md-CDDBAE46F82B3BE3088BAE0EF7CC097E7F131A27",
-        "SPDXRef-File--images-workflow.png-13833D4B6A453AE924ACA62BFB30FF1B9D1E5965",
-        "SPDXRef-File--docs-Usage-Guide.md-882254618D91DB636182F61C4D0EDE685DB3A17F",
-        "SPDXRef-File--.github-ISSUE-TEMPLATE-backlog-item.md-90510393BB178582FFEFB7192590E1EEA9C9CCA8",
-        "SPDXRef-File--.github-pull-request-template.md-DC86DEADDA96D728BDB99855DC3B6E4BEF34E11A",
-        "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804.mof-91B61DBA270504C76D4CAAFE23D691031802F423",
-        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL75.mof-23B8EC4A5B7C276344C953CC957350D4457C94C8",
         "SPDXRef-File--src-scripts-stig-linux-mainTemplate.json-9F0678BB477885B8D6BC996714205CA12EF887E3",
         "SPDXRef-File--src-scripts-f5config-mlzash-f5-stig.sh-F1D0AB560F1F903671BDE4315DBF000887EECF4A",
-        "SPDXRef-File--src-bicep-modules-remoteAccess.bicep-B75588CD71F01ADA3D12BA1B1E49096DC231D314",
-        "SPDXRef-File--src-bicep-modules-keyVault.bicep-09225BA0EBA314F96F4B0E9D7AE6E211F976F57E",
-        "SPDXRef-File--src-bicep-modules-remoteAccessLinuxVM.bicep-6828AA0B6EB8E774B19C0D786BDA99289122B167",
-        "SPDXRef-File--src-bicep-bicepconfig.json-19B4E153666EA4AC1BE0180CA0CEFE9206B650C3",
-        "SPDXRef-File--CONTRIBUTING.MD-DAB37DC4A8164116CE929B393D734AA4E6C16A55",
-        "SPDXRef-File--.devops-mlz-ash-gov-nightly.yml-2713A49CC0FB7A456E4F00F0D950EAE1702DEFD1",
-        "SPDXRef-File--docs-F5-manual-cfg.md-C36D1CC76143DC107FF3DE53237CA65ADC8FFCCC",
-        "SPDXRef-File--.github-ISSUE-TEMPLATE-question.md-11851AC984C381F90CACF46A4CDF4C8F41A79C06",
-        "SPDXRef-File--.github-workflows-bicep.yml-BB886D972818D025283B259C0CF12205ABEA2081",
-        "SPDXRef-File--src-scripts-stig-windows-InstallModules.ps1-98590AFB33CDE808DC38814B944E359DAEC72B8B",
-        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS74.mof-8F6C2816A807079BC338F1C613C48BC1BF94CC1C",
-        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL74.mof-D824D68764BB99EB60A9FAA3A21DAA0F68DF7D75",
-        "SPDXRef-File--src-scripts-f5config-mlzash-f5-null.sh-02840A2300CBAC573D2D5E94A0ECAAB8F6623C27",
-        "SPDXRef-File--src-bicep-modules-networkSecurityGroup.bicep-A633DAE9426E7C9006D35B894BAC6A5D8CFF77FD",
-        "SPDXRef-File--src-bicep-modules-calculateStaticIp.bicep-F4BDC1CAA0BEDE5B47BF647E97AE5FD585D27BC5",
-        "SPDXRef-File--src-bicep-modules-networkInterface.bicep-13EC596D4D2A41F9DBB2C58FD8B53292B44398D3",
-        "SPDXRef-File--src-bicep-tier3WorkloadSpoke-hubDeploymentValues.bicep-DE854D7D2CF475C92FD49623EADC3326713DDF82",
-        "SPDXRef-File--CODE-OF-CONDUCT.md-F1E7F6BA29A857FD36A5F603FA873753ABA9917E",
-        "SPDXRef-File--.devops-mlz-ash-pr-sbom-pipelines.yml-80E6501620DBB0269278151850B5758822A3D6BA",
-        "SPDXRef-File--.vscode-extensions.json-B410AFCE726859B978FEF226CA6F799D6931A3C2",
-        "SPDXRef-File--docs-Common-Parameters.md-8C1008AD29F39722879F8EF1335EAA5DCAA5814D",
-        "SPDXRef-File--.github-workflows-validate-bicep.yml-9A29CB56EAD7DB77B419F141CFFC53DFC46F4E22",
-        "SPDXRef-File--src-scripts-stig-windows-RequiredModules.ps1-EAA5836FF6B6BF41438FDB14105112E07920330B",
-        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS77.mof-1585C5178D63BC5264B3BAF04C2983C6A063E644",
-        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS75.mof-D77F8809D26812B607F7186A7D8502B25DB89E1B",
-        "SPDXRef-File--src-scripts-f5config-mlzash-f5-cfg.sh-FAAEDFA4C8D794E82656A88054B1FC92948CECF5",
-        "SPDXRef-File--src-artifacts-defaultMlzMarketPlaceItems.txt-FB6578FB9F60213788536AF689D134F9E1FB8EA3",
+        "SPDXRef-File--src-artifacts-Azs.Syndication.Admin.Linux.MLZ.zip-D3AE8E5E7784FA7676968E5749314039284B9B3B",
+        "SPDXRef-File--src-bicep-modules-storageAccount.bicep-9557B78D7327FEEE622B8611822397BE9C1DCCF0",
+        "SPDXRef-File--src-bicep-modules-firewall.bicep-DA0F4C8EC1EBBF758E4E121B99FDA78E7194659B",
         "SPDXRef-File--src-bicep-modules-routeTable.bicep-80067510CFE6E14F2DF26AA0382E2FEBA328F22B",
-        "SPDXRef-File--src-bicep-modules-windowsVirtualMachine.bicep-7565AECDAFE872C14651BE721D9D7B57852BC679",
-        "SPDXRef-File--src-bicep-tier3WorkloadSpoke-updateMLZNSGs.bicep-93679A4D6EB01116131B7C25E9465BE1F7A2F9CB",
-        "SPDXRef-File--.gitattributes-07F8761D46A3D812D9E153224BE52A1E6727051E",
-        "SPDXRef-File--src-bicep-modules-virtualNetwork.bicep-D4494559870FB2DACE00CB5B480A498B916418C7",
-        "SPDXRef-File--src-bicep-modules-spokeNetwork.bicep-327212675A63CE478C8EA648AAF67A6DA66B350C",
-        "SPDXRef-File--src-bicep-tier3WorkloadSpoke-workloadSpoke.bicep-77EE5CDA090438883A96A6CD7680D206F6D176BD",
-        "SPDXRef-File--.gitignore-33390204F663267E958EA2E2B1C56151A619137C",
         "SPDXRef-File--images-network.png-D5234C9CB040FC125C0F21DB0D9872053E61316B",
+        "SPDXRef-File--.devops-mlz-ash-pr-sbom-pipelines.yml-80E6501620DBB0269278151850B5758822A3D6BA",
         "SPDXRef-File--docs-F5-scripted-config.md-F1E63C237D5BEE91F6A5CDBA0947FD8F71923896",
-        "SPDXRef-File--.github-workflows-validate-build-bicep.yml-3D073BC5A7BA639A179E449B0BB75F36B85B35EC",
-        "SPDXRef-File--src-scripts-stig-windows-GenerateStigChecklist.ps1-24855AD2892626FF8EDE181A9785A3D054BE5A75",
-        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS79.mof-53E8BE6EF2D057E6EC310990261B0E3D904612E2",
-        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL78.mof-D3E62773CC83202F0AD19EB595AB5597CB4FD403",
-        "SPDXRef-File--src-scripts-stig-linux-createUiDefinition.json-FEE6D993029BD647E6743EEC83612FAAE1C76E1B",
-        "SPDXRef-File--src-scripts-import.ps1-1B2D0B2EEB5C2FBBDBEAC05D6BF8CA8F26D66377",
-        "SPDXRef-File--src-bicep-modules-linuxVirtualMachine.bicep-59F8B79F6C2A691CB7EB0D729AF37A87DCE3E4EB",
-        "SPDXRef-File--src-bicep-modules-firewall.bicep-39CA3B9AC0B552E3188F330795516803E2C2659C",
+        "SPDXRef-File--.gitattributes-07F8761D46A3D812D9E153224BE52A1E6727051E",
+        "SPDXRef-File--.github-ISSUE-TEMPLATE-bug-report.md-FAAB1E16327A47D27D1FB4E6DB25FD67B2C4CBF3",
+        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL75.mof-23B8EC4A5B7C276344C953CC957350D4457C94C8",
+        "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804.mof-91B61DBA270504C76D4CAAFE23D691031802F423",
+        "SPDXRef-File--src-scripts-stig-linux-rhel7STIG.sh-FD97BAC105FFEE9C5CA5EF64403ABC339D3973EF",
+        "SPDXRef-File--src-scripts-stig-publish-to-blob.ps1-530F5A01159BCD7A9D89EAB95E939332DF995AA3",
+        "SPDXRef-File--src-artifacts-defaultMlzMarketPlaceItems.txt-FB6578FB9F60213788536AF689D134F9E1FB8EA3",
         "SPDXRef-File--src-bicep-modules-keyVaultAccessPolicy.bicep-6BCF3D960BDE92E33F64144C93DE6C4B38C371B4",
+        "SPDXRef-File--src-bicep-modules-spokeNetwork.bicep-327212675A63CE478C8EA648AAF67A6DA66B350C",
+        "SPDXRef-File--src-bicep-modules-subnet.bicep-44E51948DA67F3F4F183C559F8161C99FD667836",
+        "SPDXRef-File--.devops-mlz-ash-gov-nightly.yml-2713A49CC0FB7A456E4F00F0D950EAE1702DEFD1",
+        "SPDXRef-File--docs-Configuring-F5.md-E7C69056C5D1160FAAA0AC6A27DA1DC2BD55F49C",
+        "SPDXRef-File--LICENSE-689EC0681815ECC32BEE639C68E7740ADD7BD301",
+        "SPDXRef-File--.github-ISSUE-TEMPLATE-backlog-item.md-90510393BB178582FFEFB7192590E1EEA9C9CCA8",
+        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL78.mof-D3E62773CC83202F0AD19EB595AB5597CB4FD403",
+        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS76.mof-28099009D7E8A5549F972A05A8A573B3FA7AA0A3",
+        "SPDXRef-File--src-scripts-stig-linux-ubuntuDsVmSTIG.sh-28CAE029E578D0DF7B595BA58D6FC0C3CF18A69C",
+        "SPDXRef-File--src-scripts-stig-windows-mainTemplate.json-E0141FC3542F081663506A7AED0AE10CAEC77C5F",
+        "SPDXRef-File--src-scripts-generateSshKey.sh-9CD293D510913AD7E002DAF511FB84C826C7AB73",
+        "SPDXRef-File--src-bicep-modules-nsgRule.bicep-8A0164181E6ABE3F061E099F396FCFF7CFAF0C1A",
+        "SPDXRef-File--src-bicep-modules-windowsVirtualMachine.bicep-EBF34EDCF8A28A3B435FF2C8AE1CFED379FAC947",
+        "SPDXRef-File--src-bicep-modules-linuxVirtualMachine.bicep-ABC345688788406B294B1250938B2CA7313C4E8F",
+        "SPDXRef-File--.vscode-extensions.json-B410AFCE726859B978FEF226CA6F799D6931A3C2",
+        "SPDXRef-File--docs-Usage-Guide.md-882254618D91DB636182F61C4D0EDE685DB3A17F",
+        "SPDXRef-File--.gitignore-33390204F663267E958EA2E2B1C56151A619137C",
+        "SPDXRef-File--.github-workflows-super-linter.yml-1FADCAC3FE71BBAFD8E65D34F6BF5454DD3DD909",
+        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL77.mof-88378E930E1CF5641570E13E09C5902C192169D4",
+        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL72.mof-1DF1068B089DE10285FCB17BCFC36307F36846B1",
+        "SPDXRef-File--src-scripts-stig-linux-ubuntuSTIG.sh-D26B4345173D45149A7ADE6391D817068F95C9C1",
+        "SPDXRef-File--src-scripts-stig-windows-InstallModules.ps1-98590AFB33CDE808DC38814B944E359DAEC72B8B",
+        "SPDXRef-File--src-scripts-download.ps1-6D05E5DABB49006526A7CF2ECD0A9466F0DE2D92",
+        "SPDXRef-File--src-bicep-modules-networkSecurityGroup.bicep-A633DAE9426E7C9006D35B894BAC6A5D8CFF77FD",
+        "SPDXRef-File--src-bicep-modules-publicIPAddress.bicep-9BAED0D6302EA48F4A25DC4DC303806CB461C69C",
+        "SPDXRef-File--src-bicep-modules-keyVault.bicep-09225BA0EBA314F96F4B0E9D7AE6E211F976F57E",
+        "SPDXRef-File--src-bicep-bicepconfig.json-19B4E153666EA4AC1BE0180CA0CEFE9206B650C3",
+        "SPDXRef-File--.vscode-settings.json-A24FE53E191F4741377D7108253E02CD243B1828",
+        "SPDXRef-File--docs-Deployment-container-setup.md-9709D803FD633E58E9D5C07C1E2A72508ECC7A16",
+        "SPDXRef-File--Dockerfile-8D940B90F250EE261C33B99FDD1DF4A827998E6F",
+        "SPDXRef-File--.github-workflows-README.md-79F409FE0E387334C45034C682A51F6A2A22819E",
+        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL73.mof-82688A8E92BF8D16BB57E65B4F4BC50C80A153D6",
+        "SPDXRef-File--src-scripts-stig-linux-mof-RHEL74.mof-D824D68764BB99EB60A9FAA3A21DAA0F68DF7D75",
+        "SPDXRef-File--src-scripts-stig-linux-createUiDefinition.json-FEE6D993029BD647E6743EEC83612FAAE1C76E1B",
+        "SPDXRef-File--src-scripts-stig-windows-Windows.ps1.zip-4A239AE77ACAA5E2A83195391CB930F83AD91BE7",
+        "SPDXRef-File--src-scripts-import.ps1-1B2D0B2EEB5C2FBBDBEAC05D6BF8CA8F26D66377",
+        "SPDXRef-File--src-bicep-modules-secretArtifacts.bicep-9A260E43CC4165276D78861842FFBDAE4D06B450",
+        "SPDXRef-File--src-bicep-modules-resourceGroup.bicep-5EFAA16D82120EFEF83382A24CE96FD77E97F28B",
+        "SPDXRef-File--src-bicep-modules-generateSshKey.bicep-BDBC71F624F597863EFD1069D0AD6995DBDBAEFE",
+        "SPDXRef-File--src-bicep-mlz-ash.bicep-F7B1D8F0FAF5C87D1D3CA2D034B5160FB9FAD2C6",
+        "SPDXRef-File--images-networking.png-393C984E4D29903DE4426906F004A26CF023B7F2",
+        "SPDXRef-File--docs-Tier3-Workload-deployment.md-13B1F37C979F23EB0998EE78DCAF7B0568E65A8B",
+        "SPDXRef-File--CODE-OF-CONDUCT.md-F1E7F6BA29A857FD36A5F603FA873753ABA9917E",
+        "SPDXRef-File--.github-workflows-validate-build-bicep.yml-3D073BC5A7BA639A179E449B0BB75F36B85B35EC",
+        "SPDXRef-File--.github-dependabot.yml-D32D29F69D4FAB0CE55327A6CC232B7B020DFFDD",
+        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS79.mof-53E8BE6EF2D057E6EC310990261B0E3D904612E2",
+        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS78.mof-B2855834AD281F1732CE9277ABC6700739123630",
+        "SPDXRef-File--src-scripts-stig-windows-RequiredModules.ps1-EAA5836FF6B6BF41438FDB14105112E07920330B",
+        "SPDXRef-File--src-scripts-setup.ps1-B651D082911DDD2F9337D9DE00FB11B5AAA84FCF",
+        "SPDXRef-File--src-bicep-tier3WorkloadSpoke-workloadSpoke.bicep-77EE5CDA090438883A96A6CD7680D206F6D176BD",
+        "SPDXRef-File--src-bicep-modules-remoteAccess.bicep-B75588CD71F01ADA3D12BA1B1E49096DC231D314",
+        "SPDXRef-File--src-bicep-modules-virtualNetwork.bicep-D4494559870FB2DACE00CB5B480A498B916418C7",
+        "SPDXRef-File--src-bicep-sshkeys.json-8B8DA8F99ACB1E2272ED6549521F8184B164BD8B",
+        "SPDXRef-File--images-scope.png-8E6381A51CEAC81943DC84374A0DA7BEC550738A",
+        "SPDXRef-File--docs-STIG-Guide.md-50A1C0FD93C96129C8C52FB9D93D1EAC51ED8187",
         "SPDXRef-File--README.md-77CC541B05BAA566E54DDE3645FF2479D3FFBA74",
-        "SPDXRef-File--SECURITY.md-28A48DED0C097169644A9C376CAD1A380DECB6CE"
+        "SPDXRef-File--.github-workflows-validate-bicep.yml-9A29CB56EAD7DB77B419F141CFFC53DFC46F4E22",
+        "SPDXRef-File--.github-pull-request-template.md-DC86DEADDA96D728BDB99855DC3B6E4BEF34E11A",
+        "SPDXRef-File--src-scripts-stig-linux-mof-localhost.mof-011BE2430B2466AA2FE1B645E75049367C6F89EE",
+        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS77.mof-1585C5178D63BC5264B3BAF04C2983C6A063E644",
+        "SPDXRef-File--src-scripts-stig-windows-GenerateStigChecklist.ps1-24855AD2892626FF8EDE181A9785A3D054BE5A75",
+        "SPDXRef-File--src-scripts-f5config-mlzash-f5-cfg.sh-FAAEDFA4C8D794E82656A88054B1FC92948CECF5",
+        "SPDXRef-File--src-bicep-tier3WorkloadSpoke-hubDeploymentValues.bicep-DE854D7D2CF475C92FD49623EADC3326713DDF82",
+        "SPDXRef-File--src-bicep-modules-virtualMachines.extensions.bicep-EEB5142CF706289EC3F5FD33C27B76CE74DC2738",
+        "SPDXRef-File--src-bicep-modules-calculateStaticIp.bicep-F4BDC1CAA0BEDE5B47BF647E97AE5FD585D27BC5",
+        "SPDXRef-File--src-bicep-mlz-ash.json-9D3A7249CD7BDC3141EF565E68A7B7081B8DB632",
+        "SPDXRef-File--images-roadmap.png-08D390FB6C7F0C9D6447D29BFB6B0D5B6A25318E",
+        "SPDXRef-File--docs-Common-Parameters.md-8C1008AD29F39722879F8EF1335EAA5DCAA5814D",
+        "SPDXRef-File--SECURITY.md-28A48DED0C097169644A9C376CAD1A380DECB6CE",
+        "SPDXRef-File--.github-workflows-bicep.yml-BB886D972818D025283B259C0CF12205ABEA2081",
+        "SPDXRef-File--.github-ISSUE-TEMPLATE-feature-request.md-F6867A2F0417FE89A0F2008730EE19DD38422021",
+        "SPDXRef-File--src-scripts-stig-linux-mof-Ubuntu1804-DataScience.mof-88D3844ACC662CC506CF4873E9980C959BA394BA",
+        "SPDXRef-File--src-scripts-stig-linux-mof-CentOS74.mof-8F6C2816A807079BC338F1C613C48BC1BF94CC1C",
+        "SPDXRef-File--src-scripts-stig-windows-createUiDefinition.json-EC903DEAAD9F2353F61BD7A64FEC990B67394DC6",
+        "SPDXRef-File--src-scripts-f5config-mlzash-f5-null.sh-02840A2300CBAC573D2D5E94A0ECAAB8F6623C27",
+        "SPDXRef-File--src-bicep-tier3WorkloadSpoke-updateMLZNSGs.bicep-93679A4D6EB01116131B7C25E9465BE1F7A2F9CB",
+        "SPDXRef-File--src-bicep-modules-virtualNetworkPeering.bicep-D975FDB7912B7A1923298606B231FF1AD1B89066",
+        "SPDXRef-File--src-bicep-modules-networkInterface.bicep-13EC596D4D2A41F9DBB2C58FD8B53292B44398D3",
+        "SPDXRef-File--src-bicep-modules-remoteAccessLinuxVM.bicep-6828AA0B6EB8E774B19C0D786BDA99289122B167",
+        "SPDXRef-File--images-workflow.png-13833D4B6A453AE924ACA62BFB30FF1B9D1E5965",
+        "SPDXRef-File--docs-F5-manual-cfg.md-C36D1CC76143DC107FF3DE53237CA65ADC8FFCCC",
+        "SPDXRef-File--CONTRIBUTING.MD-DAB37DC4A8164116CE929B393D734AA4E6C16A55",
+        "SPDXRef-File--SUPPORT.md-CDDBAE46F82B3BE3088BAE0EF7CC097E7F131A27"
       ]
     }
   ],
   "externalDocumentRefs": [],
   "relationships": [
     {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-F971375938F2811D87729862595D69280749F0592C72AA99877624A4599580D2",
+      "spdxElementId": "SPDXRef-RootPackage"
+    },
+    {
       "relationshipType": "DESCRIBES",
       "relatedSpdxElement": "SPDXRef-RootPackage",
       "spdxElementId": "SPDXRef-DOCUMENT"
-    },
-    {
-      "relationshipType": "DEPENDS_ON",
-      "relatedSpdxElement": "SPDXRef-Package-ACBD9A236EF46C555772183785548DC4484DC066C062B292194E45C5CB574792",
-      "spdxElementId": "SPDXRef-RootPackage"
     }
   ],
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "name": "Mission LZ 20220307.2",
-  "documentNamespace": "https://sbom.microsoft/1:I5vpEMl9wkCCZsmqQqtQDQ:MIGbmOPODUWjMVCPbweVOQ/204:9454/Mission%20LZ:20220307.2:cWFl0vRNU0mUUZtw1IKmUw",
+  "name": "Mission LZ 20220407.1",
+  "documentNamespace": "https://sbom.microsoft/1:I5vpEMl9wkCCZsmqQqtQDQ:MIGbmOPODUWjMVCPbweVOQ/204:10224/Mission%20LZ:20220407.1:3VJmywxKdk-dZuRmx3qBqg",
   "creationInfo": {
-    "created": "2022-03-07T13:43:06Z",
+    "created": "2022-04-07T14:17:11Z",
     "creators": [
       "Organization: Microsoft",
-      "Tool: Microsoft.SBOMTool-2.1.20"
+      "Tool: Microsoft.SBOMTool-2.1.27"
     ]
   },
   "documentDescribes": [
