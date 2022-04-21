@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-param location string = resourceGroup().location
+param location string
 param tags object = {}
-param firewallPrivateIPAddress string
 param virtualNetworkName string
 param virtualNetworkAddressPrefix string
 param networkSecurityGroupName string
 param networkSecurityGroupRules array
 param subnetName string
 param subnetAddressPrefix string
+param firewallPrivateIPAddress string = ''
 param routeTableName string = '${subnetName}-routetable'
 param routeTableRouteName string = 'default_route'
 param routeTableRouteAddressPrefix string = '0.0.0.0/0'
-param routeTableRouteNextHopIpAddress string = firewallPrivateIPAddress
-param routeTableRouteNextHopType string = 'VirtualAppliance'
+param routeTableRouteNextHopType string
+
+var routeNextHopIpAddress = ((toLower(routeTableRouteNextHopType) == 'virtualappliance') && (!empty(firewallPrivateIPAddress))) ? firewallPrivateIPAddress : ''
 
 module networkSecurityGroup './networkSecurityGroup.bicep' = {
   name: 'networkSecurityGroup'
@@ -23,7 +24,7 @@ module networkSecurityGroup './networkSecurityGroup.bicep' = {
     location: location
     tags: tags
 
-    securityRules: networkSecurityGroupRules    
+    securityRules: networkSecurityGroupRules
   }
 }
 
@@ -36,7 +37,7 @@ module routeTable './routeTable.bicep' = {
 
     routeName: routeTableRouteName
     routeAddressPrefix: routeTableRouteAddressPrefix
-    routeNextHopIpAddress: routeTableRouteNextHopIpAddress
+    routeNextHopIpAddress: routeNextHopIpAddress
     routeNextHopType: routeTableRouteNextHopType
   }
 }
@@ -62,7 +63,6 @@ module virtualNetwork './virtualNetwork.bicep' = {
         }
       }
     ]
-   
   }
 }
 
@@ -73,4 +73,4 @@ output subnetAddressPrefix string = virtualNetwork.outputs.subnets[0].properties
 output subnetResourceId string = virtualNetwork.outputs.subnets[0].id
 output networkSecurityGroupName string = networkSecurityGroup.outputs.name
 output networkSecurityGroupResourceGroupName string = resourceGroup().name
-output networkSecurityGroupResourceId string =  networkSecurityGroup.outputs.id
+output networkSecurityGroupResourceId string = networkSecurityGroup.outputs.id
