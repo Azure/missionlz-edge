@@ -4,6 +4,7 @@
 param name string
 param location string
 param tags object = {}
+param customDNSArray array = []
 param addressPrefix string
 param subnets array
 
@@ -16,6 +17,9 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2018-11-01' = {
       addressPrefixes: [
         addressPrefix
       ]
+    }
+    dhcpOptions: {
+      dnsServers: customDNSArray
     }
     subnets: subnets
   }

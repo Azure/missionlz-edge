@@ -46,29 +46,23 @@ param hubVirtualNetworkAddressPrefix string = '10.90.0.0/16'
 @description('The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space. Default value = 10.90.0.0/24')
 param mgmtSubnetAddressPrefix string = '10.90.0.0/24'
 
-@description('The CIDR Subnet Address Prefix for the Hub external subnet. It must be in the Hub Virtual Network space. Default value = 10.90.1.0/24')
-param extSubnetAddressPrefix string = '10.90.1.0/24'
-
-@description('The CIDR Subnet Address Prefix for the Hub internal subnet. It must be in the Hub Virtual Network space. Default value = 10.90.2.0/24')
-param intSubnetAddressPrefix string = '10.90.2.0/24'
-
 @description('The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space. Default value = 10.90.3.0/24')
-param vdmsSubnetAddressPrefix string = '10.90.3.0/24'
+param vdmsSubnetAddressPrefix string = '10.90.1.0/24'
 
 @description('The CIDR Subnet Address Prefix for the Hub VPN Gateway subnet. It must be in the Hub Virtual Network space. Default value = 10.90.250.0/24')
 param gatewaySubnetAddressPrefix string = '10.90.250.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Identity Virtual Network. Default value = 10.92.0.0/16')
-param identityVirtualNetworkAddressPrefix string = '10.92.0.0/16'
+@description('The CIDR Virtual Network Address Prefix for the Identity Virtual Network. Default value = 10.91.0.0/16')
+param identityVirtualNetworkAddressPrefix string = '10.91.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space. Default value = 10.92.0.0/24')
-param identitySubnetAddressPrefix string = '10.92.0.0/24'
+@description('The CIDR Subnet Address Prefix for the default Identity subnet. It must be in the Identity Virtual Network space. Default value = 10.91.0.0/24')
+param identitySubnetAddressPrefix string = '10.91.0.0/24'
 
-@description('The CIDR Virtual Network Address Prefix for the Operations Virtual Network. Default value = 10.91.0.0/16')
-param operationsVirtualNetworkAddressPrefix string = '10.91.0.0/16'
+@description('The CIDR Virtual Network Address Prefix for the Operations Virtual Network. Default value = 10.92.0.0/16')
+param operationsVirtualNetworkAddressPrefix string = '10.92.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space. Default value = 10.91.0.0/24')
-param operationsSubnetAddressPrefix string = '10.91.0.0/24'
+@description('The CIDR Subnet Address Prefix for the default Operations subnet. It must be in the Operations Virtual Network space. Default value = 10.92.0.0/24')
+param operationsSubnetAddressPrefix string = '10.92.0.0/24'
 
 @description('The CIDR Virtual Network Address Prefix for the Shared Services Virtual Network. Default value = 10.93.0.0/16')
 param sharedServicesVirtualNetworkAddressPrefix string = '10.93.0.0/16'
@@ -85,6 +79,11 @@ param remoteLocalNetworkAddressPrefixes array
 param remoteGatewayPublicIpAddress string
 
 // HUB NETWORK PARAMETERS
+
+@description('An array of IP Addresses for DNS servers')
+param customDNSArray array = [
+  '168.63.129.16' //Azure DNS
+]
 
 @description('An array of Network Security Group Rules to apply to the Hub Virtual Network. Default adds SSH and RDP to default rule set. See https://docs.microsoft.com/en-us/azure/templates/microsoft.network/networksecuritygroups/securityrules?tabs=bicep#securityrulepropertiesformat for valid settings.')
 param hubNetworkSecurityGroupRules array = [
@@ -179,8 +178,6 @@ var hubResourceGroupName = replace(resourceGroupNamingConvention, nameToken, hub
 var hubVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, hubName)
 var hubNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, hubName)
 var mgmtSubnetName = replace(subnetNamingConvention, nameToken, 'mgmt')
-var extSubnetName = replace(subnetNamingConvention, nameToken, 'ext')
-var intSubnetName = replace(subnetNamingConvention, nameToken, 'int')
 var vdmsSubnetName = replace(subnetNamingConvention, nameToken, 'vdms')
 var gatewaySubnetName = 'GatewaySubnet' //Note: this subnet must be named 'GatewaySubnet'
 
@@ -189,18 +186,6 @@ var hubSubnets = [
     name: mgmtSubnetName
     properties: {
       addressPrefix: mgmtSubnetAddressPrefix
-    }
-  }
-  {
-    name: intSubnetName
-    properties: {
-      addressPrefix: intSubnetAddressPrefix
-    }
-  }
-  {
-    name: extSubnetName
-    properties: {
-      addressPrefix: extSubnetAddressPrefix
     }
   }
   {
@@ -225,7 +210,7 @@ var vnetGatewayPublicIPAddressName = replace(publicIpAddressNamingConvention, na
 
 // LOCAL GATEWAY PARAMETERS (TO REMOTE VPN GATEWAY)
 
-var remoteLocalNetworkGatewayName = replace(localNetGatewayNamingConvention, nameToken, 'remote')
+var remoteLocalNetworkGatewayName = replace(localNetGatewayNamingConvention, nameToken, 'to-remote')
 
 // IDENTITY VARIABLES
 
@@ -389,6 +374,7 @@ module hubVirtualNetwork './modules/virtualNetwork.bicep' = {
     name: hubVirtualNetworkName
     location: location
     tags: tags
+    customDNSArray: customDNSArray
     addressPrefix: hubVirtualNetworkAddressPrefix
     subnets: hubSubnets
   }
@@ -429,16 +415,6 @@ module hubVnGatewayPublicIp './modules/publicIPAddress.bicep' = {
 
 // Replace the subnet resources below with output from virtualNetwork module
 // once supported by the Azure Stack API
-resource extSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  scope: resourceGroup(hubResourceGroupName)
-  name: '${hubVirtualNetworkName}/${extSubnetName}'
-}
-
-resource intSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  scope: resourceGroup(hubResourceGroupName)
-  name: '${hubVirtualNetworkName}/${intSubnetName}'
-}
-
 resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
   scope: resourceGroup(hubResourceGroupName)
   name: '${hubVirtualNetworkName}/${mgmtSubnetName}'
@@ -502,6 +478,8 @@ module spokeNetworks './modules/spokeNetwork.bicep' = [for spoke in spokes: {
     subnetName: spoke.subnetName
     subnetAddressPrefix: spoke.subnetAddressPrefix
 
+    customDNSArray: customDNSArray
+
     routeTableRouteNextHopType: 'VirtualNetworkGateway'
   }
   dependsOn: [
@@ -518,6 +496,9 @@ module hubVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [for 
     localVirtualNetworkName: hubVirtualNetworkName
     remoteVirtualNetworkName: spoke.virtualNetworkName
     remoteResourceGroupName: spoke.resourceGroupName
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: true
   }
   dependsOn: [
     hubResourceGroup
@@ -530,10 +511,13 @@ module spokeVirtualNetworkPeerings './modules/virtualNetworkPeering.bicep' = [fo
   name: 'deploy-${spoke.name}-to-hub-vnet-peering'
   scope: resourceGroup(spoke.resourceGroupName)
   params: {
-    allowForwardedTraffic: true
     localVirtualNetworkName: spoke.virtualNetworkName
     remoteVirtualNetworkName: hubVirtualNetworkName
     remoteResourceGroupName: hubResourceGroupName
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: true
+    useRemoteGateways: true
   }
   dependsOn: [
     spokeResourceGroups

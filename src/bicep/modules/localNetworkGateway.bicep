@@ -7,7 +7,7 @@ param remoteNetworkAddressPrefixes array
 param remoteGatewayPublicIpAddress string
 //param tags object = {}
 
-resource localNetworkGateway 'Microsoft.Network/localNetworkGateways@2021-05-01' = {
+resource localNetworkGateway 'Microsoft.Network/localNetworkGateways@2020-06-01' = {
   name: name
   location: location
   properties: {

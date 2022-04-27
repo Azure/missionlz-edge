@@ -9,6 +9,7 @@ param networkSecurityGroupName string
 param networkSecurityGroupRules array
 param subnetName string
 param subnetAddressPrefix string
+param customDNSArray array = []
 param firewallPrivateIPAddress string = ''
 param routeTableName string = '${subnetName}-routetable'
 param routeTableRouteName string = 'default_route'
@@ -48,6 +49,7 @@ module virtualNetwork './virtualNetwork.bicep' = {
     name: virtualNetworkName
     location: location
     tags: tags
+    customDNSArray: customDNSArray
     addressPrefix: virtualNetworkAddressPrefix
     subnets: [
       {
