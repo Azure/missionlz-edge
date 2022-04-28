@@ -43,12 +43,6 @@ param tags object = {}
 @description('The CIDR Virtual Network Address Prefix for the Hub Virtual Network. Default value = 10.90.0.0/16')
 param hubVirtualNetworkAddressPrefix string = '10.90.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the Hub management subnet. It must be in the Hub Virtual Network space. Default value = 10.90.0.0/24')
-param mgmtSubnetAddressPrefix string = '10.90.0.0/24'
-
-@description('The CIDR Subnet Address Prefix for the Hub VDMS subnet. It must be in the Hub Virtual Network space. Default value = 10.90.3.0/24')
-param vdmsSubnetAddressPrefix string = '10.90.1.0/24'
-
 @description('The CIDR Subnet Address Prefix for the Hub VPN Gateway subnet. It must be in the Hub Virtual Network space. Default value = 10.90.250.0/24')
 param gatewaySubnetAddressPrefix string = '10.90.250.0/24'
 
@@ -177,24 +171,9 @@ var hubName = 'hub'
 var hubResourceGroupName = replace(resourceGroupNamingConvention, nameToken, hubName)
 var hubVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, hubName)
 var hubNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, hubName)
-var mgmtSubnetName = replace(subnetNamingConvention, nameToken, 'mgmt')
-var vdmsSubnetName = replace(subnetNamingConvention, nameToken, 'vdms')
 var gatewaySubnetName = 'GatewaySubnet' //Note: this subnet must be named 'GatewaySubnet'
 
 var hubSubnets = [
-  {
-    name: mgmtSubnetName
-    properties: {
-      addressPrefix: mgmtSubnetAddressPrefix
-    }
-  }
-  {
-    name: vdmsSubnetName
-    properties: {
-      addressPrefix: vdmsSubnetAddressPrefix
-    }
-  }
-
   {
     name: gatewaySubnetName
     properties: {
@@ -412,19 +391,6 @@ module hubVnGatewayPublicIp './modules/publicIPAddress.bicep' = {
     hubResourceGroup
   ]
 }
-
-// Replace the subnet resources below with output from virtualNetwork module
-// once supported by the Azure Stack API
-resource mgmtSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  scope: resourceGroup(hubResourceGroupName)
-  name: '${hubVirtualNetworkName}/${mgmtSubnetName}'
-}
-
-resource vdmsSubnet 'Microsoft.Network/virtualNetworks/subnets@2018-11-01' existing = {
-  scope: resourceGroup(hubResourceGroupName)
-  name: '${hubVirtualNetworkName}/${vdmsSubnetName}'
-}
-//
 
 // CREATE VIRTUAL NETWORK VPN GATEWAY
 
